@@ -1,0 +1,38 @@
+go-masked-quiz NOTICE
+=====================
+
+This product depends on data derived from the Go programming language design
+proposals.
+
+Upstream source
+---------------
+  Repository: https://github.com/golang/proposal
+  Copyright (c) The Go Authors. All rights reserved.
+  License:    BSD 3-Clause
+  License URL: https://go.googlesource.com/proposal/+/refs/heads/master/LICENSE
+
+Fork referenced by this project
+-------------------------------
+  Repository: https://github.com/fummicc1/golang-proposal
+
+The fork is not bundled as a Git submodule. Developers clone it to an
+arbitrary local path (preferably outside iCloud Drive) and point the
+`quizgen` CLI at that path with `--proposals <path>/design`.
+
+Derived works
+-------------
+The generated quiz data file (`output/quizzes.json`) and the iOS application
+bundle contain short text fragments derived from the proposals listed above.
+Those fragments remain under the BSD 3-Clause license of the original work.
+The above copyright notice, the list of BSD 3-Clause conditions, and the
+BSD 3-Clause disclaimer must be retained in any redistribution of the derived
+data.
+
+The names of "The Go Authors" or contributors of golang/proposal may not be
+used to endorse or promote products derived from this software without
+specific prior written permission.
+
+Original work
+-------------
+go-masked-quiz itself (everything not derived from golang/proposal) is
+Copyright (c) 2026 Fumiya Tanaka and licensed under BSD 3-Clause; see LICENSE.

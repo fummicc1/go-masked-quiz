@@ -1,0 +1,32 @@
+# macOS
+.DS_Store
+
+# Local clone of golang-proposal (kept outside Git on purpose;
+# see README.md for how to obtain it).
+/third_party/
+
+# Go
+/tools/quizgen/bin/
+*.test
+*.out
+coverage.out
+
+# Xcode / iOS
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# IDE
+.idea/
+.vscode/
+
+# Claude Code local-only settings
+.claude/settings.local.json
+
+# Logs & scratch
+*.log
+.tmp/

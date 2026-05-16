@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "generated_at": "2026-05-16T13:51:13.122126Z",
+  "source_repo": "https://github.com/golang/proposal",
+  "source_fork": "https://github.com/fummicc1/golang-proposal",
+  "source_commit": "deadbeef",
+  "source_license": "BSD-3-Clause",
+  "source_license_url": "https://go.googlesource.com/proposal/+/refs/heads/master/LICENSE",
+  "proposals": [
+    {
+      "id": "design-99999-sample",
+      "title": "99999-sample",
+      "url": "https://github.com/golang/proposal/blob/master/design/99999-sample.md",
+      "quizzes": [
+        {
+          "id": "design-99999-sample-q01",
+          "kind": "prose",
+          "index": 0,
+          "context_before": "(Phase 1 placeholder — masking is implemented in Phase 2.) The proposal at ",
+          "masked_text": "____",
+          "context_after": " describes a Go language change.",
+          "answer": "99999-sample",
+          "choices": [
+            "99999-sample",
+            "placeholder-a",
+            "placeholder-b",
+            "placeholder-c"
+          ]
+        }
+      ]
+    }
+  ]
+}
