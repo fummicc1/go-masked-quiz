@@ -93,8 +93,13 @@ Go 言語の design proposals (`golang/proposal` の `design/*.md`) は、言語
 | FR1.10 | 構文不正な Go スニペットは `package _x` で包むフォールバック後もダメなら**スキップ**し、CLI 全体は失敗させない |
 | FR1.11 | 4 択は (正答, 同 proposal 内類似トークン, 横断プール, Go 予約語) のミックスで生成。ケース非感応で重複排除 |
 | FR1.12 | proposal 0 件 / コードブロック 0 件 / inline code 0 件 のいずれでも panic せずに空配列を返す |
-| FR1.13 | 出力 JSON は `version`, `generated_at`, `source_repo`, `source_fork`, `source_commit`, `source_license`, `source_license_url`, `proposals[]` をトップレベルに含む |
-| FR1.14 | 各 quiz は `id`, `kind ("prose"\|"code")`, `index`, `context_before`, `masked_text ("____")`, `context_after`, `answer`, `choices[]` を持つ |
+| FR1.13 | 出力 JSON のトップレベル `version` は **`2`**。`generated_at`, `source_repo`, `source_fork`, `source_commit`, `source_license`, `source_license_url`, `proposals[]` を含む |
+| FR1.14 | 各 quiz は `id`, `kind ("prose"\|"code")`, `index`, **`blocks[]`**, `answer`, `choices[]` を持つ。旧 v1 の `context_before` / `masked_text` / `context_after` は廃止 (理由: iOS 側で再パースが不要になり、レンダリングが決定論的になる) |
+| FR1.15 | `blocks[]` の各要素は `{type: "text"\|"inline_code"\|"code_block"\|"mask", value?: string}` の形式 |
+| FR1.16 | `type: "mask"` の要素は `value` を持たない (空欄を表す)。それ以外の type は `value` を必須とする |
+| FR1.17 | prose クイズの blocks は `text` / `inline_code` / `mask` の組み合わせ。`code_block` を含まない |
+| FR1.18 | code クイズの blocks は `code_block` / `mask` の組み合わせ。`text` / `inline_code` を含まない |
+| FR1.19 | どの quiz も `blocks[]` 内に **ちょうど 1 つ** `type: "mask"` を含む |
 
 ### FR2. iOS アプリ (`GoMaskedQuiz`)
 
@@ -109,13 +114,16 @@ Go 言語の design proposals (`golang/proposal` の `design/*.md`) は、言語
 | FR2.7 | 2 回目以降でネット失敗: キャッシュをそのまま使用し、エラーは無視 (ログのみ) |
 | FR2.8 | Proposal 一覧画面: タイトル + 問題数を表示し、進捗バッジ (正解数 / 全問数) を表示 |
 | FR2.9 | Proposal を選択するとクイズ実行画面に遷移 |
-| FR2.10 | クイズ実行画面: `context_before` + `____` + `context_after` を表示。コード問題は等幅フォント |
-| FR2.11 | 4 つの選択肢ボタンが presented される。タップで即時に正誤判定し、正解を視覚的に示す |
-| FR2.12 | 全問終了後に結果サマリー画面へ遷移。正答率 + 各問の正解/不正解一覧 |
-| FR2.13 | Acknowledgments 画面: NOTICE 相当のテキストと上流リポジトリへのリンク |
-| FR2.14 | 進捗保存: クイズ ID → 正解実績の boolean を UserDefaults に永続化 |
-| FR2.15 | 機内モード (キャッシュ取得後): 出題・結果・Acknowledgments の全機能が動作する |
-| FR2.16 | スキーマ非互換検出: 取得した JSON の `version` が許容範囲外なら、キャッシュを使い続けつつアプリ更新を促すメッセージを表示 (キャッシュもない場合はエラー画面) |
+| FR2.10 | クイズ実行画面: `blocks[]` を順に描画する。`text` は通常スタイル、`inline_code` は等幅 + 控えめな背景、`code_block` は等幅のコード領域、`mask` は強調スタイル (枠線・背景色) で目立たせる |
+| FR2.11 | コードクイズのシンタックスハイライト: **MVP では等幅フォントのみ** (色付けなし)。Phase 4 以降で拡張可 |
+| FR2.12 | 回答インタラクション: **Tap-to-fill + Submit** モデル。選択肢ボタンタップで `mask` に preview 表示 (未確定)、別の選択肢タップで preview を上書き可能 |
+| FR2.13 | `Submit` ボタンで回答を確定。確定後は `mask` の色を緑 (正解) / 赤 (不正解) に変え、正解の選択肢を別途ハイライト表示 |
+| FR2.14 | `Next` ボタンで次の問題へ。最後の問題後は結果サマリー画面へ自動遷移 |
+| FR2.15 | 結果サマリー画面: 正答率 + 各問の正解 / 不正解一覧 |
+| FR2.16 | Acknowledgments 画面: NOTICE 相当のテキストと上流リポジトリへのリンク |
+| FR2.17 | 進捗保存: クイズ ID → 正解実績の boolean を UserDefaults に永続化 |
+| FR2.18 | 機内モード (キャッシュ取得後): 出題・結果・Acknowledgments の全機能が動作する |
+| FR2.19 | スキーマ非互換検出: 取得した JSON の `version` が許容範囲外なら、キャッシュを使い続けつつアプリ更新を促すメッセージを表示 (キャッシュもない場合はエラー画面) |
 
 ### FR3. ライセンスコンプライアンス
 
@@ -189,6 +197,10 @@ Go 言語の design proposals (`golang/proposal` の `design/*.md`) は、言語
 | AC11 | 2 回目以降ネット不可の場合、キャッシュで全機能が動作する | シミュレータの Airplane Mode で 2 周目起動 |
 | AC12 | CLI 出力 → CDN 公開 → iOS 取得 → クイズ表示 のパイプラインが手動で完走 | エンドツーエンド手動検証 |
 | AC13 | iOS 側でアプリリリースなしに JSON 更新が反映される | CDN の JSON を差し替え、シミュレータの 2 回目起動で内容変更を確認 |
+| AC14 | `blocks[]` スキーマで生成された JSON が iOS で `Codable` デコード成功 | ユニットテスト |
+| AC15 | iOS で blocks が描画され、`mask` が他の text/inline_code/code_block と視覚的に区別できる | シミュレータ目視 |
+| AC16 | Tap-to-fill 挙動: 選択肢タップで mask に preview、Submit 前なら別選択肢で上書き可能、Submit 後は固定 | シミュレータ手動操作 |
+| AC17 | Submit 後のフィードバック: mask が緑/赤に染まり、正解の選択肢がハイライトされる | シミュレータ目視 |
 
 ## 9. 仮定 (Assumptions)
 
@@ -228,3 +240,6 @@ Go 言語の design proposals (`golang/proposal` の `design/*.md`) は、言語
 | stale-while-revalidate | キャッシュを返しつつバックグラウンドで再取得し、次回からは新版を返す HTTP キャッシング戦略 |
 | ETag | レスポンスの一意な識別子。次回 `If-None-Match` で送ると未変更なら 304 が返り帯域節約できる |
 | ローカルキャッシュ | iOS の `Library/Caches/quizzes.json`。OS の容量逼迫時に削除される可能性がある領域 |
+| block | quiz JSON 内の表示単位。`type` で `text` / `inline_code` / `code_block` / `mask` を区別 |
+| mask | quiz 内の穴。`{type: "mask"}` ブロックとして表現され、UI 上は枠線・背景色で強調表示 |
+| preview state | 選択肢を tap した後、Submit 前の状態。`mask` の表示は選択した文字列に置き換わるが、まだ正誤判定はされない |
