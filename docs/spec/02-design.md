@@ -939,7 +939,141 @@ struct ErrorView: View {
 
 ---
 
-## 9. オープン質問 (Stage 2 で残る論点)
+## 9. セキュリティ設計
+
+要件 NFR8.1-8.6 / AC18-21 / R11-R13 を満たすための具体的な設計指針。
+脅威モデル: 機密性ゼロ・改ざん耐性中・可用性中、を前提とする。
+
+### 9.1 通信層 (TLS / ATS)
+
+- iOS `Info.plist` の `NSAppTransportSecurity` は **追加せず、ATS 既定のまま** にする (= HTTPS 強制 + TLS 1.2+ 強制)
+- `URLSession` の構成:
+
+  ```swift
+  let config = URLSessionConfiguration.ephemeral
+  config.tlsMinimumSupportedProtocolVersion = .TLSv12
+  config.timeoutIntervalForRequest = Configuration.fetchTimeoutSeconds   // 10s
+  config.timeoutIntervalForResource = Configuration.resourceTimeoutSeconds // 30s
+  config.httpAdditionalHeaders = [:]  // 独自 UA は付けない (NFR8.6)
+  let session = URLSession(configuration: config)
+  ```
+
+- `Configuration.quizDataURL` は `https://` をリテラルに含める。`http://` URL の混入をビルド時に防ぐため、`URL(string:)` の `https` プレフィックス検証を Configuration 初期化時にアサート
+
+### 9.2 サイズ上限 (DoS / メモリ枯渇対策)
+
+```swift
+enum LoadError: Error {
+    case payloadTooLarge(Int)
+    case schemaInvalid
+    case unsupportedVersion(Int)
+    case network(Error)
+    case http(Int)
+    case invalidResponse
+}
+
+private let maxBytes = 2 * 1024 * 1024  // 2 MB (NFR8.2)
+
+// QuizLoader.load() 内
+if let contentLength = http.expectedContentLength, contentLength > Int64(maxBytes) {
+    throw LoadError.payloadTooLarge(Int(contentLength))
+}
+if data.count > maxBytes {            // ボディサイズの再チェック (Content-Length 詐称対策)
+    throw LoadError.payloadTooLarge(data.count)
+}
+```
+
+`URLSession` は `data(for:)` でメモリに一括展開するが、2 MB 上限なら問題なし。ストリーミング decode は採用しない (実装複雑化に見合わない)。
+
+### 9.3 スキーマ検証 (堅牢な decode)
+
+`Block` enum / `Quiz.Kind` enum で網羅的に decode することにより、JSON
+側に未知の文字列が来た場合に `JSONDecoder.decode` が throw する。これを
+catch して以下のフローへ:
+
+```swift
+do {
+    let bundle = try JSONDecoder.quiz.decode(QuizBundle.self, from: data)
+    guard acceptedVersions.contains(bundle.version) else {
+        throw LoadError.unsupportedVersion(bundle.version)
+    }
+    // additional invariant checks (1 mask per quiz, answer ∈ choices)
+    try validateInvariants(bundle)
+    return bundle
+} catch is DecodingError {
+    throw LoadError.schemaInvalid
+}
+```
+
+`validateInvariants` で:
+
+- 各 `quiz.blocks` 内に `.mask` がちょうど 1 つ存在
+- `quiz.choices` が `quiz.answer` を含む
+- `quiz.choices` の要素数 ≥ 2
+- `quiz.kind == .prose` ⇒ blocks に `.codeBlock` を含まない (逆も同様)
+
+LoadError 発生時の挙動: キャッシュがあればキャッシュ継続 (`LoadResult.cached`)、なければエラー画面。
+
+### 9.4 依存パッケージ管理 (Supply chain)
+
+- `tools/quizgen/go.mod` は最小依存 (`goldmark` のみ) を維持
+- `tools/quizgen/go.sum` はコミット必須。Phase 2.5 の移行で追加された依存も含めて固定
+- CI (将来) で `go mod verify` を実行し、`go.sum` 不一致を検出
+- GitHub Dependabot を `.github/dependabot.yml` で有効化:
+
+  ```yaml
+  version: 2
+  updates:
+    - package-ecosystem: "gomod"
+      directory: "/tools/quizgen"
+      schedule: { interval: "weekly" }
+    - package-ecosystem: "github-actions"
+      directory: "/"
+      schedule: { interval: "weekly" }
+  ```
+
+iOS は `Package.swift` / SPM 依存を当面持たない予定 (Phase 1-4 では標準ライブラリのみ)。将来追加時は `Package.resolved` をコミットしハッシュ固定。
+
+### 9.5 Cloudflare API token 管理
+
+- 開発者ローカル: `wrangler login` で OAuth フロー (token はキーチェーンに保存)
+- CI (将来): `CLOUDFLARE_API_TOKEN` を GitHub Repository Secrets に登録
+- token のスコープ: `Account.Cloudflare Pages: Edit` のみ (最小権限)
+- `.gitignore` に以下を追加 (NFR8.5):
+
+  ```
+  # wrangler local auth
+  .wrangler/
+  .dev.vars
+  ```
+
+- README に **token リボーク手順** を明記: Cloudflare Dashboard → My Profile → API Tokens → 該当 token → "Roll" または "Delete"
+
+### 9.6 プライバシー
+
+- HTTP リクエストヘッダは最小限 (`If-None-Match` の ETag のみ追加)
+- User-Agent はシステムデフォルト (`CFNetwork/...; Darwin/...`)。アプリ識別文字列を**追加しない** (NFR8.6)
+- アクセス元 IP は Cloudflare のログに残るが、本アプリは個人情報と紐付けないため問題なし
+- App Store 提出時は別途 App Privacy Manifest (`PrivacyInfo.xcprivacy`) を作成 (Out of Scope: MVP は内部配布)
+
+### 9.7 ローカルストレージの保護
+
+- `Library/Caches/quizzes.json`: iOS Sandbox で他アプリから不可視。暗号化不要
+- `UserDefaults` の `progress.<quizID>` および `QuizCache.etag`: 同上
+- OS 容量逼迫で `Caches/` が削除されても、次回起動の初回ロジックでフォールバック (5.3.2 参照)
+
+### 9.8 将来検討事項 (Phase 5+)
+
+| ID | 内容 | トリガー |
+|---|---|---|
+| Sec-F1 | `quizzes.json.sha256` を併置し、iOS で SHA-256 検証 | 改ざん耐性を一段強化したくなったタイミング |
+| Sec-F2 | Ed25519 署名検証 (`quizzes.json.sig` + 公開鍵をアプリにバンドル) | 上記でも足りない場合 |
+| Sec-F3 | Certificate Pinning (`URLSessionTaskDelegate.urlSession(_:didReceive:completionHandler:)`) | 国家レベルの MITM を想定する場合 (MVP では過剰) |
+| Sec-F4 | Crash reporting (Sentry, Crashlytics) 導入 | App Store 配布開始 + プライバシー方針策定 |
+
+---
+
+## 10. オープン質問 (Stage 2 で残る論点)
 
 | ID | 質問 | デフォルト案 |
 |---|---|---|

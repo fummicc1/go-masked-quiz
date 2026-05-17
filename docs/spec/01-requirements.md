@@ -172,6 +172,12 @@ Go 言語の design proposals (`golang/proposal` の `design/*.md`) は、言語
 | NFR5.2 | ポータビリティ (iOS) | iOS 17+。Swift 6 strict concurrency 警告なし |
 | NFR6.1 | プライバシー | 個人情報・トラッキング・テレメトリは収集しない (MVP) |
 | NFR7.1 | ローカル開発環境 | iCloud Drive 配下のリポジトリで `go build` / `go test` が動作する (Go ビルドキャッシュは iCloud 外を使う) |
+| NFR8.1 | セキュリティ (通信) | iOS の通信は **HTTPS のみ**。`Info.plist` の ATS をデフォルトのまま (= 強制) とし、TLS 1.2+ を要求。`NSAllowsArbitraryLoads = false` |
+| NFR8.2 | セキュリティ (サイズ上限) | 受信 JSON のサイズ上限は **2 MB**。`Content-Length` 事前チェック + ボディ読み込み上限の二重防御。超過時はエラー扱い (DoS / メモリ枯渇対策) |
+| NFR8.3 | セキュリティ (スキーマ検証) | JSON スキーマ検証は必須フィールド欠落、未知の `kind` / `block.type` で安全に decode 失敗。失敗時はキャッシュ継続 (あれば) / エラー画面 (なければ) |
+| NFR8.4 | セキュリティ (依存管理) | Go モジュール依存は `go.sum` でハッシュ固定。CI で `go vet ./... && go mod verify` を実行 (将来 CI 採用時)。Dependabot を有効化 |
+| NFR8.5 | セキュリティ (token 管理) | Cloudflare API token は GitHub Repository Secrets で管理。ローカル開発の `wrangler` 認証ファイルは `.gitignore` 対象。token 漏洩時のリボーク手順を README に記載 |
+| NFR8.6 | セキュリティ (プライバシー) | リクエストの User-Agent は iOS デフォルトの匿名 UA。アプリ独自の識別子・テレメトリ・クラッシュレポート (Sentry 等) は MVP では導入しない |
 
 ## 7. ライセンス・法的制約
 
@@ -201,6 +207,10 @@ Go 言語の design proposals (`golang/proposal` の `design/*.md`) は、言語
 | AC15 | iOS で blocks が描画され、`mask` が他の text/inline_code/code_block と視覚的に区別できる | シミュレータ目視 |
 | AC16 | Tap-to-fill 挙動: 選択肢タップで mask に preview、Submit 前なら別選択肢で上書き可能、Submit 後は固定 | シミュレータ手動操作 |
 | AC17 | Submit 後のフィードバック: mask が緑/赤に染まり、正解の選択肢がハイライトされる | シミュレータ目視 |
+| AC18 | iOS `Info.plist` の `NSAppTransportSecurity` が ATS 既定 (= TLS 1.2+ 強制、HTTP 不可) | plist 検査 |
+| AC19 | 2 MB 超の JSON を意図的に投げてもアプリがクラッシュせずエラー扱いになる | URLProtocol モックで負荷データ注入 |
+| AC20 | 必須フィールド欠落 / 未知 `kind` / 未知 `block.type` の JSON で decode が throw し、キャッシュ継続 or エラー画面に遷移する | デコーダ単体テスト + 統合テスト |
+| AC21 | `go mod verify` が緑、`go.sum` がコミットされている | CLI 実行 |
 
 ## 9. 仮定 (Assumptions)
 
@@ -225,6 +235,9 @@ Go 言語の design proposals (`golang/proposal` の `design/*.md`) は、言語
 | R8 | Cloudflare の料金体系変更で無料枠を逸脱 | 運用コスト発生 | MVP は無料枠 (1 ビルド/月以下、月 100k リクエスト未満を想定) で運用。超過時に jsDelivr 等への移行を検討 |
 | R9 | 旧バージョンのアプリが新スキーマ JSON を取得して破綻 | クラッシュ・無反応 | JSON top-level `version` のレンジチェック (FR2.16)。スキーマ後方互換を維持しつつ、互換不可な変更は CDN パスを `/v2/` 等に分けて旧版を残す |
 | R10 | CDN 配信される派生物が `golang/proposal` の更新タイミングと乖離 | 古いクイズが配信され続ける | デプロイの責任を明示する運用ドキュメントを README に追加。Phase 2 以降で CI 自動化を検討 |
+| R11 | CDN 配信 JSON が改ざんされる (CDN 側侵害、設定ミス、MITM) | 不正クイズ・任意 URL リダイレクト | TLS で MITM 防御 (NFR8.1)。CDN 内部改ざんは MVP では受容。Phase 5+ で `quizzes.json.sha256` の併置 → iOS 側ハッシュ検証、さらに Ed25519 署名検証を検討 |
+| R12 | 巨大 JSON / 不正 JSON でアプリが OOM・クラッシュ | 起動失敗・利用不能 | NFR8.2 (2 MB 上限)、NFR8.3 (スキーマ検証で safely throw)。decode 失敗時はキャッシュ継続 |
+| R13 | 依存パッケージのサプライチェーン攻撃 (goldmark 等の悪意版差し込み) | 任意コード実行 | NFR8.4: `go.sum` ハッシュ固定 + `go mod verify` + Dependabot。最小限の依存 (goldmark のみ) を維持 |
 
 ## 11. 用語集
 
