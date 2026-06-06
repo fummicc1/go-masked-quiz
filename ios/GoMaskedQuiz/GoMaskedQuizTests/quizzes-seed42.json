@@ -1,0 +1,439 @@
+{
+  "version": 2,
+  "generated_at": "2026-05-18T00:00:00Z",
+  "source_repo": "https://github.com/golang/proposal",
+  "source_fork": "https://github.com/fummicc1/golang-proposal",
+  "source_license": "BSD-3-Clause",
+  "source_license_url": "https://go.googlesource.com/proposal/+/refs/heads/master/LICENSE",
+  "proposals": [
+    {
+      "id": "design-61405-range-over-func",
+      "title": "Proposal: range over func",
+      "url": "https://github.com/golang/proposal/blob/master/design/61405-range-over-func.md",
+      "quizzes": [
+        {
+          "id": "design-61405-range-over-func-q01",
+          "kind": "prose",
+          "index": 0,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "We propose that a "
+            },
+            {
+              "type": "inline_code",
+              "value": "for"
+            },
+            {
+              "type": "text",
+              "value": " statement with "
+            },
+            {
+              "type": "mask"
+            },
+            {
+              "type": "text",
+              "value": " accept a "
+            },
+            {
+              "type": "inline_code",
+              "value": "func"
+            },
+            {
+              "type": "text",
+              "value": " value, so that"
+            }
+          ],
+          "answer": "range",
+          "choices": [
+            "range",
+            "for",
+            "func",
+            "yield"
+          ]
+        },
+        {
+          "id": "design-61405-range-over-func-q02",
+          "kind": "prose",
+          "index": 1,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "We propose that a "
+            },
+            {
+              "type": "inline_code",
+              "value": "for"
+            },
+            {
+              "type": "text",
+              "value": " statement with "
+            },
+            {
+              "type": "inline_code",
+              "value": "range"
+            },
+            {
+              "type": "text",
+              "value": " accept a "
+            },
+            {
+              "type": "mask"
+            },
+            {
+              "type": "text",
+              "value": " value, so that"
+            }
+          ],
+          "answer": "func",
+          "choices": [
+            "func",
+            "for",
+            "range",
+            "yield"
+          ]
+        },
+        {
+          "id": "design-61405-range-over-func-q03",
+          "kind": "prose",
+          "index": 2,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "function that is passed a "
+            },
+            {
+              "type": "mask"
+            },
+            {
+              "type": "text",
+              "value": " callback and calls it once per element."
+            }
+          ],
+          "answer": "yield",
+          "choices": [
+            "func",
+            "yield",
+            "for",
+            "range"
+          ]
+        },
+        {
+          "id": "design-61405-range-over-func-q04",
+          "kind": "prose",
+          "index": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "missing brace — yet a lexer still tokenises it even though "
+            },
+            {
+              "type": "mask"
+            },
+            {
+              "type": "text",
+              "value": " would"
+            }
+          ],
+          "answer": "go/parser",
+          "choices": [
+            "range",
+            "go/scanner",
+            "for",
+            "go/parser"
+          ]
+        },
+        {
+          "id": "design-61405-range-over-func-q05",
+          "kind": "prose",
+          "index": 4,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "masker relies on "
+            },
+            {
+              "type": "mask"
+            },
+            {
+              "type": "text",
+              "value": " rather than "
+            },
+            {
+              "type": "inline_code",
+              "value": "go/parser"
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "answer": "go/scanner",
+          "choices": [
+            "range",
+            "go/scanner",
+            "for",
+            "go/parser"
+          ]
+        },
+        {
+          "id": "design-61405-range-over-func-q06",
+          "kind": "code",
+          "index": 5,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func "
+            },
+            {
+              "type": "mask"
+            },
+            {
+              "type": "code_block",
+              "value": "(n int) func(yield func(int) bool) {\n    return func(yield func(int) bool) {\n        for i := 0; i \u003c n; i++ {\n          "
+            }
+          ],
+          "answer": "Count",
+          "choices": [
+            "Count",
+            "int",
+            "bool",
+            "yield"
+          ]
+        },
+        {
+          "id": "design-61405-range-over-func-q07",
+          "kind": "code",
+          "index": 6,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func Count(n "
+            },
+            {
+              "type": "mask"
+            },
+            {
+              "type": "code_block",
+              "value": ") func(yield func(int) bool) {\n    return func(yield func(int) bool) {\n        for i := 0; i \u003c n; i++ {\n            if !"
+            }
+          ],
+          "answer": "int",
+          "choices": [
+            "bool",
+            "Count",
+            "int",
+            "yield"
+          ]
+        },
+        {
+          "id": "design-61405-range-over-func-q08",
+          "kind": "code",
+          "index": 7,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func Count(n int) func("
+            },
+            {
+              "type": "mask"
+            },
+            {
+              "type": "code_block",
+              "value": " func(int) bool) {\n    return func(yield func(int) bool) {\n        for i := 0; i \u003c n; i++ {\n            if !yield(i) {\n "
+            }
+          ],
+          "answer": "yield",
+          "choices": [
+            "yield",
+            "bool",
+            "int",
+            "Count"
+          ]
+        },
+        {
+          "id": "design-61405-range-over-func-q09",
+          "kind": "code",
+          "index": 8,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "for value := range "
+            },
+            {
+              "type": "mask"
+            },
+            {
+              "type": "code_block",
+              "value": "(10) {\n    process(value)   // remaining lines elided ...\n"
+            }
+          ],
+          "answer": "Count",
+          "choices": [
+            "bool",
+            "Count",
+            "int",
+            "yield"
+          ]
+        },
+        {
+          "id": "design-61405-range-over-func-q10",
+          "kind": "code",
+          "index": 9,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "for value := range Count(10) {\n    "
+            },
+            {
+              "type": "mask"
+            },
+            {
+              "type": "code_block",
+              "value": "(value)   // remaining lines elided ...\n"
+            }
+          ],
+          "answer": "process",
+          "choices": [
+            "Count",
+            "process",
+            "yield",
+            "bool"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "design-99999-sample",
+      "title": "Proposal: Sample placeholder for quizgen Phase 1",
+      "url": "https://github.com/golang/proposal/blob/master/design/99999-sample.md",
+      "quizzes": [
+        {
+          "id": "design-99999-sample-q01",
+          "kind": "prose",
+          "index": 0,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "verification of "
+            },
+            {
+              "type": "mask"
+            },
+            {
+              "type": "text",
+              "value": ". It exists so the CLI can be exercised before a"
+            }
+          ],
+          "answer": "quizgen",
+          "choices": [
+            "func",
+            "golang/proposal",
+            "yield",
+            "quizgen"
+          ]
+        },
+        {
+          "id": "design-99999-sample-q02",
+          "kind": "prose",
+          "index": 1,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "real clone of "
+            },
+            {
+              "type": "mask"
+            },
+            {
+              "type": "text",
+              "value": " is available."
+            }
+          ],
+          "answer": "golang/proposal",
+          "choices": [
+            "func",
+            "quizgen",
+            "go/parser",
+            "golang/proposal"
+          ]
+        },
+        {
+          "id": "design-99999-sample-q03",
+          "kind": "code",
+          "index": 2,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "package "
+            },
+            {
+              "type": "mask"
+            },
+            {
+              "type": "code_block",
+              "value": "\n\nimport \"fmt\"\n\nfunc main() {\n    fmt.Println(\"hello, quizgen\")\n}\n"
+            }
+          ],
+          "answer": "main",
+          "choices": [
+            "fmt",
+            "main",
+            "Println",
+            "value"
+          ]
+        },
+        {
+          "id": "design-99999-sample-q04",
+          "kind": "code",
+          "index": 3,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    "
+            },
+            {
+              "type": "mask"
+            },
+            {
+              "type": "code_block",
+              "value": ".Println(\"hello, quizgen\")\n}\n"
+            }
+          ],
+          "answer": "fmt",
+          "choices": [
+            "bool",
+            "main",
+            "Println",
+            "fmt"
+          ]
+        },
+        {
+          "id": "design-99999-sample-q05",
+          "kind": "code",
+          "index": 4,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    fmt."
+            },
+            {
+              "type": "mask"
+            },
+            {
+              "type": "code_block",
+              "value": "(\"hello, quizgen\")\n}\n"
+            }
+          ],
+          "answer": "Println",
+          "choices": [
+            "main",
+            "value",
+            "fmt",
+            "Println"
+          ]
+        }
+      ]
+    }
+  ]
+}
