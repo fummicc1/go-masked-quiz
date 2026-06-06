@@ -1,9 +1,12 @@
 // Command quizgen generates a JSON file of fill-in-the-blank quizzes from a
 // local clone of the Go proposals repository.
 //
-// Phase 1 scope: parse flags, walk the proposals directory, and emit a
-// well-formed quizzes.json that contains a placeholder quiz for the first
-// proposal found. Real masking logic lands in Phase 2.
+// Pipeline: walk the proposals directory, parse each design/*.md with
+// internal/parser, choose identifiers to blank out with internal/masker
+// (prose inline-code spans via text rules, code-block identifiers via
+// go/scanner), expand each into pre-parsed blocks with internal/blocks, and
+// emit a v2 quizzes.json. All randomness derives from --seed, so the same
+// inputs always yield byte-identical output (modulo generated_at).
 package main
 
 import (
@@ -13,9 +16,13 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
+	"github.com/fummicc1/go-masked-quiz/quizgen/internal/blocks"
+	"github.com/fummicc1/go-masked-quiz/quizgen/internal/masker"
+	"github.com/fummicc1/go-masked-quiz/quizgen/internal/parser"
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/quiz"
 )
 
@@ -53,17 +60,17 @@ func runGenerate(args []string) error {
 	var (
 		proposals      = fs.String("proposals", "", "path to the design/ directory of golang/proposal (required)")
 		out            = fs.String("out", "output/quizzes.json", "output JSON path")
-		seed           = fs.Int64("seed", 42, "deterministic RNG seed (used in Phase 2)")
+		seed           = fs.Int64("seed", 42, "deterministic RNG seed")
 		commit         = fs.String("commit", "", "source repo commit SHA (recorded in metadata)")
-		maxPerProposal = fs.Int("max-per-proposal", 5, "maximum quizzes per proposal (used in Phase 2)")
-		choices        = fs.Int("choices", 4, "number of choices per quiz (used in Phase 2)")
+		maxPerProposal = fs.Int("max-per-proposal", 5, "maximum quizzes of each kind per proposal")
+		choices        = fs.Int("choices", 4, "number of choices per quiz")
+		ctxProse       = fs.Int("context-prose", 80, "prose context window (bytes per side)")
+		ctxCode        = fs.Int("context-code", 120, "code context window (bytes per side)")
+		now            = fs.String("now", "", "fix generated_at to this RFC3339 time (for reproducible/golden output)")
 	)
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
-	// Silence "declared and not used" until Phase 2 wires these in.
-	_, _, _ = *seed, *maxPerProposal, *choices
-
 	if *proposals == "" {
 		return fmt.Errorf("--proposals is required")
 	}
@@ -75,15 +82,13 @@ func runGenerate(args []string) error {
 		return fmt.Errorf("--proposals %q is not a directory", *proposals)
 	}
 
-	bundle := quiz.Bundle{
-		Version:          1,
-		GeneratedAt:      time.Now().UTC(),
-		SourceRepo:       "https://github.com/golang/proposal",
-		SourceFork:       "https://github.com/fummicc1/golang-proposal",
-		SourceCommit:     *commit,
-		SourceLicense:    "BSD-3-Clause",
-		SourceLicenseURL: "https://go.googlesource.com/proposal/+/refs/heads/master/LICENSE",
-		Proposals:        []quiz.Proposal{},
+	generatedAt := time.Now().UTC()
+	if *now != "" {
+		t, err := time.Parse(time.RFC3339, *now)
+		if err != nil {
+			return fmt.Errorf("parse --now: %w", err)
+		}
+		generatedAt = t.UTC()
 	}
 
 	mdFiles, err := listMarkdown(*proposals)
@@ -94,28 +99,40 @@ func runGenerate(args []string) error {
 		return fmt.Errorf("no *.md files found under %q", *proposals)
 	}
 
-	// Phase 1 placeholder: emit a single dummy quiz for the first proposal
-	// so the end-to-end pipeline (CLI flag → directory walk → JSON write)
-	// can be verified before Phase 2 lands the real masking logic.
-	first := mdFiles[0]
-	slug := strings.TrimSuffix(filepath.Base(first), ".md")
-	bundle.Proposals = append(bundle.Proposals, quiz.Proposal{
-		ID:    "design-" + slug,
-		Title: slug,
-		URL:   "https://github.com/golang/proposal/blob/master/design/" + filepath.Base(first),
-		Quizzes: []quiz.Quiz{
-			{
-				ID:            "design-" + slug + "-q01",
-				Kind:          quiz.KindProse,
-				Index:         0,
-				ContextBefore: "(Phase 1 placeholder — masking is implemented in Phase 2.) The proposal at ",
-				MaskedText:    "____",
-				ContextAfter:  " describes a Go language change.",
-				Answer:        slug,
-				Choices:       []string{slug, "placeholder-a", "placeholder-b", "placeholder-c"},
-			},
-		},
-	})
+	// Parse all proposals first so we can build cross-proposal distractor pools.
+	parsed := make([]*parser.Proposal, 0, len(mdFiles))
+	for _, f := range mdFiles {
+		p, err := parser.LoadProposal(f)
+		if err != nil {
+			return err
+		}
+		parsed = append(parsed, p)
+	}
+	crossProse, crossCode := crossPools(parsed)
+
+	bundle := quiz.Bundle{
+		Version:          quiz.SchemaVersion,
+		GeneratedAt:      generatedAt,
+		SourceRepo:       "https://github.com/golang/proposal",
+		SourceFork:       "https://github.com/fummicc1/golang-proposal",
+		SourceCommit:     *commit,
+		SourceLicense:    "BSD-3-Clause",
+		SourceLicenseURL: "https://go.googlesource.com/proposal/+/refs/heads/master/LICENSE",
+		Proposals:        []quiz.Proposal{},
+	}
+
+	for i, p := range parsed {
+		quizzes := buildQuizzes(p, *seed, *maxPerProposal, *choices, *ctxProse, *ctxCode, crossProse, crossCode)
+		if len(quizzes) == 0 {
+			continue // proposals with no maskable content are skipped
+		}
+		bundle.Proposals = append(bundle.Proposals, quiz.Proposal{
+			ID:      "design-" + p.Slug,
+			Title:   p.Title,
+			URL:     "https://github.com/golang/proposal/blob/master/design/" + filepath.Base(mdFiles[i]),
+			Quizzes: quizzes,
+		})
+	}
 
 	if err := writeJSON(*out, &bundle); err != nil {
 		return err
@@ -123,6 +140,65 @@ func runGenerate(args []string) error {
 	fmt.Fprintf(os.Stderr, "wrote %d proposal(s) / %d quiz(zes) to %s\n",
 		len(bundle.Proposals), countQuizzes(&bundle), *out)
 	return nil
+}
+
+// buildQuizzes produces the prose quizzes followed by the code quizzes for one
+// proposal. Each RNG stream is tagged so it depends only on (seed, proposal,
+// purpose) — never on iteration order — keeping output deterministic.
+func buildQuizzes(p *parser.Proposal, seed int64, maxPer, nChoices, ctxProse, ctxCode int, crossProse, crossCode []string) []quiz.Quiz {
+	id := "design-" + p.Slug
+	var quizzes []quiz.Quiz
+
+	proseSeeds := masker.CollectProseSeeds(masker.NewRNG(seed, "prose:"+p.Slug), p, maxPer)
+	proseTokens := masker.ProposalTokens(p)
+	for _, s := range proseSeeds {
+		tag := "choice:prose:" + p.Slug + ":" + strconv.Itoa(s.Start)
+		quizzes = append(quizzes, quiz.Quiz{
+			ID:      fmt.Sprintf("%s-q%02d", id, len(quizzes)+1),
+			Kind:    quiz.KindProse,
+			Index:   len(quizzes),
+			Blocks:  blocks.BuildProseBlocks(p, s, ctxProse),
+			Answer:  s.Answer,
+			Choices: masker.GenerateChoices(masker.NewRNG(seed, tag), s.Answer, proseTokens, crossProse, nChoices),
+		})
+	}
+
+	codeSeeds := masker.CollectCodeSeeds(masker.NewRNG(seed, "code:"+p.Slug), p, maxPer)
+	codeTokens := masker.CodeTokens(p)
+	for _, s := range codeSeeds {
+		tag := "choice:code:" + p.Slug + ":" + strconv.Itoa(s.BlockIndex) + ":" + strconv.Itoa(s.Start)
+		quizzes = append(quizzes, quiz.Quiz{
+			ID:      fmt.Sprintf("%s-q%02d", id, len(quizzes)+1),
+			Kind:    quiz.KindCode,
+			Index:   len(quizzes),
+			Blocks:  blocks.BuildCodeBlocks(p, s, ctxCode),
+			Answer:  s.Answer,
+			Choices: masker.GenerateChoices(masker.NewRNG(seed, tag), s.Answer, codeTokens, crossCode, nChoices),
+		})
+	}
+
+	return quizzes
+}
+
+// crossPools gathers the distinct prose tokens and code identifiers across all
+// proposals, used as cross-proposal distractor pools.
+func crossPools(parsed []*parser.Proposal) (prose, code []string) {
+	seenP, seenC := map[string]bool{}, map[string]bool{}
+	for _, p := range parsed {
+		for _, t := range masker.ProposalTokens(p) {
+			if !seenP[strings.ToLower(t)] {
+				seenP[strings.ToLower(t)] = true
+				prose = append(prose, t)
+			}
+		}
+		for _, t := range masker.CodeTokens(p) {
+			if !seenC[t] {
+				seenC[t] = true
+				code = append(code, t)
+			}
+		}
+	}
+	return prose, code
 }
 
 func listMarkdown(dir string) ([]string, error) {
