@@ -12,24 +12,25 @@ struct GoMaskedQuizApp: App {
 
     var body: some Scene {
         WindowGroup {
-            switch phase {
-            case .loading:
-                ProgressView("読み込み中…")
-                    .task { await load() }
-            case .loaded(let proposals, let source):
-                // Demo aid: launch straight into the first proposal's quiz when
-                // DEMO_QUIZ is set (used for screenshots); otherwise the list.
-                if ProcessInfo.processInfo.environment["DEMO_QUIZ"] != nil,
-                   let first = proposals.first {
-                    NavigationStack {
-                        ProposalQuizView(proposal: first, store: store)
+            ZStack {
+                Theme.bg.ignoresSafeArea()
+                switch phase {
+                case .loading:
+                    ProgressView()
+                        .tint(Theme.accent)
+                        .task { await load() }
+                case .loaded(let proposals, let source):
+                    if ProcessInfo.processInfo.environment["DEMO_QUIZ"] != nil,
+                       let first = proposals.first {
+                        NavigationStack { ProposalQuizView(proposal: first, store: store) }
+                            .tint(Theme.accent)
+                    } else {
+                        ProposalListScreen(
+                            proposals: proposals,
+                            store: store,
+                            sourceLabel: sourceLabel(source)
+                        )
                     }
-                } else {
-                    ProposalListScreen(
-                        proposals: proposals,
-                        store: store,
-                        sourceLabel: sourceLabel(source)
-                    )
                 }
             }
         }
@@ -42,9 +43,9 @@ struct GoMaskedQuizApp: App {
 
     private func sourceLabel(_ source: QuizLoader.Source) -> String {
         switch source {
-        case .remote: return "データ: CDN"
-        case .cache:  return "データ: キャッシュ"
-        case .bundle: return "データ: アプリ同梱"
+        case .remote: return "source · cdn"
+        case .cache:  return "source · cache"
+        case .bundle: return "source · bundled"
         }
     }
 }

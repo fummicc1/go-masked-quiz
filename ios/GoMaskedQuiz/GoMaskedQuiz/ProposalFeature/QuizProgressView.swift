@@ -1,32 +1,29 @@
 import SwiftUI
 
-/// Reusable progress bar for a proposal's quizzes. (Ported from se-masked-quiz.)
+/// Progress summary for a proposal's blanks: a cyan rail with percent and
+/// answered/accuracy counts.
 struct QuizProgressView: View {
     let progress: ProposalProgress
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 8) {
-                ProgressView(value: progress.progressRate).tint(progressColor)
+                ProgressRail(rate: progress.progressRate, done: progress.status == .completed)
                 Text("\(Int(progress.progressPercentage))%")
-                    .font(.caption).foregroundStyle(.secondary).monospacedDigit()
+                    .font(Theme.mono(12, .medium))
+                    .foregroundStyle(Theme.textSecondary)
+                    .monospacedDigit()
             }
-            HStack(spacing: 12) {
-                Text("\(progress.answeredCount)/\(progress.totalCount)問")
-                    .font(.caption2).foregroundStyle(.secondary)
+            HStack(spacing: 10) {
+                Text("\(progress.answeredCount)/\(progress.totalCount) blanks")
+                    .font(Theme.mono(11))
+                    .foregroundStyle(Theme.textFaint)
                 if progress.answeredCount > 0 {
-                    Text("正解率: \(Int(progress.accuracyPercentage))%")
-                        .font(.caption2).foregroundStyle(.secondary)
+                    Text("· \(Int(progress.accuracyPercentage))% correct")
+                        .font(Theme.mono(11))
+                        .foregroundStyle(Theme.textFaint)
                 }
             }
-        }
-    }
-
-    private var progressColor: Color {
-        switch progress.status {
-        case .notStarted: return .gray
-        case .inProgress: return .blue
-        case .completed: return .green
         }
     }
 }

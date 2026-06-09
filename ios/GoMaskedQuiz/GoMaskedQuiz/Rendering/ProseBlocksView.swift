@@ -1,13 +1,15 @@
 import SwiftUI
 
 /// Renders prose blocks (text / inline_code / mask) as one AttributedString.
-/// Each mask shows its BlankDisplay (number marker or answer) with a tint.
+/// Each mask shows its BlankDisplay (number marker or answer) as a coloured
+/// token; inline code is cyan monospaced.
 struct ProseBlocksView: View {
     let blocks: [Block]
     let displays: [Int: BlankDisplay]
 
     var body: some View {
         Text(attributed)
+            .lineSpacing(6)
             .multilineTextAlignment(.leading)
             .fixedSize(horizontal: false, vertical: true)
             .accessibilityElement(children: .combine)
@@ -18,14 +20,18 @@ struct ProseBlocksView: View {
         for block in blocks {
             switch block {
             case .text(let s):
-                out.append(AttributedString(s))
+                var a = AttributedString(s)
+                a.font = Theme.body(16)
+                a.foregroundColor = Theme.textPrimary
+                out.append(a)
             case .inlineCode(let s):
                 var a = AttributedString(s)
-                a.font = .system(.body, design: .monospaced)
-                a.backgroundColor = .secondary.opacity(0.15)
+                a.font = Theme.mono(15)
+                a.foregroundColor = Theme.accent
+                a.backgroundColor = Theme.surfaceElevated
                 out.append(a)
             case .mask(let bi):
-                out.append(maskAttributed(bi))
+                out.append(maskToken(bi))
             case .codeBlock, .unknown:
                 continue
             }
@@ -33,10 +39,11 @@ struct ProseBlocksView: View {
         return out
     }
 
-    private func maskAttributed(_ blankIndex: Int) -> AttributedString {
-        let d = displays[blankIndex] ?? BlankDisplay(text: blankMarker(blankIndex), color: .yellow.opacity(0.35))
+    private func maskToken(_ blankIndex: Int) -> AttributedString {
+        let d = displays[blankIndex] ?? BlankDisplay(text: blankMarker(blankIndex), color: Theme.accent)
         var a = AttributedString(" \(d.text) ")
-        a.font = .system(.body, design: .monospaced).bold()
+        a.font = Theme.mono(15, .bold)
+        a.foregroundColor = Theme.onAccent
         a.backgroundColor = d.color
         return a
     }

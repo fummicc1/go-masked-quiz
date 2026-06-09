@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Renders code blocks (code_block / mask) as monospaced text with horizontal
-/// scrolling. Each mask shows its BlankDisplay (number marker or answer).
+/// scrolling, on a darker code surface. Each mask is a coloured token.
 struct CodeBlocksView: View {
     let blocks: [Block]
     let displays: [Int: BlankDisplay]
@@ -9,11 +9,12 @@ struct CodeBlocksView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             Text(attributed)
-                .font(.system(.body, design: .monospaced))
-                .padding(12)
+                .font(Theme.mono(13))
+                .padding(14)
         }
-        .background(.secondary.opacity(0.1))
-        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .background(Theme.bg)
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.border, lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
     var attributed: AttributedString {
@@ -21,11 +22,15 @@ struct CodeBlocksView: View {
         for block in blocks {
             switch block {
             case .codeBlock(let s):
-                out.append(AttributedString(s))
+                var a = AttributedString(s)
+                a.font = Theme.mono(13)
+                a.foregroundColor = Theme.textPrimary
+                out.append(a)
             case .mask(let bi):
-                let d = displays[bi] ?? BlankDisplay(text: blankMarker(bi), color: .yellow.opacity(0.35))
+                let d = displays[bi] ?? BlankDisplay(text: blankMarker(bi), color: Theme.accent)
                 var a = AttributedString(d.text)
-                a.font = .system(.body, design: .monospaced).bold()
+                a.font = Theme.mono(13, .bold)
+                a.foregroundColor = Theme.onAccent
                 a.backgroundColor = d.color
                 out.append(a)
             case .text, .inlineCode, .unknown:
