@@ -1,10 +1,10 @@
 // Package parser turns a single golang/proposal design/*.md file into a
-// structured Proposal: its title plus the byte offsets of every inline `code`
-// span and every fenced ```go code block.
+// structured Proposal: its title, the prose paragraphs (each with the inline
+// `code` spans it contains), and the fenced ```go code blocks.
 //
-// Offsets are byte positions into Proposal.Source. Inline-code offsets are used
-// to mask identifiers in prose; code-block bodies are scanned separately with
-// go/scanner. Markdown is parsed with goldmark.
+// Quizzes are built per "unit" — one prose paragraph or one code block — so the
+// parser groups inline-code spans by their containing paragraph. Offsets are
+// byte positions into Proposal.Source. Markdown is parsed with goldmark.
 package parser
 
 import (
@@ -18,21 +18,26 @@ import (
 	"github.com/yuin/goldmark/text"
 )
 
-// InlineCode is a single inline `code` span.
-//
-// Start and End are byte offsets into Proposal.Source: Start points just after
-// the opening backtick, End just before the closing backtick, so
-// Source[Start:End] == Text.
+// InlineCode is a single inline `code` span. Start/End are byte offsets into
+// Proposal.Source: Start just after the opening backtick, End just before the
+// closing one, so Source[Start:End] == Text.
 type InlineCode struct {
 	Start int
 	End   int
 	Text  string
 }
 
-// CodeBlock is a fenced code block whose info string names a language.
-//
-// Source is the block body (without the fences). LineStart is the 1-based line
-// number of the body's first line within the Markdown file, for diagnostics.
+// ProseUnit is one paragraph and the inline-code spans inside it. Start/End are
+// byte offsets bounding the paragraph in Proposal.Source.
+type ProseUnit struct {
+	Start       int
+	End         int
+	InlineCodes []InlineCode
+}
+
+// CodeBlock is a fenced code block whose info string names a language. Source
+// is the block body (without fences). LineStart is the 1-based line of the
+// body's first line, for diagnostics.
 type CodeBlock struct {
 	Language  string
 	Source    string
@@ -41,11 +46,11 @@ type CodeBlock struct {
 
 // Proposal is the parsed view of one design/*.md file.
 type Proposal struct {
-	Slug        string // file name without extension, e.g. "61405-range-func"
-	Title       string // first H1, or Slug if the file has none
-	Source      []byte // raw Markdown bytes
-	InlineCodes []InlineCode
-	CodeBlocks  []CodeBlock // only blocks whose language is "go"
+	Slug       string      // file name without extension, e.g. "61405-range-func"
+	Title      string      // first H1, or Slug if none
+	Source     []byte      // raw Markdown bytes
+	ProseUnits []ProseUnit // paragraphs containing at least one inline-code span
+	CodeBlocks []CodeBlock // blocks whose language is "go"
 }
 
 // LoadProposal reads and parses the file at path.
@@ -64,6 +69,8 @@ func ParseProposal(filename string, src []byte) *Proposal {
 
 	doc := goldmark.New().Parser().Parse(text.NewReader(src))
 	titleSet := false
+	var allInline []InlineCode
+	var paraRanges [][2]int
 
 	_ = ast.Walk(doc, func(n ast.Node, entering bool) (ast.WalkStatus, error) {
 		if !entering {
@@ -77,9 +84,13 @@ func ParseProposal(filename string, src []byte) *Proposal {
 					titleSet = true
 				}
 			}
+		case *ast.Paragraph:
+			if r, ok := paragraphRange(node); ok {
+				paraRanges = append(paraRanges, r)
+			}
 		case *ast.CodeSpan:
 			if ic, ok := inlineCode(node, src); ok {
-				p.InlineCodes = append(p.InlineCodes, ic)
+				allInline = append(allInline, ic)
 			}
 		case *ast.FencedCodeBlock:
 			lang := string(node.Language(src))
@@ -87,21 +98,40 @@ func ParseProposal(filename string, src []byte) *Proposal {
 				return ast.WalkContinue, nil
 			}
 			body, lineStart := blockBody(node, src)
-			p.CodeBlocks = append(p.CodeBlocks, CodeBlock{
-				Language:  lang,
-				Source:    body,
-				LineStart: lineStart,
-			})
+			p.CodeBlocks = append(p.CodeBlocks, CodeBlock{Language: lang, Source: body, LineStart: lineStart})
 		}
 		return ast.WalkContinue, nil
 	})
 
+	// Group inline-code spans into their containing paragraph. Spans outside any
+	// paragraph (e.g. inside a heading) are dropped — only paragraph prose is
+	// quizzed.
+	for _, r := range paraRanges {
+		var ics []InlineCode
+		for _, ic := range allInline {
+			if ic.Start >= r[0] && ic.End <= r[1] {
+				ics = append(ics, ic)
+			}
+		}
+		if len(ics) > 0 {
+			p.ProseUnits = append(p.ProseUnits, ProseUnit{Start: r[0], End: r[1], InlineCodes: ics})
+		}
+	}
+
 	return p
 }
 
-// inlineCode extracts an inline code span's text and byte range. goldmark
-// represents the span's content as one or more child text segments; we span
-// from the first segment's start to the last segment's stop.
+// paragraphRange returns the byte range [start, end) spanned by a paragraph.
+func paragraphRange(n *ast.Paragraph) ([2]int, bool) {
+	lines := n.Lines()
+	if lines.Len() == 0 {
+		return [2]int{}, false
+	}
+	return [2]int{lines.At(0).Start, lines.At(lines.Len() - 1).Stop}, true
+}
+
+// inlineCode extracts an inline code span's text and byte range from its child
+// text segments.
 func inlineCode(n *ast.CodeSpan, src []byte) (InlineCode, bool) {
 	start, end := -1, -1
 	var sb strings.Builder
@@ -123,8 +153,8 @@ func inlineCode(n *ast.CodeSpan, src []byte) (InlineCode, bool) {
 	return InlineCode{Start: start, End: end, Text: sb.String()}, true
 }
 
-// blockBody concatenates a fenced block's line segments into its body and
-// computes the 1-based line number of the body's first line.
+// blockBody concatenates a fenced block's line segments and computes the 1-based
+// line of its first line.
 func blockBody(n *ast.FencedCodeBlock, src []byte) (body string, lineStart int) {
 	lines := n.Lines()
 	if lines.Len() == 0 {
@@ -136,12 +166,10 @@ func blockBody(n *ast.FencedCodeBlock, src []byte) (body string, lineStart int) 
 		sb.Write(seg.Value(src))
 	}
 	first := lines.At(0)
-	lineStart = 1 + strings.Count(string(src[:first.Start]), "\n")
-	return sb.String(), lineStart
+	return sb.String(), 1 + strings.Count(string(src[:first.Start]), "\n")
 }
 
-// nodeText concatenates the raw text segments under an inline-container node
-// (used for headings).
+// nodeText concatenates the text under an inline-container node (for headings).
 func nodeText(n ast.Node, src []byte) string {
 	var sb strings.Builder
 	for c := n.FirstChild(); c != nil; c = c.NextSibling() {

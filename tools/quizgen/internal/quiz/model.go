@@ -6,7 +6,7 @@ import "time"
 
 // SchemaVersion is the schema version written to every Bundle. The iOS client
 // rejects payloads whose version it does not understand.
-const SchemaVersion = 2
+const SchemaVersion = 3
 
 // Bundle is the top-level structure written to quizzes.json.
 type Bundle struct {
@@ -36,9 +36,9 @@ const (
 	KindCode  Kind = "code"
 )
 
-// BlockType labels one rendered fragment of a quiz. The v2 schema ships
-// pre-parsed blocks so the iOS client can render a quiz by iterating the slice
-// without re-parsing Markdown.
+// BlockType labels one rendered fragment of a quiz. The schema ships pre-parsed
+// blocks so the iOS client renders a quiz by iterating the slice without
+// re-parsing Markdown.
 type BlockType string
 
 const (
@@ -48,35 +48,42 @@ const (
 	BlockInlineCode BlockType = "inline_code"
 	// BlockCodeBlock is a fragment of a fenced code block.
 	BlockCodeBlock BlockType = "code_block"
-	// BlockMask is the blank to fill in. Exactly one per quiz; carries no Value.
+	// BlockMask is a blank to fill in. Carries BlankIndex (no Value).
 	BlockMask BlockType = "mask"
 )
 
 // Block is one fragment of a quiz's rendered body.
 //
 // Invariants (enforced by the generator and validated in tests):
-//   - Type == BlockMask  => Value is empty (omitted from JSON).
-//   - Type != BlockMask  => Value is non-empty.
+//   - Type == BlockMask  => Value empty, BlankIndex set (∈ [0, len(Blanks))).
+//   - Type != BlockMask  => Value non-empty, BlankIndex nil.
 type Block struct {
-	Type  BlockType `json:"type"`
-	Value string    `json:"value,omitempty"`
+	Type       BlockType `json:"type"`
+	Value      string    `json:"value,omitempty"`
+	BlankIndex *int      `json:"blank_index,omitempty"`
 }
 
-// Quiz is a single fill-in-the-blank question.
-//
-// Blocks reconstructs the displayed body; exactly one Block has Type
-// BlockMask, marking where Answer was removed. Choices always contains Answer.
-type Quiz struct {
-	ID      string   `json:"id"`
-	Kind    Kind     `json:"kind"`
-	Index   int      `json:"index"`
-	Blocks  []Block  `json:"blocks"`
+// Blank is one fill-in target: the answer plus its multiple-choice options.
+// A single Blank may be referenced by several mask blocks (every occurrence of
+// the same token in the unit), so answering once fills them all.
+type Blank struct {
 	Answer  string   `json:"answer"`
 	Choices []string `json:"choices"`
 }
 
-// MaskCount returns the number of BlockMask entries in the quiz. A valid quiz
-// always returns 1.
+// Quiz is one fill-in-the-blank question built from a single unit (a prose
+// paragraph or a code block). Blocks reconstructs the displayed body; each
+// BlockMask points into Blanks. There is at least one Blank.
+type Quiz struct {
+	ID     string  `json:"id"`
+	Kind   Kind    `json:"kind"`
+	Index  int     `json:"index"`
+	Blocks []Block `json:"blocks"`
+	Blanks []Blank `json:"blanks"`
+}
+
+// MaskCount returns the number of BlockMask entries (mask occurrences, which
+// may exceed the number of blanks).
 func (q Quiz) MaskCount() int {
 	n := 0
 	for _, b := range q.Blocks {

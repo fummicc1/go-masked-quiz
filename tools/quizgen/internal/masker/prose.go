@@ -8,16 +8,22 @@ import (
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/parser"
 )
 
-// ProseSeed marks one inline-code span chosen to be blanked out. Start and End
-// are byte offsets into the proposal's Markdown source.
-type ProseSeed struct {
-	Start  int
-	End    int
-	Answer string
+// Span is a byte range of one mask occurrence within its unit.
+type Span struct {
+	Start int
+	End   int
 }
 
-// stopwords are common words skipped when choosing prose seeds: blanking them
-// makes a poor quiz.
+// Blank is one fill-in target chosen from a unit: the answer token, every place
+// it occurs in the unit (so all are masked together), and its choices. Choices
+// is filled in later by the caller (GenerateChoices).
+type Blank struct {
+	Answer      string
+	Occurrences []Span
+	Choices     []string
+}
+
+// stopwords are common words skipped when choosing prose blanks.
 var stopwords = map[string]bool{
 	"the": true, "is": true, "are": true, "was": true, "were": true,
 	"a": true, "an": true, "of": true, "to": true, "in": true, "on": true,
@@ -25,32 +31,49 @@ var stopwords = map[string]bool{
 	"it": true, "be": true, "if": true, "so": true, "we": true, "do": true,
 }
 
-// CollectProseSeeds picks up to maxSeeds inline-code spans worth masking.
-// Spans that are too short, stopwords, or whitespace-containing are skipped,
-// and repeated text is taken only once. Selection is shuffled deterministically
-// (so the cap keeps a stable-but-varied subset), then emitted in source order.
-func CollectProseSeeds(rng *RNG, p *parser.Proposal, maxSeeds int) []ProseSeed {
-	seenText := map[string]bool{}
-	var seeds []ProseSeed
-	for _, ic := range p.InlineCodes {
-		w := ic.Text
-		if !isMaskableWord(w) {
+// SelectProseBlanks groups a paragraph's maskable inline-code spans by token,
+// picks up to maxBlanks of them deterministically, and records every occurrence
+// of each picked token (so repeats mask together and never leak the answer).
+func SelectProseBlanks(rng *RNG, unit parser.ProseUnit, maxBlanks int) []Blank {
+	var order []string
+	occ := map[string][]Span{}
+	for _, ic := range unit.InlineCodes {
+		if !isMaskableWord(ic.Text) {
 			continue
 		}
-		lc := strings.ToLower(w)
-		if seenText[lc] {
-			continue
+		if _, ok := occ[ic.Text]; !ok {
+			order = append(order, ic.Text)
 		}
-		seenText[lc] = true
-		seeds = append(seeds, ProseSeed{Start: ic.Start, End: ic.End, Answer: w})
+		occ[ic.Text] = append(occ[ic.Text], Span{ic.Start, ic.End})
 	}
+	return buildBlanks(rng, order, occ, maxBlanks)
+}
 
-	rng.Shuffle(len(seeds), func(i, j int) { seeds[i], seeds[j] = seeds[j], seeds[i] })
-	if maxSeeds >= 0 && len(seeds) > maxSeeds {
-		seeds = seeds[:maxSeeds]
+// buildBlanks picks up to maxBlanks tokens (deterministically when capping) and
+// returns blanks ordered by first occurrence.
+func buildBlanks(rng *RNG, order []string, occ map[string][]Span, maxBlanks int) []Blank {
+	if len(order) == 0 {
+		return nil
 	}
-	sort.Slice(seeds, func(i, j int) bool { return seeds[i].Start < seeds[j].Start })
-	return seeds
+	pick := order
+	if maxBlanks > 0 && len(order) > maxBlanks {
+		idx := rng.Sample(len(order), maxBlanks)
+		sort.Ints(idx)
+		pick = make([]string, 0, maxBlanks)
+		for _, i := range idx {
+			pick = append(pick, order[i])
+		}
+	}
+	blanks := make([]Blank, 0, len(pick))
+	for _, w := range pick {
+		spans := append([]Span(nil), occ[w]...)
+		sort.Slice(spans, func(i, j int) bool { return spans[i].Start < spans[j].Start })
+		blanks = append(blanks, Blank{Answer: w, Occurrences: spans})
+	}
+	sort.Slice(blanks, func(i, j int) bool {
+		return blanks[i].Occurrences[0].Start < blanks[j].Occurrences[0].Start
+	})
+	return blanks
 }
 
 // isMaskableWord reports whether an inline-code span is a good masking target:
@@ -68,17 +91,20 @@ func isMaskableWord(w string) bool {
 	return true
 }
 
-// ProposalTokens returns the distinct inline-code texts of a proposal, used as
-// the same-proposal distractor pool.
+// ProposalTokens returns the distinct inline-code texts across a proposal's
+// prose units (the same-proposal distractor pool for prose quizzes).
 func ProposalTokens(p *parser.Proposal) []string {
 	seen := map[string]bool{}
 	var out []string
-	for _, ic := range p.InlineCodes {
-		if ic.Text == "" || seen[strings.ToLower(ic.Text)] {
-			continue
+	for _, u := range p.ProseUnits {
+		for _, ic := range u.InlineCodes {
+			lc := strings.ToLower(ic.Text)
+			if ic.Text == "" || seen[lc] {
+				continue
+			}
+			seen[lc] = true
+			out = append(out, ic.Text)
 		}
-		seen[strings.ToLower(ic.Text)] = true
-		out = append(out, ic.Text)
 	}
 	return out
 }

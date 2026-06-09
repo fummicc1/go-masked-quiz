@@ -1,7 +1,7 @@
-// Package blocks turns a seed (a chosen identifier and its location) plus the
-// surrounding source into the pre-parsed []quiz.Block body the JSON ships. The
-// transform is a pure function of its inputs — no randomness — so output is
-// deterministic.
+// Package blocks turns a unit (a prose paragraph or a code block) plus its
+// chosen blanks into the pre-parsed []quiz.Block body the JSON ships. The whole
+// unit is rendered (no context window); every occurrence of a blank's token
+// becomes a mask pointing at that blank. The transform is pure — deterministic.
 package blocks
 
 import (
@@ -13,71 +13,61 @@ import (
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/quiz"
 )
 
-// BuildProseBlocks expands a prose seed into text / inline_code / mask blocks.
-// A context window of contextWidth bytes on each side is taken, snapped to line
-// boundaries; the seed becomes the single mask, and any other inline-code spans
-// inside the window are preserved as inline_code blocks.
-func BuildProseBlocks(p *parser.Proposal, seed masker.ProseSeed, contextWidth int) []quiz.Block {
-	src := p.Source
-	// Confine the window to the seed's own line, then trim it to contextWidth
-	// on each side. This keeps text blocks free of newlines and never pulls in
-	// neighbouring lines.
-	lineStart := lineStartAt(src, seed.Start)
-	lineEnd := lineEndAt(src, seed.End)
-	wStart := clampLow(seed.Start - contextWidth)
-	if wStart < lineStart {
-		wStart = lineStart
-	}
-	wEnd := clampHigh(seed.End+contextWidth, len(src))
-	if wEnd > lineEnd {
-		wEnd = lineEnd
+// BuildProseBlocks renders a paragraph into text / inline_code / mask blocks.
+// Inline-code spans that were chosen as blanks become mask blocks (carrying
+// their BlankIndex); other inline-code spans stay as inline_code; the gaps are
+// text. src is the proposal's full Markdown.
+func BuildProseBlocks(src []byte, unit parser.ProseUnit, blanks []masker.Blank) []quiz.Block {
+	maskAt := map[int]int{} // span start offset -> blank index
+	for bi, bl := range blanks {
+		for _, sp := range bl.Occurrences {
+			maskAt[sp.Start] = bi
+		}
 	}
 
-	// Collect the spans that interrupt the plain text: the mask, plus other
-	// inline-code spans fully inside the window.
-	type span struct {
-		start, end int
-		typ        quiz.BlockType
-		val        string
+	type seg struct {
+		start, end, blankIdx int
+		text                 string
+		isMask               bool
 	}
-	spans := []span{{seed.Start, seed.End, quiz.BlockMask, ""}}
-	for _, ic := range p.InlineCodes {
-		if ic.Start == seed.Start && ic.End == seed.End {
-			continue
-		}
-		if ic.Start >= wStart && ic.End <= wEnd {
-			spans = append(spans, span{ic.Start, ic.End, quiz.BlockInlineCode, ic.Text})
+	var segs []seg
+	for _, ic := range unit.InlineCodes {
+		if bi, ok := maskAt[ic.Start]; ok {
+			segs = append(segs, seg{start: ic.Start, end: ic.End, blankIdx: bi, isMask: true})
+		} else {
+			segs = append(segs, seg{start: ic.Start, end: ic.End, blankIdx: -1, text: ic.Text})
 		}
 	}
-	sort.Slice(spans, func(i, j int) bool { return spans[i].start < spans[j].start })
+	sort.Slice(segs, func(i, j int) bool { return segs[i].start < segs[j].start })
 
 	var out []quiz.Block
-	cur := wStart
-	for _, s := range spans {
+	cur := unit.Start
+	for _, s := range segs {
 		if s.start > cur {
 			out = append(out, quiz.Block{Type: quiz.BlockText, Value: cleanText(string(src[cur:s.start]))})
 		}
-		if s.typ == quiz.BlockMask {
-			out = append(out, quiz.Block{Type: quiz.BlockMask})
+		if s.isMask {
+			bi := s.blankIdx
+			out = append(out, quiz.Block{Type: quiz.BlockMask, BlankIndex: &bi})
 		} else {
-			out = append(out, quiz.Block{Type: s.typ, Value: s.val})
+			out = append(out, quiz.Block{Type: quiz.BlockInlineCode, Value: s.text})
 		}
 		cur = s.end
 	}
-	if cur < wEnd {
-		out = append(out, quiz.Block{Type: quiz.BlockText, Value: cleanText(string(src[cur:wEnd]))})
+	if cur < unit.End {
+		out = append(out, quiz.Block{Type: quiz.BlockText, Value: cleanText(string(src[cur:unit.End]))})
 	}
 	return optimize(out)
 }
 
-// cleanText strips the backticks that border an inline-code span (the span's
-// own offsets sit just inside the backticks, so the neighbouring text would
-// otherwise keep a stray "`").
+// cleanText strips backticks bordering an inline-code span (the span's offsets
+// sit just inside the backticks, so neighbouring text would keep a stray "`").
 func cleanText(s string) string {
 	return strings.Trim(s, "`")
 }
 
-// optimize drops empty non-mask blocks and merges adjacent same-type blocks.
+// optimize drops empty non-mask blocks and merges adjacent same-type non-mask
+// blocks. Mask blocks are never merged (each carries its own BlankIndex).
 func optimize(blocks []quiz.Block) []quiz.Block {
 	var out []quiz.Block
 	for _, b := range blocks {
@@ -91,38 +81,4 @@ func optimize(blocks []quiz.Block) []quiz.Block {
 		out = append(out, b)
 	}
 	return out
-}
-
-func clampLow(x int) int {
-	if x < 0 {
-		return 0
-	}
-	return x
-}
-
-func clampHigh(x, hi int) int {
-	if x > hi {
-		return hi
-	}
-	return x
-}
-
-// lineStartAt returns the offset just after the newline preceding pos (or 0).
-func lineStartAt(src []byte, pos int) int {
-	for i := pos - 1; i >= 0; i-- {
-		if src[i] == '\n' {
-			return i + 1
-		}
-	}
-	return 0
-}
-
-// lineEndAt returns the offset of the newline at or after pos (or len(src)).
-func lineEndAt(src []byte, pos int) int {
-	for i := pos; i < len(src); i++ {
-		if src[i] == '\n' {
-			return i
-		}
-	}
-	return len(src)
 }

@@ -20,19 +20,26 @@ func GoKeywords() []string {
 	return append([]string(nil), goKeywords...)
 }
 
-// GenerateChoices builds exactly count choices for a quiz. The result always
-// contains answer, has no case-insensitive duplicates, and is shuffled so the
-// answer's position is not predictable.
+// GenerateChoices builds exactly count choices for one blank. The result always
+// contains answer, has no case-insensitive duplicates, and is shuffled.
 //
-// Distractors are drawn, in priority order, from: tokens in the same proposal
-// ranked by edit distance to the answer (closest first, the most plausible
-// wrong answers), then a shuffled cross-proposal pool, then Go keywords. If
-// those are still not enough, synthetic tokens guarantee the count is met.
-func GenerateChoices(rng *RNG, answer string, proposalTokens, crossPoolTokens []string, count int) []string {
+// exclude lists tokens that must NOT appear as distractors — notably the
+// answers of the other blanks in the same quiz, so one blank's options never
+// reveal another blank's answer.
+//
+// Distractors are drawn, in priority order, from: same-proposal tokens ranked
+// by edit distance to the answer (most plausible first), a shuffled
+// cross-proposal pool, then Go keywords; synthetic tokens guarantee the count.
+func GenerateChoices(rng *RNG, answer string, proposalTokens, crossPoolTokens, exclude []string, count int) []string {
 	if count < 1 {
 		count = 1
 	}
 	seen := map[string]bool{strings.ToLower(answer): true}
+	for _, e := range exclude {
+		if e != "" {
+			seen[strings.ToLower(e)] = true
+		}
+	}
 	choices := []string{answer}
 
 	add := func(cands []string) {
@@ -49,20 +56,16 @@ func GenerateChoices(rng *RNG, answer string, proposalTokens, crossPoolTokens []
 		}
 	}
 
-	// 1. Same-proposal tokens, most similar to the answer first.
 	add(rankByEdit(dedupeFold(proposalTokens, answer), answer))
 
-	// 2. Cross-proposal pool, shuffled for variety.
 	cross := dedupeFold(crossPoolTokens, answer)
 	rng.Shuffle(len(cross), func(i, j int) { cross[i], cross[j] = cross[j], cross[i] })
 	add(cross)
 
-	// 3. Go keywords, shuffled.
 	kw := GoKeywords()
 	rng.Shuffle(len(kw), func(i, j int) { kw[i], kw[j] = kw[j], kw[i] })
 	add(kw)
 
-	// 4. Synthetic fallback so the count is always met (tiny inputs / tests).
 	for i := 0; len(choices) < count; i++ {
 		c := fmt.Sprintf("%s_%d", answer, i)
 		if lc := strings.ToLower(c); !seen[lc] {
@@ -76,8 +79,7 @@ func GenerateChoices(rng *RNG, answer string, proposalTokens, crossPoolTokens []
 }
 
 // dedupeFold returns tokens with case-insensitive duplicates removed and any
-// token case-insensitively equal to exclude dropped, preserving first-seen
-// order.
+// token equal to exclude dropped, preserving first-seen order.
 func dedupeFold(tokens []string, exclude string) []string {
 	seen := map[string]bool{strings.ToLower(exclude): true}
 	var out []string

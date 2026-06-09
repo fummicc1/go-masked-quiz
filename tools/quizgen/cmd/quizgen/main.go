@@ -2,11 +2,12 @@
 // local clone of the Go proposals repository.
 //
 // Pipeline: walk the proposals directory, parse each design/*.md with
-// internal/parser, choose identifiers to blank out with internal/masker
-// (prose inline-code spans via text rules, code-block identifiers via
-// go/scanner), expand each into pre-parsed blocks with internal/blocks, and
-// emit a v2 quizzes.json. All randomness derives from --seed, so the same
-// inputs always yield byte-identical output (modulo generated_at).
+// internal/parser, then build one quiz per unit (a prose paragraph or a code
+// block). internal/masker picks up to --max-blanks-per-quiz identifiers per
+// unit (code identifiers via go/scanner) and masks every occurrence of each;
+// internal/blocks renders the unit into pre-parsed blocks. All randomness
+// derives from --seed, so identical inputs yield byte-identical output (modulo
+// generated_at).
 package main
 
 import (
@@ -63,9 +64,8 @@ func runGenerate(args []string) error {
 		seed           = fs.Int64("seed", 42, "deterministic RNG seed")
 		commit         = fs.String("commit", "", "source repo commit SHA (recorded in metadata)")
 		maxPerProposal = fs.Int("max-per-proposal", 5, "maximum quizzes of each kind per proposal")
-		choices        = fs.Int("choices", 4, "number of choices per quiz")
-		ctxProse       = fs.Int("context-prose", 80, "prose context window (bytes per side)")
-		ctxCode        = fs.Int("context-code", 120, "code context window (bytes per side)")
+		maxBlanks      = fs.Int("max-blanks-per-quiz", 3, "maximum blanks (distinct tokens masked) per quiz")
+		choices        = fs.Int("choices", 4, "number of choices per blank")
 		now            = fs.String("now", "", "fix generated_at to this RFC3339 time (for reproducible/golden output)")
 	)
 	if err := fs.Parse(args); err != nil {
@@ -99,7 +99,6 @@ func runGenerate(args []string) error {
 		return fmt.Errorf("no *.md files found under %q", *proposals)
 	}
 
-	// Parse all proposals first so we can build cross-proposal distractor pools.
 	parsed := make([]*parser.Proposal, 0, len(mdFiles))
 	for _, f := range mdFiles {
 		p, err := parser.LoadProposal(f)
@@ -122,9 +121,9 @@ func runGenerate(args []string) error {
 	}
 
 	for i, p := range parsed {
-		quizzes := buildQuizzes(p, *seed, *maxPerProposal, *choices, *ctxProse, *ctxCode, crossProse, crossCode)
+		quizzes := buildQuizzes(p, *seed, *maxPerProposal, *maxBlanks, *choices, crossProse, crossCode)
 		if len(quizzes) == 0 {
-			continue // proposals with no maskable content are skipped
+			continue
 		}
 		bundle.Proposals = append(bundle.Proposals, quiz.Proposal{
 			ID:      "design-" + p.Slug,
@@ -142,45 +141,91 @@ func runGenerate(args []string) error {
 	return nil
 }
 
-// buildQuizzes produces the prose quizzes followed by the code quizzes for one
-// proposal. Each RNG stream is tagged so it depends only on (seed, proposal,
-// purpose) — never on iteration order — keeping output deterministic.
-func buildQuizzes(p *parser.Proposal, seed int64, maxPer, nChoices, ctxProse, ctxCode int, crossProse, crossCode []string) []quiz.Quiz {
+// buildQuizzes produces one quiz per unit (prose paragraphs, then code blocks)
+// for a proposal. RNG tags depend only on (seed, proposal, unit, purpose), so
+// output never depends on iteration order.
+func buildQuizzes(p *parser.Proposal, seed int64, maxPerProposal, maxBlanks, nChoices int, crossProse, crossCode []string) []quiz.Quiz {
 	id := "design-" + p.Slug
 	var quizzes []quiz.Quiz
 
-	proseSeeds := masker.CollectProseSeeds(masker.NewRNG(seed, "prose:"+p.Slug), p, maxPer)
 	proseTokens := masker.ProposalTokens(p)
-	for _, s := range proseSeeds {
-		tag := "choice:prose:" + p.Slug + ":" + strconv.Itoa(s.Start)
+	for _, ui := range selectUnits(seed, "prose-units:"+p.Slug, len(p.ProseUnits), maxPerProposal) {
+		unit := p.ProseUnits[ui]
+		rng := masker.NewRNG(seed, "prose-blanks:"+p.Slug+":"+strconv.Itoa(unit.Start))
+		blanks := masker.SelectProseBlanks(rng, unit, maxBlanks)
+		if len(blanks) == 0 {
+			continue
+		}
 		quizzes = append(quizzes, quiz.Quiz{
-			ID:      fmt.Sprintf("%s-q%02d", id, len(quizzes)+1),
-			Kind:    quiz.KindProse,
-			Index:   len(quizzes),
-			Blocks:  blocks.BuildProseBlocks(p, s, ctxProse),
-			Answer:  s.Answer,
-			Choices: masker.GenerateChoices(masker.NewRNG(seed, tag), s.Answer, proseTokens, crossProse, nChoices),
+			ID:     fmt.Sprintf("%s-q%02d", id, len(quizzes)+1),
+			Kind:   quiz.KindProse,
+			Index:  len(quizzes),
+			Blocks: blocks.BuildProseBlocks(p.Source, unit, blanks),
+			Blanks: makeBlanks(seed, p.Slug, quiz.KindProse, unit.Start, blanks, proseTokens, crossProse, nChoices),
 		})
 	}
 
-	codeSeeds := masker.CollectCodeSeeds(masker.NewRNG(seed, "code:"+p.Slug), p, maxPer)
 	codeTokens := masker.CodeTokens(p)
-	for _, s := range codeSeeds {
-		tag := "choice:code:" + p.Slug + ":" + strconv.Itoa(s.BlockIndex) + ":" + strconv.Itoa(s.Start)
+	for _, ci := range selectUnits(seed, "code-units:"+p.Slug, len(p.CodeBlocks), maxPerProposal) {
+		block := p.CodeBlocks[ci]
+		rng := masker.NewRNG(seed, "code-blanks:"+p.Slug+":"+strconv.Itoa(ci))
+		blanks := masker.SelectCodeBlanks(rng, block, maxBlanks)
+		if len(blanks) == 0 {
+			continue
+		}
 		quizzes = append(quizzes, quiz.Quiz{
-			ID:      fmt.Sprintf("%s-q%02d", id, len(quizzes)+1),
-			Kind:    quiz.KindCode,
-			Index:   len(quizzes),
-			Blocks:  blocks.BuildCodeBlocks(p, s, ctxCode),
-			Answer:  s.Answer,
-			Choices: masker.GenerateChoices(masker.NewRNG(seed, tag), s.Answer, codeTokens, crossCode, nChoices),
+			ID:     fmt.Sprintf("%s-q%02d", id, len(quizzes)+1),
+			Kind:   quiz.KindCode,
+			Index:  len(quizzes),
+			Blocks: blocks.BuildCodeBlocks(block, blanks),
+			Blanks: makeBlanks(seed, p.Slug, quiz.KindCode, ci, blanks, codeTokens, crossCode, nChoices),
 		})
 	}
 
 	return quizzes
 }
 
-// crossPools gathers the distinct prose tokens and code identifiers across all
+// makeBlanks attaches choices to each blank, excluding the other blanks'
+// answers so one blank's options never reveal another's answer.
+func makeBlanks(seed int64, slug string, kind quiz.Kind, unitKey int, blanks []masker.Blank, pool, cross []string, nChoices int) []quiz.Blank {
+	answers := make([]string, len(blanks))
+	for i, b := range blanks {
+		answers[i] = b.Answer
+	}
+	out := make([]quiz.Blank, 0, len(blanks))
+	for i, b := range blanks {
+		exclude := make([]string, 0, len(answers))
+		for j, a := range answers {
+			if j != i {
+				exclude = append(exclude, a)
+			}
+		}
+		tag := "choice:" + string(kind) + ":" + slug + ":" + strconv.Itoa(unitKey) + ":" + b.Answer
+		rng := masker.NewRNG(seed, tag)
+		out = append(out, quiz.Blank{
+			Answer:  b.Answer,
+			Choices: masker.GenerateChoices(rng, b.Answer, pool, cross, exclude, nChoices),
+		})
+	}
+	return out
+}
+
+// selectUnits returns the indices [0,n) to turn into quizzes, capped at max
+// (deterministically sampled when n exceeds max), in ascending order.
+func selectUnits(seed int64, tag string, n, max int) []int {
+	all := make([]int, n)
+	for i := range all {
+		all[i] = i
+	}
+	if max <= 0 || n <= max {
+		return all
+	}
+	idx := masker.NewRNG(seed, tag).Sample(n, max)
+	sort.Ints(idx)
+	return idx
+}
+
+// crossPools gathers distinct prose tokens and code identifiers across all
 // proposals, used as cross-proposal distractor pools.
 func crossPools(parsed []*parser.Proposal) (prose, code []string) {
 	seenP, seenC := map[string]bool{}, map[string]bool{}
@@ -211,11 +256,9 @@ func listMarkdown(dir string) ([]string, error) {
 		if e.IsDir() {
 			continue
 		}
-		name := e.Name()
-		if !strings.HasSuffix(name, ".md") {
-			continue
+		if name := e.Name(); strings.HasSuffix(name, ".md") {
+			out = append(out, filepath.Join(dir, name))
 		}
-		out = append(out, filepath.Join(dir, name))
 	}
 	sort.Strings(out)
 	return out, nil

@@ -13,8 +13,6 @@ import (
 
 var update = flag.Bool("update", false, "update golden files")
 
-// testdata lives at the module root (tools/quizgen/testdata); this package is
-// two levels down at cmd/quizgen.
 const (
 	proposalsDir = "../../testdata/proposals"
 	goldenPath   = "../../testdata/golden/quizzes-seed42.json"
@@ -24,13 +22,10 @@ const (
 func generate(t *testing.T) []byte {
 	t.Helper()
 	outPath := filepath.Join(t.TempDir(), "out.json")
-	err := runGenerate([]string{
-		"--proposals", proposalsDir,
-		"--out", outPath,
-		"--seed", "42",
-		"--now", fixedNow,
-	})
-	if err != nil {
+	if err := runGenerate([]string{
+		"--proposals", proposalsDir, "--out", outPath,
+		"--seed", "42", "--now", fixedNow,
+	}); err != nil {
 		t.Fatalf("runGenerate: %v", err)
 	}
 	data, err := os.ReadFile(outPath)
@@ -58,18 +53,18 @@ func TestGolden(t *testing.T) {
 		t.Fatalf("read golden (run `go test ./cmd/quizgen -update`): %v", err)
 	}
 	if !bytes.Equal(got, want) {
-		t.Errorf("output differs from golden; run `go test ./cmd/quizgen -update` to refresh")
+		t.Errorf("output differs from golden; run `go test ./cmd/quizgen -update`")
 	}
 }
 
-// TC-G-E-02: two runs with identical inputs are byte-identical (determinism).
+// TC-G-E-02: two runs are byte-identical (determinism).
 func TestDeterministic(t *testing.T) {
 	if !bytes.Equal(generate(t), generate(t)) {
-		t.Error("output is not deterministic across runs")
+		t.Error("output is not deterministic")
 	}
 }
 
-// TC-G-S-*: schema invariants hold for every generated quiz.
+// v3 schema invariants for every generated quiz.
 func TestSchemaInvariants(t *testing.T) {
 	var b quiz.Bundle
 	if err := json.Unmarshal(generate(t), &b); err != nil {
@@ -79,38 +74,60 @@ func TestSchemaInvariants(t *testing.T) {
 		t.Errorf("Version = %d, want %d", b.Version, quiz.SchemaVersion)
 	}
 	if len(b.Proposals) == 0 {
-		t.Fatal("no proposals generated")
+		t.Fatal("no proposals")
 	}
 	for _, p := range b.Proposals {
 		for _, q := range p.Quizzes {
-			if q.MaskCount() != 1 {
-				t.Errorf("%s: mask count = %d, want 1", q.ID, q.MaskCount())
+			if len(q.Blanks) == 0 {
+				t.Errorf("%s: no blanks", q.ID)
 			}
-			if len(q.Choices) != 4 {
-				t.Errorf("%s: choices = %d, want 4", q.ID, len(q.Choices))
+			if q.MaskCount() < 1 {
+				t.Errorf("%s: no mask blocks", q.ID)
 			}
-			if !choicesContain(q.Choices, q.Answer) {
-				t.Errorf("%s: choices %v missing answer %q", q.ID, q.Choices, q.Answer)
-			}
+			referenced := make([]bool, len(q.Blanks))
 			for _, blk := range q.Blocks {
-				if blk.Type == quiz.BlockMask {
-					if blk.Value != "" {
-						t.Errorf("%s: mask block has value %q", q.ID, blk.Value)
+				switch blk.Type {
+				case quiz.BlockMask:
+					if blk.BlankIndex == nil {
+						t.Errorf("%s: mask without blank_index", q.ID)
+						continue
 					}
-					continue
+					bi := *blk.BlankIndex
+					if bi < 0 || bi >= len(q.Blanks) {
+						t.Errorf("%s: blank_index %d out of range", q.ID, bi)
+						continue
+					}
+					referenced[bi] = true
+				default:
+					if blk.Value == "" {
+						t.Errorf("%s: non-mask block %q empty", q.ID, blk.Type)
+					}
+					if blk.BlankIndex != nil {
+						t.Errorf("%s: non-mask block has blank_index", q.ID)
+					}
+					switch q.Kind {
+					case quiz.KindProse:
+						if blk.Type == quiz.BlockCodeBlock {
+							t.Errorf("%s: prose has code_block", q.ID)
+						}
+					case quiz.KindCode:
+						if blk.Type == quiz.BlockText || blk.Type == quiz.BlockInlineCode {
+							t.Errorf("%s: code has %q", q.ID, blk.Type)
+						}
+					}
 				}
-				if blk.Value == "" {
-					t.Errorf("%s: non-mask block %q has empty value", q.ID, blk.Type)
+			}
+			for i, used := range referenced {
+				if !used {
+					t.Errorf("%s: blank %d (%q) referenced by no mask", q.ID, i, q.Blanks[i].Answer)
 				}
-				switch q.Kind {
-				case quiz.KindProse:
-					if blk.Type == quiz.BlockCodeBlock {
-						t.Errorf("%s: prose quiz must not contain code_block", q.ID)
-					}
-				case quiz.KindCode:
-					if blk.Type == quiz.BlockText || blk.Type == quiz.BlockInlineCode {
-						t.Errorf("%s: code quiz must not contain %q", q.ID, blk.Type)
-					}
+			}
+			for _, bl := range q.Blanks {
+				if len(bl.Choices) != 4 {
+					t.Errorf("%s: blank %q choices = %d, want 4", q.ID, bl.Answer, len(bl.Choices))
+				}
+				if !choicesContain(bl.Choices, bl.Answer) {
+					t.Errorf("%s: blank %q choices missing answer", q.ID, bl.Answer)
 				}
 			}
 		}
