@@ -24,7 +24,7 @@ struct ProposalQuizView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("リセット") { viewModel.isShowingResetAlert = true }
-                    .disabled(viewModel.isCorrect.isEmpty)
+                    .disabled(viewModel.correct.isEmpty)
             }
         }
         .alert("スコアをリセットしますか？", isPresented: $viewModel.isShowingResetAlert) {

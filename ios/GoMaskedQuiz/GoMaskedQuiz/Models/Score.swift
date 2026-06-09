@@ -1,8 +1,9 @@
 import Foundation
 
-/// One answered blank's result. (Ported from se-masked-quiz.)
+/// One answered blank's result (identified by its quiz and blank index).
 struct QuestionResult: Codable, Equatable {
-    let index: Int
+    let quizIndex: Int
+    let blankIndex: Int
     let isCorrect: Bool
     let answer: String
     let userAnswer: String
@@ -28,7 +29,7 @@ struct ProposalScore: Codable, Equatable {
     }
 }
 
-/// Derived progress for a proposal, used for list badges.
+/// Derived progress for a proposal (over blanks), used for list badges.
 struct ProposalProgress: Equatable {
     let proposalId: String
     let answeredCount: Int

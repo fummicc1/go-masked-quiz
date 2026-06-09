@@ -1,10 +1,10 @@
 import SwiftUI
 
-/// Renders prose blocks (text / inline_code / mask) as a single AttributedString.
+/// Renders prose blocks (text / inline_code / mask) as one AttributedString.
+/// Each mask shows its BlankDisplay (number marker or answer) with a tint.
 struct ProseBlocksView: View {
     let blocks: [Block]
-    let mask: String
-    let tint: Color
+    let displays: [Int: BlankDisplay]
 
     var body: some View {
         Text(attributed)
@@ -13,7 +13,6 @@ struct ProseBlocksView: View {
             .accessibilityElement(children: .combine)
     }
 
-    /// Exposed for testing: the composed AttributedString.
     var attributed: AttributedString {
         var out = AttributedString()
         for block in blocks {
@@ -25,15 +24,20 @@ struct ProseBlocksView: View {
                 a.font = .system(.body, design: .monospaced)
                 a.backgroundColor = .secondary.opacity(0.15)
                 out.append(a)
-            case .mask:
-                var a = AttributedString(mask)
-                a.font = .system(.body, design: .monospaced).bold()
-                a.backgroundColor = tint
-                out.append(a)
+            case .mask(let bi):
+                out.append(maskAttributed(bi))
             case .codeBlock, .unknown:
-                continue // not expected in prose quizzes
+                continue
             }
         }
         return out
+    }
+
+    private func maskAttributed(_ blankIndex: Int) -> AttributedString {
+        let d = displays[blankIndex] ?? BlankDisplay(text: blankMarker(blankIndex), color: .yellow.opacity(0.35))
+        var a = AttributedString(" \(d.text) ")
+        a.font = .system(.body, design: .monospaced).bold()
+        a.backgroundColor = d.color
+        return a
     }
 }

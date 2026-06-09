@@ -1,11 +1,10 @@
 import SwiftUI
 
 /// Renders code blocks (code_block / mask) as monospaced text with horizontal
-/// scrolling so long lines don't wrap awkwardly.
+/// scrolling. Each mask shows its BlankDisplay (number marker or answer).
 struct CodeBlocksView: View {
     let blocks: [Block]
-    let mask: String
-    let tint: Color
+    let displays: [Int: BlankDisplay]
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -17,20 +16,20 @@ struct CodeBlocksView: View {
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
-    /// Exposed for testing: the composed AttributedString.
     var attributed: AttributedString {
         var out = AttributedString()
         for block in blocks {
             switch block {
             case .codeBlock(let s):
                 out.append(AttributedString(s))
-            case .mask:
-                var a = AttributedString(mask)
+            case .mask(let bi):
+                let d = displays[bi] ?? BlankDisplay(text: blankMarker(bi), color: .yellow.opacity(0.35))
+                var a = AttributedString(d.text)
                 a.font = .system(.body, design: .monospaced).bold()
-                a.backgroundColor = tint
+                a.backgroundColor = d.color
                 out.append(a)
             case .text, .inlineCode, .unknown:
-                continue // not expected in code quizzes
+                continue
             }
         }
         return out

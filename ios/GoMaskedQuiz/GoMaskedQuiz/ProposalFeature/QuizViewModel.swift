@@ -1,14 +1,19 @@
 import SwiftUI
 
-/// Drives one proposal's quizzes: tracks selected answers, scores them, and
-/// persists/restores progress. (Ported from se-masked-quiz, LLM removed; quizzes
-/// come from the loaded Proposal, and every quiz is answerable inline rather than
-/// one-at-a-time in a sheet.)
+/// Identifies one blank within a proposal: which quiz, which blank.
+struct BlankKey: Hashable {
+    let quizIndex: Int
+    let blankIndex: Int
+}
+
+/// Drives one proposal's quizzes: tracks selected answers per blank, scores
+/// them, and persists/restores progress. Each quiz is one unit (paragraph or
+/// code block) with one or more blanks answered inline.
 @MainActor
 final class QuizViewModel: ObservableObject {
     @Published var allQuiz: [Quiz] = []
-    @Published var selectedAnswer: [Int: String] = [:]
-    @Published var isCorrect: [Int: Bool] = [:]
+    @Published var selected: [BlankKey: String] = [:]
+    @Published var correct: [BlankKey: Bool] = [:]
     @Published var currentScore: ProposalScore?
     @Published var isShowingResetAlert = false
     @Published var isConfigured = false
@@ -26,47 +31,60 @@ final class QuizViewModel: ObservableObject {
         if let existing = await store.getScore(for: proposal.id) {
             currentScore = existing
             for r in existing.questionResults {
-                selectedAnswer[r.index] = r.userAnswer
-                isCorrect[r.index] = r.isCorrect
+                let k = BlankKey(quizIndex: r.quizIndex, blankIndex: r.blankIndex)
+                selected[k] = r.userAnswer
+                correct[k] = r.isCorrect
             }
         }
         isConfigured = true
     }
 
-    /// Records the answer for `quiz`, scores it, and persists. Async so callers
-    /// (and tests) can await the save — unlike se-masked-quiz's fire-and-forget.
-    func selectAnswer(_ answer: String, for quiz: Quiz) async {
-        guard isCorrect[quiz.index] == nil else { return } // ignore re-answers
-        selectedAnswer[quiz.index] = answer
-        isCorrect[quiz.index] = (answer == quiz.answer)
+    /// Records the answer for one blank, scores it, and persists.
+    func selectAnswer(_ choice: String, quiz: Quiz, blankIndex: Int) async {
+        let k = BlankKey(quizIndex: quiz.index, blankIndex: blankIndex)
+        guard correct[k] == nil, blankIndex < quiz.blanks.count else { return }
+        selected[k] = choice
+        correct[k] = (choice == quiz.blanks[blankIndex].answer)
         await updateScore()
     }
 
-    func isAnswered(_ quiz: Quiz) -> Bool { isCorrect[quiz.index] != nil }
+    func state(quiz: Quiz, blankIndex: Int) -> (selected: String?, isCorrect: Bool?) {
+        let k = BlankKey(quizIndex: quiz.index, blankIndex: blankIndex)
+        return (selected[k], correct[k])
+    }
 
     func resetQuiz() async {
         await store.resetScore(for: proposal.id)
-        selectedAnswer = [:]
-        isCorrect = [:]
+        selected = [:]
+        correct = [:]
         currentScore = nil
     }
+
+    var totalBlanks: Int { allQuiz.reduce(0) { $0 + $1.blanks.count } }
 
     var progress: ProposalProgress {
         ProposalProgress(
             proposalId: proposal.id,
-            answeredCount: isCorrect.count,
-            totalCount: allQuiz.count,
-            correctCount: isCorrect.values.filter { $0 }.count
+            answeredCount: correct.count,
+            totalCount: totalBlanks,
+            correctCount: correct.values.filter { $0 }.count
         )
     }
 
     private func updateScore() async {
-        let byIndex = Dictionary(uniqueKeysWithValues: allQuiz.map { ($0.index, $0) })
-        let results = isCorrect.compactMap { index, correct -> QuestionResult? in
-            guard let q = byIndex[index], let userAnswer = selectedAnswer[index] else { return nil }
-            return QuestionResult(index: index, isCorrect: correct, answer: q.answer, userAnswer: userAnswer)
-        }.sorted { $0.index < $1.index }
-
+        var results: [QuestionResult] = []
+        for q in allQuiz {
+            for bi in q.blanks.indices {
+                let k = BlankKey(quizIndex: q.index, blankIndex: bi)
+                if let ua = selected[k], let c = correct[k] {
+                    results.append(QuestionResult(
+                        quizIndex: q.index, blankIndex: bi,
+                        isCorrect: c, answer: q.blanks[bi].answer, userAnswer: ua
+                    ))
+                }
+            }
+        }
+        results.sort { ($0.quizIndex, $0.blankIndex) < ($1.quizIndex, $1.blankIndex) }
         let score = ProposalScore(proposalId: proposal.id, questionResults: results)
         currentScore = score
         await store.saveScore(score)

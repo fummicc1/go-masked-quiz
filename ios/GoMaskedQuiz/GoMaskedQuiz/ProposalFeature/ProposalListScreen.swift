@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Top-level list of proposals with per-proposal progress badges.
+/// Top-level list of proposals with per-proposal progress badges (over blanks).
 struct ProposalListScreen: View {
     let proposals: [Proposal]
     let store: ScoreStore
@@ -14,7 +14,7 @@ struct ProposalListScreen: View {
                 NavigationLink(value: proposal) {
                     VStack(alignment: .leading, spacing: 6) {
                         Text(proposal.title).font(.headline)
-                        Text("\(proposal.quizzes.count)問")
+                        Text("\(blankCount(proposal))問")
                             .font(.caption2).foregroundStyle(.secondary)
                         QuizProgressView(progress: progress(for: proposal))
                     }
@@ -33,9 +33,12 @@ struct ProposalListScreen: View {
                         .padding(6)
                 }
             }
-            // Reloads on first appear and whenever we pop back from a quiz.
             .onAppear { Task { scores = await store.getAllScores() } }
         }
+    }
+
+    private func blankCount(_ p: Proposal) -> Int {
+        p.quizzes.reduce(0) { $0 + $1.blanks.count }
     }
 
     private func progress(for proposal: Proposal) -> ProposalProgress {
@@ -43,7 +46,7 @@ struct ProposalListScreen: View {
         return ProposalProgress(
             proposalId: proposal.id,
             answeredCount: score?.totalCount ?? 0,
-            totalCount: proposal.quizzes.count,
+            totalCount: blankCount(proposal),
             correctCount: score?.correctCount ?? 0
         )
     }
