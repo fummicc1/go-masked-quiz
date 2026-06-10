@@ -5,9 +5,9 @@ enum Configuration {
     /// unreachable, the loader falls back to cache then the bundled copy, so the
     /// demo runs fully offline. The CDN is not deployed yet, so this is nil and
     /// the app uses the bundled copy. Set this once the CDN is live, e.g.:
-    ///   URL(string: "https://go-masked-quiz-data.pages.dev/v2/quizzes.json")
+    ///   URL(string: "https://go-masked-quiz-data.pages.dev/v3/quizzes.json")
     static let quizDataURL: URL? = nil
 
-    /// Bundle versions this build understands.
-    static let acceptedVersions: ClosedRange<Int> = 2...2
+    /// Bundle versions this build understands (current schema is v3).
+    static let acceptedVersions: ClosedRange<Int> = 3...3
 }
