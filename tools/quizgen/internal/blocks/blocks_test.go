@@ -129,3 +129,38 @@ func contains(s, sub string) bool {
 	}
 	return false
 }
+
+// cleanText turns Markdown links into their text and strips inline-code backticks.
+func TestCleanText_StripsMarkdownLinks(t *testing.T) {
+	cases := map[string]string{
+		"see [golang-announce](https://groups.google.com/forum/#!forum/x) now": "see golang-announce now",
+		"auto <https://go.dev/doc>":  "auto https://go.dev/doc",
+		"plain text only":            "plain text only",
+		"`code`":                     "code",
+	}
+	for in, want := range cases {
+		if got := cleanText(in); got != want {
+			t.Errorf("cleanText(%q) = %q, want %q", in, got, want)
+		}
+	}
+}
+
+// A paragraph with a Markdown link renders without the raw URL, keeping the text.
+func TestBuildProseBlocks_StripsRawURL(t *testing.T) {
+	src := []byte("subscribe to [golang-announce](https://groups.google.com/x) for `news`\n")
+	p := parser.ParseProposal("x.md", src)
+	unit := p.ProseUnits[0]
+	blanks := masker.SelectProseBlanks(masker.NewRNG(1, "t"), unit, 3)
+	bs := BuildProseBlocks(src, unit, blanks)
+
+	var joined string
+	for _, b := range bs {
+		joined += b.Value
+	}
+	if contains(joined, "https://") || contains(joined, "](") {
+		t.Errorf("raw link syntax leaked: %q", joined)
+	}
+	if !contains(joined, "golang-announce") {
+		t.Errorf("link text lost: %q", joined)
+	}
+}
