@@ -18,7 +18,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "The best way to receive security announcements is to subscribe to the\n[golang-announce]\n(https://groups.google.com/forum/#!forum/golang-announce)\nmailing list. Any messages pertaining to a security issue will be prefixed\nwith "
+              "value": "The best way to receive security announcements is to subscribe to the\ngolang-announce\nmailing list. Any messages pertaining to a security issue will be prefixed\nwith "
             },
             {
               "type": "mask",
@@ -1469,7 +1469,7 @@
             },
             {
               "type": "text",
-              "value": "](https://docs.oracle.com/javase/8/docs/api/java/lang/System.html#nanoTime--)\nis widely believed to read a monotonic clock where available,\nreturning an int64 counting nanoseconds since an arbitrary start point.\nPython 3.3 added monotonic clock support in [PEP 418](https://www.python.org/dev/peps/pep-0418/).\nThe new function "
+              "value": "\nis widely believed to read a monotonic clock where available,\nreturning an int64 counting nanoseconds since an arbitrary start point.\nPython 3.3 added monotonic clock support in PEP 418.\nThe new function "
             },
             {
               "type": "mask",
@@ -2585,7 +2585,7 @@
             },
             {
               "type": "text",
-              "value": ", we can\n[plot](https://gist.github.com/aclements/6701446d1ef39e42f3337f00a6f94973)\nthe exact evolution of the pacing parameters:"
+              "value": ", we can\nplot\nthe exact evolution of the pacing parameters:"
             }
           ],
           "blanks": [
@@ -3128,7 +3128,7 @@
             },
             {
               "type": "text",
-              "value": " syscall](http://man7.org/linux/man-pages/man2/membarrier.2.html)\non recent Linux kernels."
+              "value": " syscall\non recent Linux kernels."
             }
           ],
           "blanks": [
@@ -4275,7 +4275,7 @@
             },
             {
               "type": "text",
-              "value": " conversion.\nThat's a significant number.\nIn the remaining 62% of non-constant shifts,\nthe shift count expression must be using a variable\nthat's of unsigned integer type, and often a conversion is required there.\nA typical example is [archive/tar/strconv.go:88](https://golang.org/src/archive/tar/strconv.go#L88):"
+              "value": " conversion.\nThat's a significant number.\nIn the remaining 62% of non-constant shifts,\nthe shift count expression must be using a variable\nthat's of unsigned integer type, and often a conversion is required there.\nA typical example is archive/tar/strconv.go:88:"
             }
           ],
           "blanks": [
@@ -4581,7 +4581,7 @@
             },
             {
               "type": "text",
-              "value": " are disallowed.\nThis is the approach taken in\n[Python 3.6](https://www.python.org/dev/peps/pep-0515/#literal-grammar) and\n[Ruby 1.8.0](https://github.com/ruby/ruby/blob/v1_8_0/parse.y#L3723)."
+              "value": " are disallowed.\nThis is the approach taken in\nPython 3.6 and\nRuby 1.8.0."
             }
           ],
           "blanks": [
@@ -4667,7 +4667,7 @@
             },
             {
               "type": "text",
-              "value": "](https://golang.org/pkg/strconv/),\n["
+              "value": ",\n["
             },
             {
               "type": "mask",
@@ -4675,7 +4675,7 @@
             },
             {
               "type": "text",
-              "value": "](https://golang.org/pkg/strconv/#ParseInt)\nand\n["
+              "value": "\nand\n["
             },
             {
               "type": "inline_code",
@@ -4683,7 +4683,7 @@
             },
             {
               "type": "text",
-              "value": "](https://golang.org/pkg/strconv/#ParseUint)\nwill change behavior.\nWhen the "
+              "value": "\nwill change behavior.\nWhen the "
             },
             {
               "type": "inline_code",
@@ -4707,7 +4707,7 @@
             },
             {
               "type": "text",
-              "value": "](https://golang.org/pkg/strconv/#ParseFloat)\nwill change to accept hexadecimal floating-point literals and\nthe underscore digit separator.\n["
+              "value": "\nwill change to accept hexadecimal floating-point literals and\nthe underscore digit separator.\n["
             },
             {
               "type": "inline_code",
@@ -4715,7 +4715,7 @@
             },
             {
               "type": "text",
-              "value": "](https://golang.org/pkg/strconv/#FormatFloat)\nwill add a new format "
+              "value": "\nwill add a new format "
             },
             {
               "type": "inline_code",
@@ -5505,7 +5505,7 @@
             },
             {
               "type": "text",
-              "value": "](https://github.com/golang/go/blob/release-branch.go1.9/src/cmd/internal/src/pos.go#L130)\ncontains source file info and a line base:"
+              "value": "\ncontains source file info and a line base:"
             }
           ],
           "blanks": [
@@ -5687,7 +5687,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "Assign version numbers to modules by tagging specific commits\n   with [semantic versions](https://semver.org) such as "
+              "value": "Assign version numbers to modules by tagging specific commits\n   with semantic versions such as "
             },
             {
               "type": "mask",
@@ -5695,7 +5695,7 @@
             },
             {
               "type": "text",
-              "value": ".\n   (See\n   the [Defining Go Modules](https://research.swtch.com/vgo-module) post\n   for details, including how to tag multi-module repositories.)"
+              "value": ".\n   (See\n   the Defining Go Modules post\n   for details, including how to tag multi-module repositories.)"
             }
           ],
           "blanks": [
@@ -8075,7 +8075,7 @@
             },
             {
               "type": "text",
-              "value": " as suggested in [the\nerror handling draft\ndesign](https://go.googlesource.com/proposal/+/master/design/go2draft-error-handling.md),\nand we permit code like "
+              "value": " as suggested in the\nerror handling draft\ndesign,\nand we permit code like "
             },
             {
               "type": "mask",
@@ -8411,7 +8411,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "A [vet check](https://golang.org/cmd/vet) will be implemented to check that\nthe "
+              "value": "A vet check will be implemented to check that\nthe "
             },
             {
               "type": "mask",
@@ -8831,10 +8831,6 @@
               "blank_index": 0
             },
             {
-              "type": "text",
-              "value": "](https://golang.org/issue/29960)"
-            },
-            {
               "type": "mask",
               "blank_index": 1
             },
@@ -9250,7 +9246,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "Our first iteration of this proposal was inspired by two ideas from [Key Parts of Error Handling](https://gist.github.com/PeterRK/4f59579c1162cdbc28086f6b5f7b4fa2), which is to use a built-in rather than an operator, and an ordinary Go function to handle an error rather than a new error handler language construct. In contrast to that post, our error handler had the fixed function signature "
+              "value": "Our first iteration of this proposal was inspired by two ideas from Key Parts of Error Handling, which is to use a built-in rather than an operator, and an ordinary Go function to handle an error rather than a new error handler language construct. In contrast to that post, our error handler had the fixed function signature "
             },
             {
               "type": "inline_code",
@@ -10237,7 +10233,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "To give you an idea of what kinds of timings are involved with page-level\nallocations, I took a trace from a 12-hour load test from Kubernetes when I was\ndiagnosing\n[kubernetes/kubernetes#75833](https://github.com/kubernetes/kubernetes/issues/75833#issuecomment-477758829).\n92% of all span allocations were for the first 50 size classes (i.e. up and\nincluding 8 KiB objects).\nEach of those, on average, spent 4.0µs in the critical section with the heap\nlocked, minus any time spent scavenging.\nThe mode of this latency was between 3 and 4µs, with the runner-up being between\n2 and 3µs.\nThese numbers were taken with the load test built using Go 1.12.4 and from a\n"
+              "value": "To give you an idea of what kinds of timings are involved with page-level\nallocations, I took a trace from a 12-hour load test from Kubernetes when I was\ndiagnosing\nkubernetes/kubernetes#75833.\n92% of all span allocations were for the first 50 size classes (i.e. up and\nincluding 8 KiB objects).\nEach of those, on average, spent 4.0µs in the critical section with the heap\nlocked, minus any time spent scavenging.\nThe mode of this latency was between 3 and 4µs, with the runner-up being between\n2 and 3µs.\nThese numbers were taken with the load test built using Go 1.12.4 and from a\n"
             },
             {
               "type": "mask",
@@ -10618,7 +10614,7 @@
             },
             {
               "type": "text",
-              "value": " or\ncgo-generated structs in a complete way. The change is\n[CL 210637](https://go-review.googlesource.com/c/go/+/210637). Comments on the design\nor implementation are very welcome."
+              "value": " or\ncgo-generated structs in a complete way. The change is\nCL 210637. Comments on the design\nor implementation are very welcome."
             }
           ],
           "blanks": [
@@ -12364,7 +12360,7 @@
             },
             {
               "type": "text",
-              "value": "](https://golang.org/pkg/syscall/js/#FuncOf) (e.g.\n"
+              "value": " (e.g.\n"
             },
             {
               "type": "mask",
@@ -13414,7 +13410,7 @@
             },
             {
               "type": "text",
-              "value": "](44167/inl27.png), and instead directly define"
+              "value": ", and instead directly define"
             }
           ],
           "blanks": [
@@ -13460,7 +13456,7 @@
             },
             {
               "type": "text",
-              "value": "](44167/inl29.png).\nThat's our GC CPU utilization."
+              "value": ".\nThat's our GC CPU utilization."
             }
           ],
           "blanks": [
@@ -14347,7 +14343,7 @@
             },
             {
               "type": "text",
-              "value": " directory in the Go\nsource tree that explains common use-cases, extreme scenarios, and what to\nexpect in monitoring in these various situations.\nThis document should include a list of known bugs and how they might appear in\nmonitoring.\nIn other words, it should include a more formal and living version of the [GC\npacer meta-issue](https://golang.org/issues/42430).\nThe hard truth is that memory accounting and GC behavior are always going to\nfall short in some cases, and it's immensely useful to be honest and up-front\nabout those cases where they're known, while always striving to do better.\nAs every other document in this directory, it would be a living document that\nwill grow as new scenarios are discovered, bugs are fixed, and new functionality\nis made available."
+              "value": " directory in the Go\nsource tree that explains common use-cases, extreme scenarios, and what to\nexpect in monitoring in these various situations.\nThis document should include a list of known bugs and how they might appear in\nmonitoring.\nIn other words, it should include a more formal and living version of the GC\npacer meta-issue.\nThe hard truth is that memory accounting and GC behavior are always going to\nfall short in some cases, and it's immensely useful to be honest and up-front\nabout those cases where they're known, while always striving to do better.\nAs every other document in this directory, it would be a living document that\nwill grow as new scenarios are discovered, bugs are fixed, and new functionality\nis made available."
             }
           ],
           "blanks": [
@@ -16197,7 +16193,7 @@
             },
             {
               "type": "text",
-              "value": "](48409/inl1.png) is that\nit's fairly robust to changes to the Go GC, since total mapped memory, free and\nunscavenged memory, and bytes allocated in objects, are fairly fundamental\nproperties (especially to any tracing GC design)."
+              "value": " is that\nit's fairly robust to changes to the Go GC, since total mapped memory, free and\nunscavenged memory, and bytes allocated in objects, are fairly fundamental\nproperties (especially to any tracing GC design)."
             }
           ],
           "blanks": [
@@ -16287,7 +16283,7 @@
             },
             {
               "type": "text",
-              "value": " function to set a [soft memory\nlimit](https://github.com/google/tcmalloc/blob/cb5aa92545ded39f75115f3b2cc2ffd66a17d55b/tcmalloc/malloc_extension.h#L306).\nBecause dynamic memory allocation is provided in C and C++ as a library,\nTCMalloc's "
+              "value": " function to set a soft memory\nlimit.\nBecause dynamic memory allocation is provided in C and C++ as a library,\nTCMalloc's "
             },
             {
               "type": "mask",
@@ -16813,7 +16809,7 @@
             },
             {
               "type": "text",
-              "value": "](https://pkg.go.dev/math/rand#NewSource) takes."
+              "value": " takes."
             }
           ],
           "blanks": [
@@ -18552,7 +18548,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "[Go 1.18 dropped support for SHA1 certificates](https://go.dev/doc/go1.18#sha1),\n   with a "
+              "value": "Go 1.18 dropped support for SHA1 certificates,\n   with a "
             },
             {
               "type": "mask",
@@ -18582,7 +18578,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "[Go 1.19 changed LookPath behavior](https://go.dev/doc/go1.19#os-exec-path)\n   to remove an important class of security bugs,\n   but the change may also break existing programs,\n   so we included a "
+              "value": "Go 1.19 changed LookPath behavior\n   to remove an important class of security bugs,\n   but the change may also break existing programs,\n   so we included a "
             },
             {
               "type": "mask",
@@ -18918,7 +18914,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "[^1]: [Large allocations](https://cs.opensource.google/go/go/+/master:src/runtime/mheap.go;l=1344;drc=c70fd4b30aba5db2df7b5f6b0833c62b909f50eb)\n    will force [a call to "
+              "value": "[^1]: Large allocations\n    will force [a call to "
             },
             {
               "type": "mask",
@@ -18926,7 +18922,7 @@
             },
             {
               "type": "text",
-              "value": " for any aligned huge pages\n    within](https://cs.opensource.google/go/go/+/master:src/runtime/mem_linux.go;l=148;drc=9839668b5619f45e293dd40339bf0ac614ea6bee),\n    while small allocations tend to leave memory in an undetermined state for\n    huge pages.\n    The scavenger will try to release entire aligned hugepages at a time.\n    Also, when any memory is released, [we "
+              "value": " for any aligned huge pages\n    within,\n    while small allocations tend to leave memory in an undetermined state for\n    huge pages.\n    The scavenger will try to release entire aligned hugepages at a time.\n    Also, when any memory is released, [we "
             },
             {
               "type": "mask",
@@ -18934,7 +18930,7 @@
             },
             {
               "type": "text",
-              "value": " any aligned pages\n    in the range we\n    release](https://cs.opensource.google/go/go/+/master:src/runtime/mem_linux.go;l=40;drc=9839668b5619f45e293dd40339bf0ac614ea6bee).\n    However, the scavenger will [only release 64 KiB at a time unless it finds\n    an aligned huge page to\n    release](https://cs.opensource.google/go/go/+/master:src/runtime/mgcscavenge.go;l=564;drc=c70fd4b30aba5db2df7b5f6b0833c62b909f50eb),\n    and even then it'll [only "
+              "value": " any aligned pages\n    in the range we\n    release.\n    However, the scavenger will only release 64 KiB at a time unless it finds\n    an aligned huge page to\n    release,\n    and even then it'll [only "
             },
             {
               "type": "mask",
@@ -18942,7 +18938,7 @@
             },
             {
               "type": "text",
-              "value": " the corresponding huge pages if\n    the region it's scavenging crosses a huge page\n    boundary](https://cs.opensource.google/go/go/+/master:src/runtime/mem_linux.go;l=70;drc=9839668b5619f45e293dd40339bf0ac614ea6bee)."
+              "value": " the corresponding huge pages if\n    the region it's scavenging crosses a huge page\n    boundary."
             }
           ],
           "blanks": [
@@ -19222,7 +19218,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "The vast majority of newly failing tests were table-driven tests using\n[t.Parallel](https://pkg.go.dev/testing/#T.Parallel). The usual\npattern is to have a test that reduces to something like "
+              "value": "The vast majority of newly failing tests were table-driven tests using\nt.Parallel. The usual\npattern is to have a test that reduces to something like "
             },
             {
               "type": "mask",
@@ -19384,7 +19380,7 @@
             },
             {
               "type": "text",
-              "value": " runtime function for\nobtaining a timestamp.\nOn most platforms, this function queries the CPU for a tick count with a single\ninstruction.\n(Intuitively a \"tick\" goes by roughly every CPU clock period, but in practice\nthis clock usually has a constant rate that's independent of CPU frequency\nentirely.) Originally, the execution tracer used this stamp exclusively for\nordering trace events.\nUnfortunately, many [modern\nCPUs](https://docs.google.com/spreadsheets/d/1jpw5aO3Lj0q23Nm_p9Sc8HrHO1-lm9qernsGpR0bYRg/edit#gid=0)\ndon't provide such a clock that is stable across CPU cores, meaning even though\ncores might synchronize with one another, the clock read-out on each CPU is not\nguaranteed to be ordered in the same direction as that synchronization.\nThis led to traces with inconsistent timestamps."
+              "value": " runtime function for\nobtaining a timestamp.\nOn most platforms, this function queries the CPU for a tick count with a single\ninstruction.\n(Intuitively a \"tick\" goes by roughly every CPU clock period, but in practice\nthis clock usually has a constant rate that's independent of CPU frequency\nentirely.) Originally, the execution tracer used this stamp exclusively for\nordering trace events.\nUnfortunately, many modern\nCPUs\ndon't provide such a clock that is stable across CPU cores, meaning even though\ncores might synchronize with one another, the clock read-out on each CPU is not\nguaranteed to be ordered in the same direction as that synchronization.\nThis led to traces with inconsistent timestamps."
             }
           ],
           "blanks": [
@@ -19406,7 +19402,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "That's why in Go 1.7 the [implementation\nchanged](https://go-review.googlesource.com/c/go/+/21512) so that each goroutine\nhad its own sequence counter.\nThe implementation also cleverly avoids including the sequence number in the\nvast majority of events by observing that running goroutines can't actually be\ntaken off their thread until they're synchronously preempted or yield\nthemselves.\nAny event emitted while the goroutine is running is trivially ordered after the\nstart.\nThe only non-trivial ordering cases left are where an event is emitted by or on\nbehalf of a goroutine that is not actively running (Note: I like to summarize\nthis case as \"emitting events at a distance\" because the scheduling resource\nitself is not emitting the event bound to it.) These cases need to be able to be\nordered with respect to each other and with a goroutine starting to run (i.e.\nthe "
+              "value": "That's why in Go 1.7 the implementation\nchanged so that each goroutine\nhad its own sequence counter.\nThe implementation also cleverly avoids including the sequence number in the\nvast majority of events by observing that running goroutines can't actually be\ntaken off their thread until they're synchronously preempted or yield\nthemselves.\nAny event emitted while the goroutine is running is trivially ordered after the\nstart.\nThe only non-trivial ordering cases left are where an event is emitted by or on\nbehalf of a goroutine that is not actively running (Note: I like to summarize\nthis case as \"emitting events at a distance\" because the scheduling resource\nitself is not emitting the event bound to it.) These cases need to be able to be\nordered with respect to each other and with a goroutine starting to run (i.e.\nthe "
             },
             {
               "type": "mask",
@@ -19438,7 +19434,7 @@
             },
             {
               "type": "text",
-              "value": " case see in the [next section](#batching).)\nFurthermore, there are versions of the "
+              "value": " case see in the next section.)\nFurthermore, there are versions of the "
             },
             {
               "type": "inline_code",
@@ -19494,7 +19490,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "However, it turns out that the trace parser still requires timestamps to be in\norder, leading to the infamous [\"time stamps out of\norder\"](https://github.com/golang/go/issues/16755) error when "
+              "value": "However, it turns out that the trace parser still requires timestamps to be in\norder, leading to the infamous \"time stamps out of\norder\" error when "
             },
             {
               "type": "mask",
@@ -19554,7 +19550,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "This global buffer flush can be implemented as an extension to the\naforementioned [M synchronization](#m-synchronization) design by replacing the\n"
+              "value": "This global buffer flush can be implemented as an extension to the\naforementioned M synchronization design by replacing the\n"
             },
             {
               "type": "mask",
@@ -19928,7 +19924,7 @@
             },
             {
               "type": "text",
-              "value": " operations in the fast paths.\nWe'll need access to the list in order to attribute contention delay to the\nright critical section in the [mutex profile](https://go.dev/issue/66999).\nAccess to the list will also let us periodically wake an M even when it's not\nstrictly necessary, to combat tail latency that may be introduced by the\nreduction in wakeups."
+              "value": " operations in the fast paths.\nWe'll need access to the list in order to attribute contention delay to the\nright critical section in the mutex profile.\nAccess to the list will also let us periodically wake an M even when it's not\nstrictly necessary, to combat tail latency that may be introduced by the\nreduction in wakeups."
             }
           ],
           "blanks": [
@@ -20757,7 +20753,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "At this point there are upwards of 35 [golang.org/x](https://golang.org/x)\nrepositories.\nOwners of each repository update the \"go\" directive manually, ad-hoc,\nso golang.org/x repositories may receive different levels of \"go\" directive\nmaintenance.\nFor example, owners of the golang.org/x/mod module wished to use the\nnew-to-Go-1.22 "
+              "value": "At this point there are upwards of 35 golang.org/x\nrepositories.\nOwners of each repository update the \"go\" directive manually, ad-hoc,\nso golang.org/x repositories may receive different levels of \"go\" directive\nmaintenance.\nFor example, owners of the golang.org/x/mod module wished to use the\nnew-to-Go-1.22 "
             },
             {
               "type": "mask",
@@ -20765,7 +20761,7 @@
             },
             {
               "type": "text",
-              "value": " package as soon as Go 1.23 came out, and\nso its \"go\" directive was recently updated to \"1.22.0\".\nOn the other hand, golang.org/x/image hasn't been updated in a while, and\nits \"go\" directive is currently still at \"1.18\",\nwhich itself was an upgrade from \"1.12\" in [CL 526895](https://go.dev/cl/526895)\nas part of bringing all golang.org/x repos to use at minimum Go 1.18 language\nversion ([issue 60268](https://go.dev/issue/48523))."
+              "value": " package as soon as Go 1.23 came out, and\nso its \"go\" directive was recently updated to \"1.22.0\".\nOn the other hand, golang.org/x/image hasn't been updated in a while, and\nits \"go\" directive is currently still at \"1.18\",\nwhich itself was an upgrade from \"1.12\" in CL 526895\nas part of bringing all golang.org/x repos to use at minimum Go 1.18 language\nversion (issue 60268)."
             }
           ],
           "blanks": [
@@ -21101,7 +21097,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "Each blue block reserves the first two lines for a pair of bit-per-word 128-byte\nbitmaps.\nOne indicates the start of each object, while the other indicates which words of\nthe block have faded (tracked by the [write barrier](#new-write-barrier)).\nThe bit corresponding to an object's allocation header is set upon allocation.\nLines also each get mark and alloc bits, but since they're small (64 bits each)\nthey'll go right in the "
+              "value": "Each blue block reserves the first two lines for a pair of bit-per-word 128-byte\nbitmaps.\nOne indicates the start of each object, while the other indicates which words of\nthe block have faded (tracked by the write barrier).\nThe bit corresponding to an object's allocation header is set upon allocation.\nLines also each get mark and alloc bits, but since they're small (64 bits each)\nthey'll go right in the "
             },
             {
               "type": "mask",
@@ -21716,7 +21712,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "The Go runtime currently relies on Thread Local Storage (TLS) to preserve\ngoroutine state when interacting with C code,\nbut lacks support for the\ngeneral dynamic [TLS model](https://uclibc.org/docs/tls.pdf).\nThis limitation hinders the use of certain C libraries,\nsuch as Musl,\nand restricts loading of Go shared libraries without "
+              "value": "The Go runtime currently relies on Thread Local Storage (TLS) to preserve\ngoroutine state when interacting with C code,\nbut lacks support for the\ngeneral dynamic TLS model.\nThis limitation hinders the use of certain C libraries,\nsuch as Musl,\nand restricts loading of Go shared libraries without "
             },
             {
               "type": "mask",
@@ -21827,7 +21823,7 @@
             },
             {
               "type": "text",
-              "value": "\nfor support.\nWhile the absence of a dynamic TLS model is generally benign with\nGlibC—\nowing to its adaptable TLS allocation scheme—\nthis shortcoming becomes problematic with the Musl C library.\nMusl's more rigid TLS allocation exposes this limitation,\nas highlighted in issue\n[golang.org/issue/54805](https://github.com/golang/go/issues/54805)."
+              "value": "\nfor support.\nWhile the absence of a dynamic TLS model is generally benign with\nGlibC—\nowing to its adaptable TLS allocation scheme—\nthis shortcoming becomes problematic with the Musl C library.\nMusl's more rigid TLS allocation exposes this limitation,\nas highlighted in issue\ngolang.org/issue/54805."
             }
           ],
           "blanks": [
@@ -23350,7 +23346,7 @@
             },
             {
               "type": "text",
-              "value": " command support, and building a\ntailored-to-Go fuzzing engine using the [new compiler\ninstrumentation](https://golang.org/issue/14565)."
+              "value": " command support, and building a\ntailored-to-Go fuzzing engine using the new compiler\ninstrumentation."
             }
           ],
           "blanks": [
@@ -23671,7 +23667,7 @@
             },
             {
               "type": "text",
-              "value": " comments or in doc comments.\n([Proposal issue 37974](https://golang.org/issue/37974),\nwhich will ship in Go 1.15,\nstrips those "
+              "value": " comments or in doc comments.\n(Proposal issue 37974,\nwhich will ship in Go 1.15,\nstrips those "
             },
             {
               "type": "mask",
@@ -24067,7 +24063,7 @@
             },
             {
               "type": "text",
-              "value": " exists; see [issue 40025](https://golang.org/issue/40025).)"
+              "value": " exists; see issue 40025.)"
             }
           ],
           "blanks": [
@@ -25284,7 +25280,7 @@
             },
             {
               "type": "text",
-              "value": " combination is permitted in functions\nthat do not themselves return errors.\nFor example, here is a main function from a\n[useful but trivial program](https://github.com/rsc/tmp/blob/master/unhex/main.go):"
+              "value": " combination is permitted in functions\nthat do not themselves return errors.\nFor example, here is a main function from a\nuseful but trivial program:"
             }
           ],
           "blanks": [
@@ -25339,7 +25335,7 @@
             },
             {
               "type": "text",
-              "value": " type defines an\n[unwrap method](https://doc.rust-lang.org/book/second-edition/ch09-02-recoverable-errors-with-result.html#shortcuts-for-panic-on-error-unwrap-and-expect)\nthat turns a result into the underlying value (of type "
+              "value": " type defines an\nunwrap method\nthat turns a result into the underlying value (of type "
             },
             {
               "type": "inline_code",
@@ -25415,7 +25411,7 @@
             },
             {
               "type": "text",
-              "value": "\n[checks for the error and turns it into a runtime assertion failure](https://docs.swift.org/swift-book/LanguageGuide/ErrorHandling.html#ID513),\nlike Rust’s "
+              "value": "\nchecks for the error and turns it into a runtime assertion failure,\nlike Rust’s "
             },
             {
               "type": "mask",
@@ -25646,7 +25642,7 @@
             },
             {
               "type": "text",
-              "value": "](https://golang.org/pkg/errors),\none for matching sentinel errors and one for matching errors by type."
+              "value": ",\none for matching sentinel errors and one for matching errors by type."
             }
           ],
           "blanks": [
@@ -25684,7 +25680,7 @@
             },
             {
               "type": "text",
-              "value": " field that contains the underlying error.\nA variety of packages outside the standard library generalize this idea,\nproviding functions to wrap errors while adding information.\n(See the references below for a partial list.)\nWe expect that wrapping will become more common if Go adopts\nthe suggested [new error-handling control flow features](go2draft-error-handling-overview.md)\nto make it more convenient."
+              "value": " field that contains the underlying error.\nA variety of packages outside the standard library generalize this idea,\nproviding functions to wrap errors while adding information.\n(See the references below for a partial list.)\nWe expect that wrapping will become more common if Go adopts\nthe suggested new error-handling control flow features\nto make it more convenient."
             }
           ],
           "blanks": [
@@ -25867,7 +25863,7 @@
             },
             {
               "type": "text",
-              "value": " package](https://golang.org/x/text/message)\ncurrently has its own\nimplementation of "
+              "value": " package\ncurrently has its own\nimplementation of "
             },
             {
               "type": "mask",
@@ -25955,7 +25951,7 @@
             },
             {
               "type": "text",
-              "value": "](https://godoc.org/github.com/pkg/errors),\nconventionally print detailed errors in the opposite order, contradicting the single-line form.\nUsers used to reading those errors will need to learn to read the new format."
+              "value": ",\nconventionally print detailed errors in the opposite order, contradicting the single-line form.\nUsers used to reading those errors will need to learn to read the new format."
             }
           ],
           "blanks": [
@@ -25992,7 +25988,7 @@
             },
             {
               "type": "text",
-              "value": " interface](https://golang.org/ref/spec#Errors),\nthere are four ways that Go programs conventionally test for specific errors.\nFirst, programs can test for equality with sentinel errors like "
+              "value": " interface,\nthere are four ways that Go programs conventionally test for specific errors.\nFirst, programs can test for equality with sentinel errors like "
             },
             {
               "type": "inline_code",
@@ -26000,7 +25996,7 @@
             },
             {
               "type": "text",
-              "value": ".\nSecond, programs can check for an error implementation type using a [type assertion](https://golang.org/ref/spec#Type_assertions) or [type switch](https://golang.org/ref/spec#Type_switches).\nThird, ad-hoc checks like\n["
+              "value": ".\nSecond, programs can check for an error implementation type using a type assertion or type switch.\nThird, ad-hoc checks like\n["
             },
             {
               "type": "mask",
@@ -26008,7 +26004,7 @@
             },
             {
               "type": "text",
-              "value": "](https://golang.org/pkg/os/#IsNotExist)\ncheck for a specific kind of error,\ndoing limited unwrapping.\nFourth, because neither of these approaches works in general when the error has been wrapped in additional context,\nprograms often do substring searches in the error text reported by "
+              "value": "\ncheck for a specific kind of error,\ndoing limited unwrapping.\nFourth, because neither of these approaches works in general when the error has been wrapped in additional context,\nprograms often do substring searches in the error text reported by "
             },
             {
               "type": "mask",
@@ -26119,7 +26115,7 @@
             },
             {
               "type": "text",
-              "value": "](https://golang.org/pkg/errors) has popularized "
+              "value": " has popularized "
             },
             {
               "type": "mask",
@@ -26191,7 +26187,7 @@
             },
             {
               "type": "text",
-              "value": "](https://godoc.org/github.com/hashicorp/errwrap) (October 2014)\nallows wrapping more than one error, resulting in a general tree of errors.\nIt has a general "
+              "value": " (October 2014)\nallows wrapping more than one error, resulting in a general tree of errors.\nIt has a general "
             },
             {
               "type": "mask",
@@ -26238,7 +26234,7 @@
             },
             {
               "type": "text",
-              "value": "](https://godoc.org/upspin.io/errors)\nis an error package customized for [Upspin](https://upspin.io),\ndocumented in Rob Pike and Andrew Gerrand’s December 2017 blog post\n“[Error handling in Upspin](https://commandcenter.blogspot.com/2017/12/error-handling-in-upspin.html).”"
+              "value": "\nis an error package customized for Upspin,\ndocumented in Rob Pike and Andrew Gerrand’s December 2017 blog post\n“Error handling in Upspin.”"
             }
           ],
           "blanks": [
@@ -26297,7 +26293,7 @@
           "blocks": [
             {
               "type": "text",
-              "value": "Milner\n[suggested adding \"equality types\"](http://www.lfcs.inf.ed.ac.uk/reports/87/ECS-LFCS-87-33/ECS-LFCS-87-33.pdf) in 1987, distinguishing a type variable with no constraints ("
+              "value": "Milner\nsuggested adding \"equality types\" in 1987, distinguishing a type variable with no constraints ("
             },
             {
               "type": "inline_code",
@@ -26439,7 +26435,7 @@
             },
             {
               "type": "text",
-              "value": "](https://developer.apple.com/documentation/swift/equatable) protocol makes the use of "
+              "value": " protocol makes the use of "
             },
             {
               "type": "inline_code",

@@ -5,6 +5,7 @@
 package blocks
 
 import (
+	"regexp"
 	"sort"
 	"strings"
 
@@ -60,9 +61,22 @@ func BuildProseBlocks(src []byte, unit parser.ProseUnit, blanks []masker.Blank) 
 	return optimize(out)
 }
 
-// cleanText strips backticks bordering an inline-code span (the span's offsets
-// sit just inside the backticks, so neighbouring text would keep a stray "`").
+var (
+	mdLink      = regexp.MustCompile(`\[([^\]]+)\]\s*\([^)]*\)`) // [text](url) -> text (allow space/newline before "(")
+	mdLinkClose = regexp.MustCompile(`\]\s*\([^)\s]*\)`)         // dangling ](url) (link split by inline code) -> drop
+	mdAuto      = regexp.MustCompile(`<(https?://[^>]+)>`)    // <url> -> url
+)
+
+// cleanText turns Markdown link syntax into plain text (so raw URLs don't show)
+// and strips backticks bordering an inline-code span (the span's offsets sit
+// just inside the backticks, so neighbouring text would keep a stray "`").
+//
+// A link whose text contains inline code is split across blocks; mdLink handles
+// whole links, and mdLinkClose drops the trailing "](url)" half of a split one.
 func cleanText(s string) string {
+	s = mdLink.ReplaceAllString(s, "$1")
+	s = mdLinkClose.ReplaceAllString(s, "")
+	s = mdAuto.ReplaceAllString(s, "$1")
 	return strings.Trim(s, "`")
 }
 
