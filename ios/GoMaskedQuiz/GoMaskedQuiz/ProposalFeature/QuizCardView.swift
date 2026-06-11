@@ -62,32 +62,32 @@ struct QuizCardView: View {
                         .foregroundStyle(isCorrect ? Theme.success : Theme.danger)
                 }
             }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(quiz.blanks[bi].choices, id: \.self) { choice in
-                        Button {
-                            Task { await viewModel.selectAnswer(choice, quiz: quiz, blankIndex: bi) }
-                        } label: {
-                            let style = chipStyle(bi, choice, st)
-                            Text(choice)
-                                .font(Theme.mono(14, .medium))
-                                .foregroundStyle(style.fg)
-                                .padding(.horizontal, 14).padding(.vertical, 9)
-                                .background(style.bg)
-                                .overlay(Capsule().stroke(style.border, lineWidth: 1))
-                                .clipShape(Capsule())
-                        }
-                        .disabled(answered)
+            LazyVGrid(columns: [GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)], spacing: 8) {
+                ForEach(quiz.blanks[bi].choices, id: \.self) { choice in
+                    Button {
+                        Task { await viewModel.selectAnswer(choice, quiz: quiz, blankIndex: bi) }
+                    } label: {
+                        let style = chipStyle(bi, choice, st)
+                        Text(choice)
+                            .font(Theme.mono(14, .medium))
+                            .foregroundStyle(style.fg)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
+                            .frame(maxWidth: .infinity, minHeight: 22)
+                            .padding(.horizontal, 12).padding(.vertical, 10)
+                            .background(style.bg)
+                            .overlay(RoundedRectangle(cornerRadius: 10).stroke(style.border, lineWidth: 1))
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
+                    .disabled(answered)
                 }
-                .padding(.vertical, 1)
             }
         }
     }
 
     private func chipStyle(_ bi: Int, _ choice: String, _ st: (selected: String?, isCorrect: Bool?)) -> (bg: Color, fg: Color, border: Color) {
         guard let selected = st.selected else {
-            return (Theme.surface, Theme.textPrimary, Theme.border) // unanswered
+            return (Theme.accentSoft, Theme.textPrimary, Theme.accent.opacity(0.4)) // unanswered
         }
         if choice == quiz.blanks[bi].answer {
             return (Theme.success, Theme.onAccent, .clear)
