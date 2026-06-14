@@ -1,0 +1,7 @@
+# Cloudflare Pages headers for the static quiz bundle.
+# Short max-age + long stale-while-revalidate: clients revalidate every few
+# minutes but keep serving the cached copy meanwhile. ETag is added by Pages.
+/v3/*.json
+  Cache-Control: public, max-age=300, stale-while-revalidate=86400
+  Access-Control-Allow-Origin: *
+  Content-Type: application/json; charset=utf-8
