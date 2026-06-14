@@ -6,7 +6,7 @@ Inspired by [fummicc1/se-masked-quiz](https://github.com/fummicc1/se-masked-quiz
 
 The project consists of:
 
-- **`tools/quizgen/`** — a Go CLI that reads Go proposals (Markdown), masks
+- **`quizgen/`** — a Go CLI that reads Go proposals (Markdown), masks
   identifiers in both prose and ` ```go ` code blocks, and emits a single
   `output/quizzes.json` consumed by the iOS app.
 - **`ios/GoMaskedQuiz/`** — a SwiftUI iOS app that ships `quizzes.json` in its
@@ -41,7 +41,7 @@ that path is `.gitignore`d and will not be committed.
 ## Building the quiz data (Go CLI)
 
 ```sh
-cd tools/quizgen
+cd quizgen
 go run ./cmd/quizgen generate \
   --proposals ~/Work/LocalApps/golang-proposal/design \
   --out       ../../output/quizzes.json \
