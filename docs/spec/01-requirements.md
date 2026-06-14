@@ -20,7 +20,7 @@ Go 言語の design proposals (`golang/proposal` の `design/*.md`) は、言語
 
 | 領域 | 含まれるもの |
 |---|---|
-| クイズ生成 CLI | `tools/quizgen` (Go 製)。proposal Markdown を読み JSON を出力 |
+| クイズ生成 CLI | `quizgen` (Go 製)。proposal Markdown を読み JSON を出力 |
 | **CDN 配信** | **Cloudflare Pages** で `quizzes.json` を静的配信。アプリリリースなしでクイズ内容を更新可能にする |
 | iOS アプリ | SwiftUI、iOS 17+。**初回起動時に CDN から取得**し、以降はローカルキャッシュで動作 |
 | ライセンス遵守 | BSD 3-Clause 表示の 3 層化 (NOTICE / JSON メタ / Acknowledgments) |

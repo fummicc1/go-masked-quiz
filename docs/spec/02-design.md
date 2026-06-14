@@ -207,12 +207,12 @@ enum Block: Decodable, Sendable, Equatable, Hashable {
 
 ---
 
-## 3. Go CLI 設計 (`tools/quizgen`)
+## 3. Go CLI 設計 (`quizgen`)
 
 ### 3.1 パッケージ構成
 
 ```
-tools/quizgen/
+quizgen/
 ├── cmd/quizgen/main.go           # CLI エントリ
 ├── internal/
 │   ├── parser/                   # 既存。Markdown 解析 (goldmark)
@@ -374,7 +374,7 @@ MVP は **手動 deploy** で開始 (FR5.5):
 
 ```sh
 # 開発者ローカルで
-go run ./tools/quizgen/cmd/quizgen generate \
+go run ./quizgen/cmd/quizgen generate \
     --proposals ~/Work/LocalApps/golang-proposal/design \
     --out       ./output/quizzes.json \
     --commit    "$(git -C ~/Work/LocalApps/golang-proposal rev-parse HEAD)" \
@@ -1016,8 +1016,8 @@ LoadError 発生時の挙動: キャッシュがあればキャッシュ継続 (
 
 ### 9.4 依存パッケージ管理 (Supply chain)
 
-- `tools/quizgen/go.mod` は最小依存 (`goldmark` のみ) を維持
-- `tools/quizgen/go.sum` はコミット必須。Phase 2.5 の移行で追加された依存も含めて固定
+- `quizgen/go.mod` は最小依存 (`goldmark` のみ) を維持
+- `quizgen/go.sum` はコミット必須。Phase 2.5 の移行で追加された依存も含めて固定
 - CI (将来) で `go mod verify` を実行し、`go.sum` 不一致を検出
 - GitHub Dependabot を `.github/dependabot.yml` で有効化:
 
@@ -1025,7 +1025,7 @@ LoadError 発生時の挙動: キャッシュがあればキャッシュ継続 (
   version: 2
   updates:
     - package-ecosystem: "gomod"
-      directory: "/tools/quizgen"
+      directory: "/quizgen"
       schedule: { interval: "weekly" }
     - package-ecosystem: "github-actions"
       directory: "/"
