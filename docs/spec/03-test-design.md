@@ -276,7 +276,7 @@ NFR8 / AC18-21 の検証。
 | TC-Z-06 | NFR8.3 | `{"version": 1}` (旧スキーマ) | `LoadError.unsupportedVersion` |
 | TC-Z-07 | NFR8.3 | mask が 2 つ含まれる quiz | `validateInvariants` で `LoadError.schemaInvalid` |
 | TC-Z-08 | NFR8.3 | `answer` が `choices` に含まれない | 同上 |
-| TC-Z-09 | NFR8.4 / AC21 | `cd tools/quizgen && go mod verify` | exit 0 |
+| TC-Z-09 | NFR8.4 / AC21 | `cd quizgen && go mod verify` | exit 0 |
 | TC-Z-10 | NFR8.4 | `go.sum` がリポジトリにコミットされている | `git ls-files \| grep go.sum` |
 | TC-Z-11 | NFR8.5 | `.gitignore` に `.wrangler/` `.dev.vars` が含まれる | grep |
 | TC-Z-12 | NFR8.5 | リポジトリに API token らしき文字列が存在しない | `git log -p \| rg -i "cloudflare.*token"` の手動チェック / `gitleaks` 自動化は将来 |
@@ -346,7 +346,7 @@ on: [push, pull_request]
 jobs:
   go:
     runs-on: ubuntu-latest
-    defaults: { run: { working-directory: tools/quizgen } }
+    defaults: { run: { working-directory: quizgen } }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
