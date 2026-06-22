@@ -59,6 +59,32 @@ go run ./cmd/quizgen generate \
   --seed 42
 ```
 
+### Building from golang/go proposal issues
+
+Most Go proposals live as issues on the `golang/go` tracker (the `Proposal` /
+`Proposal-Accepted` labels), not as design docs. Generate quizzes directly from
+those issues with `--source github-issues`. This needs a GitHub token (a
+classic or fine-grained PAT with public read is enough) in `GITHUB_TOKEN`:
+
+```sh
+export GITHUB_TOKEN=ghp_...
+go run ./cmd/quizgen generate \
+  --source        github-issues \
+  --out           ../../output/quizzes.json \
+  --max-proposals 200 \
+  --seed 42
+```
+
+By default it pulls accepted proposals, freshest first
+(`repo:golang/go label:Proposal-Accepted sort:updated-desc`). Override the
+selection with `--query`, e.g. to include open proposals:
+
+```sh
+go run ./cmd/quizgen generate --source github-issues \
+  --query 'repo:golang/go label:Proposal sort:updated-desc' \
+  --max-proposals 100 --seed 42
+```
+
 ## Running the iOS app
 
 Open `ios/GoMaskedQuiz/GoMaskedQuiz.xcodeproj` in Xcode and run the

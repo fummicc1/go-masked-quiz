@@ -11,6 +11,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -25,6 +26,7 @@ import (
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/masker"
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/parser"
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/quiz"
+	"github.com/fummicc1/go-masked-quiz/quizgen/internal/source"
 )
 
 func main() {
@@ -51,7 +53,8 @@ func usage(w *os.File) {
 	fmt.Fprintln(w, `usage: quizgen <subcommand> [flags]
 
 subcommands:
-  generate    Generate quizzes.json from a local clone of golang/proposal
+  generate    Generate quizzes.json from design docs (--source design-docs)
+              or from golang/go proposal issues (--source github-issues)
 
 Run "quizgen generate -h" for flag details.`)
 }
@@ -59,27 +62,20 @@ Run "quizgen generate -h" for flag details.`)
 func runGenerate(args []string) error {
 	fs := flag.NewFlagSet("generate", flag.ContinueOnError)
 	var (
-		proposals      = fs.String("proposals", "", "path to the design/ directory of golang/proposal (required)")
+		sourceKind     = fs.String("source", "design-docs", "data source: design-docs | github-issues")
+		proposals      = fs.String("proposals", "", "path to the design/ directory of golang/proposal (required for design-docs)")
 		out            = fs.String("out", "output/quizzes.json", "output JSON path")
 		seed           = fs.Int64("seed", 42, "deterministic RNG seed")
 		commit         = fs.String("commit", "", "source repo commit SHA (recorded in metadata)")
 		maxPerProposal = fs.Int("max-per-proposal", 5, "maximum quizzes of each kind per proposal")
 		maxBlanks      = fs.Int("max-blanks-per-quiz", 3, "maximum blanks (distinct tokens masked) per quiz")
 		choices        = fs.Int("choices", 4, "number of choices per blank")
+		maxProposals   = fs.Int("max-proposals", 0, "max proposals to fetch (github-issues; 0 = no limit)")
+		query          = fs.String("query", "", "issue-search query (github-issues; default: accepted proposals)")
 		now            = fs.String("now", "", "fix generated_at to this RFC3339 time (for reproducible/golden output)")
 	)
 	if err := fs.Parse(args); err != nil {
 		return err
-	}
-	if *proposals == "" {
-		return fmt.Errorf("--proposals is required")
-	}
-	info, err := os.Stat(*proposals)
-	if err != nil {
-		return fmt.Errorf("stat --proposals: %w", err)
-	}
-	if !info.IsDir() {
-		return fmt.Errorf("--proposals %q is not a directory", *proposals)
 	}
 
 	generatedAt := time.Now().UTC()
@@ -91,44 +87,55 @@ func runGenerate(args []string) error {
 		generatedAt = t.UTC()
 	}
 
-	mdFiles, err := listMarkdown(*proposals)
+	bundle := quiz.Bundle{
+		Version:     quiz.SchemaVersion,
+		GeneratedAt: generatedAt,
+		Proposals:   []quiz.Proposal{},
+	}
+
+	var (
+		items []genItem
+		err   error
+	)
+	switch *sourceKind {
+	case "design-docs":
+		bundle.SourceRepo = "https://github.com/golang/proposal"
+		bundle.SourceFork = "https://github.com/fummicc1/golang-proposal"
+		bundle.SourceCommit = *commit
+		bundle.SourceLicense = "BSD-3-Clause"
+		bundle.SourceLicenseURL = "https://go.googlesource.com/proposal/+/refs/heads/master/LICENSE"
+		items, err = collectDesignDocs(*proposals)
+	case "github-issues":
+		bundle.SourceRepo = "https://github.com/golang/go"
+		bundle.SourceCommit = *commit
+		bundle.SourceLicense = "BSD-3-Clause"
+		bundle.SourceLicenseURL = "https://go.dev/LICENSE"
+		items, err = collectIssues(*query, *maxProposals)
+	default:
+		return fmt.Errorf("--source %q: want design-docs or github-issues", *sourceKind)
+	}
 	if err != nil {
 		return err
 	}
-	if len(mdFiles) == 0 {
-		return fmt.Errorf("no *.md files found under %q", *proposals)
+	if len(items) == 0 {
+		return fmt.Errorf("no proposals collected from source %q", *sourceKind)
 	}
 
-	parsed := make([]*parser.Proposal, 0, len(mdFiles))
-	for _, f := range mdFiles {
-		p, err := parser.LoadProposal(f)
-		if err != nil {
-			return err
-		}
-		parsed = append(parsed, p)
+	parsed := make([]*parser.Proposal, len(items))
+	for i := range items {
+		parsed[i] = items[i].p
 	}
 	crossProse, crossCode := crossPools(parsed)
 
-	bundle := quiz.Bundle{
-		Version:          quiz.SchemaVersion,
-		GeneratedAt:      generatedAt,
-		SourceRepo:       "https://github.com/golang/proposal",
-		SourceFork:       "https://github.com/fummicc1/golang-proposal",
-		SourceCommit:     *commit,
-		SourceLicense:    "BSD-3-Clause",
-		SourceLicenseURL: "https://go.googlesource.com/proposal/+/refs/heads/master/LICENSE",
-		Proposals:        []quiz.Proposal{},
-	}
-
-	for i, p := range parsed {
-		quizzes := buildQuizzes(p, *seed, *maxPerProposal, *maxBlanks, *choices, crossProse, crossCode)
+	for _, it := range items {
+		quizzes := buildQuizzes(it.p, it.id, *seed, *maxPerProposal, *maxBlanks, *choices, crossProse, crossCode)
 		if len(quizzes) == 0 {
 			continue
 		}
 		bundle.Proposals = append(bundle.Proposals, quiz.Proposal{
-			ID:      "design-" + p.Slug,
-			Title:   p.Title,
-			URL:     "https://github.com/golang/proposal/blob/master/design/" + filepath.Base(mdFiles[i]),
+			ID:      it.id,
+			Title:   it.p.Title,
+			URL:     it.url,
 			Quizzes: quizzes,
 		})
 	}
@@ -141,11 +148,75 @@ func runGenerate(args []string) error {
 	return nil
 }
 
+// genItem is one proposal queued for quiz generation, with its output ID and URL.
+type genItem struct {
+	p   *parser.Proposal
+	id  string
+	url string
+}
+
+// collectDesignDocs loads every design/*.md under dir (the original source).
+func collectDesignDocs(dir string) ([]genItem, error) {
+	if dir == "" {
+		return nil, fmt.Errorf("--proposals is required for --source design-docs")
+	}
+	info, err := os.Stat(dir)
+	if err != nil {
+		return nil, fmt.Errorf("stat --proposals: %w", err)
+	}
+	if !info.IsDir() {
+		return nil, fmt.Errorf("--proposals %q is not a directory", dir)
+	}
+	mdFiles, err := listMarkdown(dir)
+	if err != nil {
+		return nil, err
+	}
+	if len(mdFiles) == 0 {
+		return nil, fmt.Errorf("no *.md files found under %q", dir)
+	}
+	items := make([]genItem, 0, len(mdFiles))
+	for _, f := range mdFiles {
+		p, err := parser.LoadProposal(f)
+		if err != nil {
+			return nil, err
+		}
+		items = append(items, genItem{
+			p:   p,
+			id:  "design-" + p.Slug,
+			url: "https://github.com/golang/proposal/blob/master/design/" + filepath.Base(f),
+		})
+	}
+	return items, nil
+}
+
+// collectIssues fetches accepted proposal issues from golang/go. The slug
+// "issue-<number>" doubles as the output ID and (number being stable) the RNG
+// tag, so output stays reproducible.
+func collectIssues(query string, max int) ([]genItem, error) {
+	token := os.Getenv("GITHUB_TOKEN")
+	if token == "" {
+		return nil, fmt.Errorf("--source github-issues requires the GITHUB_TOKEN environment variable")
+	}
+	client := source.NewClient(token)
+	proposals, err := source.FetchProposals(context.Background(), client, source.FetchOptions{
+		Query: query,
+		Max:   max,
+	})
+	if err != nil {
+		return nil, err
+	}
+	items := make([]genItem, 0, len(proposals))
+	for _, pr := range proposals {
+		items = append(items, genItem{p: pr.Parsed, id: pr.Slug, url: pr.URL})
+	}
+	return items, nil
+}
+
 // buildQuizzes produces one quiz per unit (prose paragraphs, then code blocks)
-// for a proposal. RNG tags depend only on (seed, proposal, unit, purpose), so
-// output never depends on iteration order.
-func buildQuizzes(p *parser.Proposal, seed int64, maxPerProposal, maxBlanks, nChoices int, crossProse, crossCode []string) []quiz.Quiz {
-	id := "design-" + p.Slug
+// for a proposal. id prefixes every quiz ID; RNG tags depend only on
+// (seed, proposal slug, unit, purpose), so output never depends on the id or on
+// iteration order.
+func buildQuizzes(p *parser.Proposal, id string, seed int64, maxPerProposal, maxBlanks, nChoices int, crossProse, crossCode []string) []quiz.Quiz {
 	var quizzes []quiz.Quiz
 
 	proseTokens := masker.ProposalTokens(p)
