@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: generate-quizzes
@@ -47,12 +47,23 @@ jobs:
             --proposals     ../third_party/golang-proposal/design \
             --commit        "$(git -C ../third_party/golang-proposal rev-parse HEAD)" \
             --max-proposals 200 \
-            --out           /tmp/quizzes.new.json \
+            --out           "${RUNNER_TEMP}/quizzes.new.json" \
             --seed          42
 
+      - name: Mint GitHub App token (commit as fummicc1-app[bot])
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: fummicc1
+          repositories: go-masked-quiz
+
       - name: Commit on substantive change (ignoring generated_at)
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          NEW=/tmp/quizzes.new.json
+          NEW="${RUNNER_TEMP}/quizzes.new.json"
           CUR=cdn/v3/quizzes.json
           # generated_at changes every run; compare everything else so unchanged
           # content does not produce a daily no-op commit.
@@ -64,8 +75,9 @@ jobs:
           fi
           mkdir -p cdn/v3
           cp "$NEW" "$CUR"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "fummicc1-app[bot]"
+          git config user.email "293152319+fummicc1-app[bot]@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git add cdn/v3/quizzes.json
           git commit -m "chore: refresh cdn/v3/quizzes.json (automated)"
-          git push
+          git push origin HEAD:main
