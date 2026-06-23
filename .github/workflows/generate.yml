@@ -31,15 +31,24 @@ jobs:
         with:
           go-version-file: quizgen/go.mod
 
+      # One GitHub App token is used for everything: the GraphQL issue search
+      # (installation tokens can read public repos like golang/go) and the
+      # in-repo commit as fummicc1-app[bot].
+      - name: Mint GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: fummicc1
+          repositories: go-masked-quiz
+
       - name: Clone golang/proposal (design-docs source)
         run: git clone --depth 1 https://github.com/golang/proposal third_party/golang-proposal
 
       - name: Generate merged quizzes (design docs + golang/go issues)
         env:
-          # The default token has public read, which is all the GraphQL issue
-          # search needs. If it ever hits permission/rate limits, replace with a
-          # PAT stored in a repo secret (e.g. secrets.PROPOSALS_TOKEN).
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           cd quizgen
           go run ./cmd/quizgen generate \
@@ -49,15 +58,6 @@ jobs:
             --max-proposals 200 \
             --out           "${RUNNER_TEMP}/quizzes.new.json" \
             --seed          42
-
-      - name: Mint GitHub App token (commit as fummicc1-app[bot])
-        id: app-token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
-          owner: fummicc1
-          repositories: go-masked-quiz
 
       - name: Commit on substantive change (ignoring generated_at)
         env:

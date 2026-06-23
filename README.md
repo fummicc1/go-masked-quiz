@@ -63,11 +63,12 @@ go run ./cmd/quizgen generate \
 
 Most Go proposals live as issues on the `golang/go` tracker (the `Proposal` /
 `Proposal-Accepted` labels), not as design docs. Generate quizzes directly from
-those issues with `--source github-issues`. This needs a GitHub token (a
-classic or fine-grained PAT with public read is enough) in `GITHUB_TOKEN`:
+those issues with `--source github-issues`. This needs a token with public read
+in `GITHUB_TOKEN` — locally, `gh auth token` works (CI uses a GitHub App token,
+see below):
 
 ```sh
-export GITHUB_TOKEN=ghp_...
+export GITHUB_TOKEN=$(gh auth token)
 go run ./cmd/quizgen generate \
   --source        github-issues \
   --out           ../../output/quizzes.json \
