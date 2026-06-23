@@ -107,6 +107,51 @@ func TestParseProposal_NoHeadingTitleIsSlug(t *testing.T) {
 	}
 }
 
+// By default a bare (untagged) fence is ignored, preserving design-doc behaviour.
+func TestParseProposal_BareFenceIgnoredByDefault(t *testing.T) {
+	src := []byte("```\nfunc f() { return }\n```\n")
+	if got := len(ParseProposal("x.md", src).CodeBlocks); got != 0 {
+		t.Fatalf("CodeBlocks = %d, want 0 (bare fence ignored by default)", got)
+	}
+}
+
+// With AcceptBareGoFences, a bare fence that lexes like Go is admitted.
+func TestParseProposal_BareGoFenceAccepted(t *testing.T) {
+	src := []byte("```\nfunc f() (int, error) { return 0, nil }\n```\n")
+	p := ParseProposalWithOptions("x.md", src, Options{AcceptBareGoFences: true})
+	if got := len(p.CodeBlocks); got != 1 {
+		t.Fatalf("CodeBlocks = %d, want 1 (bare Go fence accepted)", got)
+	}
+}
+
+// A bare fence that is clearly not Go stays out even when bare fences are allowed.
+func TestParseProposal_BareNonGoFenceRejected(t *testing.T) {
+	src := []byte("```\n$ go build ./...\nhello world output\n```\n")
+	p := ParseProposalWithOptions("x.md", src, Options{AcceptBareGoFences: true})
+	if got := len(p.CodeBlocks); got != 0 {
+		t.Fatalf("CodeBlocks = %d, want 0 (non-Go bare fence rejected)", got)
+	}
+}
+
+func TestLooksLikeGo(t *testing.T) {
+	cases := []struct {
+		name string
+		body string
+		want bool
+	}{
+		{"func decl", "func f() error {\n\treturn nil\n}", true},
+		{"type and var", "type T struct{}\nvar x T", true},
+		{"shell", "$ ls -la\ncd /tmp && go build", false},
+		{"prose", "this is just plain english text", false},
+		{"empty", "   \n  ", false},
+	}
+	for _, c := range cases {
+		if got := looksLikeGo(c.body); got != c.want {
+			t.Errorf("looksLikeGo(%q) = %v, want %v", c.name, got, c.want)
+		}
+	}
+}
+
 func TestLoadProposal_MissingPath(t *testing.T) {
 	if _, err := LoadProposal(filepath.Join(t.TempDir(), "nope.md")); err == nil {
 		t.Fatal("expected error for missing file")

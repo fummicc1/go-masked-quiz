@@ -9,6 +9,8 @@ package parser
 
 import (
 	"fmt"
+	"go/scanner"
+	"go/token"
 	"os"
 	"path/filepath"
 	"strings"
@@ -17,6 +19,16 @@ import (
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/text"
 )
+
+// Options tunes how a proposal is parsed. The zero value reproduces the
+// original design-doc behaviour (only ```go fences are treated as Go), so
+// existing callers and golden output are unaffected.
+type Options struct {
+	// AcceptBareGoFences also treats a fenced block with no language tag as a Go
+	// code block when its body lexes like Go. GitHub issue bodies frequently use
+	// bare ``` fences for Go snippets, so the issue source enables this.
+	AcceptBareGoFences bool
+}
 
 // InlineCode is a single inline `code` span. Start/End are byte offsets into
 // Proposal.Source: Start just after the opening backtick, End just before the
@@ -62,8 +74,15 @@ func LoadProposal(path string) (*Proposal, error) {
 	return ParseProposal(filepath.Base(path), data), nil
 }
 
-// ParseProposal parses raw Markdown. filename is used only to derive the slug.
+// ParseProposal parses raw Markdown with default options. filename is used only
+// to derive the slug.
 func ParseProposal(filename string, src []byte) *Proposal {
+	return ParseProposalWithOptions(filename, src, Options{})
+}
+
+// ParseProposalWithOptions parses raw Markdown. filename is used only to derive
+// the slug.
+func ParseProposalWithOptions(filename string, src []byte, opts Options) *Proposal {
 	slug := strings.TrimSuffix(filename, filepath.Ext(filename))
 	p := &Proposal{Slug: slug, Title: slug, Source: src}
 
@@ -94,10 +113,14 @@ func ParseProposal(filename string, src []byte) *Proposal {
 			}
 		case *ast.FencedCodeBlock:
 			lang := string(node.Language(src))
-			if lang != "go" {
+			body, lineStart := blockBody(node, src)
+			switch {
+			case lang == "go":
+			case lang == "" && opts.AcceptBareGoFences && looksLikeGo(body):
+				lang = "go"
+			default:
 				return ast.WalkContinue, nil
 			}
-			body, lineStart := blockBody(node, src)
 			p.CodeBlocks = append(p.CodeBlocks, CodeBlock{Language: lang, Source: body, LineStart: lineStart})
 		}
 		return ast.WalkContinue, nil
@@ -167,6 +190,39 @@ func blockBody(n *ast.FencedCodeBlock, src []byte) (body string, lineStart int) 
 	}
 	first := lines.At(0)
 	return sb.String(), 1 + strings.Count(string(src[:first.Start]), "\n")
+}
+
+// looksLikeGo reports whether a bare (untagged) fenced block lexes like Go: it
+// contains at least two Go keywords and lexes with few errors. This is a
+// conservative heuristic to admit Go snippets in issue bodies that omit the
+// language tag, while rejecting shell, JSON, diffs, and plain output.
+func looksLikeGo(body string) bool {
+	body = strings.TrimSpace(body)
+	if body == "" {
+		return false
+	}
+	var s scanner.Scanner
+	fset := token.NewFileSet()
+	file := fset.AddFile("", fset.Base(), len(body))
+	errs := 0
+	s.Init(file, []byte(body), func(token.Position, string) { errs++ }, 0)
+
+	total, keywords := 0, 0
+	for {
+		_, tok, _ := s.Scan()
+		if tok == token.EOF {
+			break
+		}
+		total++
+		if tok.IsKeyword() {
+			keywords++
+		}
+	}
+	if total == 0 {
+		return false
+	}
+	// Require some Go-keyword density and a low lex-error rate.
+	return keywords >= 2 && errs*4 <= total
 }
 
 // nodeText concatenates the text under an inline-container node (for headings).
