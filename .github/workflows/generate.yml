@@ -23,17 +23,11 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: quizgen/go.mod
-
-      # One GitHub App token is used for everything: the GraphQL issue search
-      # (installation tokens can read public repos like golang/go) and the
-      # in-repo commit as fummicc1-app[bot].
+      # One GitHub App token is used for everything: it is passed to checkout so
+      # the persisted push credentials are the app's (commits land as
+      # fummicc1-app[bot]), and reused for the GraphQL issue search (installation
+      # tokens can read public repos like golang/go). It must be minted before
+      # checkout so checkout persists it instead of the default GITHUB_TOKEN.
       - name: Mint GitHub App token
         id: app-token
         uses: actions/create-github-app-token@v1
@@ -42,6 +36,16 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: fummicc1
           repositories: go-masked-quiz
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: quizgen/go.mod
 
       - name: Clone golang/proposal (design-docs source)
         run: git clone --depth 1 https://github.com/golang/proposal third_party/golang-proposal
@@ -60,16 +64,17 @@ jobs:
             --seed          42
 
       - name: Commit on substantive change (ignoring generated_at)
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           NEW="${RUNNER_TEMP}/quizzes.new.json"
           CUR=cdn/v3/quizzes.json
-          # generated_at changes every run; compare everything else so unchanged
-          # content does not produce a daily no-op commit.
-          if [ -f "$CUR" ] && diff -q \
-              <(jq 'del(.generated_at)' "$CUR") \
-              <(jq 'del(.generated_at)' "$NEW") >/dev/null; then
+          # Compare everything except generated_at, via temp files so neither jq
+          # gets a broken pipe. Any jq failure falls through to a commit (the
+          # safe default: publish rather than silently skip).
+          norm() { jq -S 'del(.generated_at)' "$1"; }
+          if [ -f "$CUR" ] \
+             && norm "$CUR" > "${RUNNER_TEMP}/cur.norm" 2>/dev/null \
+             && norm "$NEW" > "${RUNNER_TEMP}/new.norm" 2>/dev/null \
+             && cmp -s "${RUNNER_TEMP}/cur.norm" "${RUNNER_TEMP}/new.norm"; then
             echo "No substantive change; skipping commit."
             exit 0
           fi
@@ -77,7 +82,6 @@ jobs:
           cp "$NEW" "$CUR"
           git config user.name "fummicc1-app[bot]"
           git config user.email "293152319+fummicc1-app[bot]@users.noreply.github.com"
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git add cdn/v3/quizzes.json
           git commit -m "chore: refresh cdn/v3/quizzes.json (automated)"
           git push origin HEAD:main
