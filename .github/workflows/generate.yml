@@ -1,0 +1,71 @@
+name: generate-quizzes
+
+# Single source of truth for cdn/v3/quizzes.json. It generates from BOTH the
+# golang/proposal design docs (cloned directly from upstream) and the golang/go
+# proposal issues in ONE run, merges them, and commits in-repo. Do NOT add a
+# second workflow (here or in any fork) that also writes cdn/v3/quizzes.json —
+# concurrent writers would race and clobber each other. The `concurrency` group
+# below also prevents this workflow from racing with itself.
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # daily at 00:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generate-quizzes
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: quizgen/go.mod
+
+      - name: Clone golang/proposal (design-docs source)
+        run: git clone --depth 1 https://github.com/golang/proposal third_party/golang-proposal
+
+      - name: Generate merged quizzes (design docs + golang/go issues)
+        env:
+          # The default token has public read, which is all the GraphQL issue
+          # search needs. If it ever hits permission/rate limits, replace with a
+          # PAT stored in a repo secret (e.g. secrets.PROPOSALS_TOKEN).
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd quizgen
+          go run ./cmd/quizgen generate \
+            --source        design-docs,github-issues \
+            --proposals     ../third_party/golang-proposal/design \
+            --commit        "$(git -C ../third_party/golang-proposal rev-parse HEAD)" \
+            --max-proposals 200 \
+            --out           /tmp/quizzes.new.json \
+            --seed          42
+
+      - name: Commit on substantive change (ignoring generated_at)
+        run: |
+          NEW=/tmp/quizzes.new.json
+          CUR=cdn/v3/quizzes.json
+          # generated_at changes every run; compare everything else so unchanged
+          # content does not produce a daily no-op commit.
+          if [ -f "$CUR" ] && diff -q \
+              <(jq 'del(.generated_at)' "$CUR") \
+              <(jq 'del(.generated_at)' "$NEW") >/dev/null; then
+            echo "No substantive change; skipping commit."
+            exit 0
+          fi
+          mkdir -p cdn/v3
+          cp "$NEW" "$CUR"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add cdn/v3/quizzes.json
+          git commit -m "chore: refresh cdn/v3/quizzes.json (automated)"
+          git push

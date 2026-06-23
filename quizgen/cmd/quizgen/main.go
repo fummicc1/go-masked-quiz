@@ -62,7 +62,7 @@ Run "quizgen generate -h" for flag details.`)
 func runGenerate(args []string) error {
 	fs := flag.NewFlagSet("generate", flag.ContinueOnError)
 	var (
-		sourceKind     = fs.String("source", "design-docs", "data source: design-docs | github-issues")
+		sourceKind     = fs.String("source", "design-docs", "comma-separated data sources: design-docs, github-issues")
 		proposals      = fs.String("proposals", "", "path to the design/ directory of golang/proposal (required for design-docs)")
 		out            = fs.String("out", "output/quizzes.json", "output JSON path")
 		seed           = fs.Int64("seed", 42, "deterministic RNG seed")
@@ -87,38 +87,101 @@ func runGenerate(args []string) error {
 		generatedAt = t.UTC()
 	}
 
+	kinds, err := splitSources(*sourceKind)
+	if err != nil {
+		return err
+	}
+
+	var (
+		allItems []genItem
+		srcs     []quiz.Source
+	)
+	for _, k := range kinds {
+		var items []genItem
+		var src quiz.Source
+		switch k {
+		case "design-docs":
+			items, err = collectDesignDocs(*proposals)
+			src = quiz.Source{
+				Kind:       "design-docs",
+				Repo:       "https://github.com/golang/proposal",
+				Commit:     *commit,
+				License:    "BSD-3-Clause",
+				LicenseURL: "https://go.googlesource.com/proposal/+/refs/heads/master/LICENSE",
+			}
+		case "github-issues":
+			items, err = collectIssues(*query, *maxProposals)
+			src = quiz.Source{
+				Kind:       "github-issues",
+				Repo:       "https://github.com/golang/go",
+				License:    "BSD-3-Clause",
+				LicenseURL: "https://go.dev/LICENSE",
+			}
+		default:
+			return fmt.Errorf("--source %q: want design-docs and/or github-issues", k)
+		}
+		if err != nil {
+			return err
+		}
+		allItems = append(allItems, items...)
+		srcs = append(srcs, src)
+	}
+	if len(allItems) == 0 {
+		return fmt.Errorf("no proposals collected from source(s) %q", *sourceKind)
+	}
+
+	bundle := buildBundle(allItems, srcs, generatedAt, *seed, *maxPerProposal, *maxBlanks, *choices)
+
+	if err := writeJSON(*out, &bundle); err != nil {
+		return err
+	}
+	fmt.Fprintf(os.Stderr, "wrote %d proposal(s) / %d quiz(zes) from %d source(s) to %s\n",
+		len(bundle.Proposals), countQuizzes(&bundle), len(srcs), *out)
+	return nil
+}
+
+// splitSources parses the comma-separated --source value into a deduped,
+// order-preserving list of source kinds.
+func splitSources(s string) ([]string, error) {
+	seen := map[string]bool{}
+	var out []string
+	for _, part := range strings.Split(s, ",") {
+		k := strings.TrimSpace(part)
+		if k == "" || seen[k] {
+			continue
+		}
+		seen[k] = true
+		out = append(out, k)
+	}
+	if len(out) == 0 {
+		return nil, fmt.Errorf("--source is empty")
+	}
+	return out, nil
+}
+
+// buildBundle assembles a bundle from already-collected items, pooling
+// distractors across all sources. With a single source the legacy source_*
+// fields are populated and Sources is omitted (byte-identical to the
+// pre-multi-source output); with several sources, per-source attribution is
+// added in Sources while the legacy fields keep describing the first source.
+func buildBundle(items []genItem, srcs []quiz.Source, generatedAt time.Time, seed int64, maxPerProposal, maxBlanks, nChoices int) quiz.Bundle {
 	bundle := quiz.Bundle{
 		Version:     quiz.SchemaVersion,
 		GeneratedAt: generatedAt,
 		Proposals:   []quiz.Proposal{},
 	}
-
-	var (
-		items []genItem
-		err   error
-	)
-	switch *sourceKind {
-	case "design-docs":
-		bundle.SourceRepo = "https://github.com/golang/proposal"
-		bundle.SourceFork = "https://github.com/fummicc1/golang-proposal"
-		bundle.SourceCommit = *commit
-		bundle.SourceLicense = "BSD-3-Clause"
-		bundle.SourceLicenseURL = "https://go.googlesource.com/proposal/+/refs/heads/master/LICENSE"
-		items, err = collectDesignDocs(*proposals)
-	case "github-issues":
-		bundle.SourceRepo = "https://github.com/golang/go"
-		bundle.SourceCommit = *commit
-		bundle.SourceLicense = "BSD-3-Clause"
-		bundle.SourceLicenseURL = "https://go.dev/LICENSE"
-		items, err = collectIssues(*query, *maxProposals)
-	default:
-		return fmt.Errorf("--source %q: want design-docs or github-issues", *sourceKind)
-	}
-	if err != nil {
-		return err
-	}
-	if len(items) == 0 {
-		return fmt.Errorf("no proposals collected from source %q", *sourceKind)
+	if len(srcs) > 0 {
+		first := srcs[0]
+		bundle.SourceRepo = first.Repo
+		bundle.SourceCommit = first.Commit
+		bundle.SourceLicense = first.License
+		bundle.SourceLicenseURL = first.LicenseURL
+		if first.Kind == "design-docs" {
+			bundle.SourceFork = "https://github.com/fummicc1/golang-proposal"
+		}
+		if len(srcs) > 1 {
+			bundle.Sources = srcs
+		}
 	}
 
 	parsed := make([]*parser.Proposal, len(items))
@@ -128,7 +191,7 @@ func runGenerate(args []string) error {
 	crossProse, crossCode := crossPools(parsed)
 
 	for _, it := range items {
-		quizzes := buildQuizzes(it.p, it.id, *seed, *maxPerProposal, *maxBlanks, *choices, crossProse, crossCode)
+		quizzes := buildQuizzes(it.p, it.id, seed, maxPerProposal, maxBlanks, nChoices, crossProse, crossCode)
 		if len(quizzes) == 0 {
 			continue
 		}
@@ -139,13 +202,7 @@ func runGenerate(args []string) error {
 			Quizzes: quizzes,
 		})
 	}
-
-	if err := writeJSON(*out, &bundle); err != nil {
-		return err
-	}
-	fmt.Fprintf(os.Stderr, "wrote %d proposal(s) / %d quiz(zes) to %s\n",
-		len(bundle.Proposals), countQuizzes(&bundle), *out)
-	return nil
+	return bundle
 }
 
 // genItem is one proposal queued for quiz generation, with its output ID and URL.

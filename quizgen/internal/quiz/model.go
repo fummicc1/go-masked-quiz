@@ -9,6 +9,12 @@ import "time"
 const SchemaVersion = 3
 
 // Bundle is the top-level structure written to quizzes.json.
+//
+// The single-valued Source* fields describe the primary upstream (kept for
+// backward compatibility with v3 clients). When the bundle draws from more than
+// one upstream, Sources lists every contributing source; it is omitted for
+// single-source bundles, so their output is byte-identical to before and v3
+// clients (which ignore unknown keys) are unaffected.
 type Bundle struct {
 	Version          int        `json:"version"`
 	GeneratedAt      time.Time  `json:"generated_at"`
@@ -17,7 +23,18 @@ type Bundle struct {
 	SourceCommit     string     `json:"source_commit,omitempty"`
 	SourceLicense    string     `json:"source_license"`
 	SourceLicenseURL string     `json:"source_license_url"`
+	Sources          []Source   `json:"sources,omitempty"`
 	Proposals        []Proposal `json:"proposals"`
+}
+
+// Source describes one upstream that contributed proposals to a bundle, for
+// attribution and reproducibility.
+type Source struct {
+	Kind       string `json:"kind"` // "design-docs" | "github-issues"
+	Repo       string `json:"repo"`
+	Commit     string `json:"commit,omitempty"`
+	License    string `json:"license"`
+	LicenseURL string `json:"license_url"`
 }
 
 // Proposal groups the quizzes generated from one design/*.md file.

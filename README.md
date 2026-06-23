@@ -85,6 +85,39 @@ go run ./cmd/quizgen generate --source github-issues \
   --max-proposals 100 --seed 42
 ```
 
+### Combining both sources
+
+`--source` accepts a comma-separated list, so one run can merge design docs and
+issues into a single bundle (distractors are pooled across both):
+
+```sh
+export GITHUB_TOKEN=ghp_...
+go run ./cmd/quizgen generate \
+  --source        design-docs,github-issues \
+  --proposals     ~/Work/LocalApps/golang-proposal/design \
+  --max-proposals 200 \
+  --out           ../../cdn/v3/quizzes.json \
+  --seed 42
+```
+
+A multi-source bundle adds a `sources[]` array describing each upstream for
+attribution. Single-source bundles omit it and stay byte-identical to before
+(the schema version is still `3`; v3 clients ignore the extra field).
+
+## Automated refresh (CDN)
+
+`cdn/v3/quizzes.json` is refreshed by the
+[`generate-quizzes`](.github/workflows/generate.yml) GitHub Actions workflow in
+this repo: daily (and on demand) it clones `golang/proposal` upstream, fetches
+golang/go proposal issues, generates the **merged** bundle, and commits only
+when the content (ignoring `generated_at`) actually changes.
+
+This workflow is the **single writer** of `cdn/v3/quizzes.json`. Do not add
+another workflow — in this repo or any fork — that also writes that file;
+concurrent writers would race. (The legacy `generate.yml` in the
+`fummicc1/golang-proposal` fork is superseded by this one and should be
+disabled.)
+
 ## Running the iOS app
 
 Open `ios/GoMaskedQuiz/GoMaskedQuiz.xcodeproj` in Xcode and run the
