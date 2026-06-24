@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generated_at": "2026-06-23T16:19:26.763141404Z",
+  "generated_at": "2026-06-24T00:42:01.844233641Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "58e952a6dd29795163bdff3de8b2d77329ff995b",
@@ -6958,7 +6958,7 @@
                 "byte",
                 "NewPrivateKey",
                 "gotest",
-                "ConvertToFloat32"
+                "a5"
               ]
             },
             {
@@ -7487,7 +7487,7 @@
             {
               "answer": "len",
               "choices": [
-                "consTypeParamLists",
+                "Blend",
                 "len",
                 "float64",
                 "panic"
@@ -14439,9 +14439,9 @@
               "answer": "amount",
               "choices": [
                 "freeables",
-                "HasAVX512VL",
+                "AndNot",
                 "amount",
-                "a1"
+                "foopb"
               ]
             },
             {
@@ -26532,6 +26532,437 @@
       ]
     },
     {
+      "id": "issue-12854",
+      "title": "spec: type inferred composite literals",
+      "url": "https://github.com/golang/go/issues/12854",
+      "quizzes": [
+        {
+          "id": "issue-12854-q01",
+          "kind": "code",
+          "index": 0,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "x := []"
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": "{\"a\", \"b\", \"c\"}\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "string",
+              "choices": [
+                "time",
+                "string",
+                "args",
+                "int"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-12854-q02",
+          "kind": "code",
+          "index": 1,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "var x []"
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " = {\"a\", \"b\", \"c\"}\nvar m map["
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": "]"
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " = {\"a\": 1}\n\ntype T struct {\n  V "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "\n}\nvar s []*T = {{0}, {1}, {2}}\n\na := {1, 2, 3} // error: left-hand-type has no type specified\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "string",
+              "choices": [
+                "time",
+                "err",
+                "string",
+                "args"
+              ]
+            },
+            {
+              "answer": "int",
+              "choices": [
+                "Foo",
+                "ch",
+                "err",
+                "int"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-12854-q03",
+          "kind": "code",
+          "index": 2,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "// Without untyped composite literals...\ntype "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " struct {\n  A, B, C "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "\n}\nfunc Foo("
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ") { ... }\nFoo("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": "{A: 1, B: 2, C:3})\n\n// ...or with.\nfunc Foo("
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " struct {\n  A, B, C "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "\n}) { ... }\nFoo({A: 1, B: 2, C: 3})\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "FooArgs",
+              "choices": [
+                "foopb",
+                "Foo",
+                "FooArgs",
+                "string"
+              ]
+            },
+            {
+              "answer": "int",
+              "choices": [
+                "int",
+                "Foo",
+                "err",
+                "ch"
+              ]
+            },
+            {
+              "answer": "args",
+              "choices": [
+                "args",
+                "Foo",
+                "err",
+                "ch"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-12854-q04",
+          "kind": "code",
+          "index": 3,
+          "blocks": [
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " := make(chan struct{\n  "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " string\n  err   "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": "\n})\n"
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " \u003c- {"
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": ": \"result\"}\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "ch",
+              "choices": [
+                "err",
+                "Foo",
+                "ch",
+                "int"
+              ]
+            },
+            {
+              "answer": "value",
+              "choices": [
+                "make",
+                "args",
+                "time",
+                "value"
+              ]
+            },
+            {
+              "answer": "error",
+              "choices": [
+                "Foo",
+                "args",
+                "err",
+                "error"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-12854-q05",
+          "kind": "code",
+          "index": 4,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "return "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": "."
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "{}, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": "\nreturn {}, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " // untyped composite literal\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "time",
+              "choices": [
+                "time",
+                "int",
+                "make",
+                "string"
+              ]
+            },
+            {
+              "answer": "Time",
+              "choices": [
+                "make",
+                "Time",
+                "int",
+                "Foo"
+              ]
+            },
+            {
+              "answer": "err",
+              "choices": [
+                "err",
+                "int",
+                "error",
+                "Foo"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-77897",
+      "title": "cmd/go: only set vcs.modified=true if changes are relevant to build",
+      "url": "https://github.com/golang/go/issues/77897",
+      "quizzes": [
+        {
+          "id": "issue-77897-q01",
+          "kind": "code",
+          "index": 0,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "# "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " completely clean "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "\ngo build # creates ./foo binary; "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " now \"modified\"\ngo install # installs to $GOBIN/foo with +dirty suffix, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " ./foo; "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " no longer \"modified\"\ngo install # installs to $GOBIN/foo again with no +dirty suffix\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "assume",
+              "choices": [
+                "clean",
+                "again",
+                "assume",
+                "build"
+              ]
+            },
+            {
+              "answer": "repo",
+              "choices": [
+                "no",
+                "repo",
+                "foo",
+                "to"
+              ]
+            },
+            {
+              "answer": "deletes",
+              "choices": [
+                "creates",
+                "clean",
+                "dirty",
+                "deletes"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "issue-73787",
       "title": "simd/archsimd: architecture-specific SIMD intrinsics under a GOEXPERIMENT",
       "url": "https://github.com/golang/go/issues/73787",
@@ -28843,437 +29274,6 @@
                 "os/exec",
                 "git",
                 "fork(2)"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-77897",
-      "title": "cmd/go: only set vcs.modified=true if changes are relevant to build",
-      "url": "https://github.com/golang/go/issues/77897",
-      "quizzes": [
-        {
-          "id": "issue-77897-q01",
-          "kind": "code",
-          "index": 0,
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "# "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " completely clean "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "\ngo build # creates ./foo binary; "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " now \"modified\"\ngo install # installs to $GOBIN/foo with +dirty suffix, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": " ./foo; "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " no longer \"modified\"\ngo install # installs to $GOBIN/foo again with no +dirty suffix\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "assume",
-              "choices": [
-                "clean",
-                "again",
-                "assume",
-                "build"
-              ]
-            },
-            {
-              "answer": "repo",
-              "choices": [
-                "no",
-                "repo",
-                "foo",
-                "to"
-              ]
-            },
-            {
-              "answer": "deletes",
-              "choices": [
-                "creates",
-                "clean",
-                "dirty",
-                "deletes"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-12854",
-      "title": "spec: type inferred composite literals",
-      "url": "https://github.com/golang/go/issues/12854",
-      "quizzes": [
-        {
-          "id": "issue-12854-q01",
-          "kind": "code",
-          "index": 0,
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "x := []"
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "{\"a\", \"b\", \"c\"}\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "string",
-              "choices": [
-                "time",
-                "string",
-                "args",
-                "int"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-12854-q02",
-          "kind": "code",
-          "index": 1,
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "var x []"
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " = {\"a\", \"b\", \"c\"}\nvar m map["
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "]"
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " = {\"a\": 1}\n\ntype T struct {\n  V "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "\n}\nvar s []*T = {{0}, {1}, {2}}\n\na := {1, 2, 3} // error: left-hand-type has no type specified\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "string",
-              "choices": [
-                "time",
-                "err",
-                "string",
-                "args"
-              ]
-            },
-            {
-              "answer": "int",
-              "choices": [
-                "Foo",
-                "ch",
-                "err",
-                "int"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-12854-q03",
-          "kind": "code",
-          "index": 2,
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "// Without untyped composite literals...\ntype "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " struct {\n  A, B, C "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "\n}\nfunc Foo("
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": " "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ") { ... }\nFoo("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "{A: 1, B: 2, C:3})\n\n// ...or with.\nfunc Foo("
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": " struct {\n  A, B, C "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "\n}) { ... }\nFoo({A: 1, B: 2, C: 3})\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "FooArgs",
-              "choices": [
-                "foopb",
-                "Foo",
-                "FooArgs",
-                "string"
-              ]
-            },
-            {
-              "answer": "int",
-              "choices": [
-                "int",
-                "Foo",
-                "err",
-                "ch"
-              ]
-            },
-            {
-              "answer": "args",
-              "choices": [
-                "args",
-                "Foo",
-                "err",
-                "ch"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-12854-q04",
-          "kind": "code",
-          "index": 3,
-          "blocks": [
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " := make(chan struct{\n  "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " string\n  err   "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "\n})\n"
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " \u003c- {"
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": ": \"result\"}\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "ch",
-              "choices": [
-                "err",
-                "Foo",
-                "ch",
-                "int"
-              ]
-            },
-            {
-              "answer": "value",
-              "choices": [
-                "make",
-                "args",
-                "time",
-                "value"
-              ]
-            },
-            {
-              "answer": "error",
-              "choices": [
-                "Foo",
-                "args",
-                "err",
-                "error"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-12854-q05",
-          "kind": "code",
-          "index": 4,
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "return "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "."
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "{}, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "\nreturn {}, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": " // untyped composite literal\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "time",
-              "choices": [
-                "time",
-                "int",
-                "make",
-                "string"
-              ]
-            },
-            {
-              "answer": "Time",
-              "choices": [
-                "make",
-                "Time",
-                "int",
-                "Foo"
-              ]
-            },
-            {
-              "answer": "err",
-              "choices": [
-                "err",
-                "int",
-                "error",
-                "Foo"
               ]
             }
           ]
@@ -33031,7 +33031,7 @@
                 "grep",
                 "Rand",
                 "SetBytes",
-                "install"
+                "my_test"
               ]
             },
             {
@@ -36595,7 +36595,7 @@
                 "big",
                 "int",
                 "shardedData",
-                "assume"
+                "TruncateToUint8"
               ]
             },
             {
@@ -37849,7 +37849,7 @@
             {
               "answer": "Test",
               "choices": [
-                "ShiftRight",
+                "Mask32x4FromBits",
                 "Value",
                 "input",
                 "Test"
@@ -41685,7 +41685,7 @@
               "answer": "int",
               "choices": [
                 "int",
-                "deletes",
+                "SliceData",
                 "runtime_lock",
                 "HandleClient"
               ]
@@ -43537,7 +43537,7 @@
               "answer": "ChangeAuthMethodsError",
               "choices": [
                 "ServerAuthCallbacks",
-                "AsUint32x8",
+                "Float64x4",
                 "ChangeAuthMethodsError",
                 "Next"
               ]
@@ -43547,14 +43547,14 @@
               "choices": [
                 "ServerAuthCallbacks",
                 "Next",
-                "Float64x8",
+                "now",
                 "Error"
               ]
             },
             {
               "answer": "string",
               "choices": [
-                "creates",
+                "fizz",
                 "string",
                 "Next",
                 "ServerAuthCallbacks"
@@ -45210,9 +45210,9 @@
               "answer": "fmt",
               "choices": [
                 "fmt",
-                "installs",
+                "world",
                 "Seal",
-                "a3"
+                "assume"
               ]
             },
             {
@@ -52903,7 +52903,7 @@
               "choices": [
                 "Foo",
                 "dest",
-                "ConvertToFloat32",
+                "a6",
                 "EmptyStruct"
               ]
             },
