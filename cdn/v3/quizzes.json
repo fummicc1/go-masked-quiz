@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generated_at": "2026-06-24T00:42:01.844233641Z",
+  "generated_at": "2026-06-25T00:46:52.829418281Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "58e952a6dd29795163bdff3de8b2d77329ff995b",
@@ -6958,7 +6958,7 @@
                 "byte",
                 "NewPrivateKey",
                 "gotest",
-                "a5"
+                "EqualToMask"
               ]
             },
             {
@@ -7487,7 +7487,7 @@
             {
               "answer": "len",
               "choices": [
-                "Blend",
+                "install",
                 "len",
                 "float64",
                 "panic"
@@ -14439,7 +14439,7 @@
               "answer": "amount",
               "choices": [
                 "freeables",
-                "AndNot",
+                "Broadcast",
                 "amount",
                 "foopb"
               ]
@@ -26876,86 +26876,61 @@
       ]
     },
     {
-      "id": "issue-77897",
-      "title": "cmd/go: only set vcs.modified=true if changes are relevant to build",
-      "url": "https://github.com/golang/go/issues/77897",
+      "id": "issue-44506",
+      "title": "crypto/tls: support kernel-provided TLS",
+      "url": "https://github.com/golang/go/issues/44506",
       "quizzes": [
         {
-          "id": "issue-77897-q01",
-          "kind": "code",
+          "id": "issue-44506-q01",
+          "kind": "prose",
           "index": 0,
           "blocks": [
             {
-              "type": "code_block",
-              "value": "# "
+              "type": "text",
+              "value": "Basically, Linux now supports handling TLS encryption in the kernel. The primary benefit here is the possibility of "
             },
             {
               "type": "mask",
               "blank_index": 0
             },
             {
-              "type": "code_block",
-              "value": " completely clean "
+              "type": "text",
+              "value": "/"
             },
             {
               "type": "mask",
               "blank_index": 1
             },
             {
-              "type": "code_block",
-              "value": "\ngo build # creates ./foo binary; "
+              "type": "text",
+              "value": " to work with TLS. Currently, we need to choose between TLS and "
             },
             {
               "type": "mask",
               "blank_index": 1
             },
             {
-              "type": "code_block",
-              "value": " now \"modified\"\ngo install # installs to $GOBIN/foo with +dirty suffix, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": " ./foo; "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " no longer \"modified\"\ngo install # installs to $GOBIN/foo again with no +dirty suffix\n"
+              "type": "text",
+              "value": " (or a custom TLS implementation, I suppose)."
             }
           ],
           "blanks": [
             {
-              "answer": "assume",
+              "answer": "sendfile",
               "choices": [
-                "clean",
-                "again",
-                "assume",
-                "build"
+                "runtime/debug.BuildSetting",
+                "sendfile",
+                "NewAEAD",
+                "b := a[2:6, 3:5]"
               ]
             },
             {
-              "answer": "repo",
+              "answer": "splice",
               "choices": [
-                "no",
-                "repo",
-                "foo",
-                "to"
-              ]
-            },
-            {
-              "answer": "deletes",
-              "choices": [
-                "creates",
-                "clean",
-                "dirty",
-                "deletes"
+                "SecurityCapabilities",
+                "go get",
+                "splice",
+                "runtime.ReadMemStats"
               ]
             }
           ]
@@ -27589,6 +27564,292 @@
                 "uint8",
                 "Uint32x8",
                 "uint32"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-68595",
+      "title": "syscall: support process sandboxing using Landlock on Linux",
+      "url": "https://github.com/golang/go/issues/68595",
+      "quizzes": [
+        {
+          "id": "issue-68595-q01",
+          "kind": "prose",
+          "index": 0,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "I have a Golang binary that gets deployed once and then it "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": "'s the ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " binary with various arguments under the hood hundreds of thousands of times to process lots of untrusted repositories on the internet."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "os/exec",
+              "choices": [
+                "*syscall.SysProcAttr",
+                "os/exec",
+                "fork(2)",
+                "fd"
+              ]
+            },
+            {
+              "answer": "git",
+              "choices": [
+                "*syscall.SysProcAttr",
+                "fd",
+                "git",
+                "fork(2)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q02",
+          "kind": "prose",
+          "index": 1,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "This "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " invocation ideally should only access a single temporary directory that we create for it and doesn't need anything else, yet the invoking Golang binary needs an access to much more files and directories, including the networking. So basically, I'm looking to exercise the least privilege principle here."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "git",
+              "choices": [
+                "git",
+                "fork(2)",
+                "fd",
+                "os/exec"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q03",
+          "kind": "prose",
+          "index": 2,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Unfortunately due to Go's runtime and the use of threads, it seems to be somewhat complicated to use ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ", and even if it would work, it would mean re-inventing the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "fork(2)",
+              "choices": [
+                "fork(2)",
+                "fd",
+                "git",
+                "*syscall.SysProcAttr"
+              ]
+            },
+            {
+              "answer": "os/exec",
+              "choices": [
+                "*syscall.SysProcAttr",
+                "os/exec",
+                "fd",
+                "git"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q04",
+          "kind": "prose",
+          "index": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "There's a nice ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " package with a very ergonomic API that can be adapted to emit the ruleset file-descriptor instead of restricting the current process with a couple of line changes."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "github.com/landlock-lsm/go-landlock",
+              "choices": [
+                "os/exec",
+                "github.com/landlock-lsm/go-landlock",
+                "git",
+                "*syscall.SysProcAttr"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q05",
+          "kind": "prose",
+          "index": 4,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "To get the "
+            },
+            {
+              "type": "inline_code",
+              "value": "fd"
+            },
+            {
+              "type": "text",
+              "value": " for the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " above, the user might do something like this:"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "*syscall.SysProcAttr",
+              "choices": [
+                "*syscall.SysProcAttr",
+                "os/exec",
+                "git",
+                "fork(2)"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-77897",
+      "title": "cmd/go: only set vcs.modified=true if changes are relevant to build",
+      "url": "https://github.com/golang/go/issues/77897",
+      "quizzes": [
+        {
+          "id": "issue-77897-q01",
+          "kind": "code",
+          "index": 0,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "# "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " completely clean "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "\ngo build # creates ./foo binary; "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " now \"modified\"\ngo install # installs to $GOBIN/foo with +dirty suffix, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " ./foo; "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " no longer \"modified\"\ngo install # installs to $GOBIN/foo again with no +dirty suffix\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "assume",
+              "choices": [
+                "clean",
+                "again",
+                "assume",
+                "build"
+              ]
+            },
+            {
+              "answer": "repo",
+              "choices": [
+                "no",
+                "repo",
+                "foo",
+                "to"
+              ]
+            },
+            {
+              "answer": "deletes",
+              "choices": [
+                "creates",
+                "clean",
+                "dirty",
+                "deletes"
               ]
             }
           ]
@@ -29075,205 +29336,6 @@
                 "netdns",
                 "godebug.Setting",
                 "os.Setenv"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-68595",
-      "title": "syscall: support process sandboxing using Landlock on Linux",
-      "url": "https://github.com/golang/go/issues/68595",
-      "quizzes": [
-        {
-          "id": "issue-68595-q01",
-          "kind": "prose",
-          "index": 0,
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I have a Golang binary that gets deployed once and then it "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "'s the ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " binary with various arguments under the hood hundreds of thousands of times to process lots of untrusted repositories on the internet."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "os/exec",
-              "choices": [
-                "*syscall.SysProcAttr",
-                "os/exec",
-                "fork(2)",
-                "fd"
-              ]
-            },
-            {
-              "answer": "git",
-              "choices": [
-                "*syscall.SysProcAttr",
-                "fd",
-                "git",
-                "fork(2)"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q02",
-          "kind": "prose",
-          "index": 1,
-          "blocks": [
-            {
-              "type": "text",
-              "value": "This "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " invocation ideally should only access a single temporary directory that we create for it and doesn't need anything else, yet the invoking Golang binary needs an access to much more files and directories, including the networking. So basically, I'm looking to exercise the least privilege principle here."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "git",
-              "choices": [
-                "git",
-                "fork(2)",
-                "fd",
-                "os/exec"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q03",
-          "kind": "prose",
-          "index": 2,
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Unfortunately due to Go's runtime and the use of threads, it seems to be somewhat complicated to use ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ", and even if it would work, it would mean re-inventing the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": "."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "fork(2)",
-              "choices": [
-                "fork(2)",
-                "fd",
-                "git",
-                "*syscall.SysProcAttr"
-              ]
-            },
-            {
-              "answer": "os/exec",
-              "choices": [
-                "*syscall.SysProcAttr",
-                "os/exec",
-                "fd",
-                "git"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q04",
-          "kind": "prose",
-          "index": 3,
-          "blocks": [
-            {
-              "type": "text",
-              "value": "There's a nice ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " package with a very ergonomic API that can be adapted to emit the ruleset file-descriptor instead of restricting the current process with a couple of line changes."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "github.com/landlock-lsm/go-landlock",
-              "choices": [
-                "os/exec",
-                "github.com/landlock-lsm/go-landlock",
-                "git",
-                "*syscall.SysProcAttr"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q05",
-          "kind": "prose",
-          "index": 4,
-          "blocks": [
-            {
-              "type": "text",
-              "value": "To get the "
-            },
-            {
-              "type": "inline_code",
-              "value": "fd"
-            },
-            {
-              "type": "text",
-              "value": " for the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " above, the user might do something like this:"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "*syscall.SysProcAttr",
-              "choices": [
-                "*syscall.SysProcAttr",
-                "os/exec",
-                "git",
-                "fork(2)"
               ]
             }
           ]
@@ -32895,7 +32957,7 @@
               "answer": "rand.Rand.N",
               "choices": [
                 "N",
-                "UnmarshalRead",
+                "MarshalWrite",
                 "func ReadDir",
                 "rand.Rand.N"
               ]
@@ -33050,68 +33112,6 @@
                 "intType",
                 "KindEndObject",
                 "SetConstraint"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-44506",
-      "title": "crypto/tls: support kernel-provided TLS",
-      "url": "https://github.com/golang/go/issues/44506",
-      "quizzes": [
-        {
-          "id": "issue-44506-q01",
-          "kind": "prose",
-          "index": 0,
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Basically, Linux now supports handling TLS encryption in the kernel. The primary benefit here is the possibility of "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "/"
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " to work with TLS. Currently, we need to choose between TLS and "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " (or a custom TLS implementation, I suppose)."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "sendfile",
-              "choices": [
-                "runtime/debug.BuildSetting",
-                "sendfile",
-                "NewAEAD",
-                "b := a[2:6, 3:5]"
-              ]
-            },
-            {
-              "answer": "splice",
-              "choices": [
-                "@version",
-                "go get",
-                "splice",
-                "runtime.ReadMemStats"
               ]
             }
           ]
@@ -34586,7 +34586,7 @@
             {
               "answer": "types.Info",
               "choices": [
-                "FT",
+                "zero",
                 "expr",
                 "0o377",
                 "types.Info"
@@ -36595,7 +36595,7 @@
                 "big",
                 "int",
                 "shardedData",
-                "TruncateToUint8"
+                "suffix"
               ]
             },
             {
@@ -37849,7 +37849,7 @@
             {
               "answer": "Test",
               "choices": [
-                "Mask32x4FromBits",
+                "Min",
                 "Value",
                 "input",
                 "Test"
@@ -38454,7 +38454,7 @@
                 "AuthCallback",
                 "1_2_3",
                 "none",
-                "Vec4[T]"
+                "MulEvenWiden"
               ]
             },
             {
@@ -38593,7 +38593,7 @@
               "choices": [
                 "*os.File",
                 "slog.Handler",
-                "MarshalerTo",
+                "IsZero",
                 "To"
               ]
             }
@@ -42321,7 +42321,7 @@
             {
               "answer": "SignatureAlgorithm",
               "choices": [
-                "ToSimd() any",
+                "ToArch() any",
                 "SignatureAlgorithm",
                 "Signature",
                 "_"
@@ -43143,7 +43143,7 @@
               "choices": [
                 "go.mod",
                 "go.sum",
-                "go/ssa",
+                "GOARCH=wasm32",
                 "GoMod string"
               ]
             }
@@ -43304,7 +43304,7 @@
             {
               "answer": "runtime/debug.BuildSetting",
               "choices": [
-                "jsontext.Encoder",
+                "UnmarshalFromFunc",
                 "runtime/debug.BuildSetting",
                 "go version -m",
                 "go1.18"
@@ -43455,7 +43455,7 @@
                 "true",
                 "v1.0.1",
                 "GOROOT",
-                "driver.Valuer"
+                "sql.Scanner"
               ]
             }
           ]
@@ -43537,7 +43537,7 @@
               "answer": "ChangeAuthMethodsError",
               "choices": [
                 "ServerAuthCallbacks",
-                "Float64x4",
+                "ExtendToUint64",
                 "ChangeAuthMethodsError",
                 "Next"
               ]
@@ -43547,7 +43547,7 @@
               "choices": [
                 "ServerAuthCallbacks",
                 "Next",
-                "now",
+                "a4",
                 "Error"
               ]
             },
@@ -44012,7 +44012,7 @@
               "choices": [
                 "Protocol",
                 "HACK-HTTP2-Protocol",
-                "AddUint32x4",
+                "a + *b",
                 ":protocol"
               ]
             },
@@ -45212,7 +45212,7 @@
                 "fmt",
                 "world",
                 "Seal",
-                "assume"
+                "simd"
               ]
             },
             {
@@ -45419,7 +45419,7 @@
             {
               "answer": "Rows",
               "choices": [
-                "MarshalJSON",
+                "jsonv1.OmitEmptyWithLegacySemantics",
                 "Origin",
                 "Rows",
                 "x/sys"
@@ -45540,7 +45540,7 @@
                 "goroutineleakprofile",
                 "func SetRoot(addr unsafe.Pointer) (err Error)",
                 "time.Sleep(1*time.Minute)",
-                "testing.T.Run"
+                "synctest.Subtest"
               ]
             }
           ]
@@ -45593,7 +45593,7 @@
                 "go test -exec=...",
                 "flakytest.Mark",
                 "check",
-                "NewEncoder(AllowInvalidUTF8(false), AllowInvalidUTF8(true))"
+                "Options"
               ]
             },
             {
@@ -45601,7 +45601,7 @@
               "choices": [
                 "cmd/go",
                 "text/template/parse",
-                "NewDecoder",
+                "NewEncoder",
                 "go test -exec=..."
               ]
             }
@@ -46402,7 +46402,7 @@
               "answer": "CutLast",
               "choices": [
                 "CutLast",
-                "wasip1/wasm",
+                "GOOS=js",
                 "#define",
                 "Message"
               ]
@@ -49348,7 +49348,7 @@
               "choices": [
                 "crypto/fips140",
                 "fips140=only",
-                "UnmarshalerFrom",
+                "MarshalerTo",
                 "go 1.22"
               ]
             },
@@ -52542,7 +52542,7 @@
                 "res_init",
                 "buf",
                 "Chtimes",
-                "my_test.go:321"
+                "git"
               ]
             }
           ]
@@ -52903,7 +52903,7 @@
               "choices": [
                 "Foo",
                 "dest",
-                "a6",
+                "TruncateToUint16",
                 "EmptyStruct"
               ]
             },
@@ -55706,7 +55706,7 @@
             {
               "answer": "weak",
               "choices": [
-                "MulEvenWiden",
+                "simd.",
                 "uint",
                 "weak",
                 "unique.Handle"
@@ -56409,7 +56409,7 @@
             {
               "answer": "GOARM",
               "choices": [
-                "sha3.SHA3",
+                "Option1",
                 "GOARM",
                 "i:j:k",
                 "GODEBUG=gctrace=1"
@@ -56464,7 +56464,7 @@
               "answer": "Printf(v)",
               "choices": [
                 "Printf(v)",
-                "UnmarshalJSON",
+                "jsonv1.CallMethodsWithLegacySemantics",
                 "Printf(\"%s\", v)",
                 "JSONResult.Benchmark.T"
               ]
@@ -58128,7 +58128,7 @@
                 "go.mod",
                 "go list",
                 "-json",
-                "std"
+                "x/net/http2"
               ]
             }
           ]
