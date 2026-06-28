@@ -17,19 +17,19 @@ import (
 // DefaultOllamaURL is the local ollama server address.
 const DefaultOllamaURL = "http://localhost:11434"
 
-// Client talks to a local ollama server's /api/chat endpoint.
-type Client struct {
+// OllamaClient talks to a local ollama server's /api/chat endpoint.
+type OllamaClient struct {
 	HTTP  *http.Client
 	URL   string
 	Model string
 }
 
-// NewClient returns a Client for model at url (DefaultOllamaURL if empty).
-func NewClient(url, model string) *Client {
+// NewOllamaClient returns an OllamaClient for model at url (DefaultOllamaURL if empty).
+func NewOllamaClient(url, model string) *OllamaClient {
 	if url == "" {
 		url = DefaultOllamaURL
 	}
-	return &Client{
+	return &OllamaClient{
 		HTTP:  &http.Client{Timeout: 10 * time.Minute},
 		URL:   url,
 		Model: model,
@@ -58,7 +58,7 @@ type chatResponse struct {
 // Generate sends a system and user prompt and returns the assistant's response
 // content. format=json + temperature 0 + a fixed seed make the output strict
 // JSON and as reproducible as the local model allows.
-func (c *Client) Generate(ctx context.Context, system, user string, seed int64) (string, error) {
+func (c *OllamaClient) Generate(ctx context.Context, system, user string, seed int64) (string, error) {
 	if c.Model == "" {
 		return "", fmt.Errorf("llm: model is required")
 	}

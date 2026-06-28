@@ -12,8 +12,8 @@ type roundTripFunc func(*http.Request) (*http.Response, error)
 
 func (f roundTripFunc) RoundTrip(r *http.Request) (*http.Response, error) { return f(r) }
 
-func stubClient(model string, status int, body string) *Client {
-	c := NewClient("http://ollama.test", model)
+func stubClient(model string, status int, body string) *OllamaClient {
+	c := NewOllamaClient("http://ollama.test", model)
 	c.HTTP = &http.Client{Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
 		return &http.Response{
 			StatusCode: status,
@@ -37,7 +37,7 @@ func TestGenerate_ReturnsContent(t *testing.T) {
 }
 
 func TestGenerate_RequiresModel(t *testing.T) {
-	if _, err := NewClient("", "").Generate(context.Background(), "s", "u", 1); err == nil {
+	if _, err := NewOllamaClient("", "").Generate(context.Background(), "s", "u", 1); err == nil {
 		t.Fatal("want error without model")
 	}
 }
