@@ -23,6 +23,7 @@ import (
 	"time"
 
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/blocks"
+	"github.com/fummicc1/go-masked-quiz/quizgen/internal/llm"
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/masker"
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/parser"
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/quiz"
@@ -40,6 +41,11 @@ func main() {
 			fmt.Fprintln(os.Stderr, "quizgen:", err)
 			os.Exit(1)
 		}
+	case "llm-generate":
+		if err := runLLMGenerate(os.Args[2:]); err != nil {
+			fmt.Fprintln(os.Stderr, "quizgen:", err)
+			os.Exit(1)
+		}
 	case "-h", "--help", "help":
 		usage(os.Stdout)
 	default:
@@ -53,10 +59,14 @@ func usage(w *os.File) {
 	fmt.Fprintln(w, `usage: quizgen <subcommand> [flags]
 
 subcommands:
-  generate    Generate quizzes.json from design docs (--source design-docs)
-              or from golang/go proposal issues (--source github-issues)
+  generate      Generate quizzes.json from design docs (--source design-docs)
+                and/or golang/go proposal issues (--source github-issues).
+                Pass --llm-cache <dir> to merge cached LLM quizzes (schema v4).
+  llm-generate  Generate LLM quizzes and cache them on disk (run before
+                "generate --llm-cache"). Provider --provider ollama|workers-ai,
+                requires --model. Use --max-generations to batch within a free tier.
 
-Run "quizgen generate -h" for flag details.`)
+Run "quizgen generate -h" or "quizgen llm-generate -h" for flag details.`)
 }
 
 func runGenerate(args []string) error {
@@ -72,6 +82,7 @@ func runGenerate(args []string) error {
 		choices        = fs.Int("choices", 4, "number of choices per blank")
 		maxProposals   = fs.Int("max-proposals", 0, "max proposals to fetch (github-issues; 0 = no limit)")
 		query          = fs.String("query", "", "issue-search query (github-issues; default: accepted proposals)")
+		llmCache       = fs.String("llm-cache", "", "merge committed LLM quizzes from this dir and emit schema v4 (default: v3, mechanical only)")
 		now            = fs.String("now", "", "fix generated_at to this RFC3339 time (for reproducible/golden output)")
 	)
 	if err := fs.Parse(args); err != nil {
@@ -130,13 +141,20 @@ func runGenerate(args []string) error {
 		return fmt.Errorf("no proposals collected from source(s) %q", *sourceKind)
 	}
 
-	bundle := buildBundle(allItems, srcs, generatedAt, *seed, *maxPerProposal, *maxBlanks, *choices)
+	version := quiz.SchemaVersion
+	if *llmCache != "" {
+		version = quiz.SchemaVersionV4
+	}
+	bundle, notes := buildBundle(allItems, srcs, generatedAt, *seed, *maxPerProposal, *maxBlanks, *choices, version, *llmCache)
 
 	if err := writeJSON(*out, &bundle); err != nil {
 		return err
 	}
-	fmt.Fprintf(os.Stderr, "wrote %d proposal(s) / %d quiz(zes) from %d source(s) to %s\n",
-		len(bundle.Proposals), countQuizzes(&bundle), len(srcs), *out)
+	for _, n := range notes {
+		fmt.Fprintln(os.Stderr, "note:", n)
+	}
+	fmt.Fprintf(os.Stderr, "wrote %d proposal(s) / %d quiz(zes) (v%d) from %d source(s) to %s\n",
+		len(bundle.Proposals), countQuizzes(&bundle), bundle.Version, len(srcs), *out)
 	return nil
 }
 
@@ -164,9 +182,14 @@ func splitSources(s string) ([]string, error) {
 // fields are populated and Sources is omitted (byte-identical to the
 // pre-multi-source output); with several sources, per-source attribution is
 // added in Sources while the legacy fields keep describing the first source.
-func buildBundle(items []genItem, srcs []quiz.Source, generatedAt time.Time, seed int64, maxPerProposal, maxBlanks, nChoices int) quiz.Bundle {
+//
+// When version >= 4, each proposal also carries source metadata, mechanical
+// quizzes are tagged gen_method=mechanical, and — if llmCacheDir is set — each
+// issue's cached LLM summary and quizzes are merged in. It returns notes for
+// missing/stale LLM caches so the caller can surface them.
+func buildBundle(items []genItem, srcs []quiz.Source, generatedAt time.Time, seed int64, maxPerProposal, maxBlanks, nChoices, version int, llmCacheDir string) (quiz.Bundle, []string) {
 	bundle := quiz.Bundle{
-		Version:     quiz.SchemaVersion,
+		Version:     version,
 		GeneratedAt: generatedAt,
 		Proposals:   []quiz.Proposal{},
 	}
@@ -190,26 +213,70 @@ func buildBundle(items []genItem, srcs []quiz.Source, generatedAt time.Time, see
 	}
 	crossProse, crossCode := crossPools(parsed)
 
+	v4 := version >= quiz.SchemaVersionV4
+	var notes []string
+
 	for _, it := range items {
 		quizzes := buildQuizzes(it.p, it.id, seed, maxPerProposal, maxBlanks, nChoices, crossProse, crossCode)
+		p := quiz.Proposal{ID: it.id, Title: it.p.Title, URL: it.url}
+
+		if v4 {
+			p.SourceKind = it.sourceKind
+			p.Status = it.status
+			p.IssueNumber = it.issueNumber
+			for i := range quizzes {
+				quizzes[i].GenMethod = "mechanical"
+			}
+			if llmCacheDir != "" && it.issueNumber > 0 {
+				if note := mergeLLM(&p, &quizzes, it, llmCacheDir); note != "" {
+					notes = append(notes, note)
+				}
+			}
+		}
+
 		if len(quizzes) == 0 {
 			continue
 		}
-		bundle.Proposals = append(bundle.Proposals, quiz.Proposal{
-			ID:      it.id,
-			Title:   it.p.Title,
-			URL:     it.url,
-			Quizzes: quizzes,
-		})
+		p.Quizzes = quizzes
+		bundle.Proposals = append(bundle.Proposals, p)
 	}
-	return bundle
+	return bundle, notes
 }
 
-// genItem is one proposal queued for quiz generation, with its output ID and URL.
+// mergeLLM merges an issue's cached LLM summary and quizzes into p/quizzes,
+// continuing the quiz numbering after the mechanical quizzes. It returns a note
+// when the cache errors or is stale (so the caller can report it); a missing
+// cache is silent (mechanical-only is a valid state).
+func mergeLLM(p *quiz.Proposal, quizzes *[]quiz.Quiz, it genItem, cacheDir string) string {
+	entry, err := llm.Load(cacheDir, it.issueNumber)
+	if err != nil {
+		return fmt.Sprintf("%s: LLM cache load error: %v", it.id, err)
+	}
+	if entry == nil {
+		return ""
+	}
+	if !entry.MatchesBody(string(it.p.Source)) {
+		return fmt.Sprintf("%s: LLM cache stale (issue body changed) — rerun `quizgen llm-generate`", it.id)
+	}
+	p.Summary = entry.Summary
+	mech := len(*quizzes)
+	for i, lq := range entry.Quizzes {
+		lq.Index = mech + i
+		lq.ID = fmt.Sprintf("%s-q%02d", it.id, mech+i+1)
+		*quizzes = append(*quizzes, lq)
+	}
+	return ""
+}
+
+// genItem is one proposal queued for quiz generation, with its output ID, URL,
+// and (for v4) per-proposal source metadata.
 type genItem struct {
-	p   *parser.Proposal
-	id  string
-	url string
+	p           *parser.Proposal
+	id          string
+	url         string
+	sourceKind  string // "design-docs" | "github-issues"
+	status      string // issues only: "accepted" | "active"
+	issueNumber int    // issues only
 }
 
 // collectDesignDocs loads every design/*.md under dir (the original source).
@@ -238,9 +305,10 @@ func collectDesignDocs(dir string) ([]genItem, error) {
 			return nil, err
 		}
 		items = append(items, genItem{
-			p:   p,
-			id:  "design-" + p.Slug,
-			url: "https://github.com/golang/proposal/blob/master/design/" + filepath.Base(f),
+			p:          p,
+			id:         "design-" + p.Slug,
+			url:        "https://github.com/golang/proposal/blob/master/design/" + filepath.Base(f),
+			sourceKind: "design-docs",
 		})
 	}
 	return items, nil
@@ -264,9 +332,132 @@ func collectIssues(query string, max int) ([]genItem, error) {
 	}
 	items := make([]genItem, 0, len(proposals))
 	for _, pr := range proposals {
-		items = append(items, genItem{p: pr.Parsed, id: pr.Slug, url: pr.URL})
+		items = append(items, genItem{
+			p:           pr.Parsed,
+			id:          pr.Slug,
+			url:         pr.URL,
+			sourceKind:  "github-issues",
+			status:      pr.Status,
+			issueNumber: pr.Number,
+		})
 	}
 	return items, nil
+}
+
+// runLLMGenerate generates LLM quizzes for golang/go issues via a local ollama
+// server and caches the validated results on disk (to be committed). It is run
+// locally and on demand — never in CI. "generate --llm-cache" later merges the
+// cache; CI never calls a model.
+func runLLMGenerate(args []string) error {
+	fs := flag.NewFlagSet("llm-generate", flag.ContinueOnError)
+	var (
+		provider     = fs.String("provider", "ollama", "model provider: ollama | workers-ai")
+		model        = fs.String("model", "", "model name (required); e.g. qwen2.5-coder:7b (ollama) or @cf/meta/llama-3.3-70b-instruct-fp8-fast (workers-ai)")
+		ollamaURL    = fs.String("ollama-url", llm.DefaultOllamaURL, "ollama server URL (provider=ollama)")
+		cfAccountID  = fs.String("cf-account-id", "", "Cloudflare account ID (provider=workers-ai; or env CLOUDFLARE_ACCOUNT_ID)")
+		query        = fs.String("query", "", "issue-search query (default: accepted proposals)")
+		maxProposals = fs.Int("max-proposals", 0, "max issues to consider (0 = no limit)")
+		maxGen       = fs.Int("max-generations", 0, "stop after this many new generations (0 = no cap; use to stay within a daily free tier)")
+		cacheDir     = fs.String("cache-dir", "cache/llm", "directory for committed LLM cache JSON")
+		maxQuizzes   = fs.Int("max-quizzes", 5, "max LLM quizzes to request per proposal")
+		maxBlanks    = fs.Int("max-blanks-per-quiz", 1, "max blanks per LLM quiz")
+		choices      = fs.Int("choices", 4, "number of choices per blank")
+		seed         = fs.Int64("seed", 42, "deterministic RNG seed for choices")
+		force        = fs.Bool("force", false, "regenerate even if a fresh cache entry exists")
+	)
+	if err := fs.Parse(args); err != nil {
+		return err
+	}
+	if *model == "" {
+		return fmt.Errorf("--model is required")
+	}
+
+	gen, err := newGenerator(*provider, *model, *ollamaURL, *cfAccountID)
+	if err != nil {
+		return err
+	}
+
+	items, err := collectIssues(*query, *maxProposals)
+	if err != nil {
+		return err
+	}
+	ctx := context.Background()
+
+	var generated, upToDate, failed int
+	for _, it := range items {
+		if it.issueNumber == 0 {
+			continue
+		}
+		body := string(it.p.Source)
+		if !*force {
+			if e, err := llm.Load(*cacheDir, it.issueNumber); err == nil && e.Fresh(body, *model) {
+				upToDate++
+				continue
+			}
+		}
+		if *maxGen > 0 && generated >= *maxGen {
+			fmt.Fprintf(os.Stderr, "reached --max-generations=%d; rerun to continue\n", *maxGen)
+			break
+		}
+		content, err := gen.Generate(ctx, llm.SystemPrompt(*maxBlanks), llm.UserPrompt(it.p.Title, body, *maxQuizzes), *seed)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%s: generate failed: %v\n", it.id, err)
+			failed++
+			continue
+		}
+		res, dropped, err := llm.Build(content, body, it.id, *seed, *choices, *maxBlanks)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%s: invalid model output: %v\n", it.id, err)
+			failed++
+			continue
+		}
+		for _, d := range dropped {
+			fmt.Fprintf(os.Stderr, "%s: dropped %s\n", it.id, d)
+		}
+		if err := llm.Save(*cacheDir, &llm.Entry{
+			IssueNumber:   it.issueNumber,
+			BodyHash:      llm.BodyHash(body),
+			Model:         *model,
+			PromptVersion: llm.PromptVersion,
+			Summary:       res.Summary,
+			Quizzes:       res.Quizzes,
+		}); err != nil {
+			return fmt.Errorf("%s: save cache: %w", it.id, err)
+		}
+		generated++
+		fmt.Fprintf(os.Stderr, "%s: %d quiz(zes) cached\n", it.id, len(res.Quizzes))
+	}
+	fmt.Fprintf(os.Stderr, "llm-generate: %d generated, %d up-to-date, %d failed (cache: %s)\n",
+		generated, upToDate, failed, *cacheDir)
+	if failed > 0 {
+		return fmt.Errorf("%d proposal(s) failed", failed)
+	}
+	return nil
+}
+
+// newGenerator builds the LLM generator for the chosen provider. workers-ai
+// reads its token from the CLOUDFLARE_API_TOKEN environment variable (never a
+// flag) and its account ID from --cf-account-id or CLOUDFLARE_ACCOUNT_ID.
+func newGenerator(provider, model, ollamaURL, cfAccountID string) (llm.Generator, error) {
+	switch provider {
+	case "ollama":
+		return llm.NewOllamaClient(ollamaURL, model), nil
+	case "workers-ai":
+		acct := cfAccountID
+		if acct == "" {
+			acct = os.Getenv("CLOUDFLARE_ACCOUNT_ID")
+		}
+		if acct == "" {
+			return nil, fmt.Errorf("provider workers-ai requires --cf-account-id or CLOUDFLARE_ACCOUNT_ID")
+		}
+		token := os.Getenv("CLOUDFLARE_API_TOKEN")
+		if token == "" {
+			return nil, fmt.Errorf("provider workers-ai requires the CLOUDFLARE_API_TOKEN environment variable")
+		}
+		return llm.NewOpenAIClient(llm.WorkersAIBaseURL(acct), token, model), nil
+	default:
+		return nil, fmt.Errorf("--provider %q: want ollama or workers-ai", provider)
+	}
 }
 
 // buildQuizzes produces one quiz per unit (prose paragraphs, then code blocks)
