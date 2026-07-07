@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generated_at": "2026-07-06T02:53:08.962980528Z",
+  "generated_at": "2026-07-07T02:47:33.496242296Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "58e952a6dd29795163bdff3de8b2d77329ff995b",
@@ -26624,6 +26624,328 @@
       ]
     },
     {
+      "id": "issue-79936",
+      "title": "net/http: add Server.MaxHeaderValueCount [freeze exception]",
+      "url": "https://github.com/golang/go/issues/79936",
+      "quizzes": [
+        {
+          "id": "issue-79936-q01",
+          "kind": "prose",
+          "index": 0,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Currently, users of "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " servers can only indirectly control the number of headers that they are willing to accept by configuring net/http.Server.MaxHeaderBytes. For most use cases, this is enough."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "net/http",
+              "choices": [
+                "MaxHeaderBytes",
+                "net/http",
+                "MaxHeaderNameCount",
+                "GODEBUG"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-79936-q02",
+          "kind": "prose",
+          "index": 1,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "While our "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " HTTP/2 server implementation is not susceptible to this specific attack (we assume 32 bytes of overhead for each header value that is counted against "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": "), this leaves users who want to defend against such DoS mechanism in a weird spot should they need to support large headers too (e.g., SSO cookies). Setting "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " too large risks making their server more susceptible to DoS, but setting it too small risks breaking proper usage."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "net/http",
+              "choices": [
+                "net/http",
+                "MaxHeaderNameCount",
+                "MaxHeaderValueCount",
+                "GODEBUG"
+              ]
+            },
+            {
+              "answer": "MaxHeaderBytes",
+              "choices": [
+                "MaxHeaderValueCount",
+                "MaxHeaderNameCount",
+                "MaxHeaderBytes",
+                "DefaultMaxHeaderBytes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-79936-q03",
+          "kind": "prose",
+          "index": 2,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Having an additional "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " knob would allow such users to support their use cases for large headers without unnecessarily making their Server more prone to DoS (it would also help mitigate the issue that often stems from our ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " being rather large). "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " is chosen rather than "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " to account for attackers potentially sending a one header with a large amount of empty values."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "MaxHeaderValueCount",
+              "choices": [
+                "MaxHeaderBytes",
+                "net/http",
+                "MaxHeaderValueCount",
+                "net/http.Server.MaxHeaderValueCount"
+              ]
+            },
+            {
+              "answer": "DefaultMaxHeaderBytes",
+              "choices": [
+                "net/http",
+                "MaxHeaderBytes",
+                "GODEBUG=httpmaxheadervalues=N",
+                "DefaultMaxHeaderBytes"
+              ]
+            },
+            {
+              "answer": "MaxHeaderNameCount",
+              "choices": [
+                "GODEBUG",
+                "net/http",
+                "MaxHeaderBytes",
+                "MaxHeaderNameCount"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-79936-q04",
+          "kind": "prose",
+          "index": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "As we are already in a freeze, the earliest "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " can be added would be in Go 1.28. To give users the ability to protect themselves from such DoS techniques in the meantime, I additionally propose that we add "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " option (#80020)."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "net/http.Server.MaxHeaderValueCount",
+              "choices": [
+                "MaxHeaderValueCount",
+                "net/http.Server.MaxHeaderCount",
+                "MaxHeaderNameCount",
+                "net/http.Server.MaxHeaderValueCount"
+              ]
+            },
+            {
+              "answer": "GODEBUG=httpmaxheadervalues=N",
+              "choices": [
+                "MaxHeaderValueCount",
+                "MaxHeaderBytes",
+                "GODEBUG=httpmaxheadervalues=N",
+                "DefaultMaxHeaderBytes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-79936-q05",
+          "kind": "prose",
+          "index": 4,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " option will set the default value, which can be overridden by explicitly setting "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " in (hopefully) Go 1.28+."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "GODEBUG",
+              "choices": [
+                "GODEBUG",
+                "MaxHeaderBytes",
+                "net/http",
+                "MaxHeaderNameCount"
+              ]
+            },
+            {
+              "answer": "net/http.Server.MaxHeaderCount",
+              "choices": [
+                "net/http.Server.MaxHeaderValueCount",
+                "DefaultMaxHeaderBytes",
+                "MaxHeaderValueCount",
+                "net/http.Server.MaxHeaderCount"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-79936-q06",
+          "kind": "code",
+          "index": 5,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "package "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": "\n\n// DefaultMaxHeaderValueCount is the maximum permitted number of \n// header values in an HTTP request.\n// This can be overriden by setting [Server.MaxHeaderValueCount]\nconst "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " = 500\n\ntype "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " struct {\n  // Other fields omitted...\n\n  // MaxHeaderValueCount controls the maximum number of header\n  // values that the server is willing to parse from a request.\n  // If zero, DefaultMaxHeaderValueCount is used.\n  MaxHeaderValueCount int\n}\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "http",
+              "choices": [
+                "version",
+                "int",
+                "http",
+                "MaxHeaderValueCount"
+              ]
+            },
+            {
+              "answer": "DefaultMaxHeaderValueCount",
+              "choices": [
+                "DefaultMaxHeaderValueCount",
+                "int",
+                "seqA",
+                "MaxHeaderValueCount"
+              ]
+            },
+            {
+              "answer": "Server",
+              "choices": [
+                "int",
+                "Server",
+                "MaxHeaderValueCount",
+                "true"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "issue-55356",
       "title": "archive/tar, archive/zip: add ErrInsecurePath",
       "url": "https://github.com/golang/go/issues/55356",
@@ -26940,328 +27262,6 @@
                 "-static",
                 "go:wasmimport,",
                 "go build"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-79936",
-      "title": "net/http: add Server.MaxHeaderValueCount [freeze exception]",
-      "url": "https://github.com/golang/go/issues/79936",
-      "quizzes": [
-        {
-          "id": "issue-79936-q01",
-          "kind": "prose",
-          "index": 0,
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Currently, users of "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " servers can only indirectly control the number of headers that they are willing to accept by configuring net/http.Server.MaxHeaderBytes. For most use cases, this is enough."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "net/http",
-              "choices": [
-                "MaxHeaderBytes",
-                "net/http",
-                "MaxHeaderNameCount",
-                "GODEBUG"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-79936-q02",
-          "kind": "prose",
-          "index": 1,
-          "blocks": [
-            {
-              "type": "text",
-              "value": "While our "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " HTTP/2 server implementation is not susceptible to this specific attack (we assume 32 bytes of overhead for each header value that is counted against "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": "), this leaves users who want to defend against such DoS mechanism in a weird spot should they need to support large headers too (e.g., SSO cookies). Setting "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " too large risks making their server more susceptible to DoS, but setting it too small risks breaking proper usage."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "net/http",
-              "choices": [
-                "net/http",
-                "MaxHeaderNameCount",
-                "MaxHeaderValueCount",
-                "GODEBUG"
-              ]
-            },
-            {
-              "answer": "MaxHeaderBytes",
-              "choices": [
-                "MaxHeaderValueCount",
-                "MaxHeaderNameCount",
-                "MaxHeaderBytes",
-                "DefaultMaxHeaderBytes"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-79936-q03",
-          "kind": "prose",
-          "index": 2,
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Having an additional "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " knob would allow such users to support their use cases for large headers without unnecessarily making their Server more prone to DoS (it would also help mitigate the issue that often stems from our ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " being rather large). "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " is chosen rather than "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " to account for attackers potentially sending a one header with a large amount of empty values."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "MaxHeaderValueCount",
-              "choices": [
-                "MaxHeaderBytes",
-                "net/http",
-                "MaxHeaderValueCount",
-                "net/http.Server.MaxHeaderValueCount"
-              ]
-            },
-            {
-              "answer": "DefaultMaxHeaderBytes",
-              "choices": [
-                "net/http",
-                "MaxHeaderBytes",
-                "GODEBUG=httpmaxheadervalues=N",
-                "DefaultMaxHeaderBytes"
-              ]
-            },
-            {
-              "answer": "MaxHeaderNameCount",
-              "choices": [
-                "GODEBUG",
-                "net/http",
-                "MaxHeaderBytes",
-                "MaxHeaderNameCount"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-79936-q04",
-          "kind": "prose",
-          "index": 3,
-          "blocks": [
-            {
-              "type": "text",
-              "value": "As we are already in a freeze, the earliest "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " can be added would be in Go 1.28. To give users the ability to protect themselves from such DoS techniques in the meantime, I additionally propose that we add "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " option (#80020)."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "net/http.Server.MaxHeaderValueCount",
-              "choices": [
-                "MaxHeaderValueCount",
-                "net/http.Server.MaxHeaderCount",
-                "MaxHeaderNameCount",
-                "net/http.Server.MaxHeaderValueCount"
-              ]
-            },
-            {
-              "answer": "GODEBUG=httpmaxheadervalues=N",
-              "choices": [
-                "MaxHeaderValueCount",
-                "MaxHeaderBytes",
-                "GODEBUG=httpmaxheadervalues=N",
-                "DefaultMaxHeaderBytes"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-79936-q05",
-          "kind": "prose",
-          "index": 4,
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " option will set the default value, which can be overridden by explicitly setting "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " in (hopefully) Go 1.28+."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "GODEBUG",
-              "choices": [
-                "GODEBUG",
-                "MaxHeaderBytes",
-                "net/http",
-                "MaxHeaderNameCount"
-              ]
-            },
-            {
-              "answer": "net/http.Server.MaxHeaderCount",
-              "choices": [
-                "net/http.Server.MaxHeaderValueCount",
-                "DefaultMaxHeaderBytes",
-                "MaxHeaderValueCount",
-                "net/http.Server.MaxHeaderCount"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-79936-q06",
-          "kind": "code",
-          "index": 5,
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "package "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "\n\n// DefaultMaxHeaderValueCount is the maximum permitted number of \n// header values in an HTTP request.\n// This can be overriden by setting [Server.MaxHeaderValueCount]\nconst "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " = 500\n\ntype "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": " struct {\n  // Other fields omitted...\n\n  // MaxHeaderValueCount controls the maximum number of header\n  // values that the server is willing to parse from a request.\n  // If zero, DefaultMaxHeaderValueCount is used.\n  MaxHeaderValueCount int\n}\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "http",
-              "choices": [
-                "version",
-                "int",
-                "http",
-                "MaxHeaderValueCount"
-              ]
-            },
-            {
-              "answer": "DefaultMaxHeaderValueCount",
-              "choices": [
-                "DefaultMaxHeaderValueCount",
-                "int",
-                "seqA",
-                "MaxHeaderValueCount"
-              ]
-            },
-            {
-              "answer": "Server",
-              "choices": [
-                "int",
-                "Server",
-                "MaxHeaderValueCount",
-                "true"
               ]
             }
           ]
@@ -28504,7 +28504,7 @@
             {
               "answer": "nhooyr.io/websocket",
               "choices": [
-                "GODEBUG=httpmaxheadervalues=N",
+                "-static",
                 "nhooyr.io/websocket",
                 "./mod",
                 "Record.Attrs"
@@ -44796,7 +44796,7 @@
                 "debug.SetGCPercent",
                 "runtime/debug.BuildSetting",
                 "go version -m",
-                "ErrInsecurePath"
+                "net/http.Server.MaxHeaderCount"
               ]
             }
           ]
@@ -53737,7 +53737,7 @@
             {
               "answer": "libc::res_init",
               "choices": [
-                "*tar.Header",
+                "net/http.Server.MaxHeaderValueCount",
                 "funcs template.FuncMap",
                 "Keys(map[K]V) []K",
                 "libc::res_init"
