@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generated_at": "2026-07-07T02:47:33.496242296Z",
+  "generated_at": "2026-07-08T02:25:33.477205418Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "58e952a6dd29795163bdff3de8b2d77329ff995b",
@@ -51,7 +51,7 @@
               "choices": [
                 "go.shape.string_0",
                 "const",
-                "gotypesalias",
+                "netdns",
                 "[security]"
               ]
             }
@@ -2822,7 +2822,7 @@
                 "len(x)",
                 "ReadMemStats",
                 "runtime/debug.WriteHeapDump",
-                "panic(nil)"
+                "panicnil"
               ]
             }
           ]
@@ -6947,7 +6947,7 @@
               "answer": "RawXML",
               "choices": [
                 "GetIfTable2Ex",
-                "simd",
+                "CloneXOF",
                 "RawXML",
                 "Array"
               ]
@@ -6965,7 +6965,7 @@
               "answer": "Copy",
               "choices": [
                 "Copy",
-                "UnmarshalFromFunc",
+                "JoinUnmarshalers",
                 "number",
                 "MarshalPrivateKeyOptions"
               ]
@@ -14439,7 +14439,7 @@
               "answer": "amount",
               "choices": [
                 "true",
-                "MarshalWrite",
+                "pc",
                 "NewReaderSize",
                 "amount"
               ]
@@ -14449,7 +14449,7 @@
               "choices": [
                 "log",
                 "int",
-                "a5",
+                "a2",
                 "File"
               ]
             }
@@ -16379,7 +16379,7 @@
               "choices": [
                 "SetMemoryLimit",
                 "debug",
-                "a4",
+                "a1",
                 "limit"
               ]
             },
@@ -24322,7 +24322,7 @@
             {
               "answer": "syscall",
               "choices": [
-                "jsontext.AllowInvalidUTF8",
+                "jsontext.EscapeForJS",
                 "Int.SetString",
                 "syscall",
                 "//line"
@@ -26532,98 +26532,6 @@
       ]
     },
     {
-      "id": "issue-62244",
-      "title": "cmd/go: add support for dealing with flaky tests",
-      "url": "https://github.com/golang/go/issues/62244",
-      "quizzes": [
-        {
-          "id": "issue-62244-q01",
-          "kind": "prose",
-          "index": 0,
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Tailscale has its own test wrapper that retries tests [annotated with "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " as flaky. We can't use "
-            },
-            {
-              "type": "inline_code",
-              "value": "go test -exec=..."
-            },
-            {
-              "type": "text",
-              "value": " unfortunately, as that prevents caching (https://github.com/golang/go/issues/27207). So instead we need a separate tool wraps "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " (kinda awkwardly, as it turns out)."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "flakytest.Mark",
-              "choices": [
-                "-mod=readonly",
-                "flakytest.Mark",
-                "(int)",
-                "go test -exec=..."
-              ]
-            },
-            {
-              "answer": "cmd/go",
-              "choices": [
-                "typeparams.StructuralTerms",
-                "go test -exec=...",
-                "cmd/go",
-                "go get example.com/m@master"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-62244-q02",
-          "kind": "prose",
-          "index": 1,
-          "blocks": [
-            {
-              "type": "text",
-              "value": "So, clearly flaky tests are a problem. And "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " isn't helping."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "cmd/go",
-              "choices": [
-                "-testtimeout",
-                "cmd/go",
-                "go test -exec=...",
-                "flakytest.Mark"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-79936",
       "title": "net/http: add Server.MaxHeaderValueCount [freeze exception]",
       "url": "https://github.com/golang/go/issues/79936",
@@ -26939,6 +26847,207 @@
                 "Server",
                 "MaxHeaderValueCount",
                 "true"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-70638",
+      "title": "go/types: add Info.ImplicitConversions mapping",
+      "url": "https://github.com/golang/go/issues/70638",
+      "quizzes": [
+        {
+          "id": "issue-70638-q01",
+          "kind": "prose",
+          "index": 0,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "**Proposal:** We add a new field to "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " to record all implicit conversions."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "types.Info",
+              "choices": [
+                "1.",
+                "go get git.mycompany.com/private-repo",
+                "heapArenas",
+                "types.Info"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-70638-q02",
+          "kind": "code",
+          "index": 1,
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "package types\n\ntype "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " struct {\n    // ImplicitConversions records, for an expression appearing in (say) an assignment\n    // context, any implicit conversion applied to it.\n    ImplicitConversions map[ast.Expr]"
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "\n}\n\ntype "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " struct {\n    // From records the original type of the expression, and To records the type of the \"hole\".\n    // (For historical reasons [1], 'from' is not necessarily the same as the type recorded\n    // Info.Types for the expression: the latter includes untyped-to-typed conversions.)\n    "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ", To types.Type\n}\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "Info",
+              "choices": [
+                "Info",
+                "ast",
+                "To",
+                "Expr"
+              ]
+            },
+            {
+              "answer": "ImplicitConversion",
+              "choices": [
+                "ImplicitConversion",
+                "types",
+                "ImplicitConversions",
+                "Expr"
+              ]
+            },
+            {
+              "answer": "From",
+              "choices": [
+                "To",
+                "ast",
+                "Expr",
+                "From"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-62244",
+      "title": "cmd/go: add support for dealing with flaky tests",
+      "url": "https://github.com/golang/go/issues/62244",
+      "quizzes": [
+        {
+          "id": "issue-62244-q01",
+          "kind": "prose",
+          "index": 0,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Tailscale has its own test wrapper that retries tests [annotated with "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " as flaky. We can't use "
+            },
+            {
+              "type": "inline_code",
+              "value": "go test -exec=..."
+            },
+            {
+              "type": "text",
+              "value": " unfortunately, as that prevents caching (https://github.com/golang/go/issues/27207). So instead we need a separate tool wraps "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " (kinda awkwardly, as it turns out)."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "flakytest.Mark",
+              "choices": [
+                "-mod=readonly",
+                "flakytest.Mark",
+                "(int)",
+                "go test -exec=..."
+              ]
+            },
+            {
+              "answer": "cmd/go",
+              "choices": [
+                "typeparams.StructuralTerms",
+                "go test -exec=...",
+                "cmd/go",
+                "go get example.com/m@master"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-62244-q02",
+          "kind": "prose",
+          "index": 1,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "So, clearly flaky tests are a problem. And "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " isn't helping."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "cmd/go",
+              "choices": [
+                "-testtimeout",
+                "cmd/go",
+                "go test -exec=...",
+                "flakytest.Mark"
               ]
             }
           ]
@@ -27452,7 +27561,7 @@
             {
               "answer": "Clone",
               "choices": [
-                "Subtest",
+                "jsonv2",
                 "CloneXOF",
                 "Clone",
                 "XOF"
@@ -27519,7 +27628,7 @@
                 "XOF",
                 "Clone",
                 "CloneXOF",
-                "doc"
+                "Capabilities"
               ]
             },
             {
@@ -28459,7 +28568,7 @@
               "choices": [
                 "_Gscan",
                 "nhooyr.io/websocket/mod",
-                "*jsontext.Decoder",
+                "*jsontext.Encoder",
                 "nhooyr.io/websocket"
               ]
             }
@@ -28504,7 +28613,7 @@
             {
               "answer": "nhooyr.io/websocket",
               "choices": [
-                "-static",
+                "COM1",
                 "nhooyr.io/websocket",
                 "./mod",
                 "Record.Attrs"
@@ -28635,7 +28744,7 @@
               "answer": "time.Time",
               "choices": [
                 "box",
-                "MyPtr",
+                "[]MyPtr",
                 "time.Time",
                 "func (N[int]) m()"
               ]
@@ -32974,7 +33083,7 @@
               "answer": "synctest.Test",
               "choices": [
                 "synctest.Subtest",
-                "hstore",
+                "json",
                 "16x12ab",
                 "synctest.Test"
               ]
@@ -33276,7 +33385,7 @@
             {
               "answer": "ReadFile",
               "choices": [
-                "MarshalToFunc",
+                "UnmarshalJSONFrom",
                 "ReadFile",
                 "os.ReadFile",
                 "os.WriteFile"
@@ -34364,7 +34473,7 @@
               "choices": [
                 "mistake",
                 "ClientConn",
-                "ParseBytesWithLooseRFC4648",
+                "MatchCaseSensitiveDelimiter",
                 "int"
               ]
             }
@@ -34508,7 +34617,7 @@
             {
               "answer": "Int",
               "choices": [
-                "FormatDurationAsNano",
+                "CallMethodsWithLegacySemantics",
                 "Int",
                 "Rand",
                 "feature"
@@ -34518,7 +34627,7 @@
               "answer": "intType",
               "choices": [
                 "html",
-                "a5",
+                "a2",
                 "intType",
                 "Rand"
               ]
@@ -34580,9 +34689,9 @@
               "answer": "Rand",
               "choices": [
                 "MLKEM768",
-                "MulEvenWiden",
+                "RotateLeftConst",
                 "Rand",
-                "sk"
+                "SignatureSize"
               ]
             },
             {
@@ -34599,8 +34708,8 @@
               "choices": [
                 "ek",
                 "intType",
-                "consTypeParamLists",
-                "wg"
+                "iov",
+                "MaxBytes"
               ]
             }
           ]
@@ -36042,115 +36151,6 @@
                 "sync",
                 "Wait",
                 "task"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-70638",
-      "title": "go/types: add Info.ImplicitConversions mapping",
-      "url": "https://github.com/golang/go/issues/70638",
-      "quizzes": [
-        {
-          "id": "issue-70638-q01",
-          "kind": "prose",
-          "index": 0,
-          "blocks": [
-            {
-              "type": "text",
-              "value": "**Proposal:** We add a new field to "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " to record all implicit conversions."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "types.Info",
-              "choices": [
-                "1.",
-                "go get git.mycompany.com/private-repo",
-                "heapArenas",
-                "types.Info"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-70638-q02",
-          "kind": "code",
-          "index": 1,
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "package types\n\ntype "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " struct {\n    // ImplicitConversions records, for an expression appearing in (say) an assignment\n    // context, any implicit conversion applied to it.\n    ImplicitConversions map[ast.Expr]"
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "\n}\n\ntype "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " struct {\n    // From records the original type of the expression, and To records the type of the \"hole\".\n    // (For historical reasons [1], 'from' is not necessarily the same as the type recorded\n    // Info.Types for the expression: the latter includes untyped-to-typed conversions.)\n    "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": ", To types.Type\n}\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "Info",
-              "choices": [
-                "Info",
-                "ast",
-                "To",
-                "Expr"
-              ]
-            },
-            {
-              "answer": "ImplicitConversion",
-              "choices": [
-                "ImplicitConversion",
-                "types",
-                "ImplicitConversions",
-                "Expr"
-              ]
-            },
-            {
-              "answer": "From",
-              "choices": [
-                "To",
-                "ast",
-                "Expr",
-                "From"
               ]
             }
           ]
@@ -38006,7 +38006,7 @@
                 "string",
                 "Fatal",
                 "any",
-                "FileMode"
+                "ReadFile"
               ]
             }
           ]
@@ -38081,7 +38081,7 @@
             {
               "answer": "int",
               "choices": [
-                "RotateLeftConst",
+                "ShiftLeft",
                 "SelectionKind",
                 "int",
                 "gender"
@@ -38102,7 +38102,7 @@
                 "SettingNoRFC7540Priorities",
                 "any",
                 "Value",
-                "OutputOffset"
+                "AppendFloat"
               ]
             }
           ]
@@ -39341,7 +39341,7 @@
                 "Test",
                 "Messages",
                 "coderepo",
-                "wg"
+                "MaxBytes"
               ]
             },
             {
@@ -39952,7 +39952,7 @@
                 "AuthCallback",
                 "...",
                 "ClientConfig.Auth",
-                "Add[T Vec](T, T) T"
+                "AddUint32x4"
               ]
             }
           ]
@@ -40012,7 +40012,7 @@
                 "ClientConfig.Auth",
                 "none",
                 "AuthCallback",
-                "f1(j, i)"
+                "f1(i, j)"
               ]
             }
           ]
@@ -40080,7 +40080,7 @@
             {
               "answer": "slog.Handler",
               "choices": [
-                "ProcThreadAttribute",
+                "os/exec.Cmd",
                 "slog.Handler",
                 "github.com",
                 "transform.Slice(int, string)"
@@ -40472,7 +40472,7 @@
                 "../../../etc/passwd",
                 "tlssha1=1",
                 "F(int)(1)",
-                "UnmarshalJSONFrom"
+                "MarshalJSONTo"
               ]
             }
           ]
@@ -42099,7 +42099,7 @@
                 "syscall.RunOnMainThread",
                 "runtime.RunOnMainThread",
                 "/etc/resolv.conf",
-                "fd"
+                "github.com/landlock-lsm/go-landlock"
               ]
             },
             {
@@ -42223,7 +42223,7 @@
             {
               "answer": "parser.ParseDir()",
               "choices": [
-                "MyPtr",
+                "[]MyPtr",
                 "GOGC=10",
                 "runtime.freegcSlice",
                 "parser.ParseDir()"
@@ -42705,7 +42705,7 @@
               "answer": "x509.SetFallbackRoots",
               "choices": [
                 "AnyString",
-                "WithIndent",
+                "Multiline",
                 "testing.PB.Next",
                 "x509.SetFallbackRoots"
               ]
@@ -44633,7 +44633,7 @@
                 "go.mod",
                 "go.sum",
                 "GoMod string",
-                "Or"
+                "And"
               ]
             }
           ]
@@ -44796,7 +44796,7 @@
                 "debug.SetGCPercent",
                 "runtime/debug.BuildSetting",
                 "go version -m",
-                "net/http.Server.MaxHeaderCount"
+                "flakytest.Mark"
               ]
             }
           ]
@@ -45036,7 +45036,7 @@
               "choices": [
                 "Error",
                 "Next",
-                "hash",
+                "types",
                 "ServerAuthCallbacks"
               ]
             },
@@ -45393,7 +45393,7 @@
               "answer": "Protocol",
               "choices": [
                 "Protocol",
-                "UnmarshalFromFunc",
+                "MarshalToFunc",
                 "req.Protocol",
                 "HACK-HTTP2-Protocol"
               ]
@@ -46707,10 +46707,10 @@
             {
               "answer": "Printf",
               "choices": [
-                "EndObject",
+                "Null",
                 "DHKEM",
                 "Printf",
-                "XOF"
+                "ImplicitConversion"
               ]
             }
           ]
@@ -47017,10 +47017,10 @@
             {
               "answer": "GOEXPERIMENT",
               "choices": [
-                "GODEBUG=deprecatedgodebug=0",
+                "testing.Setenv",
                 "2^48 bytes / (512 * 8 KiB)",
                 "GOEXPERIMENT",
-                "MulEvenWiden"
+                "simd."
               ]
             },
             {
@@ -47661,8 +47661,8 @@
               "choices": [
                 "ceil(log62(2^128))",
                 "x/sys",
-                "x[i]",
-                "GOARCH=wasm"
+                "rand.Rand.N",
+                "my_test.go:321"
               ]
             }
           ]
@@ -48061,7 +48061,7 @@
               "choices": [
                 "NewSenderWithPSK",
                 "NewRecipientWithPSK",
-                "Options",
+                "NewDecoder",
                 "AES128GCM().ID()"
               ]
             }
@@ -49506,7 +49506,7 @@
                 "memzero_explicit",
                 "runtime.Frames",
                 "-json",
-                "interface { Clone() Hash }"
+                "hash.Clone"
               ]
             }
           ]
@@ -50171,7 +50171,7 @@
               "answer": "LookupFieldOrMethod",
               "choices": [
                 "Select",
-                "simd/archsimd",
+                "dev.simd",
                 "RLock()",
                 "LookupFieldOrMethod"
               ]
@@ -51022,7 +51022,7 @@
                 "tool",
                 "./...",
                 "cmd",
-                "Vec4[T]"
+                "MulEvenWiden"
               ]
             }
           ]
@@ -52302,7 +52302,7 @@
               "answer": "time.Time",
               "choices": [
                 "time.Time",
-                "rand.Rand.N",
+                "math/rand/v2",
                 "Value",
                 "contracts"
               ]
@@ -53022,9 +53022,9 @@
             {
               "answer": "requestTooLarge",
               "choices": [
-                "Float64x8",
+                "a5",
                 "requestTooLarge",
-                "rawToken",
+                "KindBeginArray",
                 "requestTooLarger"
               ]
             },
@@ -53034,7 +53034,7 @@
                 "res",
                 "Fatalf",
                 "requestTooLarger",
-                "ParseTimeWithLooseRFC3339"
+                "MergeWithLegacySemantics"
               ]
             },
             {
@@ -53158,7 +53158,7 @@
               "choices": [
                 "Cash",
                 "Clone",
-                "Mask32x4FromBits",
+                "And",
                 "ShardInfo"
               ]
             },
@@ -53737,7 +53737,7 @@
             {
               "answer": "libc::res_init",
               "choices": [
-                "net/http.Server.MaxHeaderValueCount",
+                "net/http.Server.MaxHeaderCount",
                 "funcs template.FuncMap",
                 "Keys(map[K]V) []K",
                 "libc::res_init"
@@ -55277,7 +55277,7 @@
             {
               "answer": "op",
               "choices": [
-                "OnesCount",
+                "RotateRightConst",
                 "testing",
                 "op",
                 "Benchmark"
@@ -55325,7 +55325,7 @@
               "choices": [
                 "et",
                 "Benchmark",
-                "ProcThreadAttribute",
+                "FileMode",
                 "op"
               ]
             },
@@ -55398,16 +55398,16 @@
               "choices": [
                 "Sign",
                 "op",
-                "a1",
+                "Reset",
                 "testing"
               ]
             },
             {
               "answer": "Loop",
               "choices": [
-                "bits",
+                "AppendQuote",
                 "Loop",
-                "OmitZeroStructFields",
+                "FormatNilSliceAsNull",
                 "op"
               ]
             }
@@ -57491,7 +57491,7 @@
             {
               "answer": "synctest.Wait",
               "choices": [
-                "SemanticError",
+                "jsontext.Decoder",
                 "goinstall",
                 "synctest.Wait",
                 "CAS"
@@ -57932,7 +57932,7 @@
                 "percpu.Sharded",
                 "End",
                 "go/scanner",
-                "MarshalEncode"
+                "UnmarshalRead"
               ]
             }
           ]
@@ -58538,7 +58538,7 @@
                 "error",
                 "message",
                 "string",
-                "RotateLeft"
+                "AndNot"
               ]
             }
           ]
@@ -58755,7 +58755,7 @@
                 "synctest",
                 "go test -json",
                 "secret.Do",
-                "trace.Start"
+                "runtime/trace"
               ]
             },
             {
@@ -58801,7 +58801,7 @@
               "choices": [
                 "pcdata[1]",
                 "secret.Do",
-                "Vec4[T]",
+                "MulEvenWiden",
                 "synctest"
               ]
             },
