@@ -62,9 +62,8 @@ subcommands:
   generate      Generate quizzes.json from design docs (--source design-docs)
                 and/or golang/go proposal issues (--source github-issues).
                 Pass --llm-cache <dir> to merge cached LLM quizzes (schema v4).
-  llm-generate  Generate LLM quizzes and cache them on disk (run before
-                "generate --llm-cache"). Provider --provider ollama|workers-ai,
-                requires --model. Use --max-generations to batch within a free tier.
+  llm-generate  Generate LLM quizzes locally via ollama and cache them on disk
+                (run before "generate --llm-cache"). Requires --ollama-model.
 
 Run "quizgen generate -h" or "quizgen llm-generate -h" for flag details.`)
 }
@@ -351,13 +350,10 @@ func collectIssues(query string, max int) ([]genItem, error) {
 func runLLMGenerate(args []string) error {
 	fs := flag.NewFlagSet("llm-generate", flag.ContinueOnError)
 	var (
-		provider     = fs.String("provider", "ollama", "model provider: ollama | workers-ai")
-		model        = fs.String("model", "", "model name (required); e.g. qwen2.5-coder:7b (ollama) or @cf/meta/llama-3.3-70b-instruct-fp8-fast (workers-ai)")
-		ollamaURL    = fs.String("ollama-url", llm.DefaultOllamaURL, "ollama server URL (provider=ollama)")
-		cfAccountID  = fs.String("cf-account-id", "", "Cloudflare account ID (provider=workers-ai; or env CLOUDFLARE_ACCOUNT_ID)")
+		model        = fs.String("ollama-model", "", "ollama model name (required), e.g. qwen2.5-coder:7b")
+		ollamaURL    = fs.String("ollama-url", llm.DefaultOllamaURL, "ollama server URL")
 		query        = fs.String("query", "", "issue-search query (default: accepted proposals)")
-		maxProposals = fs.Int("max-proposals", 0, "max issues to consider (0 = no limit)")
-		maxGen       = fs.Int("max-generations", 0, "stop after this many new generations (0 = no cap; use to stay within a daily free tier)")
+		maxProposals = fs.Int("max-proposals", 0, "max issues to process (0 = no limit)")
 		cacheDir     = fs.String("cache-dir", "cache/llm", "directory for committed LLM cache JSON")
 		maxQuizzes   = fs.Int("max-quizzes", 5, "max LLM quizzes to request per proposal")
 		maxBlanks    = fs.Int("max-blanks-per-quiz", 1, "max blanks per LLM quiz")
@@ -369,18 +365,14 @@ func runLLMGenerate(args []string) error {
 		return err
 	}
 	if *model == "" {
-		return fmt.Errorf("--model is required")
-	}
-
-	gen, err := newGenerator(*provider, *model, *ollamaURL, *cfAccountID)
-	if err != nil {
-		return err
+		return fmt.Errorf("--ollama-model is required")
 	}
 
 	items, err := collectIssues(*query, *maxProposals)
 	if err != nil {
 		return err
 	}
+	client := llm.NewClient(*ollamaURL, *model)
 	ctx := context.Background()
 
 	var generated, upToDate, failed int
@@ -395,11 +387,7 @@ func runLLMGenerate(args []string) error {
 				continue
 			}
 		}
-		if *maxGen > 0 && generated >= *maxGen {
-			fmt.Fprintf(os.Stderr, "reached --max-generations=%d; rerun to continue\n", *maxGen)
-			break
-		}
-		content, err := gen.Generate(ctx, llm.SystemPrompt(*maxBlanks), llm.UserPrompt(it.p.Title, body, *maxQuizzes), *seed)
+		content, err := client.Generate(ctx, llm.SystemPrompt(*maxBlanks), llm.UserPrompt(it.p.Title, body, *maxQuizzes), *seed)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "%s: generate failed: %v\n", it.id, err)
 			failed++
@@ -433,31 +421,6 @@ func runLLMGenerate(args []string) error {
 		return fmt.Errorf("%d proposal(s) failed", failed)
 	}
 	return nil
-}
-
-// newGenerator builds the LLM generator for the chosen provider. workers-ai
-// reads its token from the CLOUDFLARE_API_TOKEN environment variable (never a
-// flag) and its account ID from --cf-account-id or CLOUDFLARE_ACCOUNT_ID.
-func newGenerator(provider, model, ollamaURL, cfAccountID string) (llm.Generator, error) {
-	switch provider {
-	case "ollama":
-		return llm.NewOllamaClient(ollamaURL, model), nil
-	case "workers-ai":
-		acct := cfAccountID
-		if acct == "" {
-			acct = os.Getenv("CLOUDFLARE_ACCOUNT_ID")
-		}
-		if acct == "" {
-			return nil, fmt.Errorf("provider workers-ai requires --cf-account-id or CLOUDFLARE_ACCOUNT_ID")
-		}
-		token := os.Getenv("CLOUDFLARE_API_TOKEN")
-		if token == "" {
-			return nil, fmt.Errorf("provider workers-ai requires the CLOUDFLARE_API_TOKEN environment variable")
-		}
-		return llm.NewOpenAIClient(llm.WorkersAIBaseURL(acct), token, model), nil
-	default:
-		return nil, fmt.Errorf("--provider %q: want ollama or workers-ai", provider)
-	}
 }
 
 // buildQuizzes produces one quiz per unit (prose paragraphs, then code blocks)
