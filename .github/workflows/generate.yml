@@ -1,9 +1,9 @@
 name: generate-quizzes
 
-# Single source of truth for cdn/v3/quizzes.json. It generates from BOTH the
+# Single source of truth for cdn/v1/quizzes.json. It generates from BOTH the
 # golang/proposal design docs (cloned directly from upstream) and the golang/go
 # proposal issues in ONE run, merges them, and commits in-repo. Do NOT add a
-# second workflow (here or in any fork) that also writes cdn/v3/quizzes.json —
+# second workflow (here or in any fork) that also writes cdn/v1/quizzes.json —
 # concurrent writers would race and clobber each other. The `concurrency` group
 # below also prevents this workflow from racing with itself.
 
@@ -60,13 +60,14 @@ jobs:
             --proposals     ../third_party/golang-proposal/design \
             --commit        "$(git -C ../third_party/golang-proposal rev-parse HEAD)" \
             --max-proposals 200 \
+            --llm-cache     cache/llm \
             --out           "${RUNNER_TEMP}/quizzes.new.json" \
             --seed          42
 
       - name: Commit on substantive change (ignoring generated_at)
         run: |
           NEW="${RUNNER_TEMP}/quizzes.new.json"
-          CUR=cdn/v3/quizzes.json
+          CUR=cdn/v1/quizzes.json
           git config user.name "fummicc1-app[bot]"
           git config user.email "293152319+fummicc1-app[bot]@users.noreply.github.com"
           # Always rebuild the commit on top of the latest main and retry on a
@@ -86,10 +87,10 @@ jobs:
               echo "No substantive change; skipping commit."
               exit 0
             fi
-            mkdir -p cdn/v3
+            mkdir -p cdn/v1
             cp "$NEW" "$CUR"
-            git add cdn/v3/quizzes.json
-            git commit -m "chore: refresh cdn/v3/quizzes.json (automated)"
+            git add cdn/v1/quizzes.json
+            git commit -m "chore: refresh cdn/v1/quizzes.json (automated)"
             if git push origin HEAD:main; then
               echo "Published on attempt ${attempt}."
               exit 0

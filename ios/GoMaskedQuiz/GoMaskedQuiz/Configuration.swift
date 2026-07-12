@@ -10,9 +10,9 @@ enum Configuration {
     /// daily-refreshed bundle. Swap to a tag/commit ref if you ever need
     /// immediate propagation.
     static let quizDataURL: URL? = URL(
-        string: "https://cdn.jsdelivr.net/gh/fummicc1/go-masked-quiz@main/cdn/v3/quizzes.json"
+        string: "https://cdn.jsdelivr.net/gh/fummicc1/go-masked-quiz@main/cdn/v1/quizzes.json"
     )
 
-    /// Bundle versions this build understands (current schema is v3).
-    static let acceptedVersions: ClosedRange<Int> = 3...3
+    /// Bundle versions this build understands (current schema is v1).
+    static let acceptedVersions: ClosedRange<Int> = 1...1
 }

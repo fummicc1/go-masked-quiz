@@ -63,27 +63,24 @@ func issueSrc() quiz.Source {
 }
 
 func TestBuildBundle_SingleSourceOmitsSources(t *testing.T) {
-	b, _ := buildBundle([]genItem{designItem()}, []quiz.Source{designSrc()}, epoch, 42, 5, 3, 4, quiz.SchemaVersion, "")
+	b, _ := buildBundle([]genItem{designItem()}, []quiz.Source{designSrc()}, epoch, 42, 5, 3, 4, "")
+	if b.Version != 1 {
+		t.Errorf("Version = %d, want 1", b.Version)
+	}
 	if b.Sources != nil {
 		t.Errorf("single source must omit Sources, got %v", b.Sources)
 	}
-	if b.Version != 3 {
-		t.Errorf("Version = %d, want 3", b.Version)
+	if b.SourceRepo != "https://github.com/golang/proposal" || b.SourceFork == "" {
+		t.Errorf("legacy source fields missing: repo=%q fork=%q", b.SourceRepo, b.SourceFork)
 	}
-	if b.SourceRepo != "https://github.com/golang/proposal" {
-		t.Errorf("SourceRepo = %q", b.SourceRepo)
-	}
-	if b.SourceFork == "" {
-		t.Errorf("design-docs primary should set SourceFork")
-	}
-	// v3 must not carry per-proposal v4 metadata.
+	// Every proposal/quiz carries its source metadata even without LLM content.
 	for _, p := range b.Proposals {
-		if p.SourceKind != "" || p.Summary != "" {
-			t.Errorf("v3 proposal leaked v4 fields: %+v", p)
+		if p.SourceKind != "design-docs" {
+			t.Errorf("proposal %s source_kind = %q", p.ID, p.SourceKind)
 		}
 		for _, q := range p.Quizzes {
-			if q.GenMethod != "" {
-				t.Errorf("v3 quiz leaked gen_method: %q", q.GenMethod)
+			if q.GenMethod != "mechanical" {
+				t.Errorf("quiz %s gen_method = %q, want mechanical", q.ID, q.GenMethod)
 			}
 		}
 	}
@@ -92,7 +89,7 @@ func TestBuildBundle_SingleSourceOmitsSources(t *testing.T) {
 func TestBuildBundle_MultiSourceMergesAndAttributes(t *testing.T) {
 	items := []genItem{designItem(), issueItem()}
 	srcs := []quiz.Source{designSrc(), issueSrc()}
-	b, _ := buildBundle(items, srcs, epoch, 42, 5, 3, 4, quiz.SchemaVersion, "")
+	b, _ := buildBundle(items, srcs, epoch, 42, 5, 3, 4, "")
 
 	if len(b.Sources) != 2 {
 		t.Fatalf("Sources = %d, want 2", len(b.Sources))
@@ -117,14 +114,14 @@ func TestBuildBundle_MultiSourceMergesAndAttributes(t *testing.T) {
 func TestBuildBundle_Deterministic(t *testing.T) {
 	items := []genItem{designItem(), issueItem()}
 	srcs := []quiz.Source{designSrc(), issueSrc()}
-	a, _ := buildBundle(items, srcs, epoch, 42, 5, 3, 4, quiz.SchemaVersion, "")
-	b, _ := buildBundle(items, srcs, epoch, 42, 5, 3, 4, quiz.SchemaVersion, "")
+	a, _ := buildBundle(items, srcs, epoch, 42, 5, 3, 4, "")
+	b, _ := buildBundle(items, srcs, epoch, 42, 5, 3, 4, "")
 	if countQuizzes(&a) != countQuizzes(&b) || len(a.Proposals) != len(b.Proposals) {
 		t.Error("multi-source bundle is not deterministic")
 	}
 }
 
-func TestBuildBundle_V4MergesLLMCache(t *testing.T) {
+func TestBuildBundle_MergesLLMCache(t *testing.T) {
 	dir := t.TempDir()
 	it := issueItem()
 	body := string(it.p.Source)
@@ -149,19 +146,19 @@ func TestBuildBundle_V4MergesLLMCache(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	b, notes := buildBundle([]genItem{it}, []quiz.Source{issueSrc()}, epoch, 42, 5, 3, 4, quiz.SchemaVersionV4, dir)
+	b, notes := buildBundle([]genItem{it}, []quiz.Source{issueSrc()}, epoch, 42, 5, 3, 4, dir)
 	if len(notes) != 0 {
 		t.Errorf("unexpected notes: %v", notes)
 	}
-	if b.Version != 4 {
-		t.Fatalf("Version = %d, want 4", b.Version)
+	if b.Version != 1 {
+		t.Fatalf("Version = %d, want 1", b.Version)
 	}
 	p := b.Proposals[0]
 	if p.Summary != "A concise summary." {
 		t.Errorf("summary not merged: %q", p.Summary)
 	}
 	if p.SourceKind != "github-issues" || p.IssueNumber != 77 || p.Status != "accepted" {
-		t.Errorf("v4 metadata missing: %+v", p)
+		t.Errorf("source metadata missing: %+v", p)
 	}
 	var llmQ *quiz.Quiz
 	var mechCount int
@@ -189,7 +186,7 @@ func TestBuildBundle_V4MergesLLMCache(t *testing.T) {
 	}
 }
 
-func TestBuildBundle_V4StaleCacheReportsNote(t *testing.T) {
+func TestBuildBundle_StaleCacheReportsNote(t *testing.T) {
 	dir := t.TempDir()
 	it := issueItem()
 	if err := llm.Save(dir, &llm.Entry{
@@ -201,7 +198,7 @@ func TestBuildBundle_V4StaleCacheReportsNote(t *testing.T) {
 	}); err != nil {
 		t.Fatal(err)
 	}
-	b, notes := buildBundle([]genItem{it}, []quiz.Source{issueSrc()}, epoch, 42, 5, 3, 4, quiz.SchemaVersionV4, dir)
+	b, notes := buildBundle([]genItem{it}, []quiz.Source{issueSrc()}, epoch, 42, 5, 3, 4, dir)
 	if b.Proposals[0].Summary != "" {
 		t.Error("stale cache must not merge summary")
 	}

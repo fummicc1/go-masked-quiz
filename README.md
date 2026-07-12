@@ -97,13 +97,12 @@ go run ./cmd/quizgen generate \
   --source        design-docs,github-issues \
   --proposals     ~/Work/LocalApps/golang-proposal/design \
   --max-proposals 200 \
-  --out           ../../cdn/v3/quizzes.json \
+  --out           ../../cdn/v1/quizzes.json \
   --seed 42
 ```
 
 A multi-source bundle adds a `sources[]` array describing each upstream for
-attribution. Single-source bundles omit it and stay byte-identical to before
-(the schema version is still `3`; v3 clients ignore the extra field).
+attribution (single-source bundles omit it).
 
 ## Generating LLM quizzes locally (ollama)
 
@@ -132,35 +131,35 @@ regenerate. Each generated quiz is validated (every answer must appear verbatim
 in the proposal, marker/blank counts must match, choices are completed to four)
 and invalid quizzes are dropped.
 
-### Building a v4 bundle (mechanical + LLM)
+### Merging LLM content into the bundle
 
-Pass `--llm-cache` to `generate` to merge the committed LLM cache and emit
-**schema v4** (adds per-proposal `summary`/`status`/`source_kind` and `llm`
-quizzes alongside the mechanical ones):
+Pass `--llm-cache` to `generate` to merge the committed LLM cache. Each issue's
+`summary` and `llm` quizzes are added alongside the mechanical ones; if an
+issue's cache is stale (its body changed since it was generated), the LLM part
+is skipped and reported, and the mechanical quizzes still update.
 
 ```sh
 go run ./cmd/quizgen generate \
   --source     design-docs,github-issues \
   --proposals  ~/Work/LocalApps/golang-proposal/design \
   --llm-cache  cache/llm \
-  --out        ../cdn/v4/quizzes.json \
+  --out        ../../cdn/v1/quizzes.json \
   --seed 42
 ```
 
-> v4 is **not** wired into the production CDN/iOS pipeline yet — the live app is
-> v3 (`acceptedVersions = 3...3`). v4 is produced to a separate path and will be
-> served once the iOS client accepts version 4 (M3). Without `--llm-cache`,
-> `generate` emits v3 exactly as before.
+The schema is `1` either way — LLM fields are simply present when merged and
+absent otherwise. The project is pre-release, so there is a single current
+schema version rather than a compatibility ladder.
 
 ## Automated refresh (CDN)
 
-`cdn/v3/quizzes.json` is refreshed by the
+`cdn/v1/quizzes.json` is refreshed by the
 [`generate-quizzes`](.github/workflows/generate.yml) GitHub Actions workflow in
 this repo: daily (and on demand) it clones `golang/proposal` upstream, fetches
-golang/go proposal issues, generates the **merged** bundle, and commits only
-when the content (ignoring `generated_at`) actually changes.
+golang/go proposal issues, merges the committed LLM cache, and commits only when
+the content (ignoring `generated_at`) actually changes.
 
-This workflow is the **single writer** of `cdn/v3/quizzes.json`. Do not add
+This workflow is the **single writer** of `cdn/v1/quizzes.json`. Do not add
 another workflow — in this repo or any fork — that also writes that file;
 concurrent writers would race. (The legacy `generate.yml` in the
 `fummicc1/golang-proposal` fork is superseded by this one and should be

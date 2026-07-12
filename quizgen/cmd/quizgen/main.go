@@ -61,7 +61,7 @@ func usage(w *os.File) {
 subcommands:
   generate      Generate quizzes.json from design docs (--source design-docs)
                 and/or golang/go proposal issues (--source github-issues).
-                Pass --llm-cache <dir> to merge cached LLM quizzes (schema v4).
+                Pass --llm-cache <dir> to merge cached LLM quizzes.
   llm-generate  Generate LLM quizzes locally via ollama and cache them on disk
                 (run before "generate --llm-cache"). Requires --ollama-model.
 
@@ -81,7 +81,7 @@ func runGenerate(args []string) error {
 		choices        = fs.Int("choices", 4, "number of choices per blank")
 		maxProposals   = fs.Int("max-proposals", 0, "max proposals to fetch (github-issues; 0 = no limit)")
 		query          = fs.String("query", "", "issue-search query (github-issues; default: accepted proposals)")
-		llmCache       = fs.String("llm-cache", "", "merge committed LLM quizzes from this dir and emit schema v4 (default: v3, mechanical only)")
+		llmCache       = fs.String("llm-cache", "", "merge committed LLM quizzes from this dir (default: mechanical only)")
 		now            = fs.String("now", "", "fix generated_at to this RFC3339 time (for reproducible/golden output)")
 	)
 	if err := fs.Parse(args); err != nil {
@@ -140,11 +140,7 @@ func runGenerate(args []string) error {
 		return fmt.Errorf("no proposals collected from source(s) %q", *sourceKind)
 	}
 
-	version := quiz.SchemaVersion
-	if *llmCache != "" {
-		version = quiz.SchemaVersionV4
-	}
-	bundle, notes := buildBundle(allItems, srcs, generatedAt, *seed, *maxPerProposal, *maxBlanks, *choices, version, *llmCache)
+	bundle, notes := buildBundle(allItems, srcs, generatedAt, *seed, *maxPerProposal, *maxBlanks, *choices, *llmCache)
 
 	if err := writeJSON(*out, &bundle); err != nil {
 		return err
@@ -178,17 +174,16 @@ func splitSources(s string) ([]string, error) {
 
 // buildBundle assembles a bundle from already-collected items, pooling
 // distractors across all sources. With a single source the legacy source_*
-// fields are populated and Sources is omitted (byte-identical to the
-// pre-multi-source output); with several sources, per-source attribution is
-// added in Sources while the legacy fields keep describing the first source.
+// fields are populated and Sources is omitted; with several sources, per-source
+// attribution is added in Sources while the legacy fields keep describing the
+// first source.
 //
-// When version >= 4, each proposal also carries source metadata, mechanical
-// quizzes are tagged gen_method=mechanical, and — if llmCacheDir is set — each
-// issue's cached LLM summary and quizzes are merged in. It returns notes for
-// missing/stale LLM caches so the caller can surface them.
-func buildBundle(items []genItem, srcs []quiz.Source, generatedAt time.Time, seed int64, maxPerProposal, maxBlanks, nChoices, version int, llmCacheDir string) (quiz.Bundle, []string) {
+// Each proposal carries its source metadata and each mechanical quiz is tagged
+// gen_method=mechanical. If llmCacheDir is set, each issue's cached LLM summary
+// and quizzes are merged in; notes report missing/stale caches.
+func buildBundle(items []genItem, srcs []quiz.Source, generatedAt time.Time, seed int64, maxPerProposal, maxBlanks, nChoices int, llmCacheDir string) (quiz.Bundle, []string) {
 	bundle := quiz.Bundle{
-		Version:     version,
+		Version:     quiz.SchemaVersion,
 		GeneratedAt: generatedAt,
 		Proposals:   []quiz.Proposal{},
 	}
@@ -212,27 +207,26 @@ func buildBundle(items []genItem, srcs []quiz.Source, generatedAt time.Time, see
 	}
 	crossProse, crossCode := crossPools(parsed)
 
-	v4 := version >= quiz.SchemaVersionV4
 	var notes []string
 
 	for _, it := range items {
 		quizzes := buildQuizzes(it.p, it.id, seed, maxPerProposal, maxBlanks, nChoices, crossProse, crossCode)
-		p := quiz.Proposal{ID: it.id, Title: it.p.Title, URL: it.url}
-
-		if v4 {
-			p.SourceKind = it.sourceKind
-			p.Status = it.status
-			p.IssueNumber = it.issueNumber
-			for i := range quizzes {
-				quizzes[i].GenMethod = "mechanical"
-			}
-			if llmCacheDir != "" && it.issueNumber > 0 {
-				if note := mergeLLM(&p, &quizzes, it, llmCacheDir); note != "" {
-					notes = append(notes, note)
-				}
+		p := quiz.Proposal{
+			ID:          it.id,
+			Title:       it.p.Title,
+			URL:         it.url,
+			SourceKind:  it.sourceKind,
+			Status:      it.status,
+			IssueNumber: it.issueNumber,
+		}
+		for i := range quizzes {
+			quizzes[i].GenMethod = "mechanical"
+		}
+		if llmCacheDir != "" && it.issueNumber > 0 {
+			if note := mergeLLM(&p, &quizzes, it, llmCacheDir); note != "" {
+				notes = append(notes, note)
 			}
 		}
-
 		if len(quizzes) == 0 {
 			continue
 		}
