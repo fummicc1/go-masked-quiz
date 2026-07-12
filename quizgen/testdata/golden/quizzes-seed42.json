@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 1,
   "generated_at": "2026-05-18T00:00:00Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
@@ -10,11 +10,13 @@
       "id": "design-61405-range-over-func",
       "title": "Proposal: range over func",
       "url": "https://github.com/golang/proposal/blob/master/design/61405-range-over-func.md",
+      "source_kind": "design-docs",
       "quizzes": [
         {
           "id": "design-61405-range-over-func-q01",
           "kind": "prose",
           "index": 0,
+          "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
@@ -95,6 +97,7 @@
           "id": "design-61405-range-over-func-q02",
           "kind": "prose",
           "index": 1,
+          "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
@@ -125,6 +128,7 @@
           "id": "design-61405-range-over-func-q03",
           "kind": "prose",
           "index": 2,
+          "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
@@ -172,6 +176,7 @@
           "id": "design-61405-range-over-func-q04",
           "kind": "code",
           "index": 3,
+          "gen_method": "mechanical",
           "blocks": [
             {
               "type": "code_block",
@@ -260,6 +265,7 @@
           "id": "design-61405-range-over-func-q05",
           "kind": "code",
           "index": 4,
+          "gen_method": "mechanical",
           "blocks": [
             {
               "type": "code_block",
@@ -334,11 +340,13 @@
       "id": "design-99999-sample",
       "title": "Proposal: Sample placeholder for quizgen Phase 1",
       "url": "https://github.com/golang/proposal/blob/master/design/99999-sample.md",
+      "source_kind": "design-docs",
       "quizzes": [
         {
           "id": "design-99999-sample-q01",
           "kind": "prose",
           "index": 0,
+          "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
@@ -386,6 +394,7 @@
           "id": "design-99999-sample-q02",
           "kind": "code",
           "index": 1,
+          "gen_method": "mechanical",
           "blocks": [
             {
               "type": "code_block",
