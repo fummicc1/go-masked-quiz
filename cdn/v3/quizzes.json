@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generated_at": "2026-07-11T02:22:48.547298234Z",
+  "generated_at": "2026-07-12T02:27:43.510822208Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "58e952a6dd29795163bdff3de8b2d77329ff995b",
@@ -26532,6 +26532,93 @@
       ]
     },
     {
+      "id": "issue-79946",
+      "title": "net/url: MustParse",
+      "url": "https://github.com/golang/go/issues/79946",
+      "quizzes": [
+        {
+          "id": "issue-79946-q01",
+          "kind": "prose",
+          "index": 0,
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Add "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " like ["
+            },
+            {
+              "type": "inline_code",
+              "value": "netip.MustParseAddr"
+            },
+            {
+              "type": "text",
+              "value": ", ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": ", ["
+            },
+            {
+              "type": "inline_code",
+              "value": "template.Must"
+            },
+            {
+              "type": "text",
+              "value": ", ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": ", _etc._"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "url.MustParse",
+              "choices": [
+                "context:global lang:Go /func.*Must.*Parse.*\\*url\\.URL {/",
+                "url.MustParse",
+                "template.Must",
+                "netip.MustParseAddr"
+              ]
+            },
+            {
+              "answer": "regexp.MustCompile",
+              "choices": [
+                "context:global lang:Go /func.*Must.*Parse.*\\*url\\.URL {/",
+                "template.Must",
+                "regexp.MustCompile",
+                "netip.MustParseAddr"
+              ]
+            },
+            {
+              "answer": "uuid.MustParse",
+              "choices": [
+                "template.Must",
+                "context:global lang:Go /func.*Must.*Parse.*\\*url\\.URL {/",
+                "uuid.MustParse",
+                "netip.MustParseAddr"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "issue-12854",
       "title": "spec: type inferred composite literals",
       "url": "https://github.com/golang/go/issues/12854",
@@ -27608,93 +27695,6 @@
                 "TestExample_in_and_out",
                 "examplepackage_test",
                 "ExampleFunc_taking_a_t"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-79946",
-      "title": "net/url: MustParse",
-      "url": "https://github.com/golang/go/issues/79946",
-      "quizzes": [
-        {
-          "id": "issue-79946-q01",
-          "kind": "prose",
-          "index": 0,
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Add "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " like ["
-            },
-            {
-              "type": "inline_code",
-              "value": "netip.MustParseAddr"
-            },
-            {
-              "type": "text",
-              "value": ", ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": ", ["
-            },
-            {
-              "type": "inline_code",
-              "value": "template.Must"
-            },
-            {
-              "type": "text",
-              "value": ", ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": ", _etc._"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "url.MustParse",
-              "choices": [
-                "context:global lang:Go /func.*Must.*Parse.*\\*url\\.URL {/",
-                "url.MustParse",
-                "template.Must",
-                "netip.MustParseAddr"
-              ]
-            },
-            {
-              "answer": "regexp.MustCompile",
-              "choices": [
-                "context:global lang:Go /func.*Must.*Parse.*\\*url\\.URL {/",
-                "template.Must",
-                "regexp.MustCompile",
-                "netip.MustParseAddr"
-              ]
-            },
-            {
-              "answer": "uuid.MustParse",
-              "choices": [
-                "template.Must",
-                "context:global lang:Go /func.*Must.*Parse.*\\*url\\.URL {/",
-                "uuid.MustParse",
-                "netip.MustParseAddr"
               ]
             }
           ]
@@ -45458,7 +45458,7 @@
               "answer": "struct",
               "choices": [
                 "ssh.Conn",
-                "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
+                "uuid.MustParse",
                 "type algorithms",
                 "struct"
               ]
