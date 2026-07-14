@@ -30,10 +30,27 @@ func GoKeywords() []string {
 // Distractors are drawn, in priority order, from: same-proposal tokens ranked
 // by edit distance to the answer (most plausible first), a shuffled
 // cross-proposal pool, then Go keywords; synthetic tokens guarantee the count.
+//
+// At every tier, candidates are first restricted to the same category as
+// answer (predeclared identifier / keyword / other identifier) — see
+// category(). A predeclared type like "int" and an arbitrary sample-code
+// variable like "value" are never plausible substitutes for one another, so
+// they must never appear as each other's distractor.
 func GenerateChoices(rng *RNG, answer string, proposalTokens, crossPoolTokens, exclude []string, count int) []string {
 	if count < 1 {
 		count = 1
 	}
+	answerCategory := category(answer)
+	sameCategory := func(tokens []string) []string {
+		out := make([]string, 0, len(tokens))
+		for _, t := range tokens {
+			if category(t) == answerCategory {
+				out = append(out, t)
+			}
+		}
+		return out
+	}
+
 	seen := map[string]bool{strings.ToLower(answer): true}
 	for _, e := range exclude {
 		if e != "" {
@@ -56,13 +73,13 @@ func GenerateChoices(rng *RNG, answer string, proposalTokens, crossPoolTokens, e
 		}
 	}
 
-	add(rankByEdit(dedupeFold(proposalTokens, answer), answer))
+	add(rankByEdit(dedupeFold(sameCategory(proposalTokens), answer), answer))
 
-	cross := dedupeFold(crossPoolTokens, answer)
+	cross := dedupeFold(sameCategory(crossPoolTokens), answer)
 	rng.Shuffle(len(cross), func(i, j int) { cross[i], cross[j] = cross[j], cross[i] })
 	add(cross)
 
-	kw := GoKeywords()
+	kw := sameCategory(GoKeywords())
 	rng.Shuffle(len(kw), func(i, j int) { kw[i], kw[j] = kw[j], kw[i] })
 	add(kw)
 

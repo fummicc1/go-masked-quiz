@@ -77,6 +77,53 @@ func TestGenerateChoices_Deterministic(t *testing.T) {
 	}
 }
 
+// Distractors for a predeclared-type answer must never be arbitrary
+// sample-code identifiers, and vice versa — they are grammatically
+// unrelated substitutes.
+func TestGenerateChoices_SameCategoryOnly(t *testing.T) {
+	ch := GenerateChoices(NewRNG(1, "c"), "int",
+		[]string{"value", "process", "bool"},
+		[]string{"yield", "string"}, nil, 4)
+	for _, c := range ch {
+		if c == "value" || c == "process" || c == "yield" {
+			t.Errorf("non-predeclared identifier %q leaked into distractors for predeclared answer: %v", c, ch)
+		}
+	}
+	if !contains(ch, "int") {
+		t.Errorf("answer missing: %v", ch)
+	}
+}
+
+// The reverse: an ordinary-identifier answer must not get predeclared types
+// or keywords as distractors.
+func TestGenerateChoices_OtherCategoryExcludesPredeclaredAndKeywords(t *testing.T) {
+	ch := GenerateChoices(NewRNG(1, "c"), "value",
+		[]string{"process", "int", "bool"},
+		[]string{"range", "yield"}, nil, 4)
+	for _, c := range ch {
+		if c == "int" || c == "bool" || c == "range" {
+			t.Errorf("predeclared/keyword %q leaked into distractors for identifier answer: %v", c, ch)
+		}
+	}
+	if !contains(ch, "value") {
+		t.Errorf("answer missing: %v", ch)
+	}
+}
+
+func TestCategory(t *testing.T) {
+	cases := map[string]string{
+		"int": "predeclared", "bool": "predeclared", "error": "predeclared",
+		"clear": "predeclared", "max": "predeclared", "min": "predeclared",
+		"range": "keyword", "select": "keyword", "chan": "keyword",
+		"value": "other", "process": "other", "Count": "other",
+	}
+	for name, want := range cases {
+		if got := category(name); got != want {
+			t.Errorf("category(%q) = %q, want %q", name, got, want)
+		}
+	}
+}
+
 func TestIsMaskableWord(t *testing.T) {
 	cases := map[string]bool{
 		"the": false, "is": false, "go": false, "x": false,
@@ -90,9 +137,11 @@ func TestIsMaskableWord(t *testing.T) {
 }
 
 // A token occurring multiple times in a paragraph forms ONE blank with all
-// occurrences; distinct tokens form distinct blanks.
+// occurrences; distinct tokens form distinct blanks. "select" (a
+// non-boilerplate keyword) is used alongside "range" to also confirm
+// distinctive keywords remain maskable in prose.
 func TestSelectProseBlanks_GroupsAllOccurrences(t *testing.T) {
-	p := parser.ParseProposal("x.md", []byte("use `range` then `range` and `func`\n"))
+	p := parser.ParseProposal("x.md", []byte("use `range` then `range` and `select`\n"))
 	blanks := SelectProseBlanks(NewRNG(42, "t"), p.ProseUnits[0], 3)
 
 	byAns := map[string][]Span{}
@@ -102,8 +151,30 @@ func TestSelectProseBlanks_GroupsAllOccurrences(t *testing.T) {
 	if len(byAns["range"]) != 2 {
 		t.Errorf("range occurrences = %d, want 2", len(byAns["range"]))
 	}
-	if len(byAns["func"]) != 1 {
-		t.Errorf("func occurrences = %d, want 1", len(byAns["func"]))
+	if len(byAns["select"]) != 1 {
+		t.Errorf("select occurrences = %d, want 1", len(byAns["select"]))
+	}
+}
+
+// Boilerplate keywords are excluded from prose masking too — the same
+// standard as scanIdents in code.go, so "func" is never a blank in either
+// place.
+func TestSelectProseBlanks_ExcludesBoilerplateKeywords(t *testing.T) {
+	p := parser.ParseProposal("x.md", []byte("write `func` and `package` then `range`\n"))
+	blanks := SelectProseBlanks(NewRNG(42, "t"), p.ProseUnits[0], 3)
+
+	byAns := map[string][]Span{}
+	for _, b := range blanks {
+		byAns[b.Answer] = b.Occurrences
+	}
+	if _, ok := byAns["func"]; ok {
+		t.Error("boilerplate keyword 'func' must not be a blank")
+	}
+	if _, ok := byAns["package"]; ok {
+		t.Error("boilerplate keyword 'package' must not be a blank")
+	}
+	if _, ok := byAns["range"]; !ok {
+		t.Error("distinctive keyword 'range' should still be maskable")
 	}
 }
 
@@ -133,6 +204,24 @@ func TestSelectCodeBlanks(t *testing.T) {
 	}
 	if _, ok := byAns["func"]; ok {
 		t.Error("keyword 'func' must not be a blank")
+	}
+}
+
+// Distinctive keywords (not in boilerplateKeywords) are maskable in code
+// blocks too — a proposal's new syntax is often exactly one of these.
+func TestSelectCodeBlanks_MasksDistinctiveKeywords(t *testing.T) {
+	p := parser.ParseProposal("x.md", []byte("```go\nfor v := range Count(10) {\n  use(v)\n}\n```\n"))
+	blanks := SelectCodeBlanks(NewRNG(42, "t"), p.CodeBlocks[0], 5)
+
+	byAns := map[string][]Span{}
+	for _, b := range blanks {
+		byAns[b.Answer] = b.Occurrences
+	}
+	if _, ok := byAns["range"]; !ok {
+		t.Error("distinctive keyword 'range' should be maskable")
+	}
+	if _, ok := byAns["for"]; ok {
+		t.Error("boilerplate keyword 'for' must not be a blank")
 	}
 }
 

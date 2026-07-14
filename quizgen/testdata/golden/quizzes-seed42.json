@@ -39,8 +39,8 @@
               "value": " accept a "
             },
             {
-              "type": "mask",
-              "blank_index": 1
+              "type": "inline_code",
+              "value": "func"
             },
             {
               "type": "text",
@@ -56,7 +56,7 @@
             },
             {
               "type": "mask",
-              "blank_index": 2
+              "blank_index": 1
             },
             {
               "type": "text",
@@ -67,27 +67,18 @@
             {
               "answer": "range",
               "choices": [
-                "go/parser",
-                "for",
-                "go/scanner",
-                "range"
-              ]
-            },
-            {
-              "answer": "func",
-              "choices": [
-                "for",
-                "go/parser",
                 "func",
-                "go/scanner"
+                "for",
+                "range",
+                "defer"
               ]
             },
             {
               "answer": "yield",
               "choices": [
-                "for",
-                "go/scanner",
+                "golang/proposal",
                 "yield",
+                "go/scanner",
                 "go/parser"
               ]
             }
@@ -116,10 +107,10 @@
             {
               "answer": "go/parser",
               "choices": [
-                "range",
-                "go/parser",
-                "for",
-                "go/scanner"
+                "golang/proposal",
+                "go/scanner",
+                "yield",
+                "go/parser"
               ]
             }
           ]
@@ -155,19 +146,19 @@
             {
               "answer": "go/scanner",
               "choices": [
-                "for",
-                "func",
+                "golang/proposal",
                 "go/scanner",
-                "range"
+                "quizgen",
+                "yield"
               ]
             },
             {
               "answer": "go/parser",
               "choices": [
+                "golang/proposal",
+                "yield",
                 "go/parser",
-                "range",
-                "func",
-                "for"
+                "quizgen"
               ]
             }
           ]
@@ -235,28 +226,28 @@
             {
               "answer": "Count",
               "choices": [
-                "yield",
+                "process",
                 "value",
-                "Count",
-                "process"
+                "yield",
+                "Count"
               ]
             },
             {
               "answer": "int",
               "choices": [
-                "value",
+                "int_2",
+                "int_1",
                 "int",
-                "process",
-                "yield"
+                "int_0"
               ]
             },
             {
               "answer": "bool",
               "choices": [
-                "process",
-                "yield",
+                "bool_0",
                 "bool",
-                "value"
+                "bool_2",
+                "bool_1"
               ]
             }
           ]
@@ -269,7 +260,7 @@
           "blocks": [
             {
               "type": "code_block",
-              "value": "for "
+              "value": "for value := "
             },
             {
               "type": "mask",
@@ -277,7 +268,7 @@
             },
             {
               "type": "code_block",
-              "value": " := range "
+              "value": " "
             },
             {
               "type": "mask",
@@ -293,43 +284,35 @@
             },
             {
               "type": "code_block",
-              "value": "("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ")   // remaining lines elided ...\n"
+              "value": "(value)   // remaining lines elided ...\n"
             }
           ],
           "blanks": [
             {
-              "answer": "value",
+              "answer": "range",
               "choices": [
-                "value",
-                "yield",
-                "int",
-                "bool"
+                "fallthrough",
+                "else",
+                "range",
+                "return"
               ]
             },
             {
               "answer": "Count",
               "choices": [
+                "value",
                 "yield",
                 "Count",
-                "bool",
-                "int"
+                "Println"
               ]
             },
             {
               "answer": "process",
               "choices": [
+                "value",
                 "yield",
                 "process",
-                "bool",
-                "int"
+                "fmt"
               ]
             }
           ]
@@ -373,19 +356,19 @@
             {
               "answer": "quizgen",
               "choices": [
-                "yield",
                 "quizgen",
+                "yield",
                 "go/scanner",
-                "for"
+                "go/parser"
               ]
             },
             {
               "answer": "golang/proposal",
               "choices": [
-                "golang/proposal",
-                "for",
+                "go/scanner",
                 "yield",
-                "func"
+                "golang/proposal",
+                "go/parser"
               ]
             }
           ]
@@ -437,17 +420,17 @@
             {
               "answer": "main",
               "choices": [
-                "int",
+                "yield",
                 "main",
-                "value",
-                "yield"
+                "process",
+                "value"
               ]
             },
             {
               "answer": "fmt",
               "choices": [
-                "value",
-                "int",
+                "Count",
+                "process",
                 "yield",
                 "fmt"
               ]
@@ -455,10 +438,10 @@
             {
               "answer": "Println",
               "choices": [
-                "yield",
-                "bool",
                 "Println",
-                "Count"
+                "yield",
+                "Count",
+                "value"
               ]
             }
           ]

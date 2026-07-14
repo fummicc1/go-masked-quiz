@@ -76,8 +76,13 @@ func buildBlanks(rng *RNG, order []string, occ map[string][]Span, maxBlanks int)
 	return blanks
 }
 
-// isMaskableWord reports whether an inline-code span is a good masking target:
-// more than two characters, not a stopword, and a single whitespace-free token.
+// isMaskableWord reports whether an inline-code span is a good masking
+// target: more than two characters, not a stopword, a single whitespace-free
+// token, and not a boilerplate Go keyword. The boilerplate-keyword exclusion
+// mirrors code.go's scanIdents, so prose and code apply the same standard:
+// package/import/func/var/if/else/return/for carry no proposal-specific
+// meaning in either place, while a distinctive keyword like "range" is a
+// fine masking target — it may well be the concept the proposal is about.
 func isMaskableWord(w string) bool {
 	if utf8.RuneCountInString(w) <= 2 {
 		return false
@@ -86,6 +91,9 @@ func isMaskableWord(w string) bool {
 		return false
 	}
 	if stopwords[strings.ToLower(w)] {
+		return false
+	}
+	if boilerplateKeywords[w] {
 		return false
 	}
 	return true

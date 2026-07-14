@@ -7,18 +7,25 @@ import (
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/parser"
 )
 
-// ident is one token.IDENT occurrence found by the scanner.
+// ident is one maskable token occurrence found by the scanner: either a
+// token.IDENT, or a non-boilerplate keyword (see boilerplateKeywords).
 type ident struct {
 	name  string
 	start int // block-local byte offset
 	end   int
 }
 
-// SelectCodeBlanks scans a code block for identifiers, groups them by name, and
-// picks up to maxBlanks deterministically. This is the heart of the tool:
-// go/scanner tokenises lexically, so token.IDENT is found even in incomplete or
-// not-yet-valid-syntax snippets where go/parser would fail. Keywords, literals,
-// and operators are their own token kinds and so are excluded for free.
+// SelectCodeBlanks scans a code block for maskable tokens, groups them by
+// name, and picks up to maxBlanks deterministically. This is the heart of the
+// tool: go/scanner tokenises lexically, so tokens are found even in
+// incomplete or not-yet-valid-syntax snippets where go/parser would fail.
+// Literals and operators are their own token kinds and so are excluded for
+// free; boilerplate keywords (package/import/func/var/if/else/return/for)
+// are excluded deliberately since they carry no proposal-specific meaning.
+// The remaining keywords (range, select, go, defer, chan, ...) ARE maskable
+// alongside identifiers — a proposal's new syntax is often exactly one of
+// these, so masking only identifiers would skip the concept the proposal is
+// actually about.
 func SelectCodeBlanks(rng *RNG, block parser.CodeBlock, maxBlanks int) []Blank {
 	var order []string
 	occ := map[string][]Span{}
@@ -34,9 +41,10 @@ func SelectCodeBlanks(rng *RNG, block parser.CodeBlock, maxBlanks int) []Blank {
 	return buildBlanks(rng, order, occ, maxBlanks)
 }
 
-// scanIdents returns every token.IDENT in src with its block-local byte range.
-// A nil error handler lets lexing continue past malformed input — exactly what
-// lets the tool survive proposal snippets.
+// scanIdents returns every maskable token (identifier or non-boilerplate
+// keyword) in src with its block-local byte range. A nil error handler lets
+// lexing continue past malformed input — exactly what lets the tool survive
+// proposal snippets.
 func scanIdents(src []byte) []ident {
 	var s scanner.Scanner
 	fset := token.NewFileSet()
@@ -49,7 +57,8 @@ func scanIdents(src []byte) []ident {
 		if tok == token.EOF {
 			break
 		}
-		if tok == token.IDENT {
+		maskable := tok == token.IDENT || (tok.IsKeyword() && !boilerplateKeywords[lit])
+		if maskable {
 			off := fset.Position(pos).Offset
 			out = append(out, ident{name: lit, start: off, end: off + len(lit)})
 		}
