@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-14T02:09:04.07413794Z",
+  "generated_at": "2026-07-15T02:06:38.122933545Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "58e952a6dd29795163bdff3de8b2d77329ff995b",
@@ -27175,6 +27175,112 @@
       ]
     },
     {
+      "id": "issue-70638",
+      "title": "go/types: add Info.ImplicitConversions mapping",
+      "url": "https://github.com/golang/go/issues/70638",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 70638,
+      "quizzes": [
+        {
+          "id": "issue-70638-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "**Proposal:** We add a new field to "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " to record all implicit conversions."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "types.Info",
+              "choices": [
+                "hello, world",
+                "types.Info",
+                "main",
+                "VPADDD.Z"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-70638-q02",
+          "kind": "code",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "package types\n\ntype Info struct {\n    // ImplicitConversions records, for an expression appearing in (say) an assignment\n    // context, any implicit conversion applied to it.\n    ImplicitConversions map["
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ".Expr]ImplicitConversion\n}\n\ntype ImplicitConversion struct {\n    // From records the original type of the expression, and To records the type of the \"hole\".\n    // (For historical reasons [1], 'from' is not necessarily the same as the type recorded\n    // Info.Types for the expression: the latter includes untyped-to-typed conversions.)\n    "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": ", "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " types.Type\n}\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "ast",
+              "choices": [
+                "Expr",
+                "Info",
+                "ast",
+                "Type"
+              ]
+            },
+            {
+              "answer": "From",
+              "choices": [
+                "Type",
+                "From",
+                "Expr",
+                "Info"
+              ]
+            },
+            {
+              "answer": "To",
+              "choices": [
+                "To",
+                "Expr",
+                "Info",
+                "Type"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "issue-79802",
       "title": "go/parser: add deprecated func ResolveFile(*File)",
       "url": "https://github.com/golang/go/issues/79802",
@@ -28224,112 +28330,6 @@
                 "ServerAuthError",
                 "ErrNoAuth",
                 "NewSignerWithAlgorithms"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-70638",
-      "title": "go/types: add Info.ImplicitConversions mapping",
-      "url": "https://github.com/golang/go/issues/70638",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 70638,
-      "quizzes": [
-        {
-          "id": "issue-70638-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "**Proposal:** We add a new field to "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " to record all implicit conversions."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "types.Info",
-              "choices": [
-                "hello, world",
-                "types.Info",
-                "main",
-                "VPADDD.Z"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-70638-q02",
-          "kind": "code",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "package types\n\ntype Info struct {\n    // ImplicitConversions records, for an expression appearing in (say) an assignment\n    // context, any implicit conversion applied to it.\n    ImplicitConversions map["
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ".Expr]ImplicitConversion\n}\n\ntype ImplicitConversion struct {\n    // From records the original type of the expression, and To records the type of the \"hole\".\n    // (For historical reasons [1], 'from' is not necessarily the same as the type recorded\n    // Info.Types for the expression: the latter includes untyped-to-typed conversions.)\n    "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": ", "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": " types.Type\n}\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "ast",
-              "choices": [
-                "Expr",
-                "Info",
-                "ast",
-                "Type"
-              ]
-            },
-            {
-              "answer": "From",
-              "choices": [
-                "Type",
-                "From",
-                "Expr",
-                "Info"
-              ]
-            },
-            {
-              "answer": "To",
-              "choices": [
-                "To",
-                "Expr",
-                "Info",
-                "Type"
               ]
             }
           ]
@@ -45725,7 +45725,7 @@
               "choices": [
                 "UnknownSignatureAlgorithm",
                 "buildmode",
-                "findCommon",
+                "ErrNoAuth",
                 "Signature"
               ]
             }
@@ -48872,7 +48872,7 @@
                 "textdata",
                 "Printf",
                 "NewWithSeed",
-                "VX"
+                "File"
               ]
             }
           ]
@@ -51374,7 +51374,7 @@
               "answer": "-fullpath",
               "choices": [
                 "return nil",
-                "TestExampleFoo",
+                "ExampleFoo",
                 "-fullpath",
                 "x.AsFloat64s()"
               ]
@@ -57854,7 +57854,7 @@
             {
               "answer": "Loop",
               "choices": [
-                "ExampleFunc_taking_a_t",
+                "Foo_FrotzOptions_Option",
                 "Loop",
                 "op",
                 "keys"
