@@ -1,0 +1,133 @@
+{
+  "issue_number": 79802,
+  "body_hash": "a32b1cba06fb7907a8d7c87abab644ff3e761e309ca409413a8cc7a2c203a075",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "The proposal adds a new deprecated function ResolveFile(*ast.File) to the parser package, which applies legacy syntactic identifier resolution. This enables applications like gopls to avoid duplicating resolution logic while migrating from deprecated features to go/types. The function is idempotent and requires sync.Once for lazy evaluation.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The new "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " function applies the parser's legacy ast.Ident-to-ast.Object resolution to a file's syntax tree."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "ResolveFile",
+          "choices": [
+            "ResolveFile",
+            "ResolveObject",
+            "ParseFile",
+            "ResolvePackage"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " parameter to ResolveFile must contain a sync.Once to guard the resolution process."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "ast.File",
+          "choices": [
+            "ast.Expr",
+            "ast.Package",
+            "ast.File",
+            "ast.Type"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The ResolveFile function is marked as "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " to indicate it should no longer be used in new designs."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "deprecated",
+          "choices": [
+            "obsolete",
+            "recommended",
+            "experimental",
+            "deprecated"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The function's implementation must ensure "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " behavior when applying legacy resolution."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "idempotent",
+          "choices": [
+            "lazy",
+            "idempotent",
+            "stateful",
+            "non-deterministic"
+          ]
+        }
+      ]
+    }
+  ]
+}

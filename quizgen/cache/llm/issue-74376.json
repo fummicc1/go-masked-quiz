@@ -1,0 +1,40 @@
+{
+  "issue_number": 74376,
+  "body_hash": "3df82535282d54c912385b88257918128a668f299e9cc3322f10d27dcddd683c",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "This proposal adds two static checks to the structtag analyzer to address security weaknesses in Go's JSON parsing. The checks enforce rules from semgrep rules that prevent unsafe patterns like invalid tag syntax and improper omitempty usage. These changes improve security by catching issues early via go vet and LSP tools.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "These checks prevent patterns that could lead to "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " in JSON decoding operations."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "security weaknesses",
+          "choices": [
+            "style violations",
+            "security weaknesses",
+            "code duplication",
+            "performance issues"
+          ]
+        }
+      ]
+    }
+  ]
+}

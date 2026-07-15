@@ -1,0 +1,71 @@
+{
+  "issue_number": 79946,
+  "body_hash": "deb12c0fad6f81aa5fda43e8a593926a2b77d1e3f0e0db6d5d2a4b8b97e2c980",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "This proposal adds `url.MustParse` to simplify URL parsing by eliminating error checks, similar to `netip.MustParseAddr` and `regexp.MustCompile`. It addresses common patterns where developers manually handle parsing with known valid inputs, reducing boilerplate code.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The new function "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " parses a URL string and panics on failure, avoiding explicit error checks."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "url.MustParse",
+          "choices": [
+            "regexp.MustCompile",
+            "template.Must",
+            "url.MustParse",
+            "netip.MustParseAddr"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "Codebases often implement custom parsing logic for URLs because they "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " the input will always be valid."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "MustParse",
+          "choices": [
+            "assume",
+            "guarantee",
+            "MustParse",
+            "know"
+          ]
+        }
+      ]
+    }
+  ]
+}

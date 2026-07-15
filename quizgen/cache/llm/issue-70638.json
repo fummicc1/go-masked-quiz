@@ -1,0 +1,71 @@
+{
+  "issue_number": 70638,
+  "body_hash": "22b3cd6bbf99567e17b9c694df7aa4fb1b932cd7473039237e9c789ddc3807e8",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "This proposal adds a new field to the types.Info struct called ImplicitConversions, which records implicit conversions applied to expressions in contexts like assignments or function calls. The goal is to provide refactoring tools and the inliner with accurate conversion data without duplicating the type checker's complex logic.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The new field in types.Info records implicit conversions for expressions, storing the original type and the target type as "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "ImplicitConversion",
+          "choices": [
+            "ConversionDetails",
+            "ConversionInfo",
+            "ImplicitConversion",
+            "TypeMapping"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The ImplicitConversions field helps tools like the inliner by providing information about "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " applied to expressions."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "implicit conversions",
+          "choices": [
+            "implicit conversions",
+            "syntax transformations",
+            "explicit conversions",
+            "type checks"
+          ]
+        }
+      ]
+    }
+  ]
+}

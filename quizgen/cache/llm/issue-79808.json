@@ -1,0 +1,40 @@
+{
+  "issue_number": 79808,
+  "body_hash": "54b3018a05dd2d9dbc1f48338c48fdf62972dd4671bf3962f2539df87f5e7ee6",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "This proposal allows go doc to display any function named `Example` or `ExampleXxx` (with Xxx not lowercase) as examples, even if they have parameters. The testing package won't execute these examples, but developers can create test functions to run them. It also explores display options for these examples in documentation.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "go doc displays "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " as examples when they have parameters, showing the function without surrounding context."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "any function named `Example` or `ExampleXxx` where `Xxx` does not start with a lowercase letter",
+          "choices": [
+            "functions with input parameters",
+            "functions with output parameters",
+            "functions with test tags",
+            "any function named `Example` or `ExampleXxx` where `Xxx` does not start with a lowercase letter"
+          ]
+        }
+      ]
+    }
+  ]
+}

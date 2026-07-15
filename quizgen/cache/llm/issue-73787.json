@@ -1,0 +1,164 @@
+{
+  "issue_number": 73787,
+  "body_hash": "be2f9f8b538e9971ec218412febaeb36dfe1a19cec1976a126cea07b16d2df00",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "This proposal introduces architecture-specific SIMD intrinsics under `GOEXPERIMENT=simd` for Go, focusing on low-level APIs for AMD64, Wasm, and ARM64. It provides fixed-size vector types and operations resembling hardware instructions, serving as building blocks for future portable SIMD APIs. The design balances expressiveness with platform-specific capabilities while avoiding strict portability.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The new SIMD package is named "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": ", providing architecture-specific intrinsics under `GOEXPERIMENT=simd`."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "simd/archsimd",
+          "choices": [
+            "simd",
+            "simd/archsimd",
+            "archsimd",
+            "simd/vec"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The low-level API is analogous to "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": ", similar to the `syscall` package, while the high-level API mirrors `os`."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "syscall",
+          "choices": [
+            "std",
+            "stdlib",
+            "syscall",
+            "os"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The low-level API serves as a "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " for the high-level portable SIMD API, enabling architecture-specific optimizations."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "building block",
+          "choices": [
+            "replacement",
+            "alternative",
+            "abstraction",
+            "building block"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "SIMD vector types are defined as "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": ", with internal elements stored in opaque structs."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "opaque structs",
+          "choices": [
+            "interfaces",
+            "arrays",
+            "opaque structs",
+            "pointers"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The `Add` method performs an element-wise addition, equivalent to the "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " instruction on AMD64."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "VPADDD",
+          "choices": [
+            "VPADDD",
+            "VADD",
+            "VPADDS",
+            "VPADDQ"
+          ]
+        }
+      ]
+    }
+  ]
+}

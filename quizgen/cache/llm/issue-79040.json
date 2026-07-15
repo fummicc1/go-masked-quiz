@@ -1,0 +1,102 @@
+{
+  "issue_number": 79040,
+  "body_hash": "f1fa11556e5f7e3cd03eb104fdf59d3d868f4a0844f6635ecdfa230054565744",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "The proposal deprecates Transport.CancelRequest, a long-obsolete method for canceling HTTP requests. It will be made a no-op with a warning due to its HTTP/2 incompatibility, maintenance costs, and being superseded by NewRequestWithContext. Support can be reenabled via GODEBUG=httptransportcancelrequest=1 for four release cycles.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The deprecated "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " function is being replaced by NewRequestWithContext as the primary cancellation mechanism."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "Transport.CancelRequest",
+          "choices": [
+            "NewRequestWithContext",
+            "Request.Cancel",
+            "http.RoundTripper",
+            "Transport.CancelRequest"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " GODEBUG flag will reenable Transport.CancelRequest support for four release cycles."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "httptransportcancelrequest",
+          "choices": [
+            "httpcancelrequest",
+            "httptransportcancelrequest",
+            "transportcancel",
+            "httpdebugcancel"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "Maintaining cancellation state for "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " is considered too costly due to potential race conditions with copied requests."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "HTTP/1",
+          "choices": [
+            "HTTP/2",
+            "HTTP/1.1",
+            "HTTP/1",
+            "HTTP/3"
+          ]
+        }
+      ]
+    }
+  ]
+}

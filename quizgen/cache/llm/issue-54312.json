@@ -1,0 +1,71 @@
+{
+  "issue_number": 54312,
+  "body_hash": "b971d8d0aae3f45dbbf44612486be82916e105347da8c0fddf956b1647dff815",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "The proposal seeks to revert a change in go/doc that replaced all single quotes '' with double quotes ” in comments, causing readability issues and semantic changes in mathematical notation. The replacement characters U+2033 DOUBLE PRIME and U+2032 PRIME are visually indistinguishable in most fonts, leading to errors. The recommendation is to restore the original behavior to prevent these problems.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The replacement of '' with "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " led to readability issues because they look similar in many fonts."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "U+2033 DOUBLE PRIME",
+          "choices": [
+            "U+2033 DOUBLE PRIME",
+            "double quotes ”",
+            "U+2032 PRIME",
+            "Unicode primes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The proposal recommends reverting the change that caused "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " in comments."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "semantic changes",
+          "choices": [
+            "semantic changes",
+            "type mismatches",
+            "formatting issues",
+            "syntax errors"
+          ]
+        }
+      ]
+    }
+  ]
+}

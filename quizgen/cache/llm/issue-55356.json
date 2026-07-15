@@ -1,0 +1,102 @@
+{
+  "issue_number": 55356,
+  "body_hash": "9bbd88aac2f921e1ee8c9960fec56cc4e0490fbed65edd018f8ecea0f74dbcd5",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "The proposal introduces `ErrInsecurePath` to address security vulnerabilities in `archive/tar` and `archive/zip` by detecting insecure filenames that could lead to path traversal attacks. These errors are returned when reading archives with unsafe paths, allowing callers to handle them explicitly instead of silently sanitizing, which could alter archive semantics. The change aims to prevent silent data modification and improve security by explicitly reporting insecure paths.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "When `tar.Reader.Next` reads a file with an insecure filename, it returns "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "tar.ErrInsecurePath",
+          "choices": [
+            "tar.ErrInsecurePath",
+            "tar.ErrUnexpectedEOF",
+            "tar.ErrFormat",
+            "tar.ErrInvalidHeader"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The proposal adds "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " to detect insecure filenames in zip archives."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "zip.ErrInsecurePath",
+          "choices": [
+            "zip.ErrNoFile",
+            "zip.ErrInvalidEntry",
+            "zip.ErrCorrupted",
+            "zip.ErrInsecurePath"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The proposal addresses vulnerabilities like "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": ", which are related to insecure path handling."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "CVE-2018-25046",
+          "choices": [
+            "CVE-2020-36566",
+            "CVE-2021-21272",
+            "CVE-2020-36560",
+            "CVE-2018-25046"
+          ]
+        }
+      ]
+    }
+  ]
+}

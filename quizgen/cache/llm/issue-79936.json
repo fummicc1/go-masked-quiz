@@ -1,0 +1,164 @@
+{
+  "issue_number": 79936,
+  "body_hash": "9868fcc911833dcd27c17320be05881db34f5d1696101c6c003cb4e5126959dd",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "This proposal adds Server.MaxHeaderValueCount to the net/http package to defend against DoS attacks involving excessive header values. It provides a separate knob from MaxHeaderBytes to limit header counts without restricting header sizes. The GODEBUG flag offers temporary protection before the feature is officially released.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The new Server field "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " allows controlling the maximum number of header values parsed from requests."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "MaxHeaderValueCount",
+          "choices": [
+            "MaxHeaderValueCount",
+            "MaxHeaderCount",
+            "MaxHeaderNameCount",
+            "MaxHeaderBytes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The default value for limiting header values is "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": ", which can be overridden by Server.MaxHeaderValueCount."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "DefaultMaxHeaderValueCount",
+          "choices": [
+            "DefaultMaxHeaderCount",
+            "DefaultMaxHeaderValue",
+            "DefaultMaxHeaderValueCount",
+            "DefaultMaxHeaderBytes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The GODEBUG flag "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " sets a temporary default for header value limits before Go 1.28."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "httpmaxheadervalues",
+          "choices": [
+            "httpmaxheaderbytes",
+            "httpmaxheadervalues",
+            "httpmaxheaders",
+            "httpmaxheadercount"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "This proposal addresses DoS risks from attackers sending "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " with many empty values."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "DoS",
+          "choices": [
+            "injection attacks",
+            "memory leaks",
+            "DoS",
+            "buffer overflow"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The field name "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " was chosen to handle attacks with a single header containing many empty values."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "MaxHeaderValueCount",
+          "choices": [
+            "MaxHeaderValueCount",
+            "MaxHeaderValueSize",
+            "MaxHeaderNameCount",
+            "MaxHeaderValueLength"
+          ]
+        }
+      ]
+    }
+  ]
+}

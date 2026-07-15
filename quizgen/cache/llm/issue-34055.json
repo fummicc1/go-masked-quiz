@@ -1,0 +1,40 @@
+{
+  "issue_number": 34055,
+  "body_hash": "a4e477ccb76d8922208b1a8217e86765f96707a0a07af9d91140cf370b5c8431",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "This proposal allows Go modules to be served from a subdirectory of a Git repository without requiring the import path to include the subdirectory name. It addresses the issue where the go-import meta tag forces the module path to match the subdirectory, which creates awkward import paths. The change aims to improve usability by letting modules live in subdirectories while maintaining clean import paths.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The proposal enables serving the module directly under "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " instead of requiring it to be in a subdirectory of the import path."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "nhooyr.io/websocket",
+          "choices": [
+            "nhooyr.io/websocket/mod",
+            "the root of the repository",
+            "nhooyr.io/websocket",
+            "github.com/nhooyr/websocket"
+          ]
+        }
+      ]
+    }
+  ]
+}

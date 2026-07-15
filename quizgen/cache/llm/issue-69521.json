@@ -1,0 +1,102 @@
+{
+  "issue_number": 69521,
+  "body_hash": "4dc37b5662a9e272b2bc2a4d1419db01b228f37d049bb88819fff7ac0686e567",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "This proposal adds hash.Clone and hash.CloneXOF functions to simplify cloning hash states. The existing BinaryMarshaler/BinaryUnmarshaler approach is clunky, so Clone provides a discoverable way to copy hash instances. CloneXOF extends this to XOFs, enabling interface upgrades for standard library and x/crypto packages.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The new "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " function creates a separate hash instance with the same state as an existing one, avoiding recomputation."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "hash.Clone",
+          "choices": [
+            "encoding.BinaryUnmarshaler",
+            "hash.Clone",
+            "CloneXOF",
+            "BinaryMarshaler"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "To use hash.Clone, the input must implement "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " interfaces or be a standard library hash implementation."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "encoding.BinaryMarshaler and encoding.BinaryUnmarshaler",
+          "choices": [
+            "hash.Hash",
+            "CloneXOF",
+            "XOF",
+            "encoding.BinaryMarshaler and encoding.BinaryUnmarshaler"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The CloneXOF function enables interface upgrades for XOFs by adding "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " methods to concrete types."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "CloneXOF() hash.XOF",
+          "choices": [
+            "CloneXOF() hash.XOF",
+            "BinaryUnmarshaler",
+            "Clone() Hash",
+            "BinaryMarshaler"
+          ]
+        }
+      ]
+    }
+  ]
+}

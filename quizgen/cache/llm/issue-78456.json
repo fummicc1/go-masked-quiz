@@ -1,0 +1,102 @@
+{
+  "issue_number": 78456,
+  "body_hash": "09ae0d8a0ef851ff5710779b0ac83b70fce7d671b497c63eecd6b48646e50a34",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "The proposal adds a maps.Identical function to check if two maps reference the same hash table, avoiding unsafe/reflect workarounds. It enables efficient identity checks for map operations while noting NaN elements break algebraic shortcuts.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The maps.Identical function reports "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "whether two maps refer to the same data structure",
+          "choices": [
+            "if they are both empty",
+            "if they have the same keys",
+            "if their entries are equal",
+            "whether two maps refer to the same data structure"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The Identical function is located in the "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " package."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "maps",
+          "choices": [
+            "unsafe",
+            "reflect",
+            "maps",
+            "maputil"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The note warns that many algebraic shortcuts using Identical are invalid for "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "NaN elements",
+          "choices": [
+            "empty maps",
+            "NaN elements",
+            "duplicate keys",
+            "nil values"
+          ]
+        }
+      ]
+    }
+  ]
+}

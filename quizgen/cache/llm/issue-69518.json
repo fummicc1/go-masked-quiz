@@ -1,0 +1,164 @@
+{
+  "issue_number": 69518,
+  "body_hash": "cb1b840eb7b97303e742617fcd4a700a43809e73dbdf9a2739258154edaa3ccd",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "This proposal introduces a standard XOF (extendable output function) interface for Go's standard library to unify existing implementations like SHAKE and BLAKE2X. The new XOF interface includes Write, Read, and Reset methods, but omits Clone and other methods to maintain compatibility with existing packages. This reduces fragmentation and enables modular higher-level implementations.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The new standard interface for XOFs is called "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "XOF",
+          "choices": [
+            "Reader",
+            "ShakeHash",
+            "XOF",
+            "BLAKE2X"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The proposed XOF interface includes methods for writing data, reading output, and "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "Reset",
+          "choices": [
+            "Sum",
+            "Clone",
+            "Size",
+            "Reset"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The proposed XOF interface does not include Clone because existing interfaces return "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "an interface type",
+          "choices": [
+            "an interface type",
+            "concrete types",
+            "function pointers",
+            "generic types"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The new XOF interface is a subset of existing interfaces, allowing reuse of "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "values from those packages",
+          "choices": [
+            "libraries",
+            "values from those packages",
+            "modules",
+            "functions"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The BLAKE3 implementations differ by returning a Reader via a method on the Writer, enabling interleaving of "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " and Read calls."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "Write",
+          "choices": [
+            "Reset",
+            "Sum",
+            "Clone",
+            "Write"
+          ]
+        }
+      ]
+    }
+  ]
+}

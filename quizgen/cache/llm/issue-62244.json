@@ -1,0 +1,133 @@
+{
+  "issue_number": 62244,
+  "body_hash": "2b544eb53a152e36c15068483319c44d3388dd545ed5af4f383240827c1d1932",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "This proposal adds cmd/go support for flaky tests by allowing annotations to mark unreliable tests, retrying them up to N times, and generating machine-readable output for CI integration. It addresses the need for reliable test reporting in large projects where flaky tests are unavoidable due to complex dependencies and CI constraints.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The proposal suggests using "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " to annotate tests that are known to be flaky."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "MarkFlaky",
+          "choices": [
+            "flakytest.Mark",
+            "test2json",
+            "SkipFlaky",
+            "MarkFlaky"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "cmd/go will support a flag like "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " to specify how many times to retry flaky tests."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "retrycount",
+          "choices": [
+            "maxcount",
+            "retrycount",
+            "retrylimit",
+            "count"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The proposal recommends outputting results in a format recognized by "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " for analytics integration."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "test2json",
+          "choices": [
+            "test2json",
+            "SkipFlakyNet",
+            "flakytest",
+            "go test"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "Existing flaky test markers include "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " and SkipFlakyNet."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "SkipFlaky",
+          "choices": [
+            "test2json",
+            "flakytest.Mark",
+            "MarkFlaky",
+            "SkipFlaky"
+          ]
+        }
+      ]
+    }
+  ]
+}

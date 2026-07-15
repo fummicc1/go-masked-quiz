@@ -1,0 +1,102 @@
+{
+  "issue_number": 26492,
+  "body_hash": "b0f27abde76c7c3f5dbdc9ea219841c7e7041bc8cdfdbf159860d53e6dfd1a6e",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "The proposal adds a -static flag to go build to simplify creating static binaries by encapsulating complex build flags. This reduces the need for manually specifying multiple flags like -ldflags, -buildmode, and tags. It also enables features like automatic static build tags and improved pkg-config handling for static linking.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The new "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " flag in go build simplifies creating static binaries by encapsulating complex linker and buildmode flags."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "-static",
+          "choices": [
+            "-ldflags",
+            "-tags",
+            "-buildmode",
+            "-static"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The proposal introduces an automatic "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " build tag for third-party software to rely on when building statically."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "static_build",
+          "choices": [
+            "pie",
+            "static_build",
+            "netgo",
+            "osusergo"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "With the -static flag, pkg-config invocations will automatically receive the "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " flag for static linking."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "--static",
+          "choices": [
+            "--dynamic",
+            "--static-build",
+            "--static",
+            "--pkg-config"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "issue_number": 12854,
+  "body_hash": "191a7f2c81d18b35402c568a6298f54a93a2c46596116a5736291d9939e6ceb6",
+  "model": "qwen3:8b",
+  "prompt_version": "v1",
+  "summary": "This proposal introduces untyped composite literals that infer their type from context, allowing more concise code. These literals are assignable to any composite type but cannot be used as right-hand-side assignments without explicit left-hand-side types. The change simplifies syntax while maintaining type safety through inference.",
+  "quizzes": [
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The proposal adds "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " that omit the type in composite literals when the type can be inferred from context."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "untyped composite literals",
+          "choices": [
+            "literal expressions",
+            "untyped composite literals",
+            "typed literals",
+            "composite types"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "The primary benefit of "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " is to simplify code by reducing redundant type specifications in common patterns like struct parameters."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "untyped composite literals",
+          "choices": [
+            "untyped composite literals",
+            "type inference",
+            "function parameters",
+            "literal expressions"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "kind": "llm",
+      "index": 0,
+      "gen_method": "llm",
+      "blocks": [
+        {
+          "type": "text",
+          "value": "When using untyped composite literals as right-hand-side assignments, it is an error if the left-hand-side does not have "
+        },
+        {
+          "type": "mask",
+          "blank_index": 0
+        },
+        {
+          "type": "text",
+          "value": " specified."
+        }
+      ],
+      "blanks": [
+        {
+          "answer": "an explicit type",
+          "choices": [
+            "a function signature",
+            "a variable name",
+            "a value",
+            "an explicit type"
+          ]
+        }
+      ]
+    }
+  ]
+}
