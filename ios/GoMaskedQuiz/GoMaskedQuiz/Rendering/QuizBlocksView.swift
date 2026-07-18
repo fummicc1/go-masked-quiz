@@ -21,7 +21,10 @@ struct QuizBlocksView: View {
 
     var body: some View {
         switch quiz.kind {
-        case .prose:
+        case .prose, .llm:
+            // LLM-generated quizzes use the same text/mask block shape as
+            // mechanical prose quizzes (never code_block), so they share a
+            // renderer.
             ProseBlocksView(blocks: quiz.blocks, displays: displays)
         case .code:
             CodeBlocksView(blocks: quiz.blocks, displays: displays)

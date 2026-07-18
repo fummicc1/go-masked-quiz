@@ -12,7 +12,7 @@ struct QuizCardView: View {
                 Text("Q\(quiz.index + 1)")
                     .font(Theme.mono(12, .semibold))
                     .foregroundStyle(Theme.textSecondary)
-                Text(quiz.kind == .code ? "code" : "prose")
+                Text(kindLabel)
                     .font(Theme.mono(10, .medium))
                     .foregroundStyle(Theme.accent)
                     .padding(.horizontal, 7).padding(.vertical, 2)
@@ -32,6 +32,14 @@ struct QuizCardView: View {
         .background(Theme.surfaceElevated)
         .overlay(RoundedRectangle(cornerRadius: 16).stroke(Theme.border, lineWidth: 1))
         .clipShape(RoundedRectangle(cornerRadius: 16))
+    }
+
+    private var kindLabel: String {
+        switch quiz.kind {
+        case .code: "code"
+        case .prose: "prose"
+        case .llm: "llm"
+        }
     }
 
     private var displays: [Int: BlankDisplay] {

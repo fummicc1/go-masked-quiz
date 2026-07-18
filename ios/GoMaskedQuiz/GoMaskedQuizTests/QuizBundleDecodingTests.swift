@@ -46,6 +46,24 @@ final class QuizBundleDecodingTests: XCTestCase {
         }
     }
 
+    func testDecodesLLMKind() throws {
+        let json = """
+        {
+          "id": "issue-1-q01", "kind": "llm", "index": 0,
+          "blocks": [
+            {"type": "text", "value": "An "},
+            {"type": "mask", "blank_index": 0},
+            {"type": "text", "value": " is passed a yield callback."}
+          ],
+          "blanks": [
+            {"answer": "iterator", "choices": ["iterator", "generator", "function", "callback"]}
+          ]
+        }
+        """
+        let quiz = try JSONDecoder.quiz.decode(Quiz.self, from: Data(json.utf8))
+        XCTAssertEqual(quiz.kind, .llm, "\"llm\" must not silently fall back to .prose")
+    }
+
     func testBlockKindsMatchQuizKind() throws {
         for q in try loadGolden().proposals.flatMap(\.quizzes) {
             for block in q.blocks {

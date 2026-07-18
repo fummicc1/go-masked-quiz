@@ -48,6 +48,7 @@ struct Quiz: Decodable, Identifiable, Sendable, Equatable, Hashable {
     enum Kind: String, Decodable, Sendable, Hashable {
         case prose
         case code
+        case llm
 
         init(from decoder: Decoder) throws {
             let raw = try decoder.singleValueContainer().decode(String.self)
