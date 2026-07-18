@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-17T02:23:15.208784193Z",
+  "generated_at": "2026-07-18T02:07:52.944366613Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "58e952a6dd29795163bdff3de8b2d77329ff995b",
@@ -6741,7 +6741,7 @@
               "choices": [
                 "go get",
                 "-insecure",
-                ".Masked(mask)",
+                "module go.jpap.org/example.git-lfs",
                 "go-import.example.net"
               ]
             },
@@ -7100,7 +7100,7 @@
               "answer": "Copy",
               "choices": [
                 "Copy",
-                "AsVector",
+                "Mask32x4",
                 "Value",
                 "RawXML"
               ]
@@ -12841,7 +12841,7 @@
                 "HelloWorld",
                 "value",
                 "event",
-                "Subtest"
+                "jsonv2"
               ]
             },
             {
@@ -12857,7 +12857,7 @@
               "answer": "eventsch",
               "choices": [
                 "eventsch",
-                "EscapeForJS",
+                "PreserveRawStrings",
                 "value",
                 "HelloWorld"
               ]
@@ -12891,7 +12891,7 @@
             {
               "answer": "eventsch",
               "choices": [
-                "examplepackage",
+                "From",
                 "eventsch",
                 "HelloWorld",
                 "event"
@@ -14822,7 +14822,7 @@
             {
               "answer": "SetMemoryTarget",
               "choices": [
-                "UnmarshalArrayFromAnyLength",
+                "ParseTimeWithLooseRFC3339",
                 "function",
                 "Get",
                 "SetMemoryTarget"
@@ -14832,7 +14832,7 @@
               "answer": "amount",
               "choices": [
                 "amount",
-                "MaxUintptr",
+                "MaxInt64",
                 "options",
                 "isRegionArena"
               ]
@@ -27175,22 +27175,22 @@
       ]
     },
     {
-      "id": "issue-47308",
-      "title": "cmd/go: support for Git LFS via new VCS qualifier",
-      "url": "https://github.com/golang/go/issues/47308",
+      "id": "issue-77320",
+      "title": "testing/synctest: add Subtest function",
+      "url": "https://github.com/golang/go/issues/77320",
       "status": "accepted",
       "source_kind": "github-issues",
-      "issue_number": 47308,
+      "issue_number": 77320,
       "quizzes": [
         {
-          "id": "issue-47308-q01",
+          "id": "issue-77320-q01",
           "kind": "prose",
           "index": 0,
           "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
-              "value": "A new VCS named "
+              "value": "I propose adding a "
             },
             {
               "type": "mask",
@@ -27198,77 +27198,7 @@
             },
             {
               "type": "text",
-              "value": " that prescribes the use of Git LFS when fetching a Git repo."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "git-lfs",
-              "choices": [
-                "go get",
-                "git-lfs",
-                "vcs",
-                ".git-lfs"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-47308-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "If not installed, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " should inform the user that Git LFS is required before erroring out.  i.e. "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " should never leave un-smudged Git LFS ref files in a fetched package."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "cmd/go",
-              "choices": [
-                "go get",
-                "vcs",
-                "cmd/go",
-                "module"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-47308-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Specifying "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " as the "
+              "value": " function, which combines "
             },
             {
               "type": "mask",
@@ -27276,7 +27206,7 @@
             },
             {
               "type": "text",
-              "value": " argument in the "
+              "value": " and "
             },
             {
               "type": "mask",
@@ -27284,48 +27214,48 @@
             },
             {
               "type": "text",
-              "value": " attribute of the go-import meta tag."
+              "value": ":"
             }
           ],
           "blanks": [
             {
-              "answer": "git-lfs",
+              "answer": "synctest.Subtest",
               "choices": [
-                "git-lfs",
-                "go get",
-                "module",
-                ".git-lfs"
+                "t.Run",
+                "`${let a = {};}`",
+                "compare.equal",
+                "synctest.Subtest"
               ]
             },
             {
-              "answer": "vcs",
+              "answer": "testing.T.Run",
               "choices": [
-                "cmd/go",
-                "go get",
-                "vcs",
-                "module"
+                "tls.Config",
+                "//go:align",
+                "t.Run",
+                "testing.T.Run"
               ]
             },
             {
-              "answer": "content",
+              "answer": "synctest.Test",
               "choices": [
-                "module",
-                "go get",
-                "content",
-                "cmd/go"
+                "t.Run",
+                "x \u003c\u003c uint(shift)",
+                "synctest.Test",
+                "x509: invalid RDNSequence: invalid attribute value: unsupported string type: 13"
               ]
             }
           ]
         },
         {
-          "id": "issue-47308-q04",
+          "id": "issue-77320-q02",
           "kind": "prose",
-          "index": 3,
+          "index": 1,
           "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
-              "value": "in the "
+              "value": "The "
             },
             {
               "type": "mask",
@@ -27333,7 +27263,7 @@
             },
             {
               "type": "text",
-              "value": " directive in a "
+              "value": " function introduces a layer of indentation to a test.\nThe "
             },
             {
               "type": "mask",
@@ -27341,34 +27271,270 @@
             },
             {
               "type": "text",
-              "value": " file, e.g. "
+              "value": " function also introduces a layer of indentation.\nThe standard table-driven test pattern introduces yet another layer of indentation.\nCombining "
             },
             {
-              "type": "inline_code",
-              "value": "module go.jpap.org/example.git-lfs"
+              "type": "mask",
+              "blank_index": 2
             },
             {
               "type": "text",
-              "value": "."
+              "value": " with "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " undoes one of those layers."
             }
           ],
           "blanks": [
             {
-              "answer": "module",
+              "answer": "synctest.Test",
               "choices": [
-                "cmd/go",
-                "git-lfs",
-                "go get",
-                "module"
+                "synctest.Subtest",
+                "stdcall",
+                "synctest.Test",
+                "*testing.B"
               ]
             },
             {
-              "answer": "go.mod",
+              "answer": "testing.T.Run",
               "choices": [
-                "go.mod",
-                "go get",
-                "cmd/go",
-                "go-import"
+                "type A [T] int",
+                "synctest.Subtest",
+                "start == max \u0026\u0026 max ==\nend",
+                "testing.T.Run"
+              ]
+            },
+            {
+              "answer": "t.Run",
+              "choices": [
+                "/godebug/non-default-behavior/\u003cname\u003e:events",
+                "synctest.Subtest",
+                "t.Run",
+                "go vet ./..."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-77320-q03",
+          "kind": "code",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "// Subtest runs f in a bubble as a subtest of t called name.\n//\n// It is exactly equivalent to calling t.Run with a function that calls [Test].\nfunc Subtest(t *testing.T, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": ", f func(*testing.T)) {\n  t.Helper()\n  t.Run("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ", func(t *testing.T) {\n    t.Helper()\n    "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": "(t, f)\n  })\n}\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "name",
+              "choices": [
+                "Helper",
+                "name",
+                "Run",
+                "Subtest"
+              ]
+            },
+            {
+              "answer": "string",
+              "choices": [
+                "error",
+                "comparable",
+                "iota",
+                "string"
+              ]
+            },
+            {
+              "answer": "Test",
+              "choices": [
+                "Subtest",
+                "testing",
+                "Test",
+                "Run"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-77320-q04",
+          "kind": "code",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "for _, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " := range []struct{\n  name "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "\n  // ...\n}{{\n  name: \"test 1\",\n  // ...\n}}{\n  t.Run("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ".name, func(t *"
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ".T) {\n    synctest.Test(t, func(t *"
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ".t) {\n      // test\n    })\n  })\n}\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "test",
+              "choices": [
+                "Subtest",
+                "Run",
+                "test",
+                "name"
+              ]
+            },
+            {
+              "answer": "string",
+              "choices": [
+                "uintptr",
+                "cap",
+                "string",
+                "byte"
+              ]
+            },
+            {
+              "answer": "testing",
+              "choices": [
+                "testing",
+                "Run",
+                "Subtest",
+                "Helper"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-77320-q05",
+          "kind": "code",
+          "index": 4,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "for _, test := "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " []struct{\n  name "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "\n  // ...\n}{{\n  name: \"test 1\",\n  // ...\n}}{\n  synctest."
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": "(t, test.name, func(t *testing.T) {\n    // ...\n  })\n}\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "range",
+              "choices": [
+                "chan",
+                "type",
+                "range",
+                "struct"
+              ]
+            },
+            {
+              "answer": "string",
+              "choices": [
+                "error",
+                "string",
+                "uintptr",
+                "rune"
+              ]
+            },
+            {
+              "answer": "Subtest",
+              "choices": [
+                "synctest",
+                "testing",
+                "Subtest",
+                "Test"
               ]
             }
           ]
@@ -27738,6 +27904,414 @@
                 "ch",
                 "err",
                 "args"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-68595",
+      "title": "syscall: support process sandboxing using Landlock on Linux",
+      "url": "https://github.com/golang/go/issues/68595",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 68595,
+      "quizzes": [
+        {
+          "id": "issue-68595-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "I have a Golang binary that gets deployed once and then it "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": "'s the ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " binary with various arguments under the hood hundreds of thousands of times to process lots of untrusted repositories on the internet."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "os/exec",
+              "choices": [
+                "*syscall.SysProcAttr",
+                "fork(2)",
+                "os/exec",
+                "fd"
+              ]
+            },
+            {
+              "answer": "git",
+              "choices": [
+                "*syscall.SysProcAttr",
+                "git",
+                "fd",
+                "fork(2)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "This "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " invocation ideally should only access a single temporary directory that we create for it and doesn't need anything else, yet the invoking Golang binary needs an access to much more files and directories, including the networking. So basically, I'm looking to exercise the least privilege principle here."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "git",
+              "choices": [
+                "git",
+                "fork(2)",
+                "os/exec",
+                "fd"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Unfortunately due to Go's runtime and the use of threads, it seems to be somewhat complicated to use ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ", and even if it would work, it would mean re-inventing the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "fork(2)",
+              "choices": [
+                "fork(2)",
+                "git",
+                "*syscall.SysProcAttr",
+                "fd"
+              ]
+            },
+            {
+              "answer": "os/exec",
+              "choices": [
+                "git",
+                "*syscall.SysProcAttr",
+                "fd",
+                "os/exec"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q04",
+          "kind": "prose",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "There's a nice ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " package with a very ergonomic API that can be adapted to emit the ruleset file-descriptor instead of restricting the current process with a couple of line changes."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "github.com/landlock-lsm/go-landlock",
+              "choices": [
+                "github.com/landlock-lsm/go-landlock",
+                "*syscall.SysProcAttr",
+                "git",
+                "os/exec"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q05",
+          "kind": "prose",
+          "index": 4,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "To get the "
+            },
+            {
+              "type": "inline_code",
+              "value": "fd"
+            },
+            {
+              "type": "text",
+              "value": " for the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " above, the user might do something like this:"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "*syscall.SysProcAttr",
+              "choices": [
+                "os/exec",
+                "fork(2)",
+                "git",
+                "*syscall.SysProcAttr"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-47308",
+      "title": "cmd/go: support for Git LFS via new VCS qualifier",
+      "url": "https://github.com/golang/go/issues/47308",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 47308,
+      "quizzes": [
+        {
+          "id": "issue-47308-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "A new VCS named "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " that prescribes the use of Git LFS when fetching a Git repo."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "git-lfs",
+              "choices": [
+                "go get",
+                "git-lfs",
+                "vcs",
+                ".git-lfs"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-47308-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "If not installed, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " should inform the user that Git LFS is required before erroring out.  i.e. "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " should never leave un-smudged Git LFS ref files in a fetched package."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "cmd/go",
+              "choices": [
+                "go get",
+                "vcs",
+                "cmd/go",
+                "module"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-47308-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Specifying "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " as the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " argument in the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " attribute of the go-import meta tag."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "git-lfs",
+              "choices": [
+                "git-lfs",
+                "go get",
+                "module",
+                ".git-lfs"
+              ]
+            },
+            {
+              "answer": "vcs",
+              "choices": [
+                "cmd/go",
+                "go get",
+                "vcs",
+                "module"
+              ]
+            },
+            {
+              "answer": "content",
+              "choices": [
+                "module",
+                "go get",
+                "content",
+                "cmd/go"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-47308-q04",
+          "kind": "prose",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "in the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " directive in a "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " file, e.g. "
+            },
+            {
+              "type": "inline_code",
+              "value": "module go.jpap.org/example.git-lfs"
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "module",
+              "choices": [
+                "cmd/go",
+                "git-lfs",
+                "go get",
+                "module"
+              ]
+            },
+            {
+              "answer": "go.mod",
+              "choices": [
+                "go.mod",
+                "go get",
+                "cmd/go",
+                "go-import"
               ]
             }
           ]
@@ -29483,7 +30057,7 @@
               "answer": "parser",
               "choices": [
                 "attrs",
-                "consTypeParamLists",
+                "SliceData",
                 "parser",
                 "File"
               ]
@@ -29493,14 +30067,14 @@
               "choices": [
                 "File",
                 "ResolveFile",
-                "static",
-                "TestExample_in_and_out"
+                "Usage",
+                "AddReturningString"
               ]
             },
             {
               "answer": "ast",
               "choices": [
-                "prev",
+                "Seq2",
                 "trackSlice",
                 "ast",
                 "File"
@@ -29542,7 +30116,7 @@
               "answer": "types.Info",
               "choices": [
                 "DoubleDefined",
-                "Multiline",
+                "NewDecoder",
                 "text/template",
                 "types.Info"
               ]
@@ -30301,7 +30875,7 @@
             {
               "answer": "Server",
               "choices": [
-                "program",
+                "call",
                 "http",
                 "Server",
                 "DefaultMaxHeaderValueCount"
@@ -31003,7 +31577,7 @@
                 "Clone",
                 "hash",
                 "XOF",
-                "Attribute"
+                "SysProcAttr"
               ]
             },
             {
@@ -31954,7 +32528,7 @@
               "answer": "./mod",
               "choices": [
                 "nhooyr.io/websocket/mod",
-                "package example // import \"go.jpap.org/example.git-lfs\"",
+                "fork(2)",
                 "./mod",
                 "seed"
               ]
@@ -32142,217 +32716,10 @@
             {
               "answer": "splice",
               "choices": [
-                "GPT",
+                "zero",
                 "Load",
                 "xml.Marshaler",
                 "splice"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-68595",
-      "title": "syscall: support process sandboxing using Landlock on Linux",
-      "url": "https://github.com/golang/go/issues/68595",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 68595,
-      "quizzes": [
-        {
-          "id": "issue-68595-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I have a Golang binary that gets deployed once and then it "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "'s the ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " binary with various arguments under the hood hundreds of thousands of times to process lots of untrusted repositories on the internet."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "os/exec",
-              "choices": [
-                "*syscall.SysProcAttr",
-                "fork(2)",
-                "os/exec",
-                "fd"
-              ]
-            },
-            {
-              "answer": "git",
-              "choices": [
-                "*syscall.SysProcAttr",
-                "git",
-                "fd",
-                "fork(2)"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "This "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " invocation ideally should only access a single temporary directory that we create for it and doesn't need anything else, yet the invoking Golang binary needs an access to much more files and directories, including the networking. So basically, I'm looking to exercise the least privilege principle here."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "git",
-              "choices": [
-                "git",
-                "fork(2)",
-                "os/exec",
-                "fd"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Unfortunately due to Go's runtime and the use of threads, it seems to be somewhat complicated to use ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ", and even if it would work, it would mean re-inventing the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": "."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "fork(2)",
-              "choices": [
-                "fork(2)",
-                "git",
-                "*syscall.SysProcAttr",
-                "fd"
-              ]
-            },
-            {
-              "answer": "os/exec",
-              "choices": [
-                "git",
-                "*syscall.SysProcAttr",
-                "fd",
-                "os/exec"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "There's a nice ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " package with a very ergonomic API that can be adapted to emit the ruleset file-descriptor instead of restricting the current process with a couple of line changes."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "github.com/landlock-lsm/go-landlock",
-              "choices": [
-                "github.com/landlock-lsm/go-landlock",
-                "*syscall.SysProcAttr",
-                "git",
-                "os/exec"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q05",
-          "kind": "prose",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "To get the "
-            },
-            {
-              "type": "inline_code",
-              "value": "fd"
-            },
-            {
-              "type": "text",
-              "value": " for the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " above, the user might do something like this:"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "*syscall.SysProcAttr",
-              "choices": [
-                "os/exec",
-                "fork(2)",
-                "git",
-                "*syscall.SysProcAttr"
               ]
             }
           ]
@@ -32532,7 +32899,7 @@
               "choices": [
                 "my_test.go:321",
                 "Test/Bar",
-                "IsValid",
+                "jsontext",
                 "testing"
               ]
             }
@@ -34246,7 +34613,7 @@
                 "sha3.SHA3",
                 "Map[int, string]",
                 "type algorithms",
-                "tar.ErrInsecurePath"
+                "MaxHeaderValueCount"
               ]
             }
           ]
@@ -35868,373 +36235,6 @@
       ]
     },
     {
-      "id": "issue-77320",
-      "title": "testing/synctest: add Subtest function",
-      "url": "https://github.com/golang/go/issues/77320",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 77320,
-      "quizzes": [
-        {
-          "id": "issue-77320-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I propose adding a "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " function, which combines "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " and "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": ":"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "synctest.Subtest",
-              "choices": [
-                "t.Run",
-                "`${let a = {};}`",
-                "compare.equal",
-                "synctest.Subtest"
-              ]
-            },
-            {
-              "answer": "testing.T.Run",
-              "choices": [
-                "tls.Config",
-                "//go:align",
-                "t.Run",
-                "testing.T.Run"
-              ]
-            },
-            {
-              "answer": "synctest.Test",
-              "choices": [
-                "t.Run",
-                "x \u003c\u003c uint(shift)",
-                "synctest.Test",
-                "x509: invalid RDNSequence: invalid attribute value: unsupported string type: 13"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-77320-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " function introduces a layer of indentation to a test.\nThe "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " function also introduces a layer of indentation.\nThe standard table-driven test pattern introduces yet another layer of indentation.\nCombining "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " with "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " undoes one of those layers."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "synctest.Test",
-              "choices": [
-                "synctest.Subtest",
-                "stdcall",
-                "synctest.Test",
-                "*testing.B"
-              ]
-            },
-            {
-              "answer": "testing.T.Run",
-              "choices": [
-                "type A [T] int",
-                "synctest.Subtest",
-                "start == max \u0026\u0026 max ==\nend",
-                "testing.T.Run"
-              ]
-            },
-            {
-              "answer": "t.Run",
-              "choices": [
-                "/godebug/non-default-behavior/\u003cname\u003e:events",
-                "synctest.Subtest",
-                "t.Run",
-                "go vet ./..."
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-77320-q03",
-          "kind": "code",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "// Subtest runs f in a bubble as a subtest of t called name.\n//\n// It is exactly equivalent to calling t.Run with a function that calls [Test].\nfunc Subtest(t *testing.T, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": ", f func(*testing.T)) {\n  t.Helper()\n  t.Run("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ", func(t *testing.T) {\n    t.Helper()\n    "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "(t, f)\n  })\n}\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "name",
-              "choices": [
-                "Helper",
-                "name",
-                "Run",
-                "Subtest"
-              ]
-            },
-            {
-              "answer": "string",
-              "choices": [
-                "error",
-                "comparable",
-                "iota",
-                "string"
-              ]
-            },
-            {
-              "answer": "Test",
-              "choices": [
-                "Subtest",
-                "testing",
-                "Test",
-                "Run"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-77320-q04",
-          "kind": "code",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "for _, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " := range []struct{\n  name "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "\n  // ...\n}{{\n  name: \"test 1\",\n  // ...\n}}{\n  t.Run("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ".name, func(t *"
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": ".T) {\n    synctest.Test(t, func(t *"
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": ".t) {\n      // test\n    })\n  })\n}\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "test",
-              "choices": [
-                "Subtest",
-                "Run",
-                "test",
-                "name"
-              ]
-            },
-            {
-              "answer": "string",
-              "choices": [
-                "uintptr",
-                "cap",
-                "string",
-                "byte"
-              ]
-            },
-            {
-              "answer": "testing",
-              "choices": [
-                "testing",
-                "Run",
-                "Subtest",
-                "Helper"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-77320-q05",
-          "kind": "code",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "for _, test := "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " []struct{\n  name "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "\n  // ...\n}{{\n  name: \"test 1\",\n  // ...\n}}{\n  synctest."
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "(t, test.name, func(t *testing.T) {\n    // ...\n  })\n}\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "range",
-              "choices": [
-                "chan",
-                "type",
-                "range",
-                "struct"
-              ]
-            },
-            {
-              "answer": "string",
-              "choices": [
-                "error",
-                "string",
-                "uintptr",
-                "rune"
-              ]
-            },
-            {
-              "answer": "Subtest",
-              "choices": [
-                "synctest",
-                "testing",
-                "Subtest",
-                "Test"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-73126",
       "title": "os: add Root.ReadFile \u0026 Root.WriteFile",
       "url": "https://github.com/golang/go/issues/73126",
@@ -37103,7 +37103,7 @@
             {
               "answer": "math/rand/v2",
               "choices": [
-                "AsVector",
+                "hash.CloneXOF",
                 "N",
                 "math/rand/v2",
                 "static_assert"
@@ -37232,7 +37232,7 @@
               "choices": [
                 "passphrase",
                 "Rand",
-                "MaxUintptr",
+                "MaxInt64",
                 "replaced"
               ]
             },
@@ -39455,7 +39455,7 @@
                 "go work sync",
                 "DisallowUnknownFields",
                 "Decoder.DisallowDuplicateFields",
-                "fd"
+                "Vec4[T]"
               ]
             }
           ]
@@ -41935,7 +41935,7 @@
                 "desc",
                 "Test",
                 "CoverageMode",
-                "doc"
+                "also"
               ]
             },
             {
@@ -41943,16 +41943,16 @@
               "choices": [
                 "NewCache",
                 "testing",
-                "AllowDuplicateNames",
-                "Int32"
+                "StackIndex",
+                "MaxUint32"
               ]
             },
             {
               "answer": "Wait",
               "choices": [
                 "Wait",
-                "JSONKind",
-                "LoadFloat64x4",
+                "GetOption",
+                "Float64x8",
                 "debug"
               ]
             }
@@ -42169,7 +42169,7 @@
                 "unique.Make",
                 "runtime.SetFinalizer",
                 "GOMAXPROCS",
-                "[]int64"
+                "GPT"
               ]
             }
           ]
@@ -42278,7 +42278,7 @@
               "answer": "tls.Config.EncryptedClientHelloKeys",
               "choices": [
                 "GetEncryptedClientHelloKeys",
-                "module go.jpap.org/example.git-lfs",
+                "t.Run",
                 "GetConfigForClient",
                 "tls.Config.EncryptedClientHelloKeys"
               ]
@@ -42697,15 +42697,15 @@
               "answer": "slog.Logger",
               "choices": [
                 "f := try",
-                "Div",
-                "ToSimd() any",
+                "AddMasked",
+                "Int8s",
                 "slog.Logger"
               ]
             },
             {
               "answer": "slog.Handler",
               "choices": [
-                "hash.Clone",
+                "tar.ErrInsecurePath",
                 "fs.ReadFile",
                 "mhelpgc",
                 "slog.Handler"
@@ -43102,7 +43102,7 @@
             {
               "answer": "tlssha1=1",
               "choices": [
-                "wasip1/wasm32",
+                "wasi_snapshot_preview1",
                 "@master",
                 "[](T(x))",
                 "tlssha1=1"
@@ -43153,7 +43153,7 @@
               "choices": [
                 "go vet",
                 "tools",
-                "nhooyr.io/websocket/mod",
+                "OnesCount",
                 "multichecker"
               ]
             }
@@ -43659,7 +43659,7 @@
               "choices": [
                 "flags int",
                 "recvmmsg",
-                "tar.Reader.Next",
+                "MaxHeaderBytes",
                 "net.Buffers"
               ]
             }
@@ -44805,9 +44805,9 @@
             {
               "answer": "runtime",
               "choices": [
-                "a2",
-                "org",
-                "doc",
+                "Uint32x4",
+                "or",
+                "also",
                 "runtime"
               ]
             },
@@ -44816,7 +44816,7 @@
               "choices": [
                 "frag",
                 "RunOnMainThread",
-                "up",
+                "my_test",
                 "Line"
               ]
             }
@@ -45045,7 +45045,7 @@
               "answer": "MLDSA87",
               "choices": [
                 "MLDSA87",
-                "CancelRequest",
+                "cancelRequestOnce",
                 "SignatureScheme",
                 "SignatureAlgorithm"
               ]
@@ -45110,7 +45110,7 @@
                 "SignatureScheme",
                 "SignatureAlgorithm",
                 "MLDSA44",
-                "Multiline"
+                "ReorderRawObjects"
               ]
             },
             {
@@ -45418,7 +45418,7 @@
             {
               "answer": "x509.ParseCertificate",
               "choices": [
-                "AddMasked",
+                "dev.simd",
                 "MarshalText",
                 "x509: invalid RDNSequence: invalid attribute value: unsupported string type: 13",
                 "x509.ParseCertificate"
@@ -45845,7 +45845,7 @@
                 "add",
                 "SignMessage",
                 "str",
-                "From"
+                "types"
               ]
             },
             {
@@ -45899,7 +45899,7 @@
               "answer": "add",
               "choices": [
                 "Serve",
-                "CapabilityCount",
+                "SecurityCapabilities",
                 "add",
                 "trackSlice"
               ]
@@ -46461,7 +46461,7 @@
               "choices": [
                 "tool path/to/package",
                 "StringVal",
-                "NewEncoder",
+                "Indent",
                 "throw"
               ]
             }
@@ -46521,7 +46521,7 @@
               "answer": "crypto/X509.ParseCertificate()",
               "choices": [
                 "[]float64",
-                "runtime.KeepAlive",
+                "GOARCH=wasm",
                 "Signature",
                 "crypto/X509.ParseCertificate()"
               ]
@@ -47115,7 +47115,7 @@
                 "unsafe",
                 "addr",
                 "syscall",
-                "CanonicalizeRawFloats"
+                "jsonopts"
               ]
             },
             {
@@ -47409,7 +47409,7 @@
               "choices": [
                 "GoMod string",
                 "GoMod",
-                "go test -exec=...",
+                "NewSignerWithAlgorithms",
                 "go.mod"
               ]
             },
@@ -47457,9 +47457,9 @@
             {
               "answer": "ssh.Conn",
               "choices": [
-                "url.MustParse",
+                "''",
                 "ssh.Conn",
-                "f'",
+                "len(ProcThreadAttributes) + 2",
                 "type algorithms"
               ]
             }
@@ -48339,7 +48339,7 @@
               "answer": "Protocol",
               "choices": [
                 "HACK-HTTP2-Protocol",
-                "simd/mocks.go",
+                "Float64s",
                 "req.Protocol",
                 "Protocol"
               ]
@@ -48450,7 +48450,7 @@
                 ":protocol",
                 "Protocol",
                 "HACK-HTTP2-Protocol",
-                "TestExampleFoo"
+                "Transport.RoundTrip"
               ]
             },
             {
@@ -49675,7 +49675,7 @@
             {
               "answer": "fmt",
               "choices": [
-                "JoinUnmarshalers",
+                "MarshalFunc",
                 "fmt",
                 "ast",
                 "NewPublicKey"
@@ -50018,7 +50018,7 @@
               "answer": "GOEXPERIMENT",
               "choices": [
                 "ceil(log62(2^128))",
-                "http2",
+                "golang.org/x/net/http2",
                 "https://sum.golang.org/",
                 "GOEXPERIMENT"
               ]
@@ -50720,7 +50720,7 @@
             {
               "answer": "CutLast",
               "choices": [
-                "Float32s",
+                "x.AsFloat64s()",
                 "go1.N.0",
                 "CutLast",
                 "synctest"
@@ -50731,7 +50731,7 @@
               "choices": [
                 "plugin",
                 "NewPair[int](1, 2)",
-                "f′",
+                "syscall/exec_windows.go",
                 "package-url"
               ]
             }
@@ -52645,7 +52645,7 @@
               "choices": [
                 "explicit_bzero",
                 "unique.Handle",
-                "a + *b",
+                "VPADDD x, y, m, z",
                 "*Func"
               ]
             },
@@ -55511,8 +55511,8 @@
             {
               "answer": "Interface",
               "choices": [
-                "-test.v=test2json",
-                "ErrNoAuth",
+                "http2",
+                "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
                 "Interface",
                 "Value"
               ]
@@ -58172,7 +58172,7 @@
               "answer": "GOCACHEPROG",
               "choices": [
                 "0x123.fffp5",
-                "encoding.TextUnmarshaler",
+                "IsZero",
                 "GOCACHEPROG",
                 "[]byte"
               ]
@@ -58182,7 +58182,7 @@
               "choices": [
                 "token.OR",
                 "//go:align",
-                "hstore",
+                "Option1",
                 "GOEXPERIMENT=gocacheprog"
               ]
             }
@@ -58214,7 +58214,7 @@
                 "Float.Parse",
                 "GOCACHEPROG",
                 "GOEXPERIMENT=gocacheprog",
-                "MarshalToFunc"
+                "encoding.TextMarshaler"
               ]
             }
           ]
@@ -58533,7 +58533,7 @@
                 "Loop",
                 "testing",
                 "Benchmark",
-                "Int32"
+                "MaxUint32"
               ]
             },
             {
@@ -58663,7 +58663,7 @@
                 "testing",
                 "op",
                 "NewStream",
-                "or"
+                "See"
               ]
             },
             {
@@ -58671,7 +58671,7 @@
               "choices": [
                 "Loop",
                 "op",
-                "maps",
+                "Once",
                 "recvTypeParams"
               ]
             }
@@ -60854,7 +60854,7 @@
             {
               "answer": "Sleep",
               "choices": [
-                "MaxInt64",
+                "Foo_FrotzOptions_Option",
                 "synctest",
                 "Wait",
                 "Sleep"
