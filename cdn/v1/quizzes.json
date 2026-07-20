@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-19T02:24:59.064822507Z",
+  "generated_at": "2026-07-20T02:40:19.36750793Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "58e952a6dd29795163bdff3de8b2d77329ff995b",
@@ -453,10 +453,10 @@
             {
               "answer": "Run",
               "choices": [
-                "in",
+                "fn",
                 "Sum",
                 "Run",
-                "fn"
+                "in"
               ]
             }
           ]
@@ -549,18 +549,18 @@
             {
               "answer": "TestFoo",
               "choices": [
-                "TestSum",
                 "TestFail",
-                "testing",
-                "TestFoo"
+                "TestSum",
+                "TestFoo",
+                "testing"
               ]
             },
             {
               "answer": "which",
               "choices": [
+                "which",
                 "tc",
                 "Fail",
-                "which",
                 "the"
               ]
             }
@@ -637,17 +637,17 @@
             {
               "answer": "testing",
               "choices": [
-                "testing",
+                "TestSum",
                 "tests",
                 "test",
-                "TestSum"
+                "testing"
               ]
             },
             {
               "answer": "Run",
               "choices": [
-                "in",
                 "Run",
+                "in",
                 "Sum",
                 "fn"
               ]
@@ -655,10 +655,10 @@
             {
               "answer": "parallelTest3",
               "choices": [
-                "parallelTest1",
+                "parallelTest3",
                 "Parallel",
-                "parallelTest2",
-                "parallelTest3"
+                "parallelTest1",
+                "parallelTest2"
               ]
             }
           ]
@@ -694,19 +694,19 @@
             {
               "answer": "Wait",
               "choices": [
-                "Wait",
                 "fmt",
-                "Fail",
-                "name"
+                "Wait",
+                "name",
+                "Fail"
               ]
             },
             {
               "answer": "numFailures",
               "choices": [
-                "Fail",
-                "bufsizes",
+                "numFailures",
                 "FailNow",
-                "numFailures"
+                "Fail",
+                "bufsizes"
               ]
             }
           ]
@@ -750,28 +750,28 @@
             {
               "answer": "TestTeardownParallel",
               "choices": [
-                "TestReader",
                 "Parallel",
                 "TestParallel",
+                "TestReader",
                 "TestTeardownParallel"
               ]
             },
             {
               "answer": "parallelTest3",
               "choices": [
-                "Parallel",
-                "parallelTest1",
                 "parallelTest2",
+                "parallelTest1",
+                "Parallel",
                 "parallelTest3"
               ]
             },
             {
               "answer": "Wait",
               "choices": [
+                "name",
                 "Fail",
                 "fmt",
-                "Wait",
-                "name"
+                "Wait"
               ]
             }
           ]
@@ -1050,19 +1050,19 @@
             {
               "answer": "Currency",
               "choices": [
-                "Printf",
                 "Currency",
                 "French",
-                "person"
+                "person",
+                "Printf"
               ]
             },
             {
               "answer": "fmt",
               "choices": [
-                "Set",
+                "cat",
                 "kmh",
                 "fmt",
-                "cat"
+                "Set"
               ]
             },
             {
@@ -1147,27 +1147,27 @@
             {
               "answer": "Unit",
               "choices": [
-                "init",
                 "city",
-                "Unit",
-                "fmt"
+                "init",
+                "fmt",
+                "Unit"
               ]
             },
             {
               "answer": "Meters",
               "choices": [
-                "err",
+                "Set",
                 "letter",
                 "Meters",
-                "Set"
+                "err"
               ]
             },
             {
               "answer": "SpeedKilometersPerHour",
               "choices": [
+                "person",
                 "SpeedKilometersPerHour",
                 "NewPrinter",
-                "person",
                 "KilometersPerHour"
               ]
             }
@@ -1212,28 +1212,28 @@
             {
               "answer": "SpellOut",
               "choices": [
-                "Select",
-                "formSpellOut",
                 "Set",
-                "SpellOut"
+                "SpellOut",
+                "formSpellOut",
+                "Select"
               ]
             },
             {
               "answer": "Unit",
               "choices": [
-                "fmt",
                 "city",
                 "init",
-                "Unit"
+                "Unit",
+                "fmt"
               ]
             },
             {
               "answer": "Print",
               "choices": [
-                "Printf",
-                "Printer",
                 "Print",
-                "Println"
+                "Println",
+                "Printf",
+                "Printer"
               ]
             }
           ]
@@ -1277,9 +1277,9 @@
             {
               "answer": "SetSelect",
               "choices": [
-                "letter",
                 "SetSelect",
                 "Set",
+                "letter",
                 "Select"
               ]
             },
@@ -1287,17 +1287,17 @@
               "answer": "English",
               "choices": [
                 "init",
-                "English",
+                "Unit",
                 "Cash",
-                "Unit"
+                "English"
               ]
             },
             {
               "answer": "String",
               "choices": [
-                "String",
-                "Printf",
                 "main",
+                "Printf",
+                "String",
                 "Print"
               ]
             }
@@ -1350,19 +1350,19 @@
             {
               "answer": "Tag",
               "choices": [
-                "lang",
-                "log",
                 "Tag",
+                "log",
+                "lang",
                 "Var"
               ]
             },
             {
               "answer": "message",
               "choices": [
-                "msg",
-                "Messages",
                 "Female",
-                "message"
+                "Messages",
+                "message",
+                "msg"
               ]
             },
             {
@@ -1917,9 +1917,9 @@
             {
               "answer": "Element",
               "choices": [
+                "Element",
                 "Token",
                 "StartElement",
-                "Element",
                 "Name"
               ]
             },
@@ -1973,19 +1973,19 @@
             {
               "answer": "Element",
               "choices": [
-                "StartElement",
-                "Element",
                 "Name",
-                "Token"
+                "StartElement",
+                "Token",
+                "Element"
               ]
             },
             {
               "answer": "err",
               "choices": [
-                "xml",
-                "err",
                 "el",
-                "tok"
+                "xml",
+                "tok",
+                "err"
               ]
             },
             {
@@ -2075,26 +2075,26 @@
               "answer": "tok",
               "choices": [
                 "xml",
+                "tok",
                 "ok",
-                "el",
-                "tok"
+                "el"
               ]
             },
             {
               "answer": "Element",
               "choices": [
-                "StartElement",
+                "Token",
                 "Name",
                 "Element",
-                "Token"
+                "StartElement"
               ]
             },
             {
               "answer": "child",
               "choices": [
                 "el",
-                "xml",
                 "err",
+                "xml",
                 "child"
               ]
             }
@@ -3927,10 +3927,10 @@
             {
               "answer": "Sharded",
               "choices": [
+                "ShardInfo",
                 "shardId",
-                "sharder",
                 "Sharded",
-                "ShardInfo"
+                "sharder"
               ]
             },
             {
@@ -3945,10 +3945,10 @@
             {
               "answer": "createFn",
               "choices": [
+                "curData",
                 "Get",
                 "createFn",
-                "testing",
-                "curData"
+                "testing"
               ]
             }
           ]
@@ -4193,27 +4193,27 @@
             {
               "answer": "ShardInfo",
               "choices": [
+                "shardId",
                 "Sharded",
                 "ShardInfo",
-                "shardId",
                 "ShardIndex"
               ]
             },
             {
               "answer": "existing",
               "choices": [
-                "Pointer",
-                "existing",
                 "next",
-                "testing"
+                "existing",
+                "testing",
+                "Pointer"
               ]
             },
             {
               "answer": "load",
               "choices": [
-                "Do",
                 "lock",
                 "load",
+                "Do",
                 "rnd"
               ]
             }
@@ -5439,9 +5439,9 @@
             {
               "answer": "xml",
               "choices": [
-                "xml",
                 "Map",
                 "Skip",
+                "xml",
                 "src"
               ]
             },
@@ -5511,8 +5511,8 @@
             {
               "answer": "Transformer",
               "choices": [
-                "Tokenizer",
                 "src",
+                "Tokenizer",
                 "Token",
                 "Transformer"
               ]
@@ -5520,19 +5520,19 @@
             {
               "answer": "mapping",
               "choices": [
+                "Map",
                 "mapping",
                 "Skip",
-                "Map",
                 "Token"
               ]
             },
             {
               "answer": "Remove",
               "choices": [
-                "Remove",
-                "Token",
                 "Skip",
-                "xml"
+                "xml",
+                "Remove",
+                "Token"
               ]
             }
           ]
@@ -5576,10 +5576,10 @@
             {
               "answer": "RemoveElement",
               "choices": [
-                "Tokenizer",
-                "StartElement",
                 "RemoveElement",
-                "Remove"
+                "Remove",
+                "StartElement",
+                "Tokenizer"
               ]
             },
             {
@@ -5594,10 +5594,10 @@
             {
               "answer": "Transformer",
               "choices": [
-                "src",
                 "Transformer",
-                "Tokenizer",
-                "Token"
+                "Token",
+                "src",
+                "Tokenizer"
               ]
             }
           ]
@@ -6387,18 +6387,18 @@
             {
               "answer": "_p",
               "choices": [
-                "top",
-                "_n",
                 "_p",
-                "cond"
+                "cond",
+                "top",
+                "_n"
               ]
             },
             {
               "answer": "end",
               "choices": [
                 "end",
-                "cond",
                 "_n",
+                "cond",
                 "body"
               ]
             }
@@ -6475,28 +6475,28 @@
             {
               "answer": "_n",
               "choices": [
-                "_n",
+                "cond",
                 "end",
-                "_p",
-                "cond"
+                "_n",
+                "_p"
               ]
             },
             {
               "answer": "body",
               "choices": [
-                "cond",
-                "body",
+                "_p",
                 "end",
-                "_p"
+                "cond",
+                "body"
               ]
             },
             {
               "answer": "top",
               "choices": [
                 "cond",
-                "top",
+                "end",
                 "_p",
-                "end"
+                "top"
               ]
             }
           ]
@@ -7100,9 +7100,9 @@
               "answer": "Copy",
               "choices": [
                 "Copy",
-                "Mask32x4",
-                "Value",
-                "RawXML"
+                "RawXML",
+                "maphash",
+                "KindEndObject"
               ]
             }
           ]
@@ -7626,10 +7626,10 @@
             {
               "answer": "AddVecs",
               "choices": [
-                "MLKEM1024",
+                "Stop",
                 "AddVecs",
-                "Kind",
-                "Parallel"
+                "Null",
+                "ServeHTTP"
               ]
             },
             {
@@ -7644,10 +7644,10 @@
             {
               "answer": "addVecsAsm",
               "choices": [
-                "priv",
-                "isErr",
+                "EqualToMask",
                 "addVecsAsm",
-                "parallelTest2"
+                "pc",
+                "PreorderSeq"
               ]
             }
           ]
@@ -7833,19 +7833,19 @@
             {
               "answer": "tail",
               "choices": [
-                "Push",
+                "ts",
                 "tail",
-                "head",
-                "ts"
+                "Push",
+                "head"
               ]
             },
             {
               "answer": "lastSliceSize",
               "choices": [
-                "maxFirstSliceSize",
+                "firstSliceSize",
                 "lastSliceSize",
                 "maxInternalSliceSize",
-                "firstSliceSize"
+                "maxFirstSliceSize"
               ]
             },
             {
@@ -8019,19 +8019,19 @@
             {
               "answer": "Len",
               "choices": [
+                "Len",
                 "ts",
                 "New",
-                "head",
-                "Len"
+                "head"
               ]
             },
             {
               "answer": "Pop",
               "choices": [
-                "ok",
-                "Pop",
                 "Push",
-                "Node"
+                "ok",
+                "Node",
+                "Pop"
               ]
             }
           ]
@@ -8107,28 +8107,28 @@
             {
               "answer": "Len",
               "choices": [
+                "head",
                 "New",
-                "ts",
                 "Len",
-                "head"
+                "ts"
               ]
             },
             {
               "answer": "Lock",
               "choices": [
+                "Pop",
                 "ok",
                 "Node",
-                "Pop",
                 "Lock"
               ]
             },
             {
               "answer": "Println",
               "choices": [
-                "Println",
                 "Front",
-                "Sprintf",
-                "tail"
+                "Println",
+                "tail",
+                "Sprintf"
               ]
             }
           ]
@@ -8180,26 +8180,26 @@
             {
               "answer": "New",
               "choices": [
-                "head",
+                "Node",
                 "Len",
                 "New",
-                "Node"
+                "head"
               ]
             },
             {
               "answer": "Pop",
               "choices": [
                 "Push",
-                "Node",
                 "ok",
+                "Node",
                 "Pop"
               ]
             },
             {
               "answer": "Sizeof",
               "choices": [
-                "Sizeof",
                 "Node",
+                "Sizeof",
                 "ok",
                 "head"
               ]
@@ -8627,9 +8627,9 @@
             {
               "answer": "BenchmarkResult",
               "choices": [
+                "JSONResult",
                 "Benchmark",
                 "Package",
-                "JSONResult",
                 "BenchmarkResult"
               ]
             }
@@ -10194,18 +10194,18 @@
             {
               "answer": "cond",
               "choices": [
-                "cond",
                 "body",
-                "tmpA",
-                "f1"
+                "cond",
+                "f1",
+                "tmpA"
               ]
             },
             {
               "answer": "f2",
               "choices": [
                 "f1",
-                "f2",
                 "body",
+                "f2",
                 "tmpA"
               ]
             }
@@ -10258,28 +10258,28 @@
             {
               "answer": "cond",
               "choices": [
-                "body",
                 "f1",
                 "f2",
-                "cond"
+                "cond",
+                "body"
               ]
             },
             {
               "answer": "tmpB",
               "choices": [
+                "tmpA",
                 "tmpF2",
-                "tmpB",
                 "tmpF1",
-                "tmpA"
+                "tmpB"
               ]
             },
             {
               "answer": "exit",
               "choices": [
-                "f1",
                 "f2",
-                "body",
-                "exit"
+                "f1",
+                "exit",
+                "body"
               ]
             }
           ]
@@ -10978,10 +10978,10 @@
             {
               "answer": "pad",
               "choices": [
-                "lock",
-                "vals",
                 "ticks",
-                "pad"
+                "lock",
+                "pad",
+                "vals"
               ]
             },
             {
@@ -10996,10 +10996,10 @@
             {
               "answer": "val",
               "choices": [
-                "lock",
-                "vals",
                 "ticks",
-                "val"
+                "val",
+                "lock",
+                "vals"
               ]
             }
           ]
@@ -11156,10 +11156,10 @@
             {
               "answer": "vector",
               "choices": [
-                "vector",
+                "mutex",
                 "ticks",
                 "lock",
-                "mutex"
+                "vector"
               ]
             },
             {
@@ -11499,8 +11499,8 @@
               "choices": [
                 "KindUint64",
                 "KindFloat64",
-                "KindFloat64Histogram",
-                "Float64Histogram"
+                "Float64Histogram",
+                "KindFloat64Histogram"
               ]
             },
             {
@@ -11571,10 +11571,10 @@
             {
               "answer": "Name",
               "choices": [
-                "time",
-                "Sample",
                 "Value",
-                "Name"
+                "Sample",
+                "Name",
+                "time"
               ]
             }
           ]
@@ -11627,9 +11627,9 @@
               "answer": "Clone",
               "choices": [
                 "log",
+                "Kind",
                 "Clone",
-                "Value",
-                "Kind"
+                "Value"
               ]
             },
             {
@@ -11644,10 +11644,10 @@
             {
               "answer": "StopTheWorld",
               "choices": [
-                "StopTheWorld",
-                "Sample",
                 "Second",
-                "pointer"
+                "Sample",
+                "pointer",
+                "StopTheWorld"
               ]
             }
           ]
@@ -11715,10 +11715,10 @@
             {
               "answer": "name",
               "choices": [
-                "time",
-                "Value",
                 "name",
-                "Sample"
+                "Value",
+                "Sample",
+                "time"
               ]
             },
             {
@@ -11733,10 +11733,10 @@
             {
               "answer": "KindFloat64Histogram",
               "choices": [
-                "KindUint64",
                 "Float64Histogram",
-                "KindFloat64Histogram",
-                "KindFloat64"
+                "KindUint64",
+                "KindFloat64",
+                "KindFloat64Histogram"
               ]
             }
           ]
@@ -11796,18 +11796,18 @@
             {
               "answer": "All",
               "choices": [
+                "log",
                 "Kind",
-                "Value",
                 "All",
-                "log"
+                "Value"
               ]
             },
             {
               "answer": "stats",
               "choices": [
-                "scalar",
-                "Name",
                 "Counts",
+                "Name",
+                "scalar",
                 "stats"
               ]
             },
@@ -12838,10 +12838,10 @@
             {
               "answer": "event",
               "choices": [
-                "HelloWorld",
+                "Must",
                 "value",
                 "event",
-                "jsonv2"
+                "HelloWorld"
               ]
             },
             {
@@ -12856,9 +12856,9 @@
             {
               "answer": "eventsch",
               "choices": [
-                "eventsch",
-                "PreserveRawStrings",
+                "NewBTree",
                 "value",
+                "eventsch",
                 "HelloWorld"
               ]
             }
@@ -12891,9 +12891,9 @@
             {
               "answer": "eventsch",
               "choices": [
-                "From",
                 "eventsch",
                 "HelloWorld",
+                "cmd",
                 "event"
               ]
             },
@@ -12901,9 +12901,9 @@
               "answer": "value",
               "choices": [
                 "HelloWorld",
-                "String",
                 "value",
-                "event"
+                "event",
+                "MLDSA65"
               ]
             }
           ]
@@ -12939,9 +12939,9 @@
             {
               "answer": "HelloWorld",
               "choices": [
+                "event",
                 "value",
                 "eventsch",
-                "event",
                 "HelloWorld"
               ]
             },
@@ -14229,9 +14229,9 @@
               "answer": "count",
               "choices": [
                 "root",
-                "count",
+                "cmp",
                 "found",
-                "cmp"
+                "count"
               ]
             },
             {
@@ -14317,10 +14317,10 @@
             {
               "answer": "remove",
               "choices": [
-                "root",
                 "degree",
-                "node",
-                "remove"
+                "root",
+                "remove",
+                "node"
               ]
             },
             {
@@ -14381,10 +14381,10 @@
             {
               "answer": "leaf",
               "choices": [
-                "isLeaf",
-                "at",
+                "leaf",
                 "keys",
-                "leaf"
+                "at",
+                "isLeaf"
               ]
             },
             {
@@ -14399,10 +14399,10 @@
             {
               "answer": "values",
               "choices": [
-                "values",
                 "maxItems",
                 "vals",
-                "degree"
+                "degree",
+                "values"
               ]
             }
           ]
@@ -14463,10 +14463,10 @@
             {
               "answer": "SquareFloatMatrix2D",
               "choices": [
-                "SquareFloatMatrix2D",
-                "StructArr",
                 "replaced",
-                "OrderedMap"
+                "OrderedMap",
+                "SquareFloatMatrix2D",
+                "StructArr"
               ]
             },
             {
@@ -14521,8 +14521,8 @@
               "choices": [
                 "leaf",
                 "btree",
-                "Array",
-                "root"
+                "root",
+                "Array"
               ]
             },
             {
@@ -14822,19 +14822,19 @@
             {
               "answer": "SetMemoryTarget",
               "choices": [
-                "ParseTimeWithLooseRFC3339",
-                "function",
-                "Get",
-                "SetMemoryTarget"
+                "MLDSAMu",
+                "SetMemoryTarget",
+                "lang",
+                "statsLoop"
               ]
             },
             {
               "answer": "amount",
               "choices": [
-                "amount",
-                "cha",
-                "options",
-                "isRegionArena"
+                "RotateLeftConst",
+                "NewDecoder",
+                "LoadUint32x4FromSlice",
+                "amount"
               ]
             },
             {
@@ -15646,9 +15646,9 @@
             {
               "answer": "TypeSpec",
               "choices": [
-                "TypeSpec",
                 "FuncType",
                 "Expr",
+                "TypeSpec",
                 "token"
               ]
             },
@@ -15656,18 +15656,18 @@
               "answer": "TypeParams",
               "choices": [
                 "Pos",
-                "Lbrack",
                 "TypeParams",
+                "Lbrack",
                 "Expr"
               ]
             },
             {
               "answer": "FieldList",
               "choices": [
-                "Pos",
+                "FuncType",
                 "FieldList",
-                "Indices",
-                "FuncType"
+                "Pos",
+                "Indices"
               ]
             }
           ]
@@ -15728,19 +15728,19 @@
             {
               "answer": "Expr",
               "choices": [
-                "token",
                 "Pos",
                 "End",
-                "Expr"
+                "Expr",
+                "token"
               ]
             },
             {
               "answer": "Rbrack",
               "choices": [
                 "Pos",
-                "Lbrack",
+                "token",
                 "Rbrack",
-                "token"
+                "Lbrack"
               ]
             }
           ]
@@ -15784,28 +15784,28 @@
             {
               "answer": "token",
               "choices": [
-                "Expr",
-                "token",
                 "Pos",
-                "End"
+                "End",
+                "token",
+                "Expr"
               ]
             },
             {
               "answer": "TILDE",
               "choices": [
-                "Expr",
                 "TILDE",
+                "End",
                 "Pos",
-                "End"
+                "Expr"
               ]
             },
             {
               "answer": "Token",
               "choices": [
-                "Pos",
-                "Token",
+                "Expr",
                 "End",
-                "Expr"
+                "Pos",
+                "Token"
               ]
             }
           ]
@@ -16268,10 +16268,10 @@
             {
               "answer": "constraint",
               "choices": [
-                "Context",
-                "Instance",
                 "String",
-                "constraint"
+                "Instance",
+                "constraint",
+                "Context"
               ]
             },
             {
@@ -16357,25 +16357,25 @@
               "answer": "Named",
               "choices": [
                 "Len",
-                "Index",
+                "Type",
                 "Named",
-                "Type"
+                "Index"
               ]
             },
             {
               "answer": "TypeParamList",
               "choices": [
-                "TypeParam",
-                "TypeParams",
                 "TypeList",
-                "TypeParamList"
+                "TypeParamList",
+                "TypeParams",
+                "TypeParam"
               ]
             },
             {
               "answer": "TypeArgs",
               "choices": [
-                "TypeArgs",
                 "TypeName",
+                "TypeArgs",
                 "TypeParam",
                 "Type"
               ]
@@ -16445,28 +16445,28 @@
             {
               "answer": "Interface",
               "choices": [
-                "Index",
-                "Interface",
+                "TypeName",
                 "Instance",
-                "TypeName"
+                "Index",
+                "Interface"
               ]
             },
             {
               "answer": "IsMethodSet",
               "choices": [
+                "NewContext",
                 "IsMethodSet",
                 "IsImplicit",
-                "Index",
-                "NewContext"
+                "Index"
               ]
             },
             {
               "answer": "MarkImplicit",
               "choices": [
-                "IsImplicit",
+                "MarkImplicit",
                 "Origin",
                 "variadic",
-                "MarkImplicit"
+                "IsImplicit"
               ]
             }
           ]
@@ -16527,18 +16527,18 @@
             {
               "answer": "NewUnion",
               "choices": [
-                "NewTerm",
-                "NewUnion",
+                "Origin",
                 "Union",
-                "Origin"
+                "NewUnion",
+                "NewTerm"
               ]
             },
             {
               "answer": "Len",
               "choices": [
-                "At",
                 "Len",
                 "obj",
+                "At",
                 "recv"
               ]
             }
@@ -16604,18 +16604,18 @@
             {
               "answer": "TypeList",
               "choices": [
-                "TypeName",
-                "TypeParam",
                 "TypeList",
-                "TypeArgs"
+                "TypeArgs",
+                "TypeParam",
+                "TypeName"
               ]
             },
             {
               "answer": "Type",
               "choices": [
-                "Tilde",
                 "Tuple",
                 "Term",
+                "Tilde",
                 "Type"
               ]
             }
@@ -16809,18 +16809,18 @@
               "answer": "runtime",
               "choices": [
                 "SetMemoryLimit",
-                "ToEngel",
+                "limit",
                 "runtime",
-                "limit"
+                "fullpath"
               ]
             },
             {
               "answer": "debug",
               "choices": [
-                "debug",
+                "SetMemoryLimit",
+                "cmd",
                 "limit",
-                "version",
-                "SetMemoryLimit"
+                "debug"
               ]
             },
             {
@@ -17387,10 +17387,10 @@
             {
               "answer": "Context",
               "choices": [
-                "Context",
-                "Mutate",
+                "ctx",
                 "pkg_test",
-                "ctx"
+                "Mutate",
+                "Context"
               ]
             },
             {
@@ -17444,27 +17444,27 @@
               "answer": "Unmarshal",
               "choices": [
                 "Marshal",
-                "Unmarshal",
                 "UnmarshalBinary",
+                "Unmarshal",
                 "Fatal"
               ]
             },
             {
               "answer": "context",
               "choices": [
+                "ctx",
                 "context",
                 "pkg_test",
-                "ctx",
                 "check"
               ]
             },
             {
               "answer": "Fuzz",
               "choices": [
-                "Word",
-                "seed",
                 "ctx",
-                "Fuzz"
+                "Fuzz",
+                "Word",
+                "seed"
               ]
             }
           ]
@@ -17510,17 +17510,17 @@
               "choices": [
                 "json",
                 "Mutate",
-                "testing",
-                "ctx"
+                "ctx",
+                "testing"
               ]
             },
             {
               "answer": "CustomMutator",
               "choices": [
+                "fuzzInput",
                 "CustomMutator",
-                "Mutate",
                 "context",
-                "fuzzInput"
+                "Mutate"
               ]
             },
             {
@@ -17573,28 +17573,28 @@
             {
               "answer": "customMutator",
               "choices": [
-                "Mutate",
-                "context",
                 "fuzzInput",
-                "customMutator"
+                "Mutate",
+                "customMutator",
+                "context"
               ]
             },
             {
               "answer": "Minimize",
               "choices": [
                 "Mutate",
-                "context",
                 "Marshal",
+                "context",
                 "Minimize"
               ]
             },
             {
               "answer": "candidate",
               "choices": [
-                "ctx",
                 "context",
-                "candidate",
-                "Mutate"
+                "ctx",
+                "Mutate",
+                "candidate"
               ]
             }
           ]
@@ -18197,27 +18197,27 @@
             {
               "answer": "IRNodes",
               "choices": [
-                "pgo",
-                "HotNode",
                 "IRNodes",
+                "HotNode",
+                "pgo",
                 "budget"
               ]
             },
             {
               "answer": "ir",
               "choices": [
+                "ok",
                 "pgo",
                 "ir",
-                "fn",
-                "ok"
+                "fn"
               ]
             },
             {
               "answer": "inlineMaxBudget",
               "choices": [
+                "inlinedCallSites",
                 "inlineHotMaxBudget",
                 "inlineMaxBudget",
-                "inlinedCallSites",
                 "InlineHotBudget"
               ]
             }
@@ -18270,27 +18270,27 @@
             {
               "answer": "pgo",
               "choices": [
+                "fn",
                 "pgo",
-                "ir",
                 "ok",
-                "fn"
+                "ir"
               ]
             },
             {
               "answer": "inlCallee",
               "choices": [
-                "Line",
+                "name",
                 "inlCallee",
-                "Inl",
-                "name"
+                "Line",
+                "Inl"
               ]
             },
             {
               "answer": "candHotEdgeMap",
               "choices": [
-                "RedirectEdges",
-                "HotNode",
                 "candHotEdgeMap",
+                "HotNode",
+                "RedirectEdges",
                 "canonicalName"
               ]
             }
@@ -18351,28 +18351,28 @@
             {
               "answer": "Inl",
               "choices": [
-                "pgo",
                 "ok",
+                "fn",
                 "Inl",
-                "fn"
+                "pgo"
               ]
             },
             {
               "answer": "ir",
               "choices": [
                 "fn",
+                "pgo",
                 "ir",
-                "ok",
-                "pgo"
+                "ok"
               ]
             },
             {
               "answer": "inlineHotMaxBudget",
               "choices": [
-                "InlineHotBudget",
                 "inlinedCallSites",
+                "inlineMaxBudget",
                 "inlineHotMaxBudget",
-                "inlineMaxBudget"
+                "InlineHotBudget"
               ]
             }
           ]
@@ -18416,10 +18416,10 @@
             {
               "answer": "recursive",
               "choices": [
+                "Line",
                 "CurFunc",
-                "Decls",
                 "recursive",
-                "Line"
+                "Decls"
               ]
             },
             {
@@ -18435,9 +18435,9 @@
               "answer": "WeightedCG",
               "choices": [
                 "Line",
-                "budget",
                 "lineno",
-                "WeightedCG"
+                "WeightedCG",
+                "budget"
               ]
             }
           ]
@@ -18469,10 +18469,10 @@
             {
               "answer": "PGOProfile",
               "choices": [
-                "recursive",
-                "Line",
+                "HotNode",
                 "PGOProfile",
-                "HotNode"
+                "Line",
+                "recursive"
               ]
             },
             {
@@ -20086,10 +20086,10 @@
             {
               "answer": "Writer",
               "choices": [
+                "fr",
                 "Writer",
                 "trace",
-                "Start",
-                "fr"
+                "Start"
               ]
             }
           ]
@@ -20868,19 +20868,19 @@
             {
               "answer": "ctx",
               "choices": [
+                "ctx",
                 "req",
-                "net",
                 "ch",
-                "ctx"
+                "net"
               ]
             },
             {
               "answer": "context",
               "choices": [
+                "context",
                 "contents",
-                "config",
                 "net",
-                "context"
+                "config"
               ]
             },
             {
@@ -20941,28 +20941,28 @@
             {
               "answer": "req",
               "choices": [
+                "req",
                 "key",
                 "net",
-                "pem",
-                "req"
+                "pem"
               ]
             },
             {
               "answer": "ChannelHandlerFunc",
               "choices": [
-                "ChannelHandlerFunc",
-                "ChannelHandler",
                 "ClientHandler",
-                "ClientHandlerFunc"
+                "ChannelHandlerFunc",
+                "ClientHandlerFunc",
+                "ChannelHandler"
               ]
             },
             {
               "answer": "RequestHandlerFunc",
               "choices": [
-                "RequestHandler",
-                "ClientHandlerFunc",
                 "ClientHandler",
-                "RequestHandlerFunc"
+                "RequestHandler",
+                "RequestHandlerFunc",
+                "ClientHandlerFunc"
               ]
             }
           ]
@@ -21008,17 +21008,17 @@
               "choices": [
                 "Banner",
                 "signer",
-                "Sign",
-                "Signers"
+                "Signers",
+                "Sign"
               ]
             },
             {
               "answer": "crypto",
               "choices": [
                 "crypto",
-                "Type",
+                "config",
                 "ctx",
-                "config"
+                "Type"
               ]
             },
             {
@@ -21087,28 +21087,28 @@
             {
               "answer": "PublicKey",
               "choices": [
-                "PublicKey",
                 "Client",
+                "AddedKey",
                 "PrivateKey",
-                "AddedKey"
+                "PublicKey"
               ]
             },
             {
               "answer": "rand",
               "choices": [
-                "Conn",
-                "rand",
+                "req",
                 "addr",
-                "req"
+                "rand",
+                "Conn"
               ]
             },
             {
               "answer": "Algorithms",
               "choices": [
-                "Agent",
                 "AlgorithmSigner",
-                "Algorithms",
-                "algorithm"
+                "algorithm",
+                "Agent",
+                "Algorithms"
               ]
             }
           ]
@@ -21169,18 +21169,18 @@
             {
               "answer": "SignatureFlags",
               "choices": [
-                "Signers",
                 "Signature",
                 "SignatureFlags",
-                "SignWithFlags"
+                "SignWithFlags",
+                "Signers"
               ]
             },
             {
               "answer": "Extension",
               "choices": [
+                "ClientConn",
                 "options",
                 "extensionType",
-                "ClientConn",
                 "Extension"
               ]
             }
@@ -21806,28 +21806,28 @@
             {
               "answer": "region",
               "choices": [
-                "New",
-                "arena",
                 "region",
-                "Free"
+                "Free",
+                "New",
+                "arena"
               ]
             },
             {
               "answer": "Do",
               "choices": [
-                "New",
+                "lo",
                 "Do",
                 "buf",
-                "lo"
+                "New"
               ]
             },
             {
               "answer": "Ignore",
               "choices": [
-                "Free",
+                "err",
                 "Ignore",
                 "word",
-                "err"
+                "Free"
               ]
             }
           ]
@@ -21905,9 +21905,9 @@
             {
               "answer": "err",
               "choices": [
-                "Do",
-                "err",
                 "ptr",
+                "err",
+                "Do",
                 "buf"
               ]
             }
@@ -21985,10 +21985,10 @@
             {
               "answer": "MyStruct",
               "choices": [
-                "stack",
-                "MyStruct",
+                "myFunc",
                 "ptr",
-                "myFunc"
+                "MyStruct",
+                "stack"
               ]
             },
             {
@@ -22073,10 +22073,10 @@
             {
               "answer": "Do",
               "choices": [
+                "err",
                 "Do",
-                "buf",
                 "lo",
-                "err"
+                "buf"
               ]
             },
             {
@@ -22091,10 +22091,10 @@
             {
               "answer": "MyStruct",
               "choices": [
-                "myFunc",
-                "MyStruct",
                 "stack",
-                "ptr"
+                "ptr",
+                "myFunc",
+                "MyStruct"
               ]
             }
           ]
@@ -22243,19 +22243,19 @@
             {
               "answer": "lo",
               "choices": [
-                "lo",
+                "Do",
                 "New",
                 "buf",
-                "Do"
+                "lo"
               ]
             },
             {
               "answer": "word",
               "choices": [
                 "Ignore",
-                "word",
                 "Do",
-                "err"
+                "err",
+                "word"
               ]
             }
           ]
@@ -22884,10 +22884,10 @@
             {
               "answer": "growsliceNoAlias",
               "choices": [
-                "slice",
-                "noscan",
                 "growsliceNoAlias",
-                "slices"
+                "slice",
+                "slices",
+                "noscan"
               ]
             },
             {
@@ -22902,8 +22902,8 @@
             {
               "answer": "ary",
               "choices": [
-                "et",
                 "ary",
+                "et",
                 "ptr",
                 "num"
               ]
@@ -22949,27 +22949,27 @@
             {
               "answer": "freegcTracked",
               "choices": [
-                "freeablesArr",
+                "freegcTracked",
                 "freeables",
-                "freegc",
-                "freegcTracked"
+                "freeablesArr",
+                "freegc"
               ]
             },
             {
               "answer": "trackedObjs",
               "choices": [
+                "freeables",
                 "slices",
                 "trackSlice",
-                "trackedObjs",
-                "freeables"
+                "trackedObjs"
               ]
             },
             {
               "answer": "trackedObj",
               "choices": [
+                "trackedObj",
                 "freegc",
                 "slices",
-                "trackedObj",
                 "trackSlice"
               ]
             }
@@ -23023,18 +23023,18 @@
               "answer": "f1",
               "choices": [
                 "s1",
+                "et",
                 "f2",
-                "f1",
-                "et"
+                "f1"
               ]
             },
             {
               "answer": "input",
               "choices": [
-                "ptr",
                 "input",
-                "et",
-                "num"
+                "num",
+                "ptr",
+                "et"
               ]
             },
             {
@@ -23087,28 +23087,28 @@
             {
               "answer": "slices",
               "choices": [
-                "size",
                 "slice",
                 "slices",
-                "alias"
+                "alias",
+                "size"
               ]
             },
             {
               "answer": "Collect",
               "choices": [
-                "Collect",
                 "oldPtr",
                 "oldCap",
-                "et"
+                "et",
+                "Collect"
               ]
             },
             {
               "answer": "seq",
               "choices": [
-                "seqA",
                 "seqB",
+                "seqC",
                 "seq",
-                "seqC"
+                "seqA"
               ]
             }
           ]
@@ -23186,17 +23186,17 @@
               "answer": "size2",
               "choices": [
                 "slices",
-                "size",
+                "size2",
                 "size1",
-                "size2"
+                "size"
               ]
             },
             {
               "answer": "s1",
               "choices": [
+                "s2",
                 "sl",
                 "s1",
-                "s2",
                 "f1"
               ]
             }
@@ -27175,6 +27175,346 @@
       ]
     },
     {
+      "id": "issue-74958",
+      "title": "go/scanner: add `(*Scanner).End()`",
+      "url": "https://github.com/golang/go/issues/74958",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 74958,
+      "quizzes": [
+        {
+          "id": "issue-74958-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Currently there is no easy and reliable way to access the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " position of a token through "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "End",
+              "choices": [
+                "Edit",
+                "doc",
+                "End",
+                "$GOOS"
+              ]
+            },
+            {
+              "answer": "go/scanner",
+              "choices": [
+                "rcvr.Apply()",
+                "jsontext.Value",
+                "go/scanner",
+                "Options"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-74958-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "To solve such problems, and to simplify the logic i propose to add to the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " following new API:"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "go/scanner",
+              "choices": [
+                "/tile/H/L/K[.p/W]",
+                "flags int",
+                "go/scanner",
+                "End"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-74958-q03",
+          "kind": "code",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "pos, tok, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " := s.Scan()\ntokLength := len("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ")\nif !tok."
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "() \u0026\u0026 tok != token.COMMENT {\n\ttokLength = len(tok.String())\n}\ntokEnd := pos + token."
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": "(tokLength)\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "lit",
+              "choices": [
+                "tok",
+                "lit",
+                "Init",
+                "src"
+              ]
+            },
+            {
+              "answer": "IsLiteral",
+              "choices": [
+                "Init",
+                "src",
+                "IsLiteral",
+                "white"
+              ]
+            },
+            {
+              "answer": "Pos",
+              "choices": [
+                "tok",
+                "src",
+                "msg",
+                "Pos"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-74958-q04",
+          "kind": "code",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": "(t *testing.T) {\n\tconst src = \"package a; var a int\"\n\n\tfile := token.NewFileSet().AddFile(\"\", -1, len(src))\n\tvar s "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": ".Scanner\n\ts.Init(file, []byte(src), func(pos token.Position, msg string) {\n\t\tpanic(\"unreachable: \" + msg)\n\t}, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": ".ScanComments)\n\n\tprevEndOff := 0\n\tfor {\n\t\tpos, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ", lit := s.Scan()\n\t\tt.Logf(\"%v %v %v\", pos, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ", lit)\n\t\toff := file.Offset(pos)\n\n\t\twhite := src[prevEndOff:off] // panics when tok == EOF\n\t\tfor _, c := range white {\n\t\t\tswitch c {\n\t\t\tcase ' ', '\\t', '\\n', '\\r', '\\ufeff':\n\t\t\tdefault:\n\t\t\t\tpanic(\"unreachable: \" + strconv.QuoteRune(c))\n\t\t\t}\n\t\t}\n\t\tt.Logf(\"%q\", white)\n\n\t\ttokLength := len(lit)\n\t\tif !"
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ".IsLiteral() \u0026\u0026 "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " != token.COMMENT {\n\t\t\ttokLength = len("
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ".String())\n\t\t}\n\t\tprevEndOff = off + tokLength\n\n\t\tif "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " == token.EOF {\n\t\t\tbreak\n\t\t}\n\t}\n}\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "TestScanner",
+              "choices": [
+                "strconv",
+                "Scan",
+                "testing",
+                "TestScanner"
+              ]
+            },
+            {
+              "answer": "scanner",
+              "choices": [
+                "Scan",
+                "String",
+                "scanner",
+                "token"
+              ]
+            },
+            {
+              "answer": "tok",
+              "choices": [
+                "pos",
+                "lit",
+                "tok",
+                "token"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-74958-q05",
+          "kind": "code",
+          "index": 4,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "package scanner // go/scanner\n\n// Pos returns the current position in the source where the next Scan call\n// will begin tokenizing.\n// It also represents the end position of the previous token.\nfunc (s *"
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ") Pos() "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": ".Pos {\n\treturn s.file.Pos(s."
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ")\n}\n\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "Scanner",
+              "choices": [
+                "Scan",
+                "String",
+                "TestScanner",
+                "Scanner"
+              ]
+            },
+            {
+              "answer": "token",
+              "choices": [
+                "tok",
+                "pos",
+                "tokEnd",
+                "token"
+              ]
+            },
+            {
+              "answer": "offset",
+              "choices": [
+                "offset",
+                "off",
+                "pos",
+                "file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "issue-63659",
       "title": "all: standardize -help behavior in go project tools",
       "url": "https://github.com/golang/go/issues/63659",
@@ -27229,8 +27569,8 @@
             {
               "answer": "in",
               "choices": [
-                "or",
                 "of",
+                "or",
                 "in",
                 "is"
               ]
@@ -27238,10 +27578,10 @@
             {
               "answer": "digraph",
               "choices": [
-                "graph",
-                "display",
                 "digraph",
-                "callgraph"
+                "callgraph",
+                "display",
+                "graph"
               ]
             },
             {
@@ -27451,9 +27791,9 @@
               "answer": "name",
               "choices": [
                 "Helper",
-                "name",
                 "Run",
-                "Subtest"
+                "Subtest",
+                "name"
               ]
             },
             {
@@ -27470,8 +27810,8 @@
               "choices": [
                 "Subtest",
                 "testing",
-                "Test",
-                "Run"
+                "Run",
+                "Test"
               ]
             }
           ]
@@ -27531,9 +27871,9 @@
             {
               "answer": "test",
               "choices": [
-                "Subtest",
-                "Run",
                 "test",
+                "Run",
+                "Subtest",
                 "name"
               ]
             },
@@ -27549,10 +27889,10 @@
             {
               "answer": "testing",
               "choices": [
-                "testing",
                 "Run",
+                "Helper",
                 "Subtest",
-                "Helper"
+                "testing"
               ]
             }
           ]
@@ -27614,10 +27954,10 @@
             {
               "answer": "Subtest",
               "choices": [
-                "synctest",
                 "testing",
+                "Test",
                 "Subtest",
-                "Test"
+                "synctest"
               ]
             }
           ]
@@ -27824,10 +28164,10 @@
             {
               "answer": "FooArgs",
               "choices": [
-                "args",
+                "err",
                 "foopb",
-                "FooArgs",
-                "err"
+                "args",
+                "FooArgs"
               ]
             },
             {
@@ -27842,9 +28182,9 @@
             {
               "answer": "Foo",
               "choices": [
-                "Foo",
                 "ch",
                 "err",
+                "Foo",
                 "foopb"
               ]
             }
@@ -27893,9 +28233,9 @@
             {
               "answer": "ch",
               "choices": [
+                "args",
                 "Foo",
                 "err",
-                "args",
                 "ch"
               ]
             },
@@ -27966,19 +28306,19 @@
             {
               "answer": "time",
               "choices": [
+                "ch",
                 "time",
-                "args",
                 "Foo",
-                "ch"
+                "args"
               ]
             },
             {
               "answer": "Time",
               "choices": [
-                "Time",
                 "args",
                 "Foo",
-                "ch"
+                "ch",
+                "Time"
               ]
             },
             {
@@ -28734,28 +29074,28 @@
             {
               "answer": "old",
               "choices": [
+                "Min",
                 "addr",
                 "val",
-                "old",
-                "Min"
+                "old"
               ]
             },
             {
               "answer": "Max",
               "choices": [
                 "Min",
-                "addr",
                 "val",
-                "Max"
+                "Max",
+                "addr"
               ]
             },
             {
               "answer": "Uint64",
               "choices": [
-                "MaxUint64",
-                "Int64",
                 "Uint32",
-                "Uint64"
+                "Uint64",
+                "MaxUint64",
+                "Int64"
               ]
             }
           ]
@@ -29033,28 +29373,28 @@
             {
               "answer": "sum",
               "choices": [
-                "GetLo",
                 "sum",
                 "simd",
-                "GetHi"
+                "GetHi",
+                "GetLo"
               ]
             },
             {
               "answer": "Float32s",
               "choices": [
                 "Float32s",
-                "Float32x4",
                 "Float32x8",
-                "ToArch"
+                "ToArch",
+                "Float32x4"
               ]
             },
             {
               "answer": "Float32x16",
               "choices": [
-                "ToArch",
                 "Float32x8",
-                "Float32x4",
-                "Float32x16"
+                "ToArch",
+                "Float32x16",
+                "Float32x4"
               ]
             }
           ]
@@ -29435,10 +29775,10 @@
             {
               "answer": "ProcThreadAttributes",
               "choices": [
-                "ProcThreadAttribute",
-                "Attribute",
                 "ProcThreadAttributes",
-                "SysProcAttr"
+                "SysProcAttr",
+                "Attribute",
+                "ProcThreadAttribute"
               ]
             },
             {
@@ -29491,28 +29831,28 @@
             {
               "answer": "AppContainerSid",
               "choices": [
+                "unsafe",
                 "AppContainerSid",
                 "Attribute",
-                "Pointer",
-                "unsafe"
+                "Pointer"
               ]
             },
             {
               "answer": "Capabilities",
               "choices": [
-                "SecurityCapabilities",
-                "CapabilityCount",
+                "Capabilities",
                 "Attribute",
-                "Capabilities"
+                "CapabilityCount",
+                "SecurityCapabilities"
               ]
             },
             {
               "answer": "Reserved",
               "choices": [
+                "Pointer",
                 "Reserved",
-                "unsafe",
                 "Value",
-                "Pointer"
+                "unsafe"
               ]
             }
           ]
@@ -30054,18 +30394,18 @@
             {
               "answer": "Transport",
               "choices": [
+                "sync",
                 "http",
-                "Transport",
                 "Println",
-                "sync"
+                "Transport"
               ]
             },
             {
               "answer": "req",
               "choices": [
                 "req",
-                "http",
                 "Do",
+                "http",
                 "sync"
               ]
             },
@@ -30074,8 +30414,8 @@
               "choices": [
                 "log",
                 "http",
-                "Do",
-                "sync"
+                "sync",
+                "Do"
               ]
             }
           ]
@@ -30296,10 +30636,10 @@
             {
               "answer": "Identical",
               "choices": [
-                "maps",
+                "MX",
                 "Identical",
                 "pointer",
-                "MX"
+                "maps"
               ]
             },
             {
@@ -30314,10 +30654,10 @@
             {
               "answer": "unsafe",
               "choices": [
+                "MX",
                 "maps",
-                "VX",
                 "unsafe",
-                "MX"
+                "VX"
               ]
             }
           ]
@@ -30465,8 +30805,8 @@
             {
               "answer": "parser",
               "choices": [
-                "attrs",
-                "SliceData",
+                "MessageSigner",
+                "consTypeParamLists",
                 "parser",
                 "File"
               ]
@@ -30476,17 +30816,17 @@
               "choices": [
                 "File",
                 "ResolveFile",
-                "MinInt32",
-                "AddReturningString"
+                "percpu",
+                "work"
               ]
             },
             {
               "answer": "ast",
               "choices": [
-                "Seq2",
-                "trackSlice",
-                "ast",
-                "File"
+                "TestFail",
+                "runtime_fastRand",
+                "File",
+                "ast"
               ]
             }
           ]
@@ -30696,27 +31036,27 @@
             {
               "answer": "ast",
               "choices": [
-                "Info",
-                "Type",
+                "ast",
                 "Expr",
-                "ast"
+                "Type",
+                "Info"
               ]
             },
             {
               "answer": "From",
               "choices": [
+                "Info",
                 "Type",
                 "From",
-                "Info",
                 "Expr"
               ]
             },
             {
               "answer": "To",
               "choices": [
-                "To",
                 "Info",
                 "Type",
+                "To",
                 "Expr"
               ]
             }
@@ -30947,26 +31287,26 @@
             {
               "answer": "examplepackage_test",
               "choices": [
-                "examplepackage_test",
-                "ExampleFunc_taking_a_t",
                 "Example_in_and_out",
-                "examplepackage"
+                "examplepackage_test",
+                "examplepackage",
+                "ExampleFunc_taking_a_t"
               ]
             },
             {
               "answer": "Example_returning_an_error",
               "choices": [
-                "TestExample_returning_an_error",
+                "Example_returning_an_error",
                 "Example_in_and_out",
-                "ExampleFunc_taking_a_t",
-                "Example_returning_an_error"
+                "TestExample_returning_an_error",
+                "ExampleFunc_taking_a_t"
               ]
             },
             {
               "answer": "Open",
               "choices": [
-                "err",
                 "os",
+                "err",
                 "Open",
                 "Func"
               ]
@@ -31012,28 +31352,28 @@
             {
               "answer": "Example_returning_an_error",
               "choices": [
-                "Example_returning_an_error",
-                "Example_in_and_out",
                 "TestExample_returning_an_error",
+                "Example_in_and_out",
+                "Example_returning_an_error",
                 "ExampleFunc_taking_a_t"
               ]
             },
             {
               "answer": "TestExampleFunc_taking_a_t",
               "choices": [
-                "Example_in_and_out",
-                "TestExample_returning_an_error",
                 "TestExampleFunc_taking_a_t",
+                "TestExample_returning_an_error",
+                "Example_in_and_out",
                 "ExampleFunc_taking_a_t"
               ]
             },
             {
               "answer": "TestExample_in_and_out",
               "choices": [
-                "TestExample_in_and_out",
-                "ExampleFunc_taking_a_t",
                 "examplepackage_test",
-                "Example_in_and_out"
+                "TestExample_in_and_out",
+                "Example_in_and_out",
+                "ExampleFunc_taking_a_t"
               ]
             }
           ]
@@ -31546,19 +31886,19 @@
             {
               "answer": "Server",
               "choices": [
-                "Max",
-                "http",
+                "DefaultMaxHeaderValueCount",
                 "Server",
-                "DefaultMaxHeaderValueCount"
+                "http",
+                "test"
               ]
             },
             {
               "answer": "MaxHeaderValueCount",
               "choices": [
+                "Aligned16",
                 "http",
                 "MaxHeaderValueCount",
-                "DefaultMaxHeaderValueCount",
-                "letter"
+                "DefaultMaxHeaderValueCount"
               ]
             }
           ]
@@ -32649,19 +32989,19 @@
             {
               "answer": "hash",
               "choices": [
-                "hash",
                 "CloneXOF",
+                "hash",
                 "XOF",
-                "textdata"
+                "Unmarshalers"
               ]
             },
             {
               "answer": "Clone",
               "choices": [
-                "Clone",
-                "CloneXOF",
                 "XOF",
-                "contents"
+                "Clone",
+                "sig",
+                "CloneXOF"
               ]
             },
             {
@@ -32714,19 +33054,19 @@
             {
               "answer": "hash",
               "choices": [
-                "Clone",
+                "Unmarshal",
                 "hash",
-                "XOF",
-                "Foo"
+                "Clone",
+                "XOF"
               ]
             },
             {
               "answer": "CloneXOF",
               "choices": [
+                "cipher",
                 "XOF",
-                "CloneXOF",
                 "Clone",
-                "exec"
+                "CloneXOF"
               ]
             },
             {
@@ -32888,19 +33228,19 @@
             {
               "answer": "io",
               "choices": [
-                "hash",
                 "Clone",
+                "io",
                 "XOF",
-                "io"
+                "hash"
               ]
             },
             {
               "answer": "Reader",
               "choices": [
-                "hash",
                 "Reset",
+                "Reader",
                 "Writer",
-                "Reader"
+                "hash"
               ]
             }
           ]
@@ -32961,17 +33301,17 @@
             {
               "answer": "io",
               "choices": [
-                "io",
-                "XOF",
                 "Clone",
-                "hash"
+                "XOF",
+                "hash",
+                "io"
               ]
             },
             {
               "answer": "Writer",
               "choices": [
-                "Reader",
                 "Writer",
+                "Reader",
                 "Clone",
                 "Reset"
               ]
@@ -33018,25 +33358,25 @@
               "answer": "XOF",
               "choices": [
                 "io",
-                "XOF",
                 "hash",
+                "XOF",
                 "Clone"
               ]
             },
             {
               "answer": "Reader",
               "choices": [
-                "hash",
-                "Writer",
+                "Reader",
                 "Clone",
-                "Reader"
+                "hash",
+                "Writer"
               ]
             },
             {
               "answer": "Reset",
               "choices": [
-                "io",
                 "Clone",
+                "io",
                 "Reset",
                 "hash"
               ]
@@ -33511,9 +33851,9 @@
             {
               "answer": "LoadUint32x4",
               "choices": [
-                "LoadUint32x4",
                 "Uint32x8",
                 "AsUint32x4",
+                "LoadUint32x4",
                 "AsUint32x8"
               ]
             },
@@ -33529,10 +33869,10 @@
             {
               "answer": "Uint32x4",
               "choices": [
+                "Uint32x8",
                 "Int32x4",
-                "Uint64x4",
                 "Uint32x4",
-                "Uint32x8"
+                "Uint64x4"
               ]
             }
           ]
@@ -33585,9 +33925,9 @@
               "answer": "LoadUint32x4FromSlice",
               "choices": [
                 "LoadFromSlice",
-                "LoadUint32x4FromSlice",
                 "LoadUint32x4",
-                "Mask32x4FromBits"
+                "Mask32x4FromBits",
+                "LoadUint32x4FromSlice"
               ]
             },
             {
@@ -33602,8 +33942,8 @@
             {
               "answer": "LoadFloat64x4",
               "choices": [
-                "Float64x4",
                 "LoadUint32x4",
+                "Float64x4",
                 "Float64x8",
                 "LoadFloat64x4"
               ]
@@ -33649,8 +33989,8 @@
             {
               "answer": "Uint32x4",
               "choices": [
-                "Int32x4",
                 "Uint32x4",
+                "Int32x4",
                 "Uint32x8",
                 "Uint64x4"
               ]
@@ -33658,19 +33998,19 @@
             {
               "answer": "AsMask",
               "choices": [
-                "AsMask",
-                "AddMasked",
                 "Max",
-                "simd"
+                "simd",
+                "AddMasked",
+                "AsMask"
               ]
             },
             {
               "answer": "Mask32x4",
               "choices": [
+                "Uint32x8",
                 "Mask32x4",
-                "Float32x4",
                 "Int32x4",
-                "Uint32x8"
+                "Float32x4"
               ]
             }
           ]
@@ -33714,27 +34054,27 @@
             {
               "answer": "EqualToVec",
               "choices": [
-                "EqualToVec",
-                "GetElem",
                 "Equal",
-                "Store"
+                "EqualToVec",
+                "Store",
+                "GetElem"
               ]
             },
             {
               "answer": "EqualToMask",
               "choices": [
-                "AsMask",
-                "Broadcast",
                 "Equal",
-                "EqualToMask"
+                "EqualToMask",
+                "AsMask",
+                "Broadcast"
               ]
             },
             {
               "answer": "Mask32x4",
               "choices": [
+                "Uint32x8",
                 "Uint32x4",
                 "Int32x4",
-                "Uint32x8",
                 "Mask32x4"
               ]
             }
@@ -33819,18 +34159,18 @@
             {
               "answer": "Uint32x4",
               "choices": [
-                "Int32x4",
-                "Uint32x8",
+                "Uint64x4",
                 "Uint32x4",
-                "Uint64x4"
+                "Int32x4",
+                "Uint32x8"
               ]
             },
             {
               "answer": "GetElem",
               "choices": [
                 "Store",
-                "SetElem",
                 "Equal",
+                "SetElem",
                 "GetElem"
               ]
             },
@@ -34398,28 +34738,28 @@
             {
               "answer": "repo",
               "choices": [
+                "repo",
                 "clean",
-                "no",
                 "now",
-                "repo"
+                "no"
               ]
             },
             {
               "answer": "foo",
               "choices": [
-                "foo",
-                "now",
                 "no",
-                "with"
+                "now",
+                "with",
+                "foo"
               ]
             },
             {
               "answer": "to",
               "choices": [
-                "now",
-                "with",
                 "to",
-                "no"
+                "now",
+                "no",
+                "with"
               ]
             }
           ]
@@ -34611,28 +34951,28 @@
             {
               "answer": "tests",
               "choices": [
-                "tests",
-                "Test",
                 "testing",
+                "Test",
+                "tests",
                 "tt"
               ]
             },
             {
               "answer": "name",
               "choices": [
+                "name",
                 "Bar",
-                "the",
                 "RunName",
-                "name"
+                "the"
               ]
             },
             {
               "answer": "fizz",
               "choices": [
                 "Run",
-                "got",
+                "fizz",
                 "tt",
-                "fizz"
+                "got"
               ]
             }
           ]
@@ -34702,10 +35042,10 @@
             {
               "answer": "RunName",
               "choices": [
-                "Run",
                 "RunName",
                 "input",
-                "name"
+                "name",
+                "Run"
               ]
             }
           ]
@@ -34759,25 +35099,25 @@
               "choices": [
                 "name",
                 "Run",
-                "FAIL",
-                "tt"
+                "tt",
+                "FAIL"
               ]
             },
             {
               "answer": "Bar",
               "choices": [
-                "err",
-                "Bar",
+                "tt",
                 "name",
-                "tt"
+                "Bar",
+                "err"
               ]
             },
             {
               "answer": "my_test",
               "choices": [
                 "tt",
-                "tests",
                 "my_test",
+                "tests",
                 "Test"
               ]
             }
@@ -35006,8 +35346,8 @@
               "choices": [
                 "unsafe",
                 "iovec",
-                "iov",
-                "buf"
+                "buf",
+                "iov"
               ]
             },
             {
@@ -35070,18 +35410,18 @@
               "answer": "iovec",
               "choices": [
                 "unsafe",
-                "iov",
                 "iovec",
-                "SliceData"
+                "SliceData",
+                "iov"
               ]
             },
             {
               "answer": "buf",
               "choices": [
                 "buf",
-                "iov",
+                "SliceData",
                 "unsafe",
-                "SliceData"
+                "iov"
               ]
             },
             {
@@ -35147,17 +35487,17 @@
             {
               "answer": "iovec",
               "choices": [
-                "SliceData",
                 "unsafe",
-                "iovec",
-                "buf"
+                "SliceData",
+                "buf",
+                "iovec"
               ]
             },
             {
               "answer": "iov",
               "choices": [
-                "buf",
                 "SliceData",
+                "buf",
                 "iov",
                 "unsafe"
               ]
@@ -35477,18 +35817,18 @@
               "answer": "TypeParam",
               "choices": [
                 "TypeParamList",
-                "types2",
                 "tparams",
-                "TypeParam"
+                "TypeParam",
+                "types2"
               ]
             },
             {
               "answer": "Len",
               "choices": [
+                "Len",
                 "types",
-                "At",
                 "types2",
-                "Len"
+                "At"
               ]
             },
             {
@@ -35589,18 +35929,18 @@
             {
               "answer": "types",
               "choices": [
-                "types",
-                "Len",
+                "types2",
                 "At",
-                "types2"
+                "types",
+                "Len"
               ]
             },
             {
               "answer": "tpars",
               "choices": [
+                "Len",
                 "tpars",
                 "tparams",
-                "Len",
                 "types2"
               ]
             },
@@ -35678,27 +36018,27 @@
             {
               "answer": "tparams",
               "choices": [
-                "types",
-                "types2",
                 "tparams",
-                "tpars"
+                "tpars",
+                "types2",
+                "types"
               ]
             },
             {
               "answer": "TypeParam",
               "choices": [
                 "types2",
-                "tpars",
                 "types",
+                "tpars",
                 "TypeParam"
               ]
             },
             {
               "answer": "TypeParamList",
               "choices": [
-                "NewTypeParamList",
-                "TypeParamList",
                 "consTypeParamLists",
+                "TypeParamList",
+                "NewTypeParamList",
                 "asTypeParamSlice"
               ]
             }
@@ -36501,10 +36841,10 @@
             {
               "answer": "ScanColumn",
               "choices": [
+                "ScanColumn",
+                "base",
                 "RowsColumnScanner",
-                "Go",
-                "dest",
-                "ScanColumn"
+                "dest"
               ]
             },
             {
@@ -36819,9 +37159,9 @@
             {
               "answer": "HasherIgnoreTags",
               "choices": [
-                "Hasher",
-                "Hash",
                 "HasherIgnoreTags",
+                "Hash",
+                "Hasher",
                 "HashMap"
               ]
             }
@@ -36875,18 +37215,18 @@
             {
               "answer": "Delete",
               "choices": [
-                "value",
                 "Set",
                 "Delete",
-                "types"
+                "types",
+                "value"
               ]
             },
             {
               "answer": "Seq",
               "choices": [
-                "Seq",
                 "key",
                 "Seq2",
+                "Seq",
                 "Set"
               ]
             }
@@ -37388,18 +37728,18 @@
             {
               "answer": "String",
               "choices": [
-                "String",
                 "Kind",
                 "KindString",
+                "String",
                 "Uint"
               ]
             },
             {
               "answer": "KindNull",
               "choices": [
+                "KindTrue",
                 "KindFalse",
                 "KindNull",
-                "KindTrue",
                 "Kind"
               ]
             }
@@ -37445,26 +37785,26 @@
               "answer": "Clone",
               "choices": [
                 "Clone",
-                "io",
+                "Float",
                 "json",
-                "Float"
+                "io"
               ]
             },
             {
               "answer": "IsValid",
               "choices": [
                 "IsValid",
-                "False",
+                "Value",
                 "io",
-                "Value"
+                "False"
               ]
             },
             {
               "answer": "Compact",
               "choices": [
                 "Float",
-                "Format",
                 "Compact",
+                "Format",
                 "opts"
               ]
             }
@@ -37533,19 +37873,19 @@
             {
               "answer": "io",
               "choices": [
+                "pc",
                 "io",
                 "in",
-                "tok",
-                "pc"
+                "tok"
               ]
             },
             {
               "answer": "Options",
               "choices": [
+                "Options",
                 "JoinOptions",
-                "opts",
                 "GetOption",
-                "Options"
+                "opts"
               ]
             },
             {
@@ -37712,26 +38052,26 @@
               "choices": [
                 "io",
                 "Options",
-                "JoinOptions",
-                "GetOption"
+                "GetOption",
+                "JoinOptions"
               ]
             },
             {
               "answer": "RejectUnknownMembers",
               "choices": [
+                "ErrUnknownName",
                 "StackPointer",
-                "NewEncoder",
                 "RejectUnknownMembers",
-                "ErrUnknownName"
+                "NewEncoder"
               ]
             },
             {
               "answer": "opts",
               "choices": [
-                "bits",
                 "out",
-                "opts",
-                "Int"
+                "Int",
+                "bits",
+                "opts"
               ]
             }
           ]
@@ -37783,26 +38123,26 @@
             {
               "answer": "Marshaler",
               "choices": [
-                "MarshalerTo",
                 "Marshalers",
                 "Marshaler",
+                "MarshalerTo",
                 "Marshal"
               ]
             },
             {
               "answer": "jsontext",
               "choices": [
-                "json",
-                "jsonopts",
                 "jsontext",
+                "jsonopts",
+                "json",
                 "jsonv2"
               ]
             },
             {
               "answer": "Value",
               "choices": [
-                "ReadValue",
                 "Value",
+                "ReadValue",
                 "True",
                 "False"
               ]
@@ -38005,10 +38345,10 @@
             {
               "answer": "FileMode",
               "choices": [
-                "WriteFile",
                 "FileMode",
-                "os",
-                "Root"
+                "Root",
+                "WriteFile",
+                "os"
               ]
             }
           ]
@@ -38191,27 +38531,27 @@
               "answer": "doc",
               "choices": [
                 "doc",
-                "v0",
+                "net",
                 "and",
-                "net"
+                "v0"
               ]
             },
             {
               "answer": "parser",
               "choices": [
+                "starlark",
                 "added",
                 "net",
-                "starlark",
                 "parser"
               ]
             },
             {
               "answer": "tree",
               "choices": [
-                "tree",
-                "net",
                 "fcb3",
-                "v0"
+                "net",
+                "v0",
+                "tree"
               ]
             }
           ]
@@ -38335,10 +38675,10 @@
             {
               "answer": "Read",
               "choices": [
-                "Read",
-                "Reader",
+                "List",
                 "format",
-                "List"
+                "Read",
+                "Reader"
               ]
             },
             {
@@ -38400,10 +38740,10 @@
             {
               "answer": "Reader",
               "choices": [
-                "List",
-                "Reader",
                 "format",
-                "Read"
+                "Read",
+                "Reader",
+                "List"
               ]
             },
             {
@@ -38735,19 +39075,19 @@
             {
               "answer": "Int",
               "choices": [
-                "Inspect",
+                "DecapsulationKey768",
+                "Transformer",
                 "Int",
-                "Rand",
-                "latest"
+                "Rand"
               ]
             },
             {
               "answer": "intType",
               "choices": [
+                "Int64",
                 "intType",
-                "Rand",
-                "ChannelHandler",
-                "event"
+                "percpu",
+                "Rand"
               ]
             }
           ]
@@ -38807,28 +39147,28 @@
             {
               "answer": "Rand",
               "choices": [
-                "passphrase",
+                "go1",
                 "Rand",
-                "cha",
-                "replaced"
+                "Unit",
+                "curFile"
               ]
             },
             {
               "answer": "Int",
               "choices": [
-                "expiry",
-                "scalar",
                 "Int",
-                "topLevelErr"
+                "blew",
+                "Canonicalize",
+                "Cost"
               ]
             },
             {
               "answer": "intType",
               "choices": [
-                "fn",
                 "intType",
-                "Fatal",
-                "number"
+                "graph",
+                "size",
+                "dstBlock"
               ]
             }
           ]
@@ -39457,19 +39797,19 @@
             {
               "answer": "sk",
               "choices": [
-                "sk",
-                "pk",
                 "seed",
-                "io"
+                "sk",
+                "io",
+                "pk"
               ]
             },
             {
               "answer": "SignDeterministic",
               "choices": [
-                "Parameters",
+                "SignerOpts",
                 "SignDeterministic",
                 "SignatureSize",
-                "SignerOpts"
+                "Parameters"
               ]
             }
           ]
@@ -39513,9 +39853,9 @@
             {
               "answer": "crypto",
               "choices": [
-                "io",
                 "opts",
                 "Bytes",
+                "io",
                 "crypto"
               ]
             },
@@ -39531,9 +39871,9 @@
             {
               "answer": "MLDSAMu",
               "choices": [
-                "MLDSA44",
-                "MLDSA65",
                 "MLDSAMu",
+                "MLDSA65",
+                "MLDSA44",
                 "MLDSA87"
               ]
             }
@@ -39852,10 +40192,10 @@
             {
               "answer": "io",
               "choices": [
-                "err",
-                "time",
                 "Stop",
-                "io"
+                "io",
+                "err",
+                "time"
               ]
             }
           ]
@@ -40042,27 +40382,27 @@
               "answer": "sync",
               "choices": [
                 "Add",
-                "wg",
                 "sync",
-                "Done"
+                "Done",
+                "wg"
               ]
             },
             {
               "answer": "WaitGroup",
               "choices": [
-                "WaitGroup",
                 "Go",
+                "Done",
                 "Wait",
-                "Done"
+                "WaitGroup"
               ]
             },
             {
               "answer": "work",
               "choices": [
-                "work",
-                "Go",
                 "wg",
-                "Done"
+                "Go",
+                "Done",
+                "work"
               ]
             }
           ]
@@ -40106,18 +40446,18 @@
             {
               "answer": "WaitGroup",
               "choices": [
-                "work",
-                "WaitGroup",
                 "Done",
-                "Wait"
+                "Wait",
+                "WaitGroup",
+                "work"
               ]
             },
             {
               "answer": "Go",
               "choices": [
-                "Go",
                 "Add",
                 "wg",
+                "Go",
                 "Done"
               ]
             },
@@ -40171,28 +40511,28 @@
             {
               "answer": "Go",
               "choices": [
-                "wg",
                 "Done",
                 "Go",
+                "wg",
                 "Add"
               ]
             },
             {
               "answer": "work",
               "choices": [
-                "Done",
+                "wg",
                 "task",
                 "work",
-                "wg"
+                "Done"
               ]
             },
             {
               "answer": "Wait",
               "choices": [
-                "Wait",
                 "wg",
+                "sync",
                 "task",
-                "sync"
+                "Wait"
               ]
             }
           ]
@@ -40421,28 +40761,28 @@
             {
               "answer": "image",
               "choices": [
+                "io",
                 "importer",
                 "Point",
-                "io",
                 "image"
               ]
             },
             {
               "answer": "ZP",
               "choices": [
-                "For",
-                "ZP",
                 "io",
-                "err"
+                "err",
+                "For",
+                "ZP"
               ]
             },
             {
               "answer": "ZR",
               "choices": [
+                "io",
                 "ZR",
-                "For",
                 "err",
-                "io"
+                "For"
               ]
             }
           ]
@@ -40495,18 +40835,18 @@
               "answer": "compiler",
               "choices": [
                 "Point",
-                "compiler",
                 "importer",
-                "image"
+                "image",
+                "compiler"
               ]
             },
             {
               "answer": "Lookup",
               "choices": [
+                "token",
                 "Lookup",
                 "Point",
-                "For",
-                "token"
+                "For"
               ]
             },
             {
@@ -40514,8 +40854,8 @@
               "choices": [
                 "importer",
                 "For",
-                "image",
-                "ForCompiler"
+                "ForCompiler",
+                "image"
               ]
             }
           ]
@@ -40569,17 +40909,17 @@
               "answer": "SEEK_SET",
               "choices": [
                 "ZP",
-                "image",
                 "SEEK_CUR",
-                "SEEK_SET"
+                "SEEK_SET",
+                "image"
               ]
             },
             {
               "answer": "SEEK_END",
               "choices": [
+                "SEEK_CUR",
                 "image",
                 "SEEK_END",
-                "SEEK_CUR",
                 "ZP"
               ]
             }
@@ -40624,10 +40964,10 @@
             {
               "answer": "StringByteSlice",
               "choices": [
-                "Point",
-                "importer",
                 "StringByteSlice",
-                "Rectangle"
+                "importer",
+                "Rectangle",
+                "Point"
               ]
             },
             {
@@ -42568,28 +42908,28 @@
             {
               "answer": "value",
               "choices": [
-                "value",
                 "The",
+                "be",
                 "slice",
-                "be"
+                "value"
               ]
             },
             {
               "answer": "must",
               "choices": [
-                "T1",
-                "The",
                 "must",
+                "The",
+                "T1",
                 "end"
               ]
             },
             {
               "answer": "an",
               "choices": [
-                "of",
-                "T1",
+                "an",
                 "end",
-                "an"
+                "T1",
+                "of"
               ]
             }
           ]
@@ -43063,10 +43403,10 @@
             {
               "answer": "File",
               "choices": [
-                "name",
-                "some",
                 "File",
-                "value"
+                "some",
+                "value",
+                "name"
               ]
             },
             {
@@ -43151,10 +43491,10 @@
             {
               "answer": "os",
               "choices": [
-                "flag",
-                "name",
                 "os",
-                "some"
+                "name",
+                "some",
+                "flag"
               ]
             },
             {
@@ -43230,10 +43570,10 @@
             {
               "answer": "value",
               "choices": [
-                "value",
-                "name",
                 "flag",
-                "File"
+                "value",
+                "File",
+                "name"
               ]
             }
           ]
@@ -43509,28 +43849,28 @@
             {
               "answer": "Test",
               "choices": [
-                "desc",
+                "MaxBytes",
                 "Test",
-                "CoverageMode",
-                "ProcThreadAttributes"
+                "data",
+                "amount"
               ]
             },
             {
               "answer": "testing",
               "choices": [
-                "NewCache",
                 "testing",
-                "StackIndex",
-                "rta"
+                "curFile",
+                "newLen",
+                "maxItems"
               ]
             },
             {
               "answer": "Wait",
               "choices": [
-                "Wait",
-                "GetOption",
-                "Float64x8",
-                "debug"
+                "MatchCaseInsensitiveNames",
+                "NewSender",
+                "Expand",
+                "Wait"
               ]
             }
           ]
@@ -44028,18 +44368,18 @@
             {
               "answer": "MinVersion",
               "choices": [
+                "MinVersion",
                 "Config",
                 "tls",
-                "MinVersion",
                 "VersionTLS13"
               ]
             },
             {
               "answer": "getConfigForClient",
               "choices": [
-                "Config",
                 "VersionTLS13",
                 "stdECHKeys",
+                "Config",
                 "getConfigForClient"
               ]
             },
@@ -44338,27 +44678,27 @@
               "answer": "GroupAttrs",
               "choices": [
                 "GroupValue",
-                "GroupAttrs",
                 "attrs",
-                "Group"
+                "Group",
+                "GroupAttrs"
               ]
             },
             {
               "answer": "key",
               "choices": [
-                "Int",
+                "Any",
                 "key",
-                "slog",
-                "Any"
+                "Int",
+                "slog"
               ]
             },
             {
               "answer": "Attr",
               "choices": [
-                "Int",
-                "attrs",
+                "Attr",
                 "Any",
-                "Attr"
+                "attrs",
+                "Int"
               ]
             }
           ]
@@ -44418,10 +44758,10 @@
             {
               "answer": "slog",
               "choices": [
-                "Attr",
+                "key",
                 "slog",
-                "Group",
-                "key"
+                "Attr",
+                "Group"
               ]
             },
             {
@@ -44429,17 +44769,17 @@
               "choices": [
                 "Group",
                 "attrs",
-                "Attr",
-                "String"
+                "String",
+                "Attr"
               ]
             },
             {
               "answer": "Int",
               "choices": [
-                "key",
+                "Any",
                 "Attr",
-                "Int",
-                "Any"
+                "key",
+                "Int"
               ]
             }
           ]
@@ -44531,28 +44871,28 @@
             {
               "answer": "attrs",
               "choices": [
-                "Int",
-                "attr2any",
                 "Attr",
+                "attr2any",
+                "Int",
                 "attrs"
               ]
             },
             {
               "answer": "slog",
               "choices": [
-                "key",
                 "slog",
                 "Int",
-                "Attr"
+                "Attr",
+                "key"
               ]
             },
             {
               "answer": "Group",
               "choices": [
                 "GroupAttrs",
-                "Group",
+                "key",
                 "Attr",
-                "key"
+                "Group"
               ]
             }
           ]
@@ -44620,19 +44960,19 @@
             {
               "answer": "attrs",
               "choices": [
-                "attrs",
-                "key",
                 "Int",
-                "Attr"
+                "Attr",
+                "attrs",
+                "key"
               ]
             },
             {
               "answer": "attr2any",
               "choices": [
-                "Attr",
-                "key",
                 "attr2any",
-                "String"
+                "String",
+                "key",
+                "Attr"
               ]
             },
             {
@@ -45022,28 +45362,28 @@
             {
               "answer": "load",
               "choices": [
-                "cmd",
-                "load",
                 "modload",
+                "load",
+                "cmd",
                 "work"
               ]
             },
             {
               "answer": "codehost",
               "choices": [
-                "coderepo",
+                "modload",
                 "codehost",
-                "cmd",
-                "modload"
+                "coderepo",
+                "cmd"
               ]
             },
             {
               "answer": "files",
               "choices": [
                 "fips",
-                "fetch",
+                "files",
                 "git",
-                "files"
+                "fetch"
               ]
             }
           ]
@@ -45113,28 +45453,28 @@
             {
               "answer": "Bind",
               "choices": [
-                "Symbol",
                 "SymType",
                 "Type",
-                "Bind"
+                "Bind",
+                "Symbol"
               ]
             },
             {
               "answer": "SymBind",
               "choices": [
-                "Symbol",
-                "Type",
                 "SymType",
+                "Type",
+                "Symbol",
                 "SymBind"
               ]
             },
             {
               "answer": "Info",
               "choices": [
-                "Info",
                 "Type",
+                "SymType",
                 "Symbol",
-                "SymType"
+                "Info"
               ]
             }
           ]
@@ -45556,8 +45896,8 @@
             {
               "answer": "FileInfo",
               "choices": [
-                "fs",
                 "File",
+                "fs",
                 "FileInfo",
                 "HashFileInfo"
               ]
@@ -45630,10 +45970,10 @@
             {
               "answer": "fs",
               "choices": [
-                "Hash",
                 "ch",
-                "fs",
-                "ok"
+                "Hash",
+                "ok",
+                "fs"
               ]
             },
             {
@@ -45686,19 +46026,19 @@
             {
               "answer": "setEtag",
               "choices": [
-                "http",
-                "Get",
                 "setEtag",
-                "Set"
+                "http",
+                "Set",
+                "Get"
               ]
             },
             {
               "answer": "File",
               "choices": [
-                "FileInfo",
                 "File",
-                "Hash",
-                "Sum"
+                "FileInfo",
+                "Sum",
+                "Hash"
               ]
             },
             {
@@ -46012,10 +46352,10 @@
             {
               "answer": "io",
               "choices": [
-                "wr",
                 "io",
-                "Tr",
-                "key"
+                "key",
+                "wr",
+                "Tr"
               ]
             },
             {
@@ -46094,9 +46434,9 @@
             {
               "answer": "funcs",
               "choices": [
-                "funcs",
-                "FuncMap",
                 "wr",
+                "FuncMap",
+                "funcs",
                 "args"
               ]
             },
@@ -46168,9 +46508,9 @@
               "answer": "args",
               "choices": [
                 "Tr",
+                "wr",
                 "args",
-                "err",
-                "wr"
+                "err"
               ]
             },
             {
@@ -46219,18 +46559,18 @@
             {
               "answer": "err",
               "choices": [
+                "wr",
                 "Tr",
                 "io",
-                "err",
-                "wr"
+                "err"
               ]
             },
             {
               "answer": "template",
               "choices": [
-                "tmpl",
                 "name",
                 "template",
+                "tmpl",
                 "data"
               ]
             },
@@ -46382,19 +46722,19 @@
             {
               "answer": "runtime",
               "choices": [
-                "Uint32x4",
-                "Attribute",
-                "ProcThreadAttributes",
+                "getFastPath",
+                "Pos",
+                "s1",
                 "runtime"
               ]
             },
             {
               "answer": "RunOnMainThread",
               "choices": [
-                "frag",
+                "MergeWithLegacySemantics",
+                "message",
                 "RunOnMainThread",
-                "my_test",
-                "Line"
+                "ParseTimeWithLooseRFC3339"
               ]
             }
           ]
@@ -46528,28 +46868,28 @@
             {
               "answer": "ast",
               "choices": [
-                "os",
-                "fset",
                 "ast",
-                "Err"
+                "fset",
+                "Err",
+                "os"
               ]
             },
             {
               "answer": "parser",
               "choices": [
-                "ParseDir",
                 "fset",
                 "Err",
-                "parser"
+                "parser",
+                "ParseDir"
               ]
             },
             {
               "answer": "ChainFatal",
               "choices": [
-                "ChainFatal",
-                "chain",
+                "ChainContext",
                 "Package",
-                "ChainContext"
+                "ChainFatal",
+                "chain"
               ]
             }
           ]
@@ -46603,28 +46943,28 @@
             {
               "answer": "MLDSA44",
               "choices": [
-                "MLDSA44",
+                "SignatureScheme",
+                "PASS",
                 "SignatureAlgorithm",
-                "stderr",
-                "SignatureScheme"
+                "MLDSA44"
               ]
             },
             {
               "answer": "MLDSA65",
               "choices": [
-                "ifaceWords",
+                "call",
+                "SignatureAlgorithm",
                 "MLDSA65",
-                "SignatureScheme",
-                "SignatureAlgorithm"
+                "SignatureScheme"
               ]
             },
             {
               "answer": "MLDSA87",
               "choices": [
-                "MLDSA87",
-                "cancelRequestOnce",
                 "SignatureScheme",
-                "SignatureAlgorithm"
+                "SignatureAlgorithm",
+                "MLDSA87",
+                "MX"
               ]
             }
           ]
@@ -46686,26 +47026,26 @@
               "choices": [
                 "SignatureScheme",
                 "SignatureAlgorithm",
-                "MLDSA44",
-                "ReorderRawObjects"
+                "Pointer",
+                "MLDSA44"
               ]
             },
             {
               "answer": "MLDSA65",
               "choices": [
-                "SignatureAlgorithm",
+                "MLDSA44",
                 "MLDSA65",
-                "inlinedCallSites",
-                "MLDSA44"
+                "SignatureAlgorithm",
+                "linenum"
               ]
             },
             {
               "answer": "MLDSA87",
               "choices": [
                 "SignatureAlgorithm",
-                "MLDSA87",
-                "starlark",
-                "MLDSA44"
+                "EnableSessionEvents",
+                "MLDSA44",
+                "MLDSA87"
               ]
             }
           ]
@@ -46759,10 +47099,10 @@
             {
               "answer": "Inspect",
               "choices": [
-                "stack",
+                "use",
                 "Inspect",
                 "ast",
-                "use"
+                "stack"
               ]
             },
             {
@@ -46856,28 +47196,28 @@
             {
               "answer": "PreorderStack",
               "choices": [
-                "root",
-                "PreorderStack",
                 "ast",
-                "Inspect"
+                "Inspect",
+                "PreorderStack",
+                "root"
               ]
             },
             {
               "answer": "Node",
               "choices": [
-                "Node",
-                "ast",
                 "use",
-                "root"
+                "Node",
+                "root",
+                "ast"
               ]
             },
             {
               "answer": "stack",
               "choices": [
-                "root",
                 "ast",
                 "stack",
-                "Inspect"
+                "Inspect",
+                "root"
               ]
             }
           ]
@@ -47419,10 +47759,10 @@
             {
               "answer": "add",
               "choices": [
+                "UnreadBuffer",
+                "MX",
                 "add",
-                "SignMessage",
-                "str",
-                "types"
+                "assume"
               ]
             },
             {
@@ -47475,10 +47815,10 @@
             {
               "answer": "add",
               "choices": [
-                "Serve",
-                "MaxInt32",
                 "add",
-                "trackSlice"
+                "ExampleFunc_taking_a_t",
+                "passphrase",
+                "SetInt"
               ]
             },
             {
@@ -47711,10 +48051,10 @@
             {
               "answer": "Rat",
               "choices": [
-                "one",
-                "big",
                 "seq",
-                "Rat"
+                "Rat",
+                "one",
+                "big"
               ]
             },
             {
@@ -47729,10 +48069,10 @@
             {
               "answer": "Int",
               "choices": [
-                "big",
-                "one",
                 "Int",
-                "Inv"
+                "one",
+                "Inv",
+                "big"
               ]
             }
           ]
@@ -47800,28 +48140,28 @@
             {
               "answer": "seq",
               "choices": [
-                "Ceil",
                 "Rat",
                 "seq",
-                "Int"
+                "Int",
+                "Ceil"
               ]
             },
             {
               "answer": "SetInt",
               "choices": [
-                "SetInt",
+                "Int",
                 "NewRat",
                 "Inv",
-                "Int"
+                "SetInt"
               ]
             },
             {
               "answer": "Num",
               "choices": [
-                "Sub",
                 "Mul",
-                "Num",
-                "Rat"
+                "Sub",
+                "Rat",
+                "Num"
               ]
             }
           ]
@@ -47969,10 +48309,10 @@
             {
               "answer": "Int",
               "choices": [
-                "Inv",
+                "one",
                 "Int",
                 "Rat",
-                "one"
+                "Inv"
               ]
             },
             {
@@ -47987,10 +48327,10 @@
             {
               "answer": "CeilDivMod",
               "choices": [
-                "CeilDivMod",
                 "FloorDivMod",
+                "CeilDiv",
                 "Ceil",
-                "CeilDiv"
+                "CeilDivMod"
               ]
             }
           ]
@@ -48680,28 +49020,28 @@
             {
               "answer": "err",
               "choices": [
-                "syscall",
                 "addr",
-                "io",
-                "err"
+                "err",
+                "HasAVX512",
+                "syscall"
               ]
             },
             {
               "answer": "unsafe",
               "choices": [
-                "unsafe",
-                "addr",
                 "syscall",
-                "jsonopts"
+                "addr",
+                "tt",
+                "unsafe"
               ]
             },
             {
               "answer": "Pointer",
               "choices": [
-                "Pointer",
                 "syscall",
-                "addr",
-                "TypeParams"
+                "module",
+                "Pointer",
+                "addr"
               ]
             }
           ]
@@ -48753,10 +49093,10 @@
             {
               "answer": "addr",
               "choices": [
-                "err",
-                "Pointer",
                 "syscall",
-                "addr"
+                "addr",
+                "err",
+                "Pointer"
               ]
             },
             {
@@ -48771,10 +49111,10 @@
             {
               "answer": "unsafe",
               "choices": [
-                "unsafe",
-                "err",
+                "Pointer",
                 "syscall",
-                "Pointer"
+                "err",
+                "unsafe"
               ]
             }
           ]
@@ -48834,10 +49174,10 @@
             {
               "answer": "addr",
               "choices": [
-                "syscall",
-                "Pointer",
                 "addr",
-                "err"
+                "syscall",
+                "err",
+                "Pointer"
               ]
             },
             {
@@ -48852,10 +49192,10 @@
             {
               "answer": "unsafe",
               "choices": [
-                "Pointer",
                 "err",
-                "unsafe",
-                "syscall"
+                "syscall",
+                "Pointer",
+                "unsafe"
               ]
             }
           ]
@@ -49169,28 +49509,28 @@
             {
               "answer": "gopls",
               "choices": [
-                "gopls",
+                "not",
                 "json",
                 "file",
-                "not"
+                "gopls"
               ]
             },
             {
               "answer": "provided",
               "choices": [
+                "file",
                 "json",
-                "provided",
                 "version",
-                "file"
+                "provided"
               ]
             },
             {
               "answer": "defined",
               "choices": [
                 "file",
+                "defined",
                 "bin",
-                "details",
-                "defined"
+                "details"
               ]
             }
           ]
@@ -49363,10 +49703,10 @@
             {
               "answer": "ServerAuthCallbacks",
               "choices": [
-                "ChangeAuthMethodsError",
                 "Next",
-                "ServerAuthCallbacks",
-                "Error"
+                "ChangeAuthMethodsError",
+                "Error",
+                "ServerAuthCallbacks"
               ]
             },
             {
@@ -49437,27 +49777,27 @@
             {
               "answer": "FindNode",
               "choices": [
-                "Node",
-                "FindByPos",
                 "FieldName",
-                "FindNode"
+                "FindNode",
+                "Node",
+                "FindByPos"
               ]
             },
             {
               "answer": "edge",
               "choices": [
-                "Type",
-                "end",
                 "Node",
+                "end",
+                "Type",
                 "edge"
               ]
             },
             {
               "answer": "FieldType",
               "choices": [
-                "Type",
-                "NodeType",
                 "FieldType",
+                "NodeType",
+                "Type",
                 "FieldName"
               ]
             }
@@ -49750,28 +50090,28 @@
             {
               "answer": "proceed",
               "choices": [
-                "Node",
-                "token",
                 "descend",
-                "proceed"
+                "proceed",
+                "token",
+                "Node"
               ]
             },
             {
               "answer": "Cursor",
               "choices": [
-                "iter",
-                "Cursor",
                 "push",
-                "ast"
+                "Cursor",
+                "ast",
+                "iter"
               ]
             },
             {
               "answer": "end",
               "choices": [
-                "Kind",
-                "end",
                 "ast",
-                "in"
+                "in",
+                "end",
+                "Kind"
               ]
             }
           ]
@@ -49831,28 +50171,28 @@
             {
               "answer": "BinaryExpr",
               "choices": [
-                "inspector",
+                "BinaryExpr",
                 "binary",
                 "FindByPos",
-                "BinaryExpr"
+                "inspector"
               ]
             },
             {
               "answer": "in",
               "choices": [
-                "Kind",
                 "in",
                 "end",
+                "Kind",
                 "idx"
               ]
             },
             {
               "answer": "Stack",
               "choices": [
-                "iter",
                 "start",
-                "Stack",
-                "ast"
+                "iter",
+                "ast",
+                "Stack"
               ]
             }
           ]
@@ -50325,10 +50665,10 @@
             {
               "answer": "err",
               "choices": [
-                "priv",
-                "err",
+                "cert",
                 "io",
-                "cert"
+                "priv",
+                "err"
               ]
             },
             {
@@ -50381,28 +50721,28 @@
             {
               "answer": "message",
               "choices": [
-                "Sign",
-                "SignMessage",
+                "message",
                 "ms",
-                "message"
+                "SignMessage",
+                "Sign"
               ]
             },
             {
               "answer": "io",
               "choices": [
-                "ms",
-                "hs",
                 "ok",
-                "io"
+                "io",
+                "hs",
+                "ms"
               ]
             },
             {
               "answer": "Reader",
               "choices": [
-                "Signer",
+                "Reader",
                 "rand",
                 "err",
-                "Reader"
+                "Signer"
               ]
             }
           ]
@@ -50446,10 +50786,10 @@
             {
               "answer": "message",
               "choices": [
-                "Sign",
-                "ms",
                 "SignMessage",
-                "message"
+                "message",
+                "Sign",
+                "ms"
               ]
             },
             {
@@ -50457,17 +50797,17 @@
               "choices": [
                 "ms",
                 "ok",
-                "io",
-                "hs"
+                "hs",
+                "io"
               ]
             },
             {
               "answer": "Reader",
               "choices": [
-                "Signer",
-                "err",
                 "Reader",
-                "rand"
+                "err",
+                "rand",
+                "Signer"
               ]
             }
           ]
@@ -50884,28 +51224,28 @@
             {
               "answer": "TLSConfig",
               "choices": [
+                "TLSConfig",
                 "QUICConfig",
                 "LocalAddr",
-                "net",
-                "TLSConfig"
+                "net"
               ]
             },
             {
               "answer": "Config",
               "choices": [
+                "net",
                 "Addr",
                 "QUICConfig",
-                "Config",
-                "net"
+                "Config"
               ]
             },
             {
               "answer": "Conn",
               "choices": [
+                "Addr",
                 "Conn",
-                "net",
                 "QUICConfig",
-                "Addr"
+                "net"
               ]
             }
           ]
@@ -50967,10 +51307,10 @@
             {
               "answer": "RemoteAddr",
               "choices": [
-                "RemoteAddr",
+                "Config",
                 "net",
                 "Addr",
-                "Config"
+                "RemoteAddr"
               ]
             }
           ]
@@ -51252,19 +51592,19 @@
             {
               "answer": "fmt",
               "choices": [
-                "MarshalFunc",
+                "StackDepth",
+                "metric",
                 "fmt",
-                "ast",
-                "NewPublicKey"
+                "hello"
               ]
             },
             {
               "answer": "Printf",
               "choices": [
-                "cfg",
-                "ChangeAuthMethodsError",
+                "proto",
                 "Printf",
-                "stack"
+                "Transport",
+                "AcceptStream"
               ]
             }
           ]
@@ -51527,10 +51867,10 @@
             {
               "answer": "errcode",
               "choices": [
-                "errcode",
-                "Rows",
                 "table",
-                "Slice"
+                "Slice",
+                "errcode",
+                "Rows"
               ]
             },
             {
@@ -51545,9 +51885,9 @@
             {
               "answer": "MibIfRow2",
               "choices": [
-                "MibIfTable2",
                 "table",
                 "Rows",
+                "MibIfTable2",
                 "MibIfRow2"
               ]
             }
@@ -51837,28 +52177,28 @@
             {
               "answer": "Range",
               "choices": [
-                "nd",
+                "Range",
                 "slice",
-                "value",
-                "Range"
+                "nd",
+                "value"
               ]
             },
             {
               "answer": "index",
               "choices": [
+                "nd",
                 "integer",
-                "index",
                 "key",
-                "nd"
+                "index"
               ]
             },
             {
               "answer": "see",
               "choices": [
+                "nd",
                 "see",
-                "st",
                 "key",
-                "nd"
+                "st"
               ]
             }
           ]
@@ -51921,10 +52261,10 @@
             {
               "answer": "entry",
               "choices": [
+                "History",
                 "entry",
                 "At",
-                "Len",
-                "History"
+                "Len"
               ]
             },
             {
@@ -51977,19 +52317,19 @@
             {
               "answer": "Terminal",
               "choices": [
-                "Terminal",
                 "entry",
                 "commands",
-                "Len"
+                "Len",
+                "Terminal"
               ]
             },
             {
               "answer": "History",
               "choices": [
-                "History",
+                "entry",
                 "NewHistory",
                 "AutoHistory",
-                "entry"
+                "History"
               ]
             },
             {
@@ -52042,8 +52382,8 @@
             {
               "answer": "AddToHistory",
               "choices": [
-                "AutoHistory",
                 "AddToHistory",
+                "AutoHistory",
                 "NewHistory",
                 "History"
               ]
@@ -52108,18 +52448,18 @@
               "answer": "NewHistory",
               "choices": [
                 "History",
-                "NewHistory",
                 "AutoHistory",
+                "NewHistory",
                 "AddToHistory"
               ]
             },
             {
               "answer": "capacity",
               "choices": [
+                "History",
                 "capacity",
                 "entry",
-                "At",
-                "History"
+                "At"
               ]
             },
             {
@@ -52172,28 +52512,28 @@
             {
               "answer": "Terminal",
               "choices": [
-                "Terminal",
-                "index",
                 "commands",
-                "Len"
+                "Len",
+                "Terminal",
+                "index"
               ]
             },
             {
               "answer": "ReplaceLatest",
               "choices": [
-                "Len",
                 "capacity",
-                "ReplaceLatest",
-                "commands"
+                "commands",
+                "Len",
+                "ReplaceLatest"
               ]
             },
             {
               "answer": "entry",
               "choices": [
+                "entry",
                 "At",
                 "History",
-                "Len",
-                "entry"
+                "Len"
               ]
             }
           ]
@@ -52384,19 +52724,19 @@
             {
               "answer": "found",
               "choices": [
-                "after",
-                "before",
                 "sep",
+                "before",
+                "after",
                 "found"
               ]
             },
             {
               "answer": "strings",
               "choices": [
-                "sep",
                 "strings",
+                "before",
                 "after",
-                "before"
+                "sep"
               ]
             },
             {
@@ -52848,10 +53188,10 @@
             {
               "answer": "Sender",
               "choices": [
-                "NewSender",
+                "Seal",
                 "Sender",
                 "aead",
-                "Seal"
+                "NewSender"
               ]
             }
           ]
@@ -52895,19 +53235,19 @@
             {
               "answer": "ID",
               "choices": [
-                "ID",
+                "pk",
                 "kdf",
                 "pq",
-                "pk"
+                "ID"
               ]
             },
             {
               "answer": "AES256GCM",
               "choices": [
-                "AES256GCM",
                 "AES128GCM",
-                "SHAKE256",
-                "Seal"
+                "Seal",
+                "AES256GCM",
+                "SHAKE256"
               ]
             },
             {
@@ -52987,9 +53327,9 @@
               "answer": "HKDFSHA512",
               "choices": [
                 "HKDFSHA256",
-                "HKDFSHA512",
+                "SHAKE128",
                 "HKDFSHA384",
-                "SHAKE128"
+                "HKDFSHA512"
               ]
             }
           ]
@@ -53106,19 +53446,19 @@
             {
               "answer": "PrivateKey",
               "choices": [
-                "GenerateKey",
                 "PrivateKey",
                 "PublicKey",
+                "GenerateKey",
                 "NewPrivateKey"
               ]
             },
             {
               "answer": "Encapsulator",
               "choices": [
-                "Encapsulator",
-                "Encapsulate",
                 "Decapsulate",
-                "Decapsulator"
+                "Decapsulator",
+                "Encapsulate",
+                "Encapsulator"
               ]
             }
           ]
@@ -53186,18 +53526,18 @@
             {
               "answer": "Encapsulator",
               "choices": [
-                "Recipient",
                 "Encapsulator",
                 "Decapsulator",
+                "Recipient",
                 "Encapsulate"
               ]
             },
             {
               "answer": "Decapsulate",
               "choices": [
-                "Decapsulate",
-                "Decapsulator",
                 "Recipient",
+                "Decapsulator",
+                "Decapsulate",
                 "Encapsulate"
               ]
             },
@@ -53582,26 +53922,26 @@
               "choices": [
                 "streamID",
                 "SettingID",
-                "http2",
-                "Server"
+                "Server",
+                "http2"
               ]
             },
             {
               "answer": "Framer",
               "choices": [
-                "Server",
                 "FrameHeader",
-                "Framer",
-                "FrameType"
+                "FrameType",
+                "Server",
+                "Framer"
               ]
             },
             {
               "answer": "priority",
               "choices": [
-                "Server",
-                "streamID",
                 "priority",
-                "FrameType"
+                "streamID",
+                "FrameType",
+                "Server"
               ]
             }
           ]
@@ -53646,9 +53986,9 @@
               "answer": "http2",
               "choices": [
                 "streamID",
-                "Framer",
+                "http2",
                 "Server",
-                "http2"
+                "Framer"
               ]
             },
             {
@@ -53663,10 +54003,10 @@
             {
               "answer": "SettingID",
               "choices": [
-                "SettingID",
-                "FrameType",
                 "Server",
-                "streamID"
+                "FrameType",
+                "streamID",
+                "SettingID"
               ]
             }
           ]
@@ -53715,10 +54055,10 @@
             {
               "answer": "Server",
               "choices": [
-                "Framer",
-                "Priority",
                 "Server",
-                "http2"
+                "http2",
+                "Priority",
+                "Framer"
               ]
             },
             {
@@ -53820,28 +54160,28 @@
             {
               "answer": "test",
               "choices": [
-                "exec",
                 "test",
-                "exit",
-                "tmp"
+                "tmp",
+                "exec",
+                "exit"
               ]
             },
             {
               "answer": "fullpath",
               "choices": [
                 "script",
-                "fullpath",
                 "foo",
+                "fullpath",
                 "match"
               ]
             },
             {
               "answer": "stderr",
               "choices": [
-                "txtar",
                 "stdout",
+                "stderr",
                 "status",
-                "stderr"
+                "txtar"
               ]
             }
           ]
@@ -53893,18 +54233,18 @@
             {
               "answer": "stdout",
               "choices": [
-                "test",
                 "status",
-                "stdout",
-                "stderr"
+                "test",
+                "stderr",
+                "stdout"
               ]
             },
             {
               "answer": "FAIL",
               "choices": [
-                "FAIL",
                 "test",
                 "exec",
+                "FAIL",
                 "foo"
               ]
             },
@@ -53913,8 +54253,8 @@
               "choices": [
                 "stderr",
                 "testscript142857279",
-                "script",
-                "test"
+                "test",
+                "script"
               ]
             }
           ]
@@ -54162,10 +54502,10 @@
             {
               "answer": "EqFunc",
               "choices": [
-                "HashFunc",
                 "EqFunc",
-                "hash",
-                "ParentEdge"
+                "HashFunc",
+                "val",
+                "hash"
               ]
             },
             {
@@ -54276,26 +54616,26 @@
             {
               "answer": "AEAD",
               "choices": [
-                "sync",
                 "AEAD",
                 "safeAEAD",
-                "con"
+                "con",
+                "sync"
               ]
             },
             {
               "answer": "Set",
               "choices": [
-                "New",
                 "key",
-                "Set",
-                "con"
+                "con",
+                "New",
+                "Set"
               ]
             },
             {
               "answer": "Unlock",
               "choices": [
-                "sync",
                 "Lock",
+                "sync",
                 "Unlock",
                 "con"
               ]
@@ -54461,10 +54801,10 @@
             {
               "answer": "wg",
               "choices": [
-                "sync",
+                "Add",
                 "Go",
-                "wg",
-                "Add"
+                "sync",
+                "wg"
               ]
             },
             {
@@ -54479,10 +54819,10 @@
             {
               "answer": "Wait",
               "choices": [
-                "sync",
-                "Done",
                 "Wait",
-                "Add"
+                "sync",
+                "Add",
+                "Done"
               ]
             }
           ]
@@ -54542,28 +54882,28 @@
             {
               "answer": "wg",
               "choices": [
+                "wg",
                 "Add",
-                "sync",
                 "Wait",
-                "wg"
+                "sync"
               ]
             },
             {
               "answer": "WaitGroup",
               "choices": [
-                "Wait",
-                "sync",
                 "WaitGroup",
-                "Done"
+                "Done",
+                "Wait",
+                "sync"
               ]
             },
             {
               "answer": "Go",
               "choices": [
                 "Done",
+                "Add",
                 "sync",
-                "Go",
-                "Add"
+                "Go"
               ]
             }
           ]
@@ -54977,10 +55317,10 @@
             {
               "answer": "Type",
               "choices": [
-                "recv",
-                "name",
                 "Type",
-                "types"
+                "types",
+                "recv",
+                "name"
               ]
             },
             {
@@ -54995,10 +55335,10 @@
             {
               "answer": "Package",
               "choices": [
-                "pkg",
-                "recv",
+                "Package",
                 "name",
-                "Package"
+                "recv",
+                "pkg"
               ]
             }
           ]
@@ -55060,17 +55400,17 @@
             {
               "answer": "Node",
               "choices": [
-                "doc",
-                "html",
+                "Node",
                 "Type",
-                "Node"
+                "html",
+                "doc"
               ]
             },
             {
               "answer": "Data",
               "choices": [
-                "Data",
                 "Attr",
+                "Data",
                 "Val",
                 "fmt"
               ]
@@ -55078,8 +55418,8 @@
             {
               "answer": "NextSibling",
               "choices": [
-                "Attr",
                 "html",
+                "Attr",
                 "NextSibling",
                 "Println"
               ]
@@ -55125,9 +55465,9 @@
             {
               "answer": "Data",
               "choices": [
-                "Attr",
                 "Data",
                 "html",
+                "Attr",
                 "Val"
               ]
             },
@@ -55135,18 +55475,18 @@
               "answer": "fmt",
               "choices": [
                 "Key",
-                "fmt",
+                "Attr",
                 "html",
-                "Attr"
+                "fmt"
               ]
             },
             {
               "answer": "Println",
               "choices": [
                 "Println",
-                "html",
+                "Attr",
                 "Val",
-                "Attr"
+                "html"
               ]
             }
           ]
@@ -55605,19 +55945,19 @@
             {
               "answer": "Process",
               "choices": [
-                "Process",
                 "New",
+                "FindProcess",
                 "os",
-                "FindProcess"
+                "Process"
               ]
             },
             {
               "answer": "ErrNoHandle",
               "choices": [
-                "err",
+                "ErrNoHandle",
                 "handle",
-                "WithHandle",
-                "ErrNoHandle"
+                "err",
+                "WithHandle"
               ]
             },
             {
@@ -55625,8 +55965,8 @@
               "choices": [
                 "errors",
                 "err",
-                "handle",
-                "os"
+                "os",
+                "handle"
               ]
             }
           ]
@@ -55678,19 +56018,19 @@
             {
               "answer": "FindProcess",
               "choices": [
-                "FindProcess",
                 "errors",
                 "Process",
-                "handle"
+                "handle",
+                "FindProcess"
               ]
             },
             {
               "answer": "pidfdUsed",
               "choices": [
-                "errors",
-                "Process",
                 "pidfdUsed",
-                "handle"
+                "handle",
+                "Process",
+                "errors"
               ]
             },
             {
@@ -56231,27 +56571,27 @@
               "answer": "ctx",
               "choices": [
                 "sql",
-                "db",
                 "ctx",
-                "http"
+                "http",
+                "db"
               ]
             },
             {
               "answer": "context",
               "choices": [
-                "Request",
-                "cancel",
                 "Server",
-                "context"
+                "cancel",
+                "context",
+                "Request"
               ]
             },
             {
               "answer": "Background",
               "choices": [
                 "echopb",
+                "Background",
                 "Echo",
-                "rows",
-                "Background"
+                "rows"
               ]
             }
           ]
@@ -56303,10 +56643,10 @@
             {
               "answer": "cancel",
               "choices": [
-                "cancel",
                 "ctx",
+                "Server",
                 "context",
-                "Server"
+                "cancel"
               ]
             },
             {
@@ -56321,8 +56661,8 @@
             {
               "answer": "err",
               "choices": [
-                "db",
                 "err",
+                "db",
                 "Server",
                 "ctx"
               ]
@@ -56368,28 +56708,28 @@
             {
               "answer": "ctx",
               "choices": [
-                "db",
-                "sql",
                 "http",
-                "ctx"
+                "ctx",
+                "db",
+                "sql"
               ]
             },
             {
               "answer": "Context",
               "choices": [
-                "cancel",
-                "Request",
                 "Server",
+                "Request",
+                "cancel",
                 "Context"
               ]
             },
             {
               "answer": "req",
               "choices": [
-                "rows",
+                "req",
                 "sql",
-                "db",
-                "req"
+                "rows",
+                "db"
               ]
             }
           ]
@@ -56661,28 +57001,28 @@
             {
               "answer": "synctest",
               "choices": [
-                "Get",
                 "synctest",
                 "Cache",
-                "count"
+                "count",
+                "Get"
               ]
             },
             {
               "answer": "Run",
               "choices": [
-                "key",
+                "Run",
                 "count",
-                "Get",
-                "Run"
+                "key",
+                "Get"
               ]
             },
             {
               "answer": "Wait",
               "choices": [
-                "Get",
-                "want",
                 "Wait",
-                "fmt"
+                "fmt",
+                "Get",
+                "want"
               ]
             }
           ]
@@ -56740,10 +57080,10 @@
             {
               "answer": "NewCache",
               "choices": [
-                "Wait",
                 "NewCache",
-                "Cache",
-                "want"
+                "want",
+                "Wait",
+                "Cache"
               ]
             }
           ]
@@ -56883,28 +57223,28 @@
             {
               "answer": "Second",
               "choices": [
-                "Second",
                 "Cache",
                 "Run",
+                "Second",
                 "count"
               ]
             },
             {
               "answer": "want",
               "choices": [
+                "Run",
                 "count",
-                "Wait",
                 "want",
-                "Run"
+                "Wait"
               ]
             },
             {
               "answer": "Get",
               "choices": [
+                "got",
                 "Get",
                 "key",
-                "fmt",
-                "got"
+                "fmt"
               ]
             }
           ]
@@ -57012,8 +57352,8 @@
             {
               "answer": "synctest",
               "choices": [
-                "Cache",
                 "synctest",
+                "Cache",
                 "count",
                 "Get"
               ]
@@ -57022,18 +57362,18 @@
               "answer": "time",
               "choices": [
                 "fmt",
+                "time",
                 "Wait",
-                "Run",
-                "time"
+                "Run"
               ]
             },
             {
               "answer": "Second",
               "choices": [
+                "Cache",
                 "count",
                 "Run",
-                "Second",
-                "Cache"
+                "Second"
               ]
             }
           ]
@@ -57205,17 +57545,17 @@
             {
               "answer": "ValueOf",
               "choices": [
+                "Value",
                 "reflect",
                 "ValueOf",
-                "testing",
-                "Value"
+                "testing"
               ]
             },
             {
               "answer": "time",
               "choices": [
-                "testing",
                 "ok",
+                "testing",
                 "time",
                 "Value"
               ]
@@ -57223,10 +57563,10 @@
             {
               "answer": "Elem",
               "choices": [
-                "Value",
-                "Elem",
+                "ok",
                 "reflect",
-                "ok"
+                "Elem",
+                "Value"
               ]
             }
           ]
@@ -57270,10 +57610,10 @@
             {
               "answer": "AssertTo",
               "choices": [
-                "time",
+                "testing",
                 "reflect",
                 "AssertTo",
-                "testing"
+                "time"
               ]
             },
             {
@@ -57335,8 +57675,8 @@
             {
               "answer": "ok",
               "choices": [
-                "testing",
                 "Elem",
+                "testing",
                 "ok",
                 "Value"
               ]
@@ -57344,18 +57684,18 @@
             {
               "answer": "AssertTo",
               "choices": [
-                "reflect",
-                "AssertTo",
+                "testing",
                 "Elem",
-                "testing"
+                "AssertTo",
+                "reflect"
               ]
             },
             {
               "answer": "time",
               "choices": [
+                "Elem",
                 "time",
                 "testing",
-                "Elem",
                 "Value"
               ]
             }
@@ -57402,8 +57742,8 @@
               "choices": [
                 "AssertTo",
                 "testing",
-                "reflect",
-                "time"
+                "time",
+                "reflect"
               ]
             },
             {
@@ -57465,28 +57805,28 @@
             {
               "answer": "AssertTo",
               "choices": [
-                "Elem",
-                "testing",
+                "AssertTo",
                 "reflect",
-                "AssertTo"
+                "Elem",
+                "testing"
               ]
             },
             {
               "answer": "time",
               "choices": [
-                "Elem",
                 "ok",
+                "Value",
                 "time",
-                "Value"
+                "Elem"
               ]
             },
             {
               "answer": "Time",
               "choices": [
-                "ok",
-                "Value",
                 "Time",
-                "Elem"
+                "Elem",
+                "Value",
+                "ok"
               ]
             }
           ]
@@ -57814,9 +58154,9 @@
               "answer": "ok",
               "choices": [
                 "res",
-                "requestTooLarge",
+                "ok",
                 "requestTooLarger",
-                "ok"
+                "requestTooLarge"
               ]
             }
           ]
@@ -57925,28 +58265,28 @@
             {
               "answer": "URL",
               "choices": [
-                "Sign",
-                "tmpF2",
+                "computeMean",
+                "EndArray",
                 "URL",
-                "matching"
+                "ReportAllocs"
               ]
             },
             {
               "answer": "Clone",
               "choices": [
-                "coverprofile",
-                "Encapsulator",
-                "cfg",
-                "Clone"
+                "CertSigAlgoRSASHA2512v01",
+                "Clone",
+                "OpenFileIn",
+                "Broadcast"
               ]
             },
             {
               "answer": "Values",
               "choices": [
-                "PreorderStack",
-                "regionBlock",
-                "git",
-                "Values"
+                "Values",
+                "Tokens",
+                "fullpath",
+                "candHotEdgeMap"
               ]
             }
           ]
@@ -58272,28 +58612,28 @@
             {
               "answer": "emerald",
               "choices": [
-                "hello",
-                "ver",
+                "emerald",
                 "build",
-                "emerald"
+                "ver",
+                "hello"
               ]
             },
             {
               "answer": "grep",
               "choices": [
+                "ver",
                 "grep",
-                "ro",
                 "mgk",
-                "ver"
+                "ro"
               ]
             },
             {
               "answer": "mod",
               "choices": [
-                "io",
                 "ro",
-                "mod",
-                "mgk"
+                "io",
+                "mgk",
+                "mod"
               ]
             }
           ]
@@ -58361,28 +58701,28 @@
             {
               "answer": "ver",
               "choices": [
+                "ver",
                 "v0",
                 "grep",
-                "mod",
-                "ver"
+                "mod"
               ]
             },
             {
               "answer": "za07W6qX3sG",
               "choices": [
+                "latest",
                 "za07W6qX3sG",
                 "emerald",
-                "latest",
                 "v0"
               ]
             },
             {
               "answer": "IvBK4EUl38vUHAf53Q",
               "choices": [
-                "IvBK4EUl38vUHAf53Q",
                 "emerald",
                 "build",
-                "version"
+                "version",
+                "IvBK4EUl38vUHAf53Q"
               ]
             }
           ]
@@ -58436,28 +58776,28 @@
             {
               "answer": "init",
               "choices": [
-                "main",
                 "init",
-                "cat",
-                "fmt"
+                "fmt",
+                "main",
+                "cat"
               ]
             },
             {
               "answer": "later",
               "choices": [
-                "fmt",
-                "main",
                 "cat",
-                "later"
+                "later",
+                "fmt",
+                "main"
               ]
             },
             {
               "answer": "lang",
               "choices": [
                 "main",
-                "lang",
                 "cat",
-                "and"
+                "and",
+                "lang"
               ]
             }
           ]
@@ -58592,28 +58932,28 @@
             {
               "answer": "main",
               "choices": [
+                "ip",
                 "main",
-                "err",
                 "net",
-                "ip"
+                "err"
               ]
             },
             {
               "answer": "LookupIP",
               "choices": [
-                "LookupIP",
-                "err",
                 "Sleep",
+                "err",
+                "LookupIP",
                 "ip"
               ]
             },
             {
               "answer": "fmt",
               "choices": [
-                "err",
-                "ip",
                 "net",
-                "fmt"
+                "fmt",
+                "ip",
+                "err"
               ]
             }
           ]
@@ -58827,18 +59167,18 @@
             {
               "answer": "Foo",
               "choices": [
+                "time",
                 "Foo",
-                "Now",
-                "EncryptedClientHelloKeys",
-                "time"
+                "internal",
+                "Now"
               ]
             },
             {
               "answer": "EmptyStruct",
               "choices": [
-                "EmptyStruct",
                 "Now",
-                "MLKEM1024",
+                "PasswordCallback",
+                "EmptyStruct",
                 "time"
               ]
             }
@@ -58912,19 +59252,19 @@
             {
               "answer": "Foo",
               "choices": [
-                "Foo",
                 "time",
-                "TypeList",
-                "EmptyStruct"
+                "EmptyStruct",
+                "Foo",
+                "StructArr"
               ]
             },
             {
               "answer": "Now",
               "choices": [
                 "EmptyStruct",
-                "Permissions",
+                "time",
                 "Now",
-                "time"
+                "NewPublicKey"
               ]
             }
           ]
@@ -58978,28 +59318,28 @@
             {
               "answer": "token",
               "choices": [
-                "File",
-                "token",
                 "Base",
-                "Name"
+                "Name",
+                "File",
+                "token"
               ]
             },
             {
               "answer": "fmt",
               "choices": [
-                "fmt",
-                "Name",
                 "End",
-                "File"
+                "Name",
+                "File",
+                "fmt"
               ]
             },
             {
               "answer": "Println",
               "choices": [
-                "Sprintf",
                 "String",
-                "Println",
-                "File"
+                "Sprintf",
+                "File",
+                "Println"
               ]
             }
           ]
@@ -59043,27 +59383,27 @@
             {
               "answer": "token",
               "choices": [
-                "fmt",
+                "Name",
                 "token",
-                "File",
-                "Name"
+                "fmt",
+                "File"
               ]
             },
             {
               "answer": "Sprintf",
               "choices": [
-                "Println",
-                "fmt",
                 "Sprintf",
+                "fmt",
+                "Println",
                 "String"
               ]
             },
             {
               "answer": "Base",
               "choices": [
-                "File",
-                "Name",
                 "fmt",
+                "Name",
+                "File",
                 "Base"
               ]
             }
@@ -59220,25 +59560,25 @@
               "answer": "myErr",
               "choices": [
                 "zero",
+                "errors",
                 "myErr",
-                "isErr",
-                "errors"
+                "isErr"
               ]
             },
             {
               "answer": "MyCustomError",
               "choices": [
-                "OtherError",
                 "MyCustomError",
-                "isErr",
-                "errors"
+                "errors",
+                "OtherError",
+                "isErr"
               ]
             },
             {
               "answer": "err",
               "choices": [
-                "errors",
                 "zero",
+                "errors",
                 "err",
                 "As"
               ]
@@ -59309,18 +59649,18 @@
               "answer": "isErr",
               "choices": [
                 "err",
+                "isErr",
                 "As",
-                "myErr",
-                "isErr"
+                "myErr"
               ]
             },
             {
               "answer": "zero",
               "choices": [
-                "err",
-                "zero",
                 "myErr",
-                "foo"
+                "foo",
+                "zero",
+                "err"
               ]
             },
             {
@@ -59405,28 +59745,28 @@
             {
               "answer": "foo",
               "choices": [
-                "As",
-                "foo",
+                "zero",
                 "err",
-                "zero"
+                "As",
+                "foo"
               ]
             },
             {
               "answer": "ok",
               "choices": [
-                "ok",
-                "err",
                 "As",
+                "err",
+                "ok",
                 "zero"
               ]
             },
             {
               "answer": "IsA",
               "choices": [
-                "err",
-                "isErr",
+                "As",
                 "IsA",
-                "As"
+                "isErr",
+                "err"
               ]
             }
           ]
@@ -59507,8 +59847,8 @@
             {
               "answer": "myErr",
               "choices": [
-                "zero",
                 "myErr",
+                "zero",
                 "isErr",
                 "errors"
               ]
@@ -59516,10 +59856,10 @@
             {
               "answer": "OtherError",
               "choices": [
+                "OtherError",
                 "errors",
                 "isErr",
-                "otherErr",
-                "OtherError"
+                "otherErr"
               ]
             }
           ]
@@ -60107,18 +60447,18 @@
             {
               "answer": "Loop",
               "choices": [
-                "Loop",
                 "testing",
                 "Benchmark",
-                "rta"
+                "Loop",
+                "TestSumA1B1"
               ]
             },
             {
               "answer": "op",
               "choices": [
-                "fullpath",
-                "op",
                 "Benchmark",
+                "iovec",
+                "op",
                 "testing"
               ]
             }
@@ -60164,9 +60504,9 @@
               "answer": "testing",
               "choices": [
                 "testing",
+                "Benchmark",
                 "op",
-                "MLDSAMu",
-                "Benchmark"
+                "Second"
               ]
             },
             {
@@ -60182,9 +60522,9 @@
               "answer": "Loop",
               "choices": [
                 "op",
+                "readmaker",
                 "Benchmark",
-                "Loop",
-                "DeriveKeyPair"
+                "Loop"
               ]
             }
           ]
@@ -60228,28 +60568,28 @@
             {
               "answer": "Benchmark",
               "choices": [
+                "emerald",
                 "Benchmark",
                 "op",
-                "AddFile",
-                "found"
+                "AddVecs"
               ]
             },
             {
               "answer": "testing",
               "choices": [
-                "testing",
+                "targs",
                 "op",
-                "NewStream",
-                "SysProcAttr"
+                "testing",
+                "GetOption"
               ]
             },
             {
               "answer": "Loop",
               "choices": [
-                "Loop",
                 "op",
-                "Once",
-                "recvTypeParams"
+                "Loop",
+                "Marshal",
+                "el"
               ]
             }
           ]
@@ -60628,18 +60968,18 @@
               "answer": "iter",
               "choices": [
                 "line",
-                "Lines",
                 "iter",
+                "Lines",
                 "Seq"
               ]
             },
             {
               "answer": "Index",
               "choices": [
-                "line",
                 "Seq",
-                "Index",
-                "Lines"
+                "line",
+                "Lines",
+                "Index"
               ]
             }
           ]
@@ -60692,10 +61032,10 @@
             {
               "answer": "iter",
               "choices": [
-                "line",
                 "iter",
                 "Seq",
-                "Lines"
+                "Lines",
+                "line"
               ]
             },
             {
@@ -60861,28 +61201,28 @@
             {
               "answer": "Seq",
               "choices": [
-                "Seq2",
-                "iter",
                 "Seq",
-                "sep"
+                "iter",
+                "sep",
+                "Seq2"
               ]
             },
             {
               "answer": "yield",
               "choices": [
                 "yield",
+                "iter",
                 "Lines",
-                "line",
-                "iter"
+                "line"
               ]
             },
             {
               "answer": "strings",
               "choices": [
-                "line",
                 "Lines",
+                "strings",
                 "Runes",
-                "strings"
+                "line"
               ]
             }
           ]
@@ -60926,9 +61266,9 @@
             {
               "answer": "FieldsFuncSeq",
               "choices": [
-                "yield",
                 "Lines",
                 "SplitSeq",
+                "yield",
                 "FieldsFuncSeq"
               ]
             },
@@ -60936,18 +61276,18 @@
               "answer": "iter",
               "choices": [
                 "Bytes",
-                "line",
                 "iter",
+                "line",
                 "Lines"
               ]
             },
             {
               "answer": "Seq",
               "choices": [
-                "Seq",
                 "Lines",
+                "sep",
                 "Seq2",
-                "sep"
+                "Seq"
               ]
             }
           ]
@@ -61001,27 +61341,27 @@
             {
               "answer": "ParentEdge",
               "choices": [
-                "Kind",
-                "ek",
                 "astutil",
-                "ParentEdge"
+                "Kind",
+                "ParentEdge",
+                "ek"
               ]
             },
             {
               "answer": "edge",
               "choices": [
                 "cur",
-                "edge",
                 "Kind",
-                "ek"
+                "ek",
+                "edge"
               ]
             },
             {
               "answer": "CallExpr_Args",
               "choices": [
+                "cur",
                 "CallExpr_Args",
                 "SelectorExpr_Sel",
-                "cur",
                 "Cursor"
               ]
             }
@@ -61066,28 +61406,28 @@
             {
               "answer": "IsChildOf",
               "choices": [
-                "astutil",
-                "IsChildOf",
                 "Kind",
-                "Cursor"
+                "Cursor",
+                "astutil",
+                "IsChildOf"
               ]
             },
             {
               "answer": "cur",
               "choices": [
+                "Cursor",
                 "ek",
                 "cur",
-                "Kind",
-                "Cursor"
+                "Kind"
               ]
             },
             {
               "answer": "edge",
               "choices": [
-                "ek",
-                "ParentEdge",
+                "edge",
                 "Kind",
-                "edge"
+                "ParentEdge",
+                "ek"
               ]
             }
           ]
@@ -61140,19 +61480,19 @@
             {
               "answer": "IsChildOf",
               "choices": [
-                "astutil",
                 "IsChildOf",
                 "edge",
-                "Cursor"
+                "Cursor",
+                "astutil"
               ]
             },
             {
               "answer": "Kind",
               "choices": [
-                "ek",
-                "cur",
+                "edge",
                 "Kind",
-                "edge"
+                "ek",
+                "cur"
               ]
             }
           ]
@@ -61241,28 +61581,28 @@
             {
               "answer": "conn",
               "choices": [
-                "err",
-                "ctx",
+                "Config",
                 "conn",
-                "Config"
+                "ctx",
+                "err"
               ]
             },
             {
               "answer": "quic",
               "choices": [
-                "ctx",
                 "buf",
                 "quic",
+                "ctx",
                 "err"
               ]
             },
             {
               "answer": "Dial",
               "choices": [
+                "Dial",
                 "err",
-                "Read",
                 "ctx",
-                "Dial"
+                "Read"
               ]
             }
           ]
@@ -61306,28 +61646,28 @@
             {
               "answer": "err",
               "choices": [
-                "Read",
+                "err",
                 "conn",
                 "buf",
-                "err"
+                "Read"
               ]
             },
             {
               "answer": "NewStream",
               "choices": [
-                "Listen",
-                "NewStream",
+                "AcceptStream",
                 "Read",
-                "AcceptStream"
+                "Listen",
+                "NewStream"
               ]
             },
             {
               "answer": "ctx",
               "choices": [
-                "ctx",
                 "conn",
                 "quic",
-                "buf"
+                "buf",
+                "ctx"
               ]
             }
           ]
@@ -61379,28 +61719,28 @@
             {
               "answer": "buf",
               "choices": [
+                "buf",
                 "err",
                 "ctx",
-                "quic",
-                "buf"
+                "quic"
               ]
             },
             {
               "answer": "Write",
               "choices": [
+                "quic",
                 "err",
                 "Dial",
-                "quic",
                 "Write"
               ]
             },
             {
               "answer": "Close",
               "choices": [
-                "Flush",
                 "Close",
                 "conn",
-                "err"
+                "err",
+                "Flush"
               ]
             }
           ]
@@ -61452,19 +61792,19 @@
             {
               "answer": "err",
               "choices": [
+                "ctx",
                 "err",
                 "buf",
-                "ctx",
                 "Read"
               ]
             },
             {
               "answer": "ReadContext",
               "choices": [
-                "ReadContext",
-                "WriteContext",
                 "Read",
-                "Config"
+                "Config",
+                "WriteContext",
+                "ReadContext"
               ]
             },
             {
@@ -61472,8 +61812,8 @@
               "choices": [
                 "Config",
                 "WriteContext",
-                "CloseContext",
-                "Close"
+                "Close",
+                "CloseContext"
               ]
             }
           ]
@@ -61534,19 +61874,19 @@
             {
               "answer": "Write",
               "choices": [
-                "quic",
+                "err",
                 "Write",
-                "Dial",
-                "err"
+                "quic",
+                "Dial"
               ]
             },
             {
               "answer": "Flush",
               "choices": [
-                "Flush",
-                "Close",
                 "quic",
-                "buf"
+                "buf",
+                "Close",
+                "Flush"
               ]
             }
           ]
@@ -61906,10 +62246,10 @@
             {
               "answer": "Pointer",
               "choices": [
-                "Pointer",
-                "Make",
                 "ptr",
-                "Value"
+                "Pointer",
+                "Value",
+                "Make"
               ]
             },
             {
@@ -61928,392 +62268,6 @@
                 "type",
                 "default",
                 "chan"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-51430",
-      "title": "cmd/cover: extend coverage testing to include applications",
-      "url": "https://github.com/golang/go/issues/51430",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 51430,
-      "quizzes": [
-        {
-          "id": "issue-51430-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Most of these problems arise because of the introduction of additional imports\nin the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " shim created by the Go command when carrying out a coverage\ntest run in combination with the \"-coverpkg\" option."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "_testmain.go",
-              "choices": [
-                "os.Exit()",
-                "all.bash",
-                "os.Exit",
-                "_testmain.go"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-51430-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "With the current coverage tooling, if a Go unit test invokes "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " passing a\nnon-zero exit status, the instrumented test binary will terminate immediately\nwithout writing an output data file. If a test invokes "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " passing a zero exit\nstatus, this will result in a panic."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "os.Exit()",
-              "choices": [
-                "all.bash",
-                "_testmain.go",
-                "os.Exit",
-                "os.Exit()"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-51430-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "For unit tests, this is perfectly acceptable-- people writing tests generally\nhave no incentive or need to call "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ", it simply would not add anything in\nterms of test functionality. Real applications routinely finish by calling "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ",\nhowever, including cases where a non-zero exit status is reported.\nIntegration test suites nearly always include tests that ensure an application\nfails properly (e.g. returns with non-zero exit status) if the application\nencounters an invalid input. The Go project's "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " test suite has many of these sorts of tests,\nincluding test cases that are expected to cause compiler or linker errors (and\nto ensure that the proper error paths in the tool are covered)."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "os.Exit",
-              "choices": [
-                "os.IsX(err)",
-                "os.Exit",
-                "_testmain.go",
-                "os.Exit()"
-              ]
-            },
-            {
-              "answer": "all.bash",
-              "choices": [
-                "os.Exit()",
-                "all.bash",
-                "_testmain.go",
-                "Options"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-51430-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "To support collecting coverage data from such programs, the Go runtime will need\nto be extended to detect "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " calls from instrumented programs and ensure (in\nsome form) that coverage data is written out before the program terminates.\nThis could be accomplished either by introducing new hooks into the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "\ncode, or possibly by opening and mmap'ing the coverage output file earlier in\nthe run, then letting writes to counter variables go directly to an mmap'd\nregion, which would eliminated the need to close the file on exit (credit to\nAustin for this idea)."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "os.Exit",
-              "choices": [
-                "all.bash",
-                "os.Exit",
-                "os.Exit()",
-                "_testmain.go"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-51430-q05",
-          "kind": "code",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "  "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " test -"
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "=\u003c"
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "\u003e [package target(s)]\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "go",
-              "choices": [
-                "defer",
-                "go",
-                "map",
-                "default"
-              ]
-            },
-            {
-              "answer": "coverprofile",
-              "choices": [
-                "tool",
-                "cover",
-                "coverprofile",
-                "covdatafile"
-              ]
-            },
-            {
-              "answer": "filename",
-              "choices": [
-                "filename",
-                "multiple",
-                "in",
-                "exe"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-51430-q06",
-          "kind": "code",
-          "index": 5,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "  "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " cover -func=\u003ccovdatafile\u003e\n  "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " cover -"
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "=\u003ccovdatafile\u003e\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "go",
-              "choices": [
-                "map",
-                "case",
-                "defer",
-                "go"
-              ]
-            },
-            {
-              "answer": "tool",
-              "choices": [
-                "tool",
-                "tmp",
-                "test",
-                "of"
-              ]
-            },
-            {
-              "answer": "html",
-              "choices": [
-                "tmp",
-                "build",
-                "test",
-                "html"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-51430-q07",
-          "kind": "code",
-          "index": 6,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "$ go "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " -o myapp.exe -cover ...\n$ mkdir /tmp/mycovdata\n$ "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " GOCOVERDIR=/tmp/mycovdata\n$ \u003crun test suite, resulting "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": " multiple invocations of myapp.exe\u003e\n$ go tool cover -html=/tmp/mycovdata\n$\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "build",
-              "choices": [
-                "tool",
-                "build",
-                "html",
-                "suite"
-              ]
-            },
-            {
-              "answer": "export",
-              "choices": [
-                "test",
-                "exe",
-                "export",
-                "target"
-              ]
-            },
-            {
-              "answer": "in",
-              "choices": [
-                "of",
-                "in",
-                "exe",
-                "run"
               ]
             }
           ]
