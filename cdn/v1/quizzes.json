@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-20T02:40:19.36750793Z",
+  "generated_at": "2026-07-21T02:24:07.149124824Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "58e952a6dd29795163bdff3de8b2d77329ff995b",
@@ -12893,7 +12893,7 @@
               "choices": [
                 "eventsch",
                 "HelloWorld",
-                "cmd",
+                "vta",
                 "event"
               ]
             },
@@ -16818,7 +16818,7 @@
               "answer": "debug",
               "choices": [
                 "SetMemoryLimit",
-                "cmd",
+                "vta",
                 "limit",
                 "debug"
               ]
@@ -27175,6 +27175,473 @@
       ]
     },
     {
+      "id": "issue-79802",
+      "title": "go/parser: add deprecated func ResolveFile(*File)",
+      "url": "https://github.com/golang/go/issues/79802",
+      "summary": "The proposal adds a new deprecated function ResolveFile(*ast.File) to the parser package, which applies legacy syntactic identifier resolution. This enables applications like gopls to avoid duplicating resolution logic while migrating from deprecated features to go/types. The function is idempotent and requires sync.Once for lazy evaluation.",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 79802,
+      "quizzes": [
+        {
+          "id": "issue-79802-q01",
+          "kind": "code",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "package "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": "\n\n// ResolveFile applies the parser's legacy ast.Ident-to-ast.Object resolution to the\n// specified file's syntax tree. This is the same operation that is skipped on files\n// parsed with the `SkipObjectResolution` mode flag. It is idempotent.\n//\n// Deprecated: [ast.Object] should not be used in new designs; use [go/types] instead.\n// This function is provided to ease migration in applications that have disabled\n// legacy object resolution by default but still need it in some circumstances.\nfunc "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "(*"
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ".File)\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "parser",
+              "choices": [
+                "MessageSigner",
+                "consTypeParamLists",
+                "parser",
+                "File"
+              ]
+            },
+            {
+              "answer": "ResolveFile",
+              "choices": [
+                "File",
+                "ResolveFile",
+                "percpu",
+                "work"
+              ]
+            },
+            {
+              "answer": "ast",
+              "choices": [
+                "TestFail",
+                "runtime_fastRand",
+                "File",
+                "ast"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-79802-q02",
+          "kind": "llm",
+          "index": 1,
+          "gen_method": "llm",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The new "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " function applies the parser's legacy ast.Ident-to-ast.Object resolution to a file's syntax tree."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "ResolveFile",
+              "choices": [
+                "ResolveFile",
+                "ResolveObject",
+                "ParseFile",
+                "ResolvePackage"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-79802-q03",
+          "kind": "llm",
+          "index": 2,
+          "gen_method": "llm",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " parameter to ResolveFile must contain a sync.Once to guard the resolution process."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "ast.File",
+              "choices": [
+                "ast.Expr",
+                "ast.Package",
+                "ast.File",
+                "ast.Type"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-79802-q04",
+          "kind": "llm",
+          "index": 3,
+          "gen_method": "llm",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The ResolveFile function is marked as "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " to indicate it should no longer be used in new designs."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "deprecated",
+              "choices": [
+                "obsolete",
+                "recommended",
+                "experimental",
+                "deprecated"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-79802-q05",
+          "kind": "llm",
+          "index": 4,
+          "gen_method": "llm",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The function's implementation must ensure "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " behavior when applying legacy resolution."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "idempotent",
+              "choices": [
+                "lazy",
+                "idempotent",
+                "stateful",
+                "non-deterministic"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-63999",
+      "title": "sync/atomic: add Max/Min operators",
+      "url": "https://github.com/golang/go/issues/63999",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 63999,
+      "quizzes": [
+        {
+          "id": "issue-63999-q01",
+          "kind": "code",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func MaxInt32(addr *int32, val int32) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " int32)\nfunc MaxInt64(addr *int64, val int64) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " int64)\nfunc MaxUint32(addr *uint32, val uint32) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " uint32)\nfunc MaxUint64(addr *uint64, val uint64) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " uint64)\nfunc MaxUintptr(addr *uintptr, val uintptr) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " uintptr)\n\nfunc (*Int32) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "(val int32) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " int32)\nfunc (*Int64) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "(val int64) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " int64)\nfunc (*Uint32) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "(val uint32) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " uint32)\nfunc (*"
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ") "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "(val uint64) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " uint64)\nfunc (*Uintptr) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "(val uintptr) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " uintptr)\n\nfunc MinInt32(addr *int32, val int32) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " int32)\nfunc MinInt64(addr *int64, val int64) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " int64)\nfunc MinUint32(addr *uint32, val uint32) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " uint32)\nfunc MinUint64(addr *uint64, val uint64) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " uint64)\nfunc MinUintptr(addr *uintptr, val uintptr) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " uintptr)\n\nfunc (*Int32) Min(val int32) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " int32)\nfunc (*Int64) Min(val int64) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " int64)\nfunc (*Uint32) Min(val uint32) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " uint32)\nfunc (*"
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ") Min(val uint64) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " uint64)\nfunc (*Uintptr) Min(val uintptr) ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " uintptr)\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "old",
+              "choices": [
+                "Min",
+                "addr",
+                "val",
+                "old"
+              ]
+            },
+            {
+              "answer": "Max",
+              "choices": [
+                "Min",
+                "val",
+                "Max",
+                "addr"
+              ]
+            },
+            {
+              "answer": "Uint64",
+              "choices": [
+                "Uint32",
+                "Uint64",
+                "MaxUint64",
+                "Int64"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "issue-74958",
       "title": "go/scanner: add `(*Scanner).End()`",
       "url": "https://github.com/golang/go/issues/74958",
@@ -28836,273 +29303,6 @@
       ]
     },
     {
-      "id": "issue-63999",
-      "title": "sync/atomic: add Max/Min operators",
-      "url": "https://github.com/golang/go/issues/63999",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 63999,
-      "quizzes": [
-        {
-          "id": "issue-63999-q01",
-          "kind": "code",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "func MaxInt32(addr *int32, val int32) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " int32)\nfunc MaxInt64(addr *int64, val int64) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " int64)\nfunc MaxUint32(addr *uint32, val uint32) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " uint32)\nfunc MaxUint64(addr *uint64, val uint64) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " uint64)\nfunc MaxUintptr(addr *uintptr, val uintptr) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " uintptr)\n\nfunc (*Int32) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "(val int32) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " int32)\nfunc (*Int64) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "(val int64) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " int64)\nfunc (*Uint32) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "(val uint32) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " uint32)\nfunc (*"
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": ") "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "(val uint64) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " uint64)\nfunc (*Uintptr) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "(val uintptr) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " uintptr)\n\nfunc MinInt32(addr *int32, val int32) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " int32)\nfunc MinInt64(addr *int64, val int64) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " int64)\nfunc MinUint32(addr *uint32, val uint32) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " uint32)\nfunc MinUint64(addr *uint64, val uint64) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " uint64)\nfunc MinUintptr(addr *uintptr, val uintptr) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " uintptr)\n\nfunc (*Int32) Min(val int32) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " int32)\nfunc (*Int64) Min(val int64) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " int64)\nfunc (*Uint32) Min(val uint32) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " uint32)\nfunc (*"
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": ") Min(val uint64) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " uint64)\nfunc (*Uintptr) Min(val uintptr) ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " uintptr)\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "old",
-              "choices": [
-                "Min",
-                "addr",
-                "val",
-                "old"
-              ]
-            },
-            {
-              "answer": "Max",
-              "choices": [
-                "Min",
-                "val",
-                "Max",
-                "addr"
-              ]
-            },
-            {
-              "answer": "Uint64",
-              "choices": [
-                "Uint32",
-                "Uint64",
-                "MaxUint64",
-                "Int64"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-78902",
       "title": "simd: architecture and vector-size agnostic SIMD intrinsics under a GOEXPERIMENT",
       "url": "https://github.com/golang/go/issues/78902",
@@ -30751,206 +30951,6 @@
                 "NaN elements",
                 "duplicate keys",
                 "nil values"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-79802",
-      "title": "go/parser: add deprecated func ResolveFile(*File)",
-      "url": "https://github.com/golang/go/issues/79802",
-      "summary": "The proposal adds a new deprecated function ResolveFile(*ast.File) to the parser package, which applies legacy syntactic identifier resolution. This enables applications like gopls to avoid duplicating resolution logic while migrating from deprecated features to go/types. The function is idempotent and requires sync.Once for lazy evaluation.",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 79802,
-      "quizzes": [
-        {
-          "id": "issue-79802-q01",
-          "kind": "code",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "package "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "\n\n// ResolveFile applies the parser's legacy ast.Ident-to-ast.Object resolution to the\n// specified file's syntax tree. This is the same operation that is skipped on files\n// parsed with the `SkipObjectResolution` mode flag. It is idempotent.\n//\n// Deprecated: [ast.Object] should not be used in new designs; use [go/types] instead.\n// This function is provided to ease migration in applications that have disabled\n// legacy object resolution by default but still need it in some circumstances.\nfunc "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "(*"
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": ".File)\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "parser",
-              "choices": [
-                "MessageSigner",
-                "consTypeParamLists",
-                "parser",
-                "File"
-              ]
-            },
-            {
-              "answer": "ResolveFile",
-              "choices": [
-                "File",
-                "ResolveFile",
-                "percpu",
-                "work"
-              ]
-            },
-            {
-              "answer": "ast",
-              "choices": [
-                "TestFail",
-                "runtime_fastRand",
-                "File",
-                "ast"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-79802-q02",
-          "kind": "llm",
-          "index": 1,
-          "gen_method": "llm",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The new "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " function applies the parser's legacy ast.Ident-to-ast.Object resolution to a file's syntax tree."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "ResolveFile",
-              "choices": [
-                "ResolveFile",
-                "ResolveObject",
-                "ParseFile",
-                "ResolvePackage"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-79802-q03",
-          "kind": "llm",
-          "index": 2,
-          "gen_method": "llm",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " parameter to ResolveFile must contain a sync.Once to guard the resolution process."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "ast.File",
-              "choices": [
-                "ast.Expr",
-                "ast.Package",
-                "ast.File",
-                "ast.Type"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-79802-q04",
-          "kind": "llm",
-          "index": 3,
-          "gen_method": "llm",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The ResolveFile function is marked as "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " to indicate it should no longer be used in new designs."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "deprecated",
-              "choices": [
-                "obsolete",
-                "recommended",
-                "experimental",
-                "deprecated"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-79802-q05",
-          "kind": "llm",
-          "index": 4,
-          "gen_method": "llm",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The function's implementation must ensure "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " behavior when applying legacy resolution."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "idempotent",
-              "choices": [
-                "lazy",
-                "idempotent",
-                "stateful",
-                "non-deterministic"
               ]
             }
           ]
@@ -39084,7 +39084,7 @@
             {
               "answer": "intType",
               "choices": [
-                "Int64",
+                "org",
                 "intType",
                 "percpu",
                 "Rand"
@@ -39166,7 +39166,7 @@
               "answer": "intType",
               "choices": [
                 "intType",
-                "graph",
+                "Scan",
                 "size",
                 "dstBlock"
               ]
@@ -46952,7 +46952,7 @@
             {
               "answer": "MLDSA65",
               "choices": [
-                "call",
+                "lit",
                 "SignatureAlgorithm",
                 "MLDSA65",
                 "SignatureScheme"
@@ -46964,7 +46964,7 @@
                 "SignatureScheme",
                 "SignatureAlgorithm",
                 "MLDSA87",
-                "MX"
+                "maps"
               ]
             }
           ]
@@ -47760,7 +47760,7 @@
               "answer": "add",
               "choices": [
                 "UnreadBuffer",
-                "MX",
+                "maps",
                 "add",
                 "assume"
               ]
@@ -51603,7 +51603,7 @@
               "choices": [
                 "proto",
                 "Printf",
-                "Transport",
+                "cancelRequestOnce",
                 "AcceptStream"
               ]
             }
