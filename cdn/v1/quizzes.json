@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-22T02:22:24.316742468Z",
+  "generated_at": "2026-07-23T02:27:26.311257905Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "58e952a6dd29795163bdff3de8b2d77329ff995b",
@@ -6741,7 +6741,7 @@
               "choices": [
                 "go get",
                 "-insecure",
-                "t.Run",
+                "GODEBUG=httptransportcancelrequest=1",
                 "go-import.example.net"
               ]
             },
@@ -27175,6 +27175,180 @@
       ]
     },
     {
+      "id": "issue-17747",
+      "title": "cmd/vet: check for missing Err calls for bufio.Scanner [done] and sql.Rows [done]",
+      "url": "https://github.com/golang/go/issues/17747",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 17747,
+      "quizzes": [
+        {
+          "id": "issue-17747-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Used a "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " without checking "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " for error.  The same mistake occurs frequently with "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "bufio.Scanner",
+              "choices": [
+                "go vet",
+                "bufio.Scanner",
+                "s.Err()",
+                "Err() error"
+              ]
+            },
+            {
+              "answer": "bufio.Scanner.Err()",
+              "choices": [
+                "Err() error",
+                "bufio.Scanner.Err()",
+                "s.Err()",
+                "go vet"
+              ]
+            },
+            {
+              "answer": "sql.Rows.Err()",
+              "choices": [
+                "sql.Rows",
+                "Err() error",
+                "sql.Rows.Err()",
+                "s.Err()"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-17747-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "inline_code",
+              "value": "go vet"
+            },
+            {
+              "type": "text",
+              "value": " should warn that "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " was not called, and that it should be checked to determine if an error occurred while scanning."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "s.Err()",
+              "choices": [
+                "sql.Rows.Err()",
+                "sql.Rows",
+                "s.Err()",
+                "go vet"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-17747-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "This frequently occurs in our internal codebase at work.  Arguably, "
+            },
+            {
+              "type": "inline_code",
+              "value": "go vet"
+            },
+            {
+              "type": "text",
+              "value": " could check if any type has a method "
+            },
+            {
+              "type": "inline_code",
+              "value": "Err() error"
+            },
+            {
+              "type": "text",
+              "value": " and report if the error is not checked or returned, instead of just checking the special cases with "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " and "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": ".  There may also be more types that use this pattern in the standard library."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "bufio.Scanner",
+              "choices": [
+                "bufio.Scanner",
+                "go vet",
+                "s.Err()",
+                "bufio.Scanner.Err()"
+              ]
+            },
+            {
+              "answer": "sql.Rows",
+              "choices": [
+                "s.Err()",
+                "sql.Rows.Err()",
+                "go vet",
+                "sql.Rows"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "issue-79040",
       "title": "net/http: drop support for Transport.CancelRequest",
       "url": "https://github.com/golang/go/issues/79040",
@@ -30990,7 +31164,7 @@
               "answer": "types.Info",
               "choices": [
                 "DoubleDefined",
-                "Decoder",
+                "RawMessage",
                 "text/template",
                 "types.Info"
               ]
@@ -34414,7 +34588,7 @@
               "answer": "./mod",
               "choices": [
                 "nhooyr.io/websocket/mod",
-                "Transport.RoundTrip",
+                "Transport.CancelRequest",
                 "./mod",
                 "seed"
               ]
@@ -34463,7 +34637,7 @@
               "choices": [
                 "./mod",
                 "nhooyr.io/websocket/mod",
-                "os.WriteFile",
+                "Number",
                 "safe"
               ]
             },
@@ -34633,7 +34807,7 @@
             {
               "answer": "splice",
               "choices": [
-                "[]MyPtr",
+                "testing.Setenv",
                 "Load",
                 "xml.Marshaler",
                 "splice"
@@ -34816,7 +34990,7 @@
               "choices": [
                 "my_test.go:321",
                 "Test/Bar",
-                "cmd/test2json",
+                "http2.Framer",
                 "testing"
               ]
             }
@@ -36530,7 +36704,7 @@
                 "sha3.SHA3",
                 "Map[int, string]",
                 "GoMod string",
-                "NewSignerWithAlgorithms"
+                "// Output:"
               ]
             }
           ]
@@ -37062,7 +37236,7 @@
             {
               "answer": "go/types",
               "choices": [
-                "func (*WaitGroup) Go(func())",
+                "traceAdvance",
                 "[]*int32",
                 "(*LazyProc).Call",
                 "go/types"
@@ -39012,7 +39186,7 @@
               "answer": "rand.Rand.N",
               "choices": [
                 "File.OpenFIle",
-                "SetMaxBytes",
+                "go doc -http",
                 "N",
                 "rand.Rand.N"
               ]
@@ -39020,7 +39194,7 @@
             {
               "answer": "math/rand/v2",
               "choices": [
-                "Clone()",
+                "-ldflags '-extldflags \"-fno-PIC -static\"' -buildmode pie -tags 'osusergo netgo static_build'",
                 "N",
                 "math/rand/v2",
                 "static_assert"
@@ -41363,7 +41537,7 @@
                 "vector\u003cbool\u003e",
                 "Decoder.DisallowDuplicateFields",
                 "Fields",
-                "UnmarshalTypeError.Field"
+                "SemanticError"
               ]
             },
             {
@@ -41372,181 +41546,7 @@
                 "go work sync",
                 "DisallowUnknownFields",
                 "Decoder.DisallowDuplicateFields",
-                "simd."
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-17747",
-      "title": "cmd/vet: check for missing Err calls for bufio.Scanner [done] and sql.Rows [done]",
-      "url": "https://github.com/golang/go/issues/17747",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 17747,
-      "quizzes": [
-        {
-          "id": "issue-17747-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Used a "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " without checking "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " for error.  The same mistake occurs frequently with "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": "."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "bufio.Scanner",
-              "choices": [
-                "go vet",
-                "bufio.Scanner",
-                "s.Err()",
-                "Err() error"
-              ]
-            },
-            {
-              "answer": "bufio.Scanner.Err()",
-              "choices": [
-                "Err() error",
-                "bufio.Scanner.Err()",
-                "s.Err()",
-                "go vet"
-              ]
-            },
-            {
-              "answer": "sql.Rows.Err()",
-              "choices": [
-                "sql.Rows",
-                "Err() error",
-                "sql.Rows.Err()",
-                "s.Err()"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-17747-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "inline_code",
-              "value": "go vet"
-            },
-            {
-              "type": "text",
-              "value": " should warn that "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " was not called, and that it should be checked to determine if an error occurred while scanning."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "s.Err()",
-              "choices": [
-                "sql.Rows.Err()",
-                "sql.Rows",
-                "s.Err()",
-                "go vet"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-17747-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "This frequently occurs in our internal codebase at work.  Arguably, "
-            },
-            {
-              "type": "inline_code",
-              "value": "go vet"
-            },
-            {
-              "type": "text",
-              "value": " could check if any type has a method "
-            },
-            {
-              "type": "inline_code",
-              "value": "Err() error"
-            },
-            {
-              "type": "text",
-              "value": " and report if the error is not checked or returned, instead of just checking the special cases with "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " and "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": ".  There may also be more types that use this pattern in the standard library."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "bufio.Scanner",
-              "choices": [
-                "bufio.Scanner",
-                "go vet",
-                "s.Err()",
-                "bufio.Scanner.Err()"
-              ]
-            },
-            {
-              "answer": "sql.Rows",
-              "choices": [
-                "s.Err()",
-                "sql.Rows.Err()",
-                "go vet",
-                "sql.Rows"
+                "Reciprocal"
               ]
             }
           ]
@@ -44086,7 +44086,7 @@
                 "unique.Make",
                 "runtime.SetFinalizer",
                 "GOMAXPROCS",
-                "GT"
+                "f1(i, j)"
               ]
             }
           ]
@@ -44195,7 +44195,7 @@
               "answer": "tls.Config.EncryptedClientHelloKeys",
               "choices": [
                 "GetEncryptedClientHelloKeys",
-                "CancelRequest",
+                "s.Err()",
                 "GetConfigForClient",
                 "tls.Config.EncryptedClientHelloKeys"
               ]
@@ -44614,15 +44614,15 @@
               "answer": "slog.Logger",
               "choices": [
                 "f := try",
-                "AsVector",
-                "*syscall.SysProcAttr",
+                "simd/archsimd",
+                "t.Run",
                 "slog.Logger"
               ]
             },
             {
               "answer": "slog.Handler",
               "choices": [
-                "go test -exec=...",
+                "DefaultMaxHeaderBytes",
                 "fs.ReadFile",
                 "mhelpgc",
                 "slog.Handler"
@@ -45019,7 +45019,7 @@
             {
               "answer": "tlssha1=1",
               "choices": [
-                "GOARCH=wasm",
+                "nhooyr.io/websocket/mod",
                 "@master",
                 "[](T(x))",
                 "tlssha1=1"
@@ -45070,7 +45070,7 @@
               "choices": [
                 "go vet",
                 "tools",
-                "Reciprocal",
+                "VPADDD x, y, m, z",
                 "multichecker"
               ]
             }
@@ -45576,7 +45576,7 @@
               "choices": [
                 "flags int",
                 "recvmmsg",
-                "findCommon",
+                "Xxx",
                 "net.Buffers"
               ]
             }
@@ -47257,7 +47257,7 @@
               "choices": [
                 "t.Parallel",
                 "x509.SetFallbackRoots",
-                "UnmarshalTypeError",
+                "jsontext.Decoder",
                 "go/scanner"
               ]
             }
@@ -47335,7 +47335,7 @@
             {
               "answer": "x509.ParseCertificate",
               "choices": [
-                "hash.CloneXOF",
+                "interface { Clone() Hash }",
                 "MarshalText",
                 "x509: invalid RDNSequence: invalid attribute value: unsupported string type: 13",
                 "x509.ParseCertificate"
@@ -48378,7 +48378,7 @@
               "choices": [
                 "tool path/to/package",
                 "StringVal",
-                "IsValid",
+                "cmd/test2json",
                 "throw"
               ]
             }
@@ -48438,7 +48438,7 @@
               "answer": "crypto/X509.ParseCertificate()",
               "choices": [
                 "[]float64",
-                "Test/Bar",
+                "SaturatedAdd",
                 "Signature",
                 "crypto/X509.ParseCertificate()"
               ]
@@ -48449,7 +48449,7 @@
                 "func SetRoot(addr unsafe.Pointer) (err Error)",
                 "Signature",
                 "SignatureAlgorithm",
-                "Hash.Available()"
+                "rand.Rand.N"
               ]
             },
             {
@@ -49326,7 +49326,7 @@
               "choices": [
                 "GoMod string",
                 "GoMod",
-                "ErrNoAuth",
+                "ExampleXxx",
                 "go.mod"
               ]
             },
@@ -49374,9 +49374,9 @@
             {
               "answer": "ssh.Conn",
               "choices": [
-                "helper/winexec/create.go",
+                "SysProcAttr",
                 "ssh.Conn",
-                "ProcessAttributes",
+                "ToSimd() any",
                 "type algorithms"
               ]
             }
@@ -49648,7 +49648,7 @@
               "answer": "PartialSuccessError",
               "choices": [
                 "GetCertificate",
-                "crypto/mldsa",
+                "module@version",
                 "v1.5.2",
                 "PartialSuccessError"
               ]
@@ -50256,7 +50256,7 @@
               "answer": "Protocol",
               "choices": [
                 "HACK-HTTP2-Protocol",
-                "proxy.golang.org",
+                "os/exec",
                 "req.Protocol",
                 "Protocol"
               ]
@@ -50367,7 +50367,7 @@
                 ":protocol",
                 "Protocol",
                 "HACK-HTTP2-Protocol",
-                "regexp.MustCompile"
+                "f'"
               ]
             },
             {
@@ -51935,7 +51935,7 @@
               "answer": "GOEXPERIMENT",
               "choices": [
                 "coro.Pull",
-                "x/net/http2",
+                "Scan",
                 "https://sum.golang.org/",
                 "GOEXPERIMENT"
               ]
@@ -52637,7 +52637,7 @@
             {
               "answer": "CutLast",
               "choices": [
-                "vcs",
+                "fork(2)",
                 "go1.N.0",
                 "CutLast",
                 "synctest.Run"
@@ -52648,7 +52648,7 @@
               "choices": [
                 "plugin",
                 "NewPair[int](1, 2)",
-                "ThreadAttributes",
+                "simd/mocks.go",
                 "package-url"
               ]
             }
@@ -52981,7 +52981,7 @@
                 "NewSenderWithPSK",
                 "NewRecipientWithPSK",
                 "NewKDF",
-                "MarshalPKIXPublicKey"
+                "Hash.String()"
               ]
             },
             {
@@ -54562,7 +54562,7 @@
               "choices": [
                 "explicit_bzero",
                 "r5",
-                "VPADDD.Z",
+                "LoadUint32x4Ptr",
                 "*Func"
               ]
             },
@@ -57428,8 +57428,8 @@
             {
               "answer": "Interface",
               "choices": [
-                "Framer",
-                "uuid.MustParse",
+                "ScanColumn",
+                "f''",
                 "Interface",
                 "Value"
               ]
@@ -60089,7 +60089,7 @@
               "answer": "GOCACHEPROG",
               "choices": [
                 "0x123.fffp5",
-                "map[~string]T",
+                "jsonv1.FormatDurationAsNano",
                 "GOCACHEPROG",
                 "[]byte"
               ]
@@ -60099,7 +60099,7 @@
               "choices": [
                 "token.OR",
                 "//go:align",
-                "GPT",
+                "[]MyPtr",
                 "GOEXPERIMENT=gocacheprog"
               ]
             }
@@ -60131,7 +60131,7 @@
                 "Float.Parse",
                 "GOCACHEPROG",
                 "GOEXPERIMENT=gocacheprog",
-                "MarshalerTo"
+                "Marshaler"
               ]
             }
           ]
