@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-25T02:22:49.306316944Z",
+  "generated_at": "2026-07-29T02:21:23.571664837Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "58e952a6dd29795163bdff3de8b2d77329ff995b",
@@ -52,7 +52,7 @@
               "answer": "[security]",
               "choices": [
                 "[security]",
-                "flakytest.Mark",
+                "net/http.Server.MaxHeaderCount",
                 "testing.B",
                 "go get go"
               ]
@@ -7686,7 +7686,7 @@
                 "//go:binary-only-package",
                 "gopls",
                 "IncompleteSources bool",
-                "sql.Rows.Err()"
+                "bufio.Scanner.Err()"
               ]
             }
           ]
@@ -24915,7 +24915,7 @@
             {
               "answer": "syscall",
               "choices": [
-                "git",
+                "os/exec",
                 "github.com/hashicorp/errwrap",
                 "x.(Tunderlying)",
                 "syscall"
@@ -27168,6 +27168,72 @@
                 "x",
                 "V",
                 "Max"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-44506",
+      "title": "crypto/tls: support kernel-provided TLS",
+      "url": "https://github.com/golang/go/issues/44506",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 44506,
+      "quizzes": [
+        {
+          "id": "issue-44506-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Basically, Linux now supports handling TLS encryption in the kernel. The primary benefit here is the possibility of "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": "/"
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " to work with TLS. Currently, we need to choose between TLS and "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " (or a custom TLS implementation, I suppose)."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "sendfile",
+              "choices": [
+                "graph.New",
+                "Ceil",
+                "sendfile",
+                "O_NOFOLLOW"
+              ]
+            },
+            {
+              "answer": "splice",
+              "choices": [
+                "splice",
+                "vendor",
+                "new()",
+                "graph.G"
               ]
             }
           ]
@@ -34847,7 +34913,7 @@
               "answer": "time.Time",
               "choices": [
                 "GOAMD64=local go build .",
-                "ThreadAttributes",
+                "ProcessAttributes",
                 "time.Time",
                 "modvers"
               ]
@@ -34859,72 +34925,6 @@
                 "crypto/...",
                 "go fetch-latest-chccksum-log-from-goproxy",
                 "*time.Time"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-44506",
-      "title": "crypto/tls: support kernel-provided TLS",
-      "url": "https://github.com/golang/go/issues/44506",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 44506,
-      "quizzes": [
-        {
-          "id": "issue-44506-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Basically, Linux now supports handling TLS encryption in the kernel. The primary benefit here is the possibility of "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "/"
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " to work with TLS. Currently, we need to choose between TLS and "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " (or a custom TLS implementation, I suppose)."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "sendfile",
-              "choices": [
-                "graph.New",
-                "Ceil",
-                "sendfile",
-                "O_NOFOLLOW"
-              ]
-            },
-            {
-              "answer": "splice",
-              "choices": [
-                "splice",
-                "vendor",
-                "new()",
-                "graph.G"
               ]
             }
           ]
@@ -37352,7 +37352,7 @@
               "choices": [
                 "go/types",
                 "w \u003c x",
-                "net/http.Server.MaxHeaderCount",
+                "GODEBUG=httpmaxheadervalues=N",
                 "runtime.freegcTracked"
               ]
             }
@@ -44593,7 +44593,7 @@
                 "[]From",
                 "AuthCallback",
                 "none",
-                "helper/winexec/create.go"
+                "StartupInfoEx"
               ]
             },
             {
@@ -46780,7 +46780,7 @@
               "answer": "syscall.RunOnMainThread",
               "choices": [
                 "syscall.RunOnMainThread",
-                "simd/mocks.go",
+                "ToSimd() any",
                 "runtime.RunOnMainThread",
                 "runtime.AlignedN"
               ]
@@ -46904,7 +46904,7 @@
               "choices": [
                 "shopping.Database",
                 "go fix ./...",
-                "Float64s",
+                "Int8s",
                 "ast.Package"
               ]
             },
@@ -46914,7 +46914,7 @@
                 "Set(string)",
                 "TypeList",
                 "parser.ParseDir()",
-                "helper/winexec/create.go"
+                "StartupInfoEx"
               ]
             }
           ]
@@ -49490,7 +49490,7 @@
               "choices": [
                 "Op",
                 "type algorithms",
-                "sql.Rows",
+                "Err() error",
                 "ssh.Conn"
               ]
             }
@@ -51878,7 +51878,7 @@
             {
               "answer": "x/sys",
               "choices": [
-                "f′",
+                "f'",
                 "x/sys",
                 "table",
                 "Rows"
@@ -51927,7 +51927,7 @@
               "answer": "Rows",
               "choices": [
                 "x/sys",
-                "-static",
+                "COM1",
                 "Rows",
                 "unsafe.Sizeof([...]T)/unsafe.Sizeof(T)"
               ]
@@ -52685,7 +52685,7 @@
             {
               "answer": "ceil(log62(2^128))",
               "choices": [
-                "Reciprocal",
+                "Div",
                 "vet",
                 "go run",
                 "ceil(log62(2^128))"
@@ -55346,7 +55346,7 @@
               "answer": "LookupFieldOrMethod",
               "choices": [
                 "LookupFieldOrMethod",
-                "-static",
+                "COM1",
                 "Select",
                 "stdcall"
               ]
