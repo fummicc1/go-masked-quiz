@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-29T02:21:23.571664837Z",
+  "generated_at": "2026-07-30T02:03:54.447868996Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "58e952a6dd29795163bdff3de8b2d77329ff995b",
@@ -52,7 +52,7 @@
               "answer": "[security]",
               "choices": [
                 "[security]",
-                "net/http.Server.MaxHeaderCount",
+                "testing.T.Run",
                 "testing.B",
                 "go get go"
               ]
@@ -920,7 +920,7 @@
                 "-checkcgo",
                 "C.getaddrinfo",
                 "_cgo_allocate",
-                "return false"
+                "ast.Package"
               ]
             }
           ]
@@ -2607,7 +2607,7 @@
               "choices": [
                 "GODEBUG=gcpacertrace=1",
                 "AnyValue",
-                "NewEncoder(AllowInvalidUTF8(false), AllowInvalidUTF8(true))",
+                "Test/Bar",
                 "garbage -benchmem 512 -benchtime 30s"
               ]
             }
@@ -2821,7 +2821,7 @@
             {
               "answer": "runtime/debug.WriteHeapDump",
               "choices": [
-                "a[0] = g",
+                "README",
                 "runtime/debug.WriteHeapDump",
                 "inl.InlinedCall",
                 "memclr"
@@ -7100,7 +7100,7 @@
               "answer": "Copy",
               "choices": [
                 "Copy",
-                "Uint32x4",
+                "ReportErrorsWithLegacySemantics",
                 "Value",
                 "RawXML"
               ]
@@ -7686,7 +7686,7 @@
                 "//go:binary-only-package",
                 "gopls",
                 "IncompleteSources bool",
-                "bufio.Scanner.Err()"
+                "Token"
               ]
             }
           ]
@@ -12841,7 +12841,7 @@
                 "HelloWorld",
                 "value",
                 "event",
-                "JSONValue"
+                "iovec"
               ]
             },
             {
@@ -12857,7 +12857,7 @@
               "answer": "eventsch",
               "choices": [
                 "eventsch",
-                "Bytes",
+                "AddMasked",
                 "value",
                 "HelloWorld"
               ]
@@ -12891,7 +12891,7 @@
             {
               "answer": "eventsch",
               "choices": [
-                "ProcThreadAttributes",
+                "MarshalToFunc",
                 "eventsch",
                 "HelloWorld",
                 "event"
@@ -14822,7 +14822,7 @@
             {
               "answer": "SetMemoryTarget",
               "choices": [
-                "GetOption",
+                "my_test",
                 "HandshakeConn",
                 "Get",
                 "SetMemoryTarget"
@@ -14832,7 +14832,7 @@
               "answer": "amount",
               "choices": [
                 "amount",
-                "Uintptr",
+                "KindInvalid",
                 "options",
                 "isRegionArena"
               ]
@@ -23563,7 +23563,7 @@
               "answer": "crypto/...",
               "choices": [
                 "crypto/...",
-                "interface { Reader; Closer }",
+                "FileExports",
                 "work.helperDrainBlock",
                 "fs.File"
               ]
@@ -23571,9 +23571,9 @@
             {
               "answer": "golang.org/x/crypto/...",
               "choices": [
-                "UnmarshalTypeError.Field",
+                "(*testing.T).Fatal{,f}",
                 "foreach",
-                "Encoder.SetIndent",
+                "*byte",
                 "golang.org/x/crypto/..."
               ]
             }
@@ -24915,7 +24915,7 @@
             {
               "answer": "syscall",
               "choices": [
-                "os/exec",
+                "Pointer",
                 "github.com/hashicorp/errwrap",
                 "x.(Tunderlying)",
                 "syscall"
@@ -27175,6 +27175,837 @@
       ]
     },
     {
+      "id": "issue-73101",
+      "title": "x/crypto/acme: support for acme profiles",
+      "url": "https://github.com/golang/go/issues/73101",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 73101,
+      "quizzes": [
+        {
+          "id": "issue-73101-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "This might be a bit over-eager but as someone using "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " to talk to Let's Encrypt, I'm hoping to be able to leverage this and am willing to implement the code sa well."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "x/crypto/acme",
+              "choices": [
+                "UnmarshalBinary",
+                "\u0026self",
+                "x/crypto/acme",
+                "mcall"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-71497",
+      "title": "encoding/json/v2: new API for encoding/json",
+      "url": "https://github.com/golang/go/issues/71497",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 71497,
+      "quizzes": [
+        {
+          "id": "issue-71497-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "In v1, a Go array may be unmarshaled from a JSON array of any length. In contrast, in v2 a Go array must be unmarshaled from a JSON array of the same length, otherwise it results in an error. The "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " option controls this behavior difference."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "jsonv1.UnmarshalArrayFromAnyLength",
+              "choices": [
+                "UnmarshalerFrom",
+                "jsonv1.FormatDurationAsNano",
+                "jsonv1.FormatByteArrayAsArray",
+                "jsonv1.UnmarshalArrayFromAnyLength"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-71497-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "In v1, a Go byte array (i.e., "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ") is represented as a JSON array of JSON numbers. In contrast, in v2 a Go byte array is represented as a Base64-encoded JSON string. The "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " option controls this behavior difference."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "~[N]byte",
+              "choices": [
+                "Value",
+                "[]byte",
+                "Int",
+                "~[N]byte"
+              ]
+            },
+            {
+              "answer": "jsonv1.FormatByteArrayAsArray",
+              "choices": [
+                "jsonv1.FormatByteArrayAsArray",
+                "FormatNilMapAsNull",
+                "jsonv1.FormatDurationAsNano",
+                "jsonv1.UnmarshalArrayFromAnyLength"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-71497-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "In v1, errors are never reported at runtime for Go struct types that have some form of structural error (e.g., a malformed tag option). In contrast, v2 reports a runtime error for Go types that are invalid as they relate to JSON serialization. For example, a Go struct with only unexported fields cannot be serialized. The "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " option controls this behavior difference."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "jsonv1.ReportErrorsWithLegacySemantics",
+              "choices": [
+                "jsonv1.ReportErrorsWithLegacySemantics",
+                "jsonv1.OmitEmptyWithLegacySemantics",
+                "jsonv1.CallMethodsWithLegacySemantics",
+                "jsonv1.MergeWithLegacySemantics"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-71497-q04",
+          "kind": "prose",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " type is a type alias to an internal type that is an interface type with no exported methods. It is used simply as a marker type for options declared in the \"json\" and \"jsontext\" package. This is exactly the same "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " type as the one in the \"jsontext\" package."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "Options",
+              "choices": [
+                "Options",
+                "json",
+                "Kind",
+                "Uint"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-71497-q05",
+          "kind": "prose",
+          "index": 4,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Let "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " be v1 \"encoding/json\" and "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " be \"encoding/json/v2\", then the v1 and v2 options can be composed together to obtain behavior that is identical to v1, identical to v2, or anywhere in between. For example:"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "jsonv1",
+              "choices": [
+                "json",
+                "jsontext",
+                "Kind",
+                "jsonv1"
+              ]
+            },
+            {
+              "answer": "jsonv2",
+              "choices": [
+                "json",
+                "Kind",
+                "jsonv2",
+                "jsontext"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-71497-q06",
+          "kind": "code",
+          "index": 5,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "// Kind represents each possible JSON token kind with a single byte,\n// which is the first byte of that kind's grammar.\n"
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " Kind byte\nfunc (k Kind) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "() string\n\nconst (\n\tKindInvalid     Kind = 0   // invalid kind\n\t"
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": "        Kind = 'n' // null\n\tKindFalse       Kind = 'f' // false\n\tKindTrue        Kind = 't' // true\n\tKindString      Kind = '\"' // string\n\tKindNumber      Kind = '0' // number\n\tKindBeginObject Kind = '{' // begin object\n\tKindEndObject   Kind = '}' // end object\n\tKindBeginArray  Kind = '[' // begin array\n\tKindEndArray    Kind = ']' // end array\n)\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "type",
+              "choices": [
+                "struct",
+                "interface",
+                "const",
+                "type"
+              ]
+            },
+            {
+              "answer": "String",
+              "choices": [
+                "String",
+                "Kind",
+                "KindString",
+                "Uint"
+              ]
+            },
+            {
+              "answer": "KindNull",
+              "choices": [
+                "KindFalse",
+                "KindNull",
+                "KindTrue",
+                "Kind"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-71497-q07",
+          "kind": "code",
+          "index": 6,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "type Value []byte\n\nfunc (v Value) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": "() Value\nfunc (v Value) String() string\nfunc (v Value) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "(opts ...Options) bool\nfunc (v *Value) Format(opts ...Options) error\nfunc (v *Value) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": "(opts ...Options) error\nfunc (v *Value) Indent(opts ...Options) error\nfunc (v *Value) Canonicalize(opts ...Options) error\nfunc (v Value) MarshalJSON() ([]byte, error)\nfunc (v *Value) UnmarshalJSON(b []byte) error\nfunc (v Value) Kind() Kind // never ']' or '}' if valid\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "Clone",
+              "choices": [
+                "Clone",
+                "io",
+                "json",
+                "Float"
+              ]
+            },
+            {
+              "answer": "IsValid",
+              "choices": [
+                "IsValid",
+                "False",
+                "io",
+                "Value"
+              ]
+            },
+            {
+              "answer": "Compact",
+              "choices": [
+                "Float",
+                "Format",
+                "Compact",
+                "opts"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-71497-q08",
+          "kind": "code",
+          "index": 7,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "type Encoder struct { /* no exported fields */ }\n\nfunc NewEncoder(w "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ".Writer, opts ..."
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": ") *Encoder\nfunc (e *Encoder) Reset(w "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ".Writer, opts ..."
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": ")\n\n// WriteToken writes the next token and advances the internal write offset.\n// The provided token must be consistent with the JSON grammar.\nfunc (e *Encoder) WriteToken(t Token) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": "\n\n// WriteValue writes the next raw value and advances the internal write offset.\n// The provided value must be consistent with the JSON grammar.\nfunc (e *Encoder) WriteValue(v Value) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": "\n\n// AvailableBuffer returns a zero-length buffer with a possible non-zero capacity.\n// This buffer is intended to be used to populate a Value\n// being passed to an immediately succeeding WriteValue call.\n//\n// Example usage:\n//\n//\tb := d.AvailableBuffer()\n//\tb = append(b, '\"')\n//\tb = appendString(b, v) // append the string formatting of v\n//\tb = append(b, '\"')\n//\t... := d.WriteValue(b)\nfunc (e *Encoder) AvailableBuffer() []byte\n\n// OutputOffset returns the current output byte offset, which is the location\n// of the next byte immediately after the most recently written token or value.\nfunc (e *Encoder) OutputOffset() int64\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "io",
+              "choices": [
+                "io",
+                "in",
+                "tok",
+                "pc"
+              ]
+            },
+            {
+              "answer": "Options",
+              "choices": [
+                "JoinOptions",
+                "opts",
+                "GetOption",
+                "Options"
+              ]
+            },
+            {
+              "answer": "error",
+              "choices": [
+                "bool",
+                "string",
+                "byte",
+                "error"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-71497-q09",
+          "kind": "code",
+          "index": 8,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "// Options configure Marshal, MarshalWrite, MarshalEncode,\n// Unmarshal, UnmarshalRead, and UnmarshalDecode with specific features.\n// Each function takes in a variadic list of options, where properties set\n// in latter options override the value of previously set properties.\n//\n// Options represent either a singular option or a set of options.\n// It can be functionally thought of as a Go map of option properties\n// (even though the underlying implementation avoids Go maps for performance).\n//\n// The constructors (e.g., Deterministic) return a singular option value:\n//\topt := Deterministic(true)\n// which is analogous to creating a single entry map:\n//\topt := Options{\"Deterministic\": true}\n//\n// JoinOptions composes multiple options values to together:\n//\tout := JoinOptions(opts...)\n// which is analogous to making a new map and copying the options over:\n//\tout := make(Options)\n//\tfor _, m := range opts {\n//\t\tfor k, v := range m {\n//\t\t\tout[k] = v\n//\t\t}\n//\t}\n//\n// GetOption looks up the value of options parameter:\n//\tv, ok := GetOption(opts, Deterministic)\n// which is analogous to a Go map lookup:\n//\tv, ok := opts[\"Deterministic\"]\n//\n// There is a single Options type, which is used with both marshal and unmarshal.\n// Options that do not affect a particular operation are ignored.\ntype "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " = jsonopts."
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": "\n\n// DefaultOptionsV2 is the full set of all options that define v2 semantics.\n// It is equivalent to all options under [Options], [encoding/json.Options],\n// and [encoding/json/jsontext.Options] being set to false or the zero value,\n// except for the options related to whitespace formatting.\nfunc DefaultOptionsV2() "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": "\n\n// Deterministic specifies that the same input value will be serialized\n// as the exact same output bytes. Different processes of\n// the same program will serialize equal values to the same bytes,\n// but different versions of the same program are not guaranteed\n// to produce the exact same sequence of bytes.\nfunc Deterministic(v bool) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " // affects marshal only\n\n// FormatNilMapAsNull specifies that a nil Go map should marshal as a\n// JSON null instead of the default representation as an empty JSON object.\nfunc FormatNilMapAsNull(v bool) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " // affects marshal only\n\n// FormatNilSliceAsNull specifies that a nil Go slice should marshal as a\n// JSON null instead of the default representation as an empty JSON array\n// (or an empty JSON string in the case of ~[]byte).\nfunc FormatNilSliceAsNull(v bool) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " // affects marshal only\n\n// MatchCaseInsensitiveNames specifies that JSON object members are matched\n// against Go struct fields using a case-insensitive match of the name.\nfunc MatchCaseInsensitiveNames(v bool) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " // affects marshal and unmarshal\n\n// RejectUnknownMembers specifies that unknown members should be rejected\n// when unmarshaling a JSON object, regardless of whether there is a field\n// to store unknown members.\nfunc "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "(v bool) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " // affects unmarshal only\n\n// OmitZeroStructFields specifies that a Go struct should marshal in such a way\n// that all struct fields that are zero are omitted from the marshaled output\n// if the value is zero as determined by the \"IsZero() bool\" method if present,\n// otherwise based on whether the field is the zero Go value.\nfunc OmitZeroStructFields(v bool) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " // affects marshal only\n\n// WithMarshalers specifies a list of type-specific marshalers to use,\n// which can be used to override the default marshal behavior\n// for values of particular types.\nfunc WithMarshalers(v *Marshalers) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " // affects marshal only\n\n// WithUnmarshalers specifies a list of type-specific unmarshalers to use,\n// which can be used to override the default unmarshal behavior\n// for values of particular types.\nfunc WithUnmarshalers(v *Unmarshalers) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " // affects unmarshal only\n\n// JoinOptions coalesces the provided list of options into a single Options.\n// Properties set in latter options override the value of previously set properties.\nfunc JoinOptions(srcs ..."
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ") "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": "\n\n// GetOption returns the value stored in opts with the provided constructor,\n// reporting whether the value is present.\nfunc GetOption[T any]("
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ", constructor func(T) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ") (T, bool)\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "Options",
+              "choices": [
+                "io",
+                "Options",
+                "JoinOptions",
+                "GetOption"
+              ]
+            },
+            {
+              "answer": "RejectUnknownMembers",
+              "choices": [
+                "StackPointer",
+                "NewEncoder",
+                "RejectUnknownMembers",
+                "ErrUnknownName"
+              ]
+            },
+            {
+              "answer": "opts",
+              "choices": [
+                "bits",
+                "out",
+                "opts",
+                "Int"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-71497-q10",
+          "kind": "code",
+          "index": 9,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "type "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " = jsonv2."
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": "\ntype Unmarshaler = jsonv2.Unmarshaler\ntype RawMessage = "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "."
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": "\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "Marshaler",
+              "choices": [
+                "MarshalerTo",
+                "Marshalers",
+                "Marshaler",
+                "Marshal"
+              ]
+            },
+            {
+              "answer": "jsontext",
+              "choices": [
+                "json",
+                "jsonopts",
+                "jsontext",
+                "jsonv2"
+              ]
+            },
+            {
+              "answer": "Value",
+              "choices": [
+                "ReadValue",
+                "Value",
+                "True",
+                "False"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-71105",
+      "title": "cmd/compile: change GORISCV64=rva20u64 to include compressed instructions",
+      "url": "https://github.com/golang/go/issues/71105",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 71105,
+      "quizzes": [
+        {
+          "id": "issue-71105-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "When the proposal for "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " was being discussed, the situation regarding compressed instructions for RISC-V was somewhat unclear and there were discussions about potentially reusing the encoding space. As such, the decision was to make the default "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " value be "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " but explicitly exclude compressed instructions, effectively giving "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": ":"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "GORISCV64",
+              "choices": [
+                "interface{ M }",
+                "GORISCV64",
+                "GORISCV64=rva20u64",
+                "08"
+              ]
+            },
+            {
+              "answer": "rva20u64",
+              "choices": [
+                "rva20u64",
+                "Signer",
+                "GORISCV64=rva20u64",
+                "-g"
+              ]
+            },
+            {
+              "answer": "rv64g",
+              "choices": [
+                "i:j:k",
+                "GORISCV64=rva20u64",
+                "trackedObj",
+                "rv64g"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-71105-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "This proposal is to change Go's meaning of "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " to include compressed instructions, instead of continuing to prohibit them."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "GORISCV64=rva20u64",
+              "choices": [
+                "rv64g",
+                "rva20u64",
+                "GORISCV64",
+                "GORISCV64=rva20u64"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "issue-44506",
       "title": "crypto/tls: support kernel-provided TLS",
       "url": "https://github.com/golang/go/issues/44506",
@@ -27222,9 +28053,9 @@
               "answer": "sendfile",
               "choices": [
                 "graph.New",
-                "Ceil",
+                "unsafe.Pointer,",
                 "sendfile",
-                "O_NOFOLLOW"
+                "OpenFile"
               ]
             },
             {
@@ -27682,120 +28513,6 @@
       ]
     },
     {
-      "id": "issue-71105",
-      "title": "cmd/compile: change GORISCV64=rva20u64 to include compressed instructions",
-      "url": "https://github.com/golang/go/issues/71105",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 71105,
-      "quizzes": [
-        {
-          "id": "issue-71105-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "When the proposal for "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " was being discussed, the situation regarding compressed instructions for RISC-V was somewhat unclear and there were discussions about potentially reusing the encoding space. As such, the decision was to make the default "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " value be "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " but explicitly exclude compressed instructions, effectively giving "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": ":"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "GORISCV64",
-              "choices": [
-                "interface{ M }",
-                "GORISCV64",
-                "GORISCV64=rva20u64",
-                "08"
-              ]
-            },
-            {
-              "answer": "rva20u64",
-              "choices": [
-                "rva20u64",
-                "Signer",
-                "GORISCV64=rva20u64",
-                "-g"
-              ]
-            },
-            {
-              "answer": "rv64g",
-              "choices": [
-                "i:j:k",
-                "GORISCV64=rva20u64",
-                "trackedObj",
-                "rv64g"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-71105-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "This proposal is to change Go's meaning of "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " to include compressed instructions, instead of continuing to prohibit them."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "GORISCV64=rva20u64",
-              "choices": [
-                "rv64g",
-                "rva20u64",
-                "GORISCV64",
-                "GORISCV64=rva20u64"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-79040",
       "title": "net/http: drop support for Transport.CancelRequest",
       "url": "https://github.com/golang/go/issues/79040",
@@ -28202,7 +28919,7 @@
               "answer": "parser",
               "choices": [
                 "an",
-                "with",
+                "doc",
                 "parser",
                 "File"
               ]
@@ -28212,14 +28929,14 @@
               "choices": [
                 "File",
                 "ResolveFile",
-                "cha",
-                "CapabilityCount"
+                "StackIndex",
+                "UnmarshalFromFunc"
               ]
             },
             {
               "answer": "ast",
               "choices": [
-                "up",
+                "Float32s",
                 "trackSlice",
                 "ast",
                 "File"
@@ -28394,7 +29111,7 @@
               "choices": [
                 "End",
                 "M_0",
-                "GODEBUG=deprecatedgodebug=0",
+                "tar.ErrInsecurePath",
                 "percpu.sharder"
               ]
             },
@@ -28433,7 +29150,7 @@
               "answer": "go/scanner",
               "choices": [
                 "go/scanner",
-                "MarshalWrite",
+                "noder",
                 "vendor/vendor.json",
                 "End"
               ]
@@ -28832,7 +29549,7 @@
             {
               "answer": "testing.T.Run",
               "choices": [
-                "module@version",
+                "os.WriteFile",
                 "t.Run",
                 "testing.T.Run",
                 "tools.go"
@@ -28841,7 +29558,7 @@
             {
               "answer": "synctest.Test",
               "choices": [
-                "js/wasm32",
+                "Example",
                 "t.Run",
                 "synctest.Test",
                 "fade"
@@ -31128,7 +31845,7 @@
                 "GOENV=off",
                 "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
                 "reflect.Value",
-                "go build ."
+                "GOAMD64=v1"
               ]
             },
             {
@@ -31815,7 +32532,7 @@
               "choices": [
                 "findCommon",
                 "ErrNoAuth",
-                "func (d *dbImp) Begin() MySQLTx { ... }",
+                "type T = U",
                 "NewSignerWithAlgorithms"
               ]
             }
@@ -32240,7 +32957,7 @@
             {
               "answer": "Server",
               "choices": [
-                "program",
+                "OutputOffset",
                 "http",
                 "Server",
                 "DefaultMaxHeaderValueCount"
@@ -33059,7 +33776,7 @@
               "choices": [
                 "-ldflags '-extldflags \"-fno-PIC -static\"' -buildmode pie -tags 'osusergo netgo static_build'",
                 "-static",
-                "SETTINGS_NO_RFC7540_PRIORITIES",
+                "priority",
                 "go build"
               ]
             }
@@ -33411,7 +34128,7 @@
                 "Clone",
                 "hash",
                 "XOF",
-                "prevEndOff"
+                "Canonicalize"
               ]
             },
             {
@@ -34728,7 +35445,7 @@
             {
               "answer": "./mod",
               "choices": [
-                "Floor",
+                "go:wasmimport,",
                 "./mod",
                 "nhooyr.io/websocket/mod",
                 "nhooyr.io/websocket"
@@ -34767,7 +35484,7 @@
             {
               "answer": "./mod",
               "choices": [
-                "-buildmode",
+                "_start",
                 "nhooyr.io/websocket/mod",
                 "IsNotExist",
                 "./mod"
@@ -34826,7 +35543,7 @@
               "choices": [
                 "nhooyr.io/websocket",
                 "./mod",
-                "Decoder.DisallowDuplicateFields",
+                "go build .",
                 "*FromTo"
               ]
             }
@@ -34912,8 +35629,8 @@
             {
               "answer": "time.Time",
               "choices": [
-                "GOAMD64=local go build .",
-                "ProcessAttributes",
+                "GOAMD64",
+                "reflect.Value.IsZero",
                 "time.Time",
                 "modvers"
               ]
@@ -37352,7 +38069,7 @@
               "choices": [
                 "go/types",
                 "w \u003c x",
-                "GODEBUG=httpmaxheadervalues=N",
+                "synctest.Subtest",
                 "runtime.freegcTracked"
               ]
             }
@@ -37764,682 +38481,6 @@
       ]
     },
     {
-      "id": "issue-71497",
-      "title": "encoding/json/v2: new API for encoding/json",
-      "url": "https://github.com/golang/go/issues/71497",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 71497,
-      "quizzes": [
-        {
-          "id": "issue-71497-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "In v1, a Go array may be unmarshaled from a JSON array of any length. In contrast, in v2 a Go array must be unmarshaled from a JSON array of the same length, otherwise it results in an error. The "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " option controls this behavior difference."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "jsonv1.UnmarshalArrayFromAnyLength",
-              "choices": [
-                "UnmarshalerFrom",
-                "jsonv1.FormatDurationAsNano",
-                "jsonv1.FormatByteArrayAsArray",
-                "jsonv1.UnmarshalArrayFromAnyLength"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-71497-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "In v1, a Go byte array (i.e., "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ") is represented as a JSON array of JSON numbers. In contrast, in v2 a Go byte array is represented as a Base64-encoded JSON string. The "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " option controls this behavior difference."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "~[N]byte",
-              "choices": [
-                "Value",
-                "[]byte",
-                "Int",
-                "~[N]byte"
-              ]
-            },
-            {
-              "answer": "jsonv1.FormatByteArrayAsArray",
-              "choices": [
-                "jsonv1.FormatByteArrayAsArray",
-                "FormatNilMapAsNull",
-                "jsonv1.FormatDurationAsNano",
-                "jsonv1.UnmarshalArrayFromAnyLength"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-71497-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "In v1, errors are never reported at runtime for Go struct types that have some form of structural error (e.g., a malformed tag option). In contrast, v2 reports a runtime error for Go types that are invalid as they relate to JSON serialization. For example, a Go struct with only unexported fields cannot be serialized. The "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " option controls this behavior difference."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "jsonv1.ReportErrorsWithLegacySemantics",
-              "choices": [
-                "jsonv1.ReportErrorsWithLegacySemantics",
-                "jsonv1.OmitEmptyWithLegacySemantics",
-                "jsonv1.CallMethodsWithLegacySemantics",
-                "jsonv1.MergeWithLegacySemantics"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-71497-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " type is a type alias to an internal type that is an interface type with no exported methods. It is used simply as a marker type for options declared in the \"json\" and \"jsontext\" package. This is exactly the same "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " type as the one in the \"jsontext\" package."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "Options",
-              "choices": [
-                "Options",
-                "json",
-                "Kind",
-                "Uint"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-71497-q05",
-          "kind": "prose",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Let "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " be v1 \"encoding/json\" and "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " be \"encoding/json/v2\", then the v1 and v2 options can be composed together to obtain behavior that is identical to v1, identical to v2, or anywhere in between. For example:"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "jsonv1",
-              "choices": [
-                "json",
-                "jsontext",
-                "Kind",
-                "jsonv1"
-              ]
-            },
-            {
-              "answer": "jsonv2",
-              "choices": [
-                "json",
-                "Kind",
-                "jsonv2",
-                "jsontext"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-71497-q06",
-          "kind": "code",
-          "index": 5,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "// Kind represents each possible JSON token kind with a single byte,\n// which is the first byte of that kind's grammar.\n"
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " Kind byte\nfunc (k Kind) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "() string\n\nconst (\n\tKindInvalid     Kind = 0   // invalid kind\n\t"
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "        Kind = 'n' // null\n\tKindFalse       Kind = 'f' // false\n\tKindTrue        Kind = 't' // true\n\tKindString      Kind = '\"' // string\n\tKindNumber      Kind = '0' // number\n\tKindBeginObject Kind = '{' // begin object\n\tKindEndObject   Kind = '}' // end object\n\tKindBeginArray  Kind = '[' // begin array\n\tKindEndArray    Kind = ']' // end array\n)\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "type",
-              "choices": [
-                "struct",
-                "interface",
-                "const",
-                "type"
-              ]
-            },
-            {
-              "answer": "String",
-              "choices": [
-                "String",
-                "Kind",
-                "KindString",
-                "Uint"
-              ]
-            },
-            {
-              "answer": "KindNull",
-              "choices": [
-                "KindFalse",
-                "KindNull",
-                "KindTrue",
-                "Kind"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-71497-q07",
-          "kind": "code",
-          "index": 6,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "type Value []byte\n\nfunc (v Value) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "() Value\nfunc (v Value) String() string\nfunc (v Value) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "(opts ...Options) bool\nfunc (v *Value) Format(opts ...Options) error\nfunc (v *Value) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "(opts ...Options) error\nfunc (v *Value) Indent(opts ...Options) error\nfunc (v *Value) Canonicalize(opts ...Options) error\nfunc (v Value) MarshalJSON() ([]byte, error)\nfunc (v *Value) UnmarshalJSON(b []byte) error\nfunc (v Value) Kind() Kind // never ']' or '}' if valid\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "Clone",
-              "choices": [
-                "Clone",
-                "io",
-                "json",
-                "Float"
-              ]
-            },
-            {
-              "answer": "IsValid",
-              "choices": [
-                "IsValid",
-                "False",
-                "io",
-                "Value"
-              ]
-            },
-            {
-              "answer": "Compact",
-              "choices": [
-                "Float",
-                "Format",
-                "Compact",
-                "opts"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-71497-q08",
-          "kind": "code",
-          "index": 7,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "type Encoder struct { /* no exported fields */ }\n\nfunc NewEncoder(w "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ".Writer, opts ..."
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": ") *Encoder\nfunc (e *Encoder) Reset(w "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ".Writer, opts ..."
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": ")\n\n// WriteToken writes the next token and advances the internal write offset.\n// The provided token must be consistent with the JSON grammar.\nfunc (e *Encoder) WriteToken(t Token) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "\n\n// WriteValue writes the next raw value and advances the internal write offset.\n// The provided value must be consistent with the JSON grammar.\nfunc (e *Encoder) WriteValue(v Value) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "\n\n// AvailableBuffer returns a zero-length buffer with a possible non-zero capacity.\n// This buffer is intended to be used to populate a Value\n// being passed to an immediately succeeding WriteValue call.\n//\n// Example usage:\n//\n//\tb := d.AvailableBuffer()\n//\tb = append(b, '\"')\n//\tb = appendString(b, v) // append the string formatting of v\n//\tb = append(b, '\"')\n//\t... := d.WriteValue(b)\nfunc (e *Encoder) AvailableBuffer() []byte\n\n// OutputOffset returns the current output byte offset, which is the location\n// of the next byte immediately after the most recently written token or value.\nfunc (e *Encoder) OutputOffset() int64\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "io",
-              "choices": [
-                "io",
-                "in",
-                "tok",
-                "pc"
-              ]
-            },
-            {
-              "answer": "Options",
-              "choices": [
-                "JoinOptions",
-                "opts",
-                "GetOption",
-                "Options"
-              ]
-            },
-            {
-              "answer": "error",
-              "choices": [
-                "bool",
-                "string",
-                "byte",
-                "error"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-71497-q09",
-          "kind": "code",
-          "index": 8,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "// Options configure Marshal, MarshalWrite, MarshalEncode,\n// Unmarshal, UnmarshalRead, and UnmarshalDecode with specific features.\n// Each function takes in a variadic list of options, where properties set\n// in latter options override the value of previously set properties.\n//\n// Options represent either a singular option or a set of options.\n// It can be functionally thought of as a Go map of option properties\n// (even though the underlying implementation avoids Go maps for performance).\n//\n// The constructors (e.g., Deterministic) return a singular option value:\n//\topt := Deterministic(true)\n// which is analogous to creating a single entry map:\n//\topt := Options{\"Deterministic\": true}\n//\n// JoinOptions composes multiple options values to together:\n//\tout := JoinOptions(opts...)\n// which is analogous to making a new map and copying the options over:\n//\tout := make(Options)\n//\tfor _, m := range opts {\n//\t\tfor k, v := range m {\n//\t\t\tout[k] = v\n//\t\t}\n//\t}\n//\n// GetOption looks up the value of options parameter:\n//\tv, ok := GetOption(opts, Deterministic)\n// which is analogous to a Go map lookup:\n//\tv, ok := opts[\"Deterministic\"]\n//\n// There is a single Options type, which is used with both marshal and unmarshal.\n// Options that do not affect a particular operation are ignored.\ntype "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " = jsonopts."
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "\n\n// DefaultOptionsV2 is the full set of all options that define v2 semantics.\n// It is equivalent to all options under [Options], [encoding/json.Options],\n// and [encoding/json/jsontext.Options] being set to false or the zero value,\n// except for the options related to whitespace formatting.\nfunc DefaultOptionsV2() "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "\n\n// Deterministic specifies that the same input value will be serialized\n// as the exact same output bytes. Different processes of\n// the same program will serialize equal values to the same bytes,\n// but different versions of the same program are not guaranteed\n// to produce the exact same sequence of bytes.\nfunc Deterministic(v bool) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " // affects marshal only\n\n// FormatNilMapAsNull specifies that a nil Go map should marshal as a\n// JSON null instead of the default representation as an empty JSON object.\nfunc FormatNilMapAsNull(v bool) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " // affects marshal only\n\n// FormatNilSliceAsNull specifies that a nil Go slice should marshal as a\n// JSON null instead of the default representation as an empty JSON array\n// (or an empty JSON string in the case of ~[]byte).\nfunc FormatNilSliceAsNull(v bool) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " // affects marshal only\n\n// MatchCaseInsensitiveNames specifies that JSON object members are matched\n// against Go struct fields using a case-insensitive match of the name.\nfunc MatchCaseInsensitiveNames(v bool) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " // affects marshal and unmarshal\n\n// RejectUnknownMembers specifies that unknown members should be rejected\n// when unmarshaling a JSON object, regardless of whether there is a field\n// to store unknown members.\nfunc "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "(v bool) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " // affects unmarshal only\n\n// OmitZeroStructFields specifies that a Go struct should marshal in such a way\n// that all struct fields that are zero are omitted from the marshaled output\n// if the value is zero as determined by the \"IsZero() bool\" method if present,\n// otherwise based on whether the field is the zero Go value.\nfunc OmitZeroStructFields(v bool) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " // affects marshal only\n\n// WithMarshalers specifies a list of type-specific marshalers to use,\n// which can be used to override the default marshal behavior\n// for values of particular types.\nfunc WithMarshalers(v *Marshalers) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " // affects marshal only\n\n// WithUnmarshalers specifies a list of type-specific unmarshalers to use,\n// which can be used to override the default unmarshal behavior\n// for values of particular types.\nfunc WithUnmarshalers(v *Unmarshalers) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " // affects unmarshal only\n\n// JoinOptions coalesces the provided list of options into a single Options.\n// Properties set in latter options override the value of previously set properties.\nfunc JoinOptions(srcs ..."
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ") "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "\n\n// GetOption returns the value stored in opts with the provided constructor,\n// reporting whether the value is present.\nfunc GetOption[T any]("
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": " "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ", constructor func(T) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ") (T, bool)\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "Options",
-              "choices": [
-                "io",
-                "Options",
-                "JoinOptions",
-                "GetOption"
-              ]
-            },
-            {
-              "answer": "RejectUnknownMembers",
-              "choices": [
-                "StackPointer",
-                "NewEncoder",
-                "RejectUnknownMembers",
-                "ErrUnknownName"
-              ]
-            },
-            {
-              "answer": "opts",
-              "choices": [
-                "bits",
-                "out",
-                "opts",
-                "Int"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-71497-q10",
-          "kind": "code",
-          "index": 9,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "type "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " = jsonv2."
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "\ntype Unmarshaler = jsonv2.Unmarshaler\ntype RawMessage = "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "."
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "Marshaler",
-              "choices": [
-                "MarshalerTo",
-                "Marshalers",
-                "Marshaler",
-                "Marshal"
-              ]
-            },
-            {
-              "answer": "jsontext",
-              "choices": [
-                "json",
-                "jsonopts",
-                "jsontext",
-                "jsonv2"
-              ]
-            },
-            {
-              "answer": "Value",
-              "choices": [
-                "ReadValue",
-                "Value",
-                "True",
-                "False"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-73126",
       "title": "os: add Root.ReadFile \u0026 Root.WriteFile",
       "url": "https://github.com/golang/go/issues/73126",
@@ -38675,7 +38716,7 @@
               "answer": "slices",
               "choices": [
                 "vector\u003cT\u003e",
-                "GOOS=wasip2",
+                "x509: invalid RDNSequence: invalid attribute value: unsupported string type: 13",
                 "C.getaddrinfo",
                 "slices"
               ]
@@ -38771,7 +38812,7 @@
             {
               "answer": "module@version",
               "choices": [
-                "NewAEAD",
+                "NewRecipientWithPSK",
                 "@version",
                 "module@version",
                 "go doc"
@@ -39262,7 +39303,7 @@
               "choices": [
                 "rand.Rand.N",
                 "math/rand/v2",
-                "*mldsa.PrivateKey",
+                "MarshalPKIXPublicKey",
                 "N"
               ]
             }
@@ -39309,7 +39350,7 @@
               "answer": "math/rand/v2",
               "choices": [
                 "math/rand/v2",
-                "staticcheck",
+                "go test -exec=...",
                 "linux/amd64",
                 "N"
               ]
@@ -39366,7 +39407,7 @@
                 "Inspect",
                 "Int",
                 "Rand",
-                "MatchCaseSensitiveDelimiter"
+                "RowsColumnScanner"
               ]
             },
             {
@@ -39437,7 +39478,7 @@
               "choices": [
                 "passphrase",
                 "Rand",
-                "Uintptr",
+                "KindInvalid",
                 "replaced"
               ]
             },
@@ -41776,7 +41817,7 @@
               "answer": "work",
               "choices": [
                 "go list ...",
-                "go:",
+                "-buildmode=c-shared",
                 "-mod=mod",
                 "work"
               ]
@@ -43966,7 +44007,7 @@
                 "desc",
                 "Test",
                 "CoverageMode",
-                "doc"
+                "ByteOffset"
               ]
             },
             {
@@ -43974,16 +44015,16 @@
               "choices": [
                 "ElementNode",
                 "testing",
-                "opts",
-                "MinInt32"
+                "a7",
+                "KindNull"
               ]
             },
             {
               "answer": "Wait",
               "choices": [
                 "Wait",
-                "MarshalToFunc",
-                "MaxHeaderValueCount",
+                "creates",
+                "FormatDurationAsNano",
                 "debug"
               ]
             }
@@ -44179,7 +44220,7 @@
             {
               "answer": "unique",
               "choices": [
-                "SyntacticError",
+                "runtime.KeepAlive",
                 "unique.Make",
                 "unique",
                 "runtime.SetFinalizer"
@@ -44188,7 +44229,7 @@
             {
               "answer": "runtime.AddCleanup",
               "choices": [
-                "[]int64",
+                "CloneXOF()",
                 "runtime.AddCleanup",
                 "runtime.SetFinalizer",
                 "unique.Make"
@@ -44199,7 +44240,7 @@
               "choices": [
                 "runtime.SetFinalizer",
                 "unique.Make",
-                "t.SetTimeout(1*time.Second)",
+                "go test -timeout=30m",
                 "GOMAXPROCS"
               ]
             }
@@ -44308,7 +44349,7 @@
             {
               "answer": "tls.Config.EncryptedClientHelloKeys",
               "choices": [
-                "tls.Config.MinVersion \u003e= VersionTLS13",
+                "UnknownSignatureAlgorithm",
                 "GetConfigForClient",
                 "GetEncryptedClientHelloKeys",
                 "tls.Config.EncryptedClientHelloKeys"
@@ -44426,7 +44467,7 @@
             {
               "answer": "GetEncryptedClientHelloKeys",
               "choices": [
-                "*ast.Package",
+                "go list ...",
                 "tls.Config.EncryptedClientHelloKeys",
                 "GetConfigForClient",
                 "GetEncryptedClientHelloKeys"
@@ -44593,7 +44634,7 @@
                 "[]From",
                 "AuthCallback",
                 "none",
-                "StartupInfoEx"
+                "jsontext.Value"
               ]
             },
             {
@@ -45133,7 +45174,7 @@
             {
               "answer": "tlssha1=1",
               "choices": [
-                "fmt.Sprintf(\"%s:%d\", host, port)",
+                "%q",
                 "tlssha1=1",
                 "Lock",
                 "runtime·save_g"
@@ -45628,7 +45669,7 @@
               "choices": [
                 "net.Buffers",
                 "recvmmsg",
-                "Framer",
+                "VPADDD x, y, m, z",
                 "flags int"
               ]
             }
@@ -46780,7 +46821,7 @@
               "answer": "syscall.RunOnMainThread",
               "choices": [
                 "syscall.RunOnMainThread",
-                "ToSimd() any",
+                "jsontext.AllowInvalidUTF8",
                 "runtime.RunOnMainThread",
                 "runtime.AlignedN"
               ]
@@ -46790,7 +46831,7 @@
               "choices": [
                 "GOOS=darwin",
                 "RLock",
-                "SyntacticError",
+                "runtime.KeepAlive",
                 "runtime.RunOnMainThread"
               ]
             },
@@ -46836,9 +46877,9 @@
             {
               "answer": "runtime",
               "choices": [
-                "examplepackage_test",
-                "org",
-                "doc",
+                "constructor",
+                "ErrDuplicateName",
+                "ByteOffset",
                 "runtime"
               ]
             },
@@ -46847,7 +46888,7 @@
               "choices": [
                 "EmptyStruct",
                 "RunOnMainThread",
-                "creates",
+                "are",
                 "Line"
               ]
             }
@@ -46904,7 +46945,7 @@
               "choices": [
                 "shopping.Database",
                 "go fix ./...",
-                "Int8s",
+                "FormatNilSliceAsNull",
                 "ast.Package"
               ]
             },
@@ -46914,7 +46955,7 @@
                 "Set(string)",
                 "TypeList",
                 "parser.ParseDir()",
-                "StartupInfoEx"
+                "jsontext.Value"
               ]
             }
           ]
@@ -47076,7 +47117,7 @@
               "answer": "MLDSA87",
               "choices": [
                 "MLDSA87",
-                "Foo",
+                "LastToken",
                 "SignatureScheme",
                 "SignatureAlgorithm"
               ]
@@ -47141,7 +47182,7 @@
                 "SignatureScheme",
                 "SignatureAlgorithm",
                 "MLDSA44",
-                "AppendQuote"
+                "Mask32x4"
               ]
             },
             {
@@ -47158,7 +47199,7 @@
               "choices": [
                 "SignatureAlgorithm",
                 "MLDSA87",
-                "FormatBytesWithLegacySemantics",
+                "NewTypeParamList",
                 "MLDSA44"
               ]
             }
@@ -47369,7 +47410,7 @@
             {
               "answer": "x509.SetFallbackRoots",
               "choices": [
-                "crypto.Hash",
+                "PublicKeyAlgorithm",
                 "IsPermission",
                 "x509.SetFallbackRoots",
                 "AsValue"
@@ -47402,7 +47443,7 @@
               "choices": [
                 "Tn",
                 "JSONResult",
-                "NewRecipientWithPSK",
+                "HTTP1",
                 "x509.SetFallbackRoots"
               ]
             }
@@ -47450,7 +47491,7 @@
               "answer": "x509.ParseCertificate",
               "choices": [
                 "x509.ParseCertificate",
-                "FormatNilMapAsNull",
+                "internal/godebugs/Info",
                 "x509: invalid RDNSequence: invalid attribute value: unsupported string type: 13",
                 "-workfile"
               ]
@@ -47876,7 +47917,7 @@
                 "add",
                 "AssignStmt_Lhs",
                 "str",
-                "Float32x16"
+                "JoinMarshalers"
               ]
             },
             {
@@ -47930,7 +47971,7 @@
               "answer": "add",
               "choices": [
                 "Serve",
-                "white",
+                "Bytes",
                 "add",
                 "trackSlice"
               ]
@@ -48493,7 +48534,7 @@
                 "==(T)\nuntyped bool",
                 "StringVal",
                 "ParsePrivateKey",
-                "OpenIn"
+                "filepath.IsLocal"
               ]
             }
           ]
@@ -48563,7 +48604,7 @@
                 "Signature",
                 "finally",
                 "SignatureAlgorithm",
-                "HACK-HTTP2-Protocol"
+                "Protocol"
               ]
             },
             {
@@ -49146,7 +49187,7 @@
                 "unsafe",
                 "addr",
                 "syscall",
-                "Indent"
+                "Float64x8"
               ]
             },
             {
@@ -49490,7 +49531,7 @@
               "choices": [
                 "Op",
                 "type algorithms",
-                "Err() error",
+                "IsValid",
                 "ssh.Conn"
               ]
             }
@@ -49683,7 +49724,7 @@
               "answer": "PartialSuccessError",
               "choices": [
                 "At",
-                "panicnil",
+                "ErrNoAuth",
                 "PrivateKeySigner",
                 "PartialSuccessError"
               ]
@@ -49723,7 +49764,7 @@
               "choices": [
                 "end",
                 "clock_gettime",
-                "coro.Pull",
+                "func(yield func()bool) bool",
                 "PartialSuccessError"
               ]
             },
@@ -49762,7 +49803,7 @@
               "answer": "PartialSuccessError",
               "choices": [
                 "Reason",
-                "source.go:1234",
+                "f′",
                 "PartialSuccessError",
                 "Stringify"
               ]
@@ -51706,7 +51747,7 @@
             {
               "answer": "fmt",
               "choices": [
-                "Contains",
+                "OnesCount",
                 "fmt",
                 "ast",
                 "MLDSA65PublicKeySize"
@@ -51878,7 +51919,7 @@
             {
               "answer": "x/sys",
               "choices": [
-                "f'",
+                "jsonv1",
                 "x/sys",
                 "table",
                 "Rows"
@@ -51927,7 +51968,7 @@
               "answer": "Rows",
               "choices": [
                 "x/sys",
-                "COM1",
+                "git-lfs",
                 "Rows",
                 "unsafe.Sizeof([...]T)/unsafe.Sizeof(T)"
               ]
@@ -52057,7 +52098,7 @@
             {
               "answer": "goroutineleakprofile",
               "choices": [
-                "H(H(pubkey) || 0x00 || len(context) || context || message)",
+                "SignatureAlgorithm",
                 "go test\n-race",
                 "goroutineleakprofile",
                 "result[i]"
@@ -52685,7 +52726,7 @@
             {
               "answer": "ceil(log62(2^128))",
               "choices": [
-                "Div",
+                "ProcThreadAttributes",
                 "vet",
                 "go run",
                 "ceil(log62(2^128))"
@@ -52744,7 +52785,7 @@
               "choices": [
                 "strings.Cut",
                 "build id",
-                "(*testing.T).Error{,f}",
+                "Uint32x4",
                 "GO111MODULE"
               ]
             },
@@ -52929,7 +52970,7 @@
             {
               "answer": "UnencryptedHTTP2",
               "choices": [
-                "SETTINGS",
+                "SETTINGS_NO_RFC7540_PRIORITIES",
                 "golang.org/x/net/h2c",
                 "UnencryptedHTTP2",
                 "Server.Protocols"
@@ -53103,7 +53144,7 @@
               "choices": [
                 "NewSenderWithPSK",
                 "AES128GCM().ID()",
-                "/usr/local/go",
+                "context.Background",
                 "NewRecipientWithPSK"
               ]
             }
@@ -54222,7 +54263,7 @@
                 "github.com/jacobsa/igo",
                 "foreach",
                 "-fullpath",
-                "\"../../../etc/passwd\""
+                "os.Readlink"
               ]
             }
           ]
@@ -54677,7 +54718,7 @@
                 "use(result?)",
                 "readgstatus(m.curg) == _Gsyscall",
                 "explicit_bzero",
-                "func (*WaitGroup) Go(task func())"
+                "SetMaxBytes"
               ]
             },
             {
@@ -55346,7 +55387,7 @@
               "answer": "LookupFieldOrMethod",
               "choices": [
                 "LookupFieldOrMethod",
-                "COM1",
+                "git-lfs",
                 "Select",
                 "stdcall"
               ]
@@ -56357,7 +56398,7 @@
               "choices": [
                 "`${let a = {};}`",
                 "`${\"asd\"}`",
-                "runtime.RunOnMainThread",
+                "FuncMap",
                 "`${`${...}`}`"
               ]
             }
@@ -57545,7 +57586,7 @@
                 "Value",
                 "Interface",
                 "golang.org/x/text/transform",
-                "jsontext.Encoder"
+                "x/net/http2"
               ]
             }
           ]
@@ -58977,7 +59018,7 @@
                 "v := F\u003cT\u003e",
                 "v \u003c r",
                 "libc::res_init",
-                "func(yield func(T1, T2)bool) bool"
+                "for x := range n { ... }"
               ]
             },
             {
@@ -60202,10 +60243,10 @@
             {
               "answer": "GOCACHEPROG",
               "choices": [
-                "a = A{g}",
+                "x/exp/typeparams",
                 "-mod=work",
                 "GOCACHEPROG",
-                "work"
+                "sync.WaitGroup"
               ]
             },
             {
@@ -60275,7 +60316,7 @@
               "choices": [
                 "fmt.State",
                 "GOCACHEPROG",
-                "Option1",
+                "CloneXOF() hash.XOF",
                 "GOEXPERIMENT=gocacheprog"
               ]
             }
@@ -60564,7 +60605,7 @@
                 "Loop",
                 "testing",
                 "Benchmark",
-                "MinInt32"
+                "KindNull"
               ]
             },
             {
@@ -60694,7 +60735,7 @@
                 "testing",
                 "op",
                 "SplitSeq",
-                "or"
+                "SyntacticError"
               ]
             },
             {
@@ -60702,7 +60743,7 @@
               "choices": [
                 "Loop",
                 "op",
-                "args",
+                "Tokens",
                 "recvTypeParams"
               ]
             }
@@ -62001,195 +62042,6 @@
                 "Close",
                 "quic",
                 "buf"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-43698",
-      "title": "cmd/vet: warn about \"// go:\" comments (with space)",
-      "url": "https://github.com/golang/go/issues/43698",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 43698,
-      "quizzes": [
-        {
-          "id": "issue-43698-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " type added for #41191 documents the following behavior:"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "embed.FS",
-              "choices": [
-                "cmd/vet",
-                "FS",
-                "embed.FS",
-                "//go:embed"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-43698-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "An "
-            },
-            {
-              "type": "inline_code",
-              "value": "FS"
-            },
-            {
-              "type": "text",
-              "value": " is a read-only collection of files, usually initialized with a "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " directive. When declared without a "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " directive, an "
-            },
-            {
-              "type": "inline_code",
-              "value": "FS"
-            },
-            {
-              "type": "text",
-              "value": " is an empty file system."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "//go:embed",
-              "choices": [
-                "//go:embed",
-                "cmd/vet",
-                "FS",
-                "embed.FS"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-43698-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I expect that package authors essentially _never_ intend to end up with an empty read-only filesystem in a production package. (In tests, perhaps, but not otherwise.) For the few cases where they do, they should be able to add an explicit "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " directive indicating that the filesystem is _intentionally_ empty."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "//go:embed",
-              "choices": [
-                "cmd/vet",
-                "FS",
-                "//go:embed",
-                "embed.FS"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-43698-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Otherwise, it is too easy for an unintentional typo in the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " directive, such as the one discovered in https://github.com/golang/go/issues/43682#issuecomment-760344342, to result in a difficult-to-debug failure at run time."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "//go:embed",
-              "choices": [
-                "embed.FS",
-                "cmd/vet",
-                "FS",
-                "//go:embed"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-43698-q05",
-          "kind": "prose",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I propose that "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " should emit a warning when:"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "cmd/vet",
-              "choices": [
-                "FS",
-                "//go:embed",
-                "embed.FS",
-                "cmd/vet"
               ]
             }
           ]
