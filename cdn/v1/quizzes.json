@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-30T02:03:54.447868996Z",
+  "generated_at": "2026-07-31T02:30:28.703639421Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "58e952a6dd29795163bdff3de8b2d77329ff995b",
@@ -7686,7 +7686,7 @@
                 "//go:binary-only-package",
                 "gopls",
                 "IncompleteSources bool",
-                "Token"
+                "Float"
               ]
             }
           ]
@@ -24915,7 +24915,7 @@
             {
               "answer": "syscall",
               "choices": [
-                "Pointer",
+                "MarshalWrite",
                 "github.com/hashicorp/errwrap",
                 "x.(Tunderlying)",
                 "syscall"
@@ -27175,47 +27175,6 @@
       ]
     },
     {
-      "id": "issue-73101",
-      "title": "x/crypto/acme: support for acme profiles",
-      "url": "https://github.com/golang/go/issues/73101",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 73101,
-      "quizzes": [
-        {
-          "id": "issue-73101-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "This might be a bit over-eager but as someone using "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " to talk to Let's Encrypt, I'm hoping to be able to leverage this and am willing to implement the code sa well."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "x/crypto/acme",
-              "choices": [
-                "UnmarshalBinary",
-                "\u0026self",
-                "x/crypto/acme",
-                "mcall"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-71497",
       "title": "encoding/json/v2: new API for encoding/json",
       "url": "https://github.com/golang/go/issues/71497",
@@ -27885,6 +27844,47 @@
                 "Value",
                 "True",
                 "False"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-73101",
+      "title": "x/crypto/acme: support for acme profiles",
+      "url": "https://github.com/golang/go/issues/73101",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 73101,
+      "quizzes": [
+        {
+          "id": "issue-73101-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "This might be a bit over-eager but as someone using "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " to talk to Let's Encrypt, I'm hoping to be able to leverage this and am willing to implement the code sa well."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "x/crypto/acme",
+              "choices": [
+                "UnmarshalBinary",
+                "\u0026self",
+                "x/crypto/acme",
+                "mcall"
               ]
             }
           ]
@@ -35630,7 +35630,7 @@
               "answer": "time.Time",
               "choices": [
                 "GOAMD64",
-                "reflect.Value.IsZero",
+                "Marshaler",
                 "time.Time",
                 "modvers"
               ]
@@ -44634,7 +44634,7 @@
                 "[]From",
                 "AuthCallback",
                 "none",
-                "jsontext.Value"
+                "map[~string]T"
               ]
             },
             {
@@ -46821,7 +46821,7 @@
               "answer": "syscall.RunOnMainThread",
               "choices": [
                 "syscall.RunOnMainThread",
-                "jsontext.AllowInvalidUTF8",
+                "jsontext.AllowDuplicateNames",
                 "runtime.RunOnMainThread",
                 "runtime.AlignedN"
               ]
@@ -46945,7 +46945,7 @@
               "choices": [
                 "shopping.Database",
                 "go fix ./...",
-                "FormatNilSliceAsNull",
+                "FormatNilMapAsNull",
                 "ast.Package"
               ]
             },
@@ -46955,7 +46955,7 @@
                 "Set(string)",
                 "TypeList",
                 "parser.ParseDir()",
-                "jsontext.Value"
+                "map[~string]T"
               ]
             }
           ]
@@ -49531,7 +49531,7 @@
               "choices": [
                 "Op",
                 "type algorithms",
-                "IsValid",
+                "Compact",
                 "ssh.Conn"
               ]
             }
@@ -51919,7 +51919,7 @@
             {
               "answer": "x/sys",
               "choices": [
-                "jsonv1",
+                "jsonv2",
                 "x/sys",
                 "table",
                 "Rows"
