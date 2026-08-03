@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-02T02:28:27.267851413Z",
+  "generated_at": "2026-08-03T02:30:41.87456754Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "58e952a6dd29795163bdff3de8b2d77329ff995b",
@@ -24885,7 +24885,7 @@
               "answer": "syscall",
               "choices": [
                 "MyFloat",
-                "MarshalEncode",
+                "UnmarshalRead",
                 "go install",
                 "syscall"
               ]
@@ -27168,6 +27168,82 @@
                 "V",
                 "x",
                 "K"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-26746",
+      "title": "doc/install: define minimum supported VCS versions",
+      "url": "https://github.com/golang/go/issues/26746",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 26746,
+      "quizzes": [
+        {
+          "id": "issue-26746-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " shells out to version control binaries to implement "
+            },
+            {
+              "type": "inline_code",
+              "value": "go get"
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "cmd/go",
+              "choices": [
+                "*xml.Decode",
+                "cmd/go",
+                "git",
+                "go get"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-26746-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "doc/install currently declares minimum supported OS versions for FreeBSD, macOS, and Windows, but only a minimum kernel version for Linux. Those requirements do not imply any particular version of the supported version control binaries, and those versions do matter in practice: in particular, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " accrued a large number of flags in between 2.7 and 2.18 (https://github.com/golang/go/issues/26653)."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "git",
+              "choices": [
+                "git",
+                "I1",
+                "go get",
+                "cmd/go"
               ]
             }
           ]
@@ -30127,7 +30203,7 @@
                 "synctest.Test",
                 "synctest.Subtest",
                 "interface{}",
-                "Float"
+                "Token"
               ]
             },
             {
@@ -32353,7 +32429,7 @@
             {
               "answer": "reflect.Value",
               "choices": [
-                "jsonv1.ReportErrorsWithLegacySemantics",
+                "jsonv1.FormatDurationAsNano",
                 "MergeMode",
                 "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
                 "reflect.Value"
@@ -32364,7 +32440,7 @@
               "choices": [
                 "golang.org",
                 "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
-                "NewEncoder(AllowInvalidUTF8(false), AllowInvalidUTF8(true))",
+                "Options",
                 "reflect"
               ]
             },
@@ -32374,7 +32450,7 @@
                 "skip",
                 "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
                 "unsafe",
-                "Unmarshaler"
+                "Marshaler"
               ]
             }
           ]
@@ -34216,7 +34292,7 @@
               "answer": "-static",
               "choices": [
                 "go build",
-                "MarshalEncode",
+                "UnmarshalRead",
                 "-ldflags '-extldflags \"-fno-PIC -static\"' -buildmode pie -tags 'osusergo netgo static_build'",
                 "-static"
               ]
@@ -38903,7 +38979,7 @@
               "answer": "(*testing.T).Fatal{,f}",
               "choices": [
                 "-test.v=test2json",
-                "GORISCV64=rva20u64",
+                "rv64g",
                 "go test -json",
                 "(*testing.T).Fatal{,f}"
               ]
@@ -42209,7 +42285,7 @@
             {
               "answer": "DisallowUnknownFields",
               "choices": [
-                "UnmarshalTypeError",
+                "Number",
                 "-fips140",
                 "Decoder.DisallowDuplicateFields",
                 "DisallowUnknownFields"
@@ -47463,7 +47539,7 @@
             {
               "answer": "parser.ParseDir()",
               "choices": [
-                "UnmarshalDecode",
+                "MarshalEncode",
                 "github.com",
                 "parser.ParseDir()",
                 "string(i)"
@@ -47924,7 +48000,7 @@
                 "WriteTo",
                 "x509.SetFallbackRoots",
                 "synctest.Fuzz",
-                "SemanticError"
+                "jsontext.Decoder"
               ]
             }
           ]
@@ -50913,7 +50989,7 @@
               "answer": "http.Request",
               "choices": [
                 "HACK-HTTP2-Protocol",
-                "sql.Rows.Err()",
+                "bufio.Scanner.Err()",
                 "req.Protocol",
                 "http.Request"
               ]
@@ -51031,7 +51107,7 @@
               "answer": "HACK-HTTP2-Protocol",
               "choices": [
                 "HACK-HTTP2-Protocol",
-                "jsontext.Encoder",
+                "UnmarshalFromFunc",
                 ":protocol",
                 "Protocol"
               ]
@@ -55226,7 +55302,7 @@
             {
               "answer": "explicit_bzero",
               "choices": [
-                "ErrUnknownName",
+                "SemanticError",
                 "HandlerFS",
                 "*Named",
                 "explicit_bzero"
@@ -55236,7 +55312,7 @@
               "answer": "memzero_explicit",
               "choices": [
                 "mheap",
-                "IsValid",
+                "RawMessage",
                 "memzero_explicit",
                 "github.com/spf13/cobra"
               ]
@@ -56160,82 +56236,6 @@
       ]
     },
     {
-      "id": "issue-26746",
-      "title": "doc/install: define minimum supported VCS versions",
-      "url": "https://github.com/golang/go/issues/26746",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 26746,
-      "quizzes": [
-        {
-          "id": "issue-26746-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " shells out to version control binaries to implement "
-            },
-            {
-              "type": "inline_code",
-              "value": "go get"
-            },
-            {
-              "type": "text",
-              "value": "."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "cmd/go",
-              "choices": [
-                "*xml.Decode",
-                "cmd/go",
-                "git",
-                "go get"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-26746-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "doc/install currently declares minimum supported OS versions for FreeBSD, macOS, and Windows, but only a minimum kernel version for Linux. Those requirements do not imply any particular version of the supported version control binaries, and those versions do matter in practice: in particular, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " accrued a large number of flags in between 2.7 and 2.18 (https://github.com/golang/go/issues/26653)."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "git",
-              "choices": [
-                "git",
-                "I1",
-                "go get",
-                "cmd/go"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-74630",
       "title": "crypto/fips140: selective policy enforcement framework",
       "url": "https://github.com/golang/go/issues/74630",
@@ -56892,7 +56892,7 @@
                 "`${let a = {};}`",
                 "`${`${...}`}`",
                 "`,\",',$,{,}",
-                "sql.Rows"
+                "Err() error"
               ]
             },
             {
@@ -56901,7 +56901,7 @@
                 "`${",
                 "`${let a = {};}`",
                 "`${`${...}`}`",
-                "GORISCV64"
+                "fmt.Sprintf(\"%d\", new(int))"
               ]
             },
             {
