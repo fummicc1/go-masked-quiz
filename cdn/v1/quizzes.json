@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-03T02:30:41.87456754Z",
+  "generated_at": "2026-08-04T02:10:16.030868903Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "58e952a6dd29795163bdff3de8b2d77329ff995b",
@@ -5345,7 +5345,7 @@
               "answer": "golang.org/x/text/transform",
               "choices": [
                 "golang.org/x/text/transform",
-                "os.WriteFile",
+                "cmd/test2json",
                 "mellium.im/xmlstream",
                 "encoding/xml"
               ]
@@ -7683,7 +7683,7 @@
             {
               "answer": "//go:binary-only-package",
               "choices": [
-                "satconv",
+                "_initialize",
                 "IncompleteSources bool",
                 "//go:binary-only-package",
                 "Test*"
@@ -23572,7 +23572,7 @@
               "answer": "golang.org/x/crypto/...",
               "choices": [
                 "src",
-                "[]*TypeParam",
+                "wasip1/wasm32",
                 "go:generate",
                 "golang.org/x/crypto/..."
               ]
@@ -24885,7 +24885,7 @@
               "answer": "syscall",
               "choices": [
                 "MyFloat",
-                "UnmarshalRead",
+                "jsonv1.OmitEmptyWithLegacySemantics",
                 "go install",
                 "syscall"
               ]
@@ -24918,7 +24918,7 @@
                 "syscall",
                 "embed",
                 "go/ast",
-                "gofmt -l"
+                "Config.Clone()"
               ]
             }
           ]
@@ -27175,98 +27175,22 @@
       ]
     },
     {
-      "id": "issue-26746",
-      "title": "doc/install: define minimum supported VCS versions",
-      "url": "https://github.com/golang/go/issues/26746",
+      "id": "issue-48157",
+      "title": "cmd/go: add per-test timeouts",
+      "url": "https://github.com/golang/go/issues/48157",
       "status": "accepted",
       "source_kind": "github-issues",
-      "issue_number": 26746,
+      "issue_number": 48157,
       "quizzes": [
         {
-          "id": "issue-26746-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " shells out to version control binaries to implement "
-            },
-            {
-              "type": "inline_code",
-              "value": "go get"
-            },
-            {
-              "type": "text",
-              "value": "."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "cmd/go",
-              "choices": [
-                "*xml.Decode",
-                "cmd/go",
-                "git",
-                "go get"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-26746-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "doc/install currently declares minimum supported OS versions for FreeBSD, macOS, and Windows, but only a minimum kernel version for Linux. Those requirements do not imply any particular version of the supported version control binaries, and those versions do matter in practice: in particular, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " accrued a large number of flags in between 2.7 and 2.18 (https://github.com/golang/go/issues/26653)."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "git",
-              "choices": [
-                "git",
-                "I1",
-                "go get",
-                "cmd/go"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-43698",
-      "title": "cmd/vet: warn about \"// go:\" comments (with space)",
-      "url": "https://github.com/golang/go/issues/43698",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 43698,
-      "quizzes": [
-        {
-          "id": "issue-43698-q01",
+          "id": "issue-48157-q01",
           "kind": "prose",
           "index": 0,
           "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
-              "value": "The "
+              "value": "The default per-test case timeout is 1m (one minute). If the new "
             },
             {
               "type": "mask",
@@ -27274,38 +27198,7 @@
             },
             {
               "type": "text",
-              "value": " type added for #41191 documents the following behavior:"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "embed.FS",
-              "choices": [
-                "FS",
-                "embed.FS",
-                "cmd/vet",
-                "//go:embed"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-43698-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "An "
-            },
-            {
-              "type": "inline_code",
-              "value": "FS"
-            },
-            {
-              "type": "text",
-              "value": " is a read-only collection of files, usually initialized with a "
+              "value": " flag is specified explicitly, then that sets a different default. If the "
             },
             {
               "type": "mask",
@@ -27313,229 +27206,7 @@
             },
             {
               "type": "text",
-              "value": " directive. When declared without a "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " directive, an "
-            },
-            {
-              "type": "inline_code",
-              "value": "FS"
-            },
-            {
-              "type": "text",
-              "value": " is an empty file system."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "//go:embed",
-              "choices": [
-                "//go:embed",
-                "FS",
-                "cmd/vet",
-                "embed.FS"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-43698-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I expect that package authors essentially _never_ intend to end up with an empty read-only filesystem in a production package. (In tests, perhaps, but not otherwise.) For the few cases where they do, they should be able to add an explicit "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " directive indicating that the filesystem is _intentionally_ empty."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "//go:embed",
-              "choices": [
-                "embed.FS",
-                "//go:embed",
-                "FS",
-                "cmd/vet"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-43698-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Otherwise, it is too easy for an unintentional typo in the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " directive, such as the one discovered in https://github.com/golang/go/issues/43682#issuecomment-760344342, to result in a difficult-to-debug failure at run time."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "//go:embed",
-              "choices": [
-                "//go:embed",
-                "FS",
-                "embed.FS",
-                "cmd/vet"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-43698-q05",
-          "kind": "prose",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I propose that "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " should emit a warning when:"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "cmd/vet",
-              "choices": [
-                "cmd/vet",
-                "FS",
-                "//go:embed",
-                "embed.FS"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-36532",
-      "title": "testing: reconsider adding Context method to testing.T",
-      "url": "https://github.com/golang/go/issues/36532",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 36532,
-      "quizzes": [
-        {
-          "id": "issue-36532-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I propose that the recently added T.Cleanup method can now provide the wait mechanism that's needed - the other half of "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ". We can define the semantics such that the the testing context is cancelled just before invoking the Cleanup-registered functions. That way, it's easy to both listen for the test being done, and also to wait for asynchronous operations to finish when it is."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "Context.Done",
-              "choices": [
-                "Context.Done",
-                "Cleanup",
-                ".dict.Max[float64]",
-                "go 1.20"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-36532-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "By hooking into the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " mechanism, we don't presuppose any particular kind of waiting - this can hook into whatever mechanism your infrastructure provides for graceful shutdown."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "Cleanup",
-              "choices": [
-                "Cleanup",
-                "crypto/tls",
-                "debug.SetGCPercent",
-                "Context.Done"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-66984",
-      "title": "cmd/compile: relax wasm/wasm32 function import signature type constraints",
-      "url": "https://github.com/golang/go/issues/66984",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 66984,
-      "quizzes": [
-        {
-          "id": "issue-66984-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Relax the constraints on types that can be used as input and result parameters with the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " compiler directive. The exact allowed types would depend on whether "
+              "value": " flag is omitted but "
             },
             {
               "type": "mask",
@@ -27543,56 +27214,55 @@
             },
             {
               "type": "text",
-              "value": " or "
+              "value": " is specified explicitly, then that sets the default too. This way, if you have one really long test and use "
             },
             {
-              "type": "mask",
-              "blank_index": 2
+              "type": "inline_code",
+              "value": "go test -timeout=30m"
             },
             {
               "type": "text",
-              "value": " is used."
+              "value": ", the per-case timeout doesn't kick in after 1 minute and kill it anyway."
             }
           ],
           "blanks": [
             {
-              "answer": "go:wasmimport",
+              "answer": "-testtimeout",
               "choices": [
-                "go:wasmimport",
-                "wasmexport",
-                "*struct",
-                "wasmimport"
+                "SetTimeout(d time.Duration)",
+                "go test -timeout=30m",
+                "t.SetTimeout(1*time.Second)",
+                "-testtimeout"
               ]
             },
             {
-              "answer": "wasm",
+              "answer": "-timeout",
               "choices": [
-                "wasmexport",
-                "wasm",
-                "wasmimport",
-                "i32"
-              ]
-            },
-            {
-              "answer": "wasm32",
-              "choices": [
-                "i32",
-                "wasm32",
-                "wasmexport",
-                "wasmimport"
+                "go test -timeout=30m",
+                "t.SetTimeout(1*time.Second)",
+                "-timeout",
+                "SetTimeout(d time.Duration)"
               ]
             }
           ]
         },
         {
-          "id": "issue-66984-q02",
+          "id": "issue-48157-q02",
           "kind": "prose",
           "index": 1,
           "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
-              "value": "We define the \"small integer types\" group as the set of types described by "
+              "value": "There is a new testing.TB method "
+            },
+            {
+              "type": "inline_code",
+              "value": "SetTimeout(d time.Duration)"
+            },
+            {
+              "type": "text",
+              "value": " that allows a test to set its own timeout. Calling SetTimeout does not reset the timer. If a test runs for 30 seconds and then calls "
             },
             {
               "type": "mask",
@@ -27600,161 +27270,17 @@
             },
             {
               "type": "text",
-              "value": ". The following types would be allowed as input parameters to any "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": "/"
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " function:"
+              "value": ", it gets killed for having timed out. A timeout set this way is inherited by subtests. (They each have their own timer.)"
             }
           ],
           "blanks": [
             {
-              "answer": "[u]int[8|16]",
+              "answer": "t.SetTimeout(1*time.Second)",
               "choices": [
-                "[u]int",
-                "[u]int[8|16]",
-                "[u]int16",
-                "[u]int8"
-              ]
-            },
-            {
-              "answer": "wasmimport",
-              "choices": [
-                "go:wasmimport",
-                "wasmimport",
-                "wasm32",
-                "wasm"
-              ]
-            },
-            {
-              "answer": "wasmexport",
-              "choices": [
-                "wasmexport",
-                "wasm",
-                "go:wasmimport",
-                "wasm32"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-66984-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "All input parameter types except "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " are also allowed as result parameter types."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "string",
-              "choices": [
-                "int64",
-                "int",
-                "string",
-                "recover"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-66984-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The conventions established for use of pointers in CGO will be required when using pointers with "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "/"
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": ", e.g. the host can read Go memory, can write pointerless data (like the content of a byte buffer) but cannot write Go pointers to Go memory, and cannot hold on to Go pointers unless they are pinned."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "wasmimport",
-              "choices": [
-                "wasm",
-                "wasmimport",
-                "go:wasmimport",
-                "wasm32"
-              ]
-            },
-            {
-              "answer": "wasmexport",
-              "choices": [
-                "wasmexport",
-                "wasm",
-                "go:wasmimport",
-                "wasm32"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-66984-q05",
-          "kind": "prose",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "#66408 proposes a way for users to request that struct layout is _host compatible_. Our proposal depends on the definitions put forward in this proposal for "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " parameters."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "struct",
-              "choices": [
-                "struct",
-                "switch",
-                "continue",
-                "const"
+                "t.SetTimeout(1*time.Second)",
+                "-testtimeout",
+                "SetTimeout(d time.Duration)",
+                "-timeout"
               ]
             }
           ]
@@ -28438,6 +27964,593 @@
       ]
     },
     {
+      "id": "issue-26746",
+      "title": "doc/install: define minimum supported VCS versions",
+      "url": "https://github.com/golang/go/issues/26746",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 26746,
+      "quizzes": [
+        {
+          "id": "issue-26746-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " shells out to version control binaries to implement "
+            },
+            {
+              "type": "inline_code",
+              "value": "go get"
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "cmd/go",
+              "choices": [
+                "*xml.Decode",
+                "cmd/go",
+                "git",
+                "go get"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-26746-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "doc/install currently declares minimum supported OS versions for FreeBSD, macOS, and Windows, but only a minimum kernel version for Linux. Those requirements do not imply any particular version of the supported version control binaries, and those versions do matter in practice: in particular, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " accrued a large number of flags in between 2.7 and 2.18 (https://github.com/golang/go/issues/26653)."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "git",
+              "choices": [
+                "git",
+                "I1",
+                "go get",
+                "cmd/go"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-43698",
+      "title": "cmd/vet: warn about \"// go:\" comments (with space)",
+      "url": "https://github.com/golang/go/issues/43698",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 43698,
+      "quizzes": [
+        {
+          "id": "issue-43698-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " type added for #41191 documents the following behavior:"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "embed.FS",
+              "choices": [
+                "FS",
+                "embed.FS",
+                "cmd/vet",
+                "//go:embed"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-43698-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "An "
+            },
+            {
+              "type": "inline_code",
+              "value": "FS"
+            },
+            {
+              "type": "text",
+              "value": " is a read-only collection of files, usually initialized with a "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " directive. When declared without a "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " directive, an "
+            },
+            {
+              "type": "inline_code",
+              "value": "FS"
+            },
+            {
+              "type": "text",
+              "value": " is an empty file system."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "//go:embed",
+              "choices": [
+                "//go:embed",
+                "FS",
+                "cmd/vet",
+                "embed.FS"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-43698-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "I expect that package authors essentially _never_ intend to end up with an empty read-only filesystem in a production package. (In tests, perhaps, but not otherwise.) For the few cases where they do, they should be able to add an explicit "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " directive indicating that the filesystem is _intentionally_ empty."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "//go:embed",
+              "choices": [
+                "embed.FS",
+                "//go:embed",
+                "FS",
+                "cmd/vet"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-43698-q04",
+          "kind": "prose",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Otherwise, it is too easy for an unintentional typo in the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " directive, such as the one discovered in https://github.com/golang/go/issues/43682#issuecomment-760344342, to result in a difficult-to-debug failure at run time."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "//go:embed",
+              "choices": [
+                "//go:embed",
+                "FS",
+                "embed.FS",
+                "cmd/vet"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-43698-q05",
+          "kind": "prose",
+          "index": 4,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "I propose that "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " should emit a warning when:"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "cmd/vet",
+              "choices": [
+                "cmd/vet",
+                "FS",
+                "//go:embed",
+                "embed.FS"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-36532",
+      "title": "testing: reconsider adding Context method to testing.T",
+      "url": "https://github.com/golang/go/issues/36532",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 36532,
+      "quizzes": [
+        {
+          "id": "issue-36532-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "I propose that the recently added T.Cleanup method can now provide the wait mechanism that's needed - the other half of "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ". We can define the semantics such that the the testing context is cancelled just before invoking the Cleanup-registered functions. That way, it's easy to both listen for the test being done, and also to wait for asynchronous operations to finish when it is."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "Context.Done",
+              "choices": [
+                "Context.Done",
+                "Cleanup",
+                ".dict.Max[float64]",
+                "go 1.20"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-36532-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "By hooking into the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " mechanism, we don't presuppose any particular kind of waiting - this can hook into whatever mechanism your infrastructure provides for graceful shutdown."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "Cleanup",
+              "choices": [
+                "Cleanup",
+                "Rat.Floor",
+                "debug.SetGCPercent",
+                "Context.Done"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-66984",
+      "title": "cmd/compile: relax wasm/wasm32 function import signature type constraints",
+      "url": "https://github.com/golang/go/issues/66984",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 66984,
+      "quizzes": [
+        {
+          "id": "issue-66984-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Relax the constraints on types that can be used as input and result parameters with the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " compiler directive. The exact allowed types would depend on whether "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " or "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " is used."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "go:wasmimport",
+              "choices": [
+                "go:wasmimport",
+                "wasmexport",
+                "*struct",
+                "wasmimport"
+              ]
+            },
+            {
+              "answer": "wasm",
+              "choices": [
+                "wasmexport",
+                "wasm",
+                "wasmimport",
+                "i32"
+              ]
+            },
+            {
+              "answer": "wasm32",
+              "choices": [
+                "i32",
+                "wasm32",
+                "wasmexport",
+                "wasmimport"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-66984-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "We define the \"small integer types\" group as the set of types described by "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ". The following types would be allowed as input parameters to any "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": "/"
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " function:"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "[u]int[8|16]",
+              "choices": [
+                "[u]int",
+                "[u]int[8|16]",
+                "[u]int16",
+                "[u]int8"
+              ]
+            },
+            {
+              "answer": "wasmimport",
+              "choices": [
+                "go:wasmimport",
+                "wasmimport",
+                "wasm32",
+                "wasm"
+              ]
+            },
+            {
+              "answer": "wasmexport",
+              "choices": [
+                "wasmexport",
+                "wasm",
+                "go:wasmimport",
+                "wasm32"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-66984-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "All input parameter types except "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " are also allowed as result parameter types."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "string",
+              "choices": [
+                "int64",
+                "int",
+                "string",
+                "recover"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-66984-q04",
+          "kind": "prose",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The conventions established for use of pointers in CGO will be required when using pointers with "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": "/"
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": ", e.g. the host can read Go memory, can write pointerless data (like the content of a byte buffer) but cannot write Go pointers to Go memory, and cannot hold on to Go pointers unless they are pinned."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "wasmimport",
+              "choices": [
+                "wasm",
+                "wasmimport",
+                "go:wasmimport",
+                "wasm32"
+              ]
+            },
+            {
+              "answer": "wasmexport",
+              "choices": [
+                "wasmexport",
+                "wasm",
+                "go:wasmimport",
+                "wasm32"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-66984-q05",
+          "kind": "prose",
+          "index": 4,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "#66408 proposes a way for users to request that struct layout is _host compatible_. Our proposal depends on the definitions put forward in this proposal for "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " parameters."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "struct",
+              "choices": [
+                "struct",
+                "switch",
+                "continue",
+                "const"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "issue-73101",
       "title": "x/crypto/acme: support for acme profiles",
       "url": "https://github.com/golang/go/issues/73101",
@@ -28468,7 +28581,7 @@
             {
               "answer": "x/crypto/acme",
               "choices": [
-                "ClientConfig.Auth",
+                "tls.Config.EncryptedClientHelloKeys",
                 "x/crypto/acme",
                 "//go:*",
                 "-mod=work"
@@ -28533,7 +28646,7 @@
             {
               "answer": "GORISCV64",
               "choices": [
-                "Example",
+                "template.Must",
                 "GORISCV64",
                 "myAddrError",
                 "GORISCV64=rva20u64"
@@ -28543,7 +28656,7 @@
               "answer": "rva20u64",
               "choices": [
                 "GORISCV64=rva20u64",
-                "SaturatedAdd",
+                "AddUint32x4",
                 "GOMEMLIMIT",
                 "rva20u64"
               ]
@@ -28552,7 +28665,7 @@
               "answer": "rv64g",
               "choices": [
                 "rv64g",
-                "Server.Protocols",
+                "func() (T, bool)",
                 "GORISCV64=rva20u64",
                 "nothing"
               ]
@@ -29707,7 +29820,7 @@
               "choices": [
                 "go/scanner",
                 "dwarf.dwAbbrev",
-                "func() (T, bool)",
+                "yield",
                 "1_"
               ]
             }
@@ -29738,7 +29851,7 @@
               "choices": [
                 "End",
                 "go/scanner",
-                "math/rand/v2",
+                "*os.Root",
                 "time.Time"
               ]
             }
@@ -30203,7 +30316,7 @@
                 "synctest.Test",
                 "synctest.Subtest",
                 "interface{}",
-                "Token"
+                "NewDecoder"
               ]
             },
             {
@@ -32429,8 +32542,8 @@
             {
               "answer": "reflect.Value",
               "choices": [
-                "jsonv1.FormatDurationAsNano",
-                "MergeMode",
+                "MarshalerTo",
+                "./...",
                 "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
                 "reflect.Value"
               ]
@@ -32440,7 +32553,7 @@
               "choices": [
                 "golang.org",
                 "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
-                "Options",
+                "ErrDuplicateName",
                 "reflect"
               ]
             },
@@ -32450,7 +32563,7 @@
                 "skip",
                 "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
                 "unsafe",
-                "Marshaler"
+                "MarshalJSONTo"
               ]
             }
           ]
@@ -33111,7 +33224,7 @@
                 "NewSignerWithAlgorithms",
                 "findCommon",
                 "ServerAuthError",
-                "//go:wasmexport"
+                "proc_exit"
               ]
             },
             {
@@ -33778,7 +33891,7 @@
                 "cmd/go",
                 "/latest",
                 "go test -exec=...",
-                "func(yield func(T1)bool) bool"
+                "for x := T(0); x \u003c n; x++ { ... }"
               ]
             }
           ]
@@ -34292,7 +34405,7 @@
               "answer": "-static",
               "choices": [
                 "go build",
-                "UnmarshalRead",
+                "jsonv1.OmitEmptyWithLegacySemantics",
                 "-ldflags '-extldflags \"-fno-PIC -static\"' -buildmode pie -tags 'osusergo netgo static_build'",
                 "-static"
               ]
@@ -36072,7 +36185,7 @@
               "answer": "./mod",
               "choices": [
                 "nhooyr.io/websocket/mod",
-                "sql.Scanner",
+                "T3",
                 "(*Process).Kill",
                 "./mod"
               ]
@@ -38121,7 +38234,7 @@
               "choices": [
                 "runtime.Goexit",
                 "try canThrowErrors()",
-                "template.Must",
+                "f''",
                 "sha3.SHA3"
               ]
             }
@@ -38979,7 +39092,7 @@
               "answer": "(*testing.T).Fatal{,f}",
               "choices": [
                 "-test.v=test2json",
-                "rv64g",
+                "(\u0026slice, len(slice))",
                 "go test -json",
                 "(*testing.T).Fatal{,f}"
               ]
@@ -39302,9 +39415,9 @@
             {
               "answer": "slices",
               "choices": [
-                "MergeMode",
+                "./...",
                 "List\u003cInteger\u003e",
-                "MaxHeaderBytes",
+                "TestExampleFoo",
                 "slices"
               ]
             }
@@ -39889,7 +40002,7 @@
               "answer": "math/rand/v2",
               "choices": [
                 "math/rand/v2",
-                "x.Operation(y).Masked(m)",
+                "x.AsFloat64s()",
                 "N",
                 "rand.Rand.N"
               ]
@@ -42285,8 +42398,8 @@
             {
               "answer": "DisallowUnknownFields",
               "choices": [
-                "Number",
-                "-fips140",
+                "wasmimport",
+                "AuthCallback",
                 "Decoder.DisallowDuplicateFields",
                 "DisallowUnknownFields"
               ]
@@ -42387,7 +42500,7 @@
               "choices": [
                 "go list ...",
                 "-mod=mod",
-                "gofmt -d",
+                "net.Addr",
                 "..."
               ]
             },
@@ -44819,7 +44932,7 @@
                 "runtime.SetFinalizer",
                 "runtime.AddCleanup",
                 "unique.Make",
-                "Float32s"
+                "x.Operation(y).Masked(m)"
               ]
             },
             {
@@ -45169,7 +45282,7 @@
             {
               "answer": "packetConn",
               "choices": [
-                "”",
+                "len(ProcThreadAttributes) + 2",
                 "packetConn",
                 "check err",
                 "$GOROOT/pkg/tool/$GOOS_$GOARCH"
@@ -45230,7 +45343,7 @@
                 "contracts.Comparable",
                 "AuthCallback",
                 "ClientConfig.Auth",
-                "unsafeptr"
+                "VersionTLS13"
               ]
             }
           ]
@@ -45762,7 +45875,7 @@
               "answer": "tlssha1=1",
               "choices": [
                 "os.IsTimeout",
-                "CloneXOF() hash.XOF",
+                "-ldflags '-extldflags \"-fno-PIC -static\"' -buildmode pie -tags 'osusergo netgo static_build'",
                 "tlssha1=1",
                 "*.proto"
               ]
@@ -47417,7 +47530,7 @@
               "answer": "GOOS=darwin",
               "choices": [
                 "unicode.IsSpace",
-                "func (*WaitGroup) Go(task func())",
+                "golang.org/x/exp/trace",
                 "GOOS=darwin",
                 "runtime.RunOnMainThread"
               ]
@@ -47532,14 +47645,14 @@
               "choices": [
                 "ast.Package",
                 "unicode.IsSpace",
-                "simd/archsimd",
+                "Clone()",
                 "GODEBUG=execerrdot=0"
               ]
             },
             {
               "answer": "parser.ParseDir()",
               "choices": [
-                "MarshalEncode",
+                "MarshalJSON",
                 "github.com",
                 "parser.ParseDir()",
                 "string(i)"
@@ -47999,8 +48112,8 @@
               "choices": [
                 "WriteTo",
                 "x509.SetFallbackRoots",
-                "synctest.Fuzz",
-                "jsontext.Decoder"
+                "O_NOFOLLOW_ANY",
+                "Context.Done"
               ]
             }
           ]
@@ -48031,7 +48144,7 @@
                 "vet",
                 "x509.SetFallbackRoots",
                 "func f() (_ A, _ B, err error)",
-                "CloneXOF() hash.XOF"
+                "-ldflags '-extldflags \"-fno-PIC -static\"' -buildmode pie -tags 'osusergo netgo static_build'"
               ]
             }
           ]
@@ -48080,7 +48193,7 @@
                 "x509: invalid RDNSequence: invalid attribute value: unsupported string type: 13",
                 "len(t)[1]",
                 "x509.ParseCertificate",
-                "File.OpenIn"
+                "openat2"
               ]
             }
           ]
@@ -50312,7 +50425,7 @@
               "choices": [
                 "-lang",
                 "PartialSuccessError",
-                "*zip.Reader",
+                "tar.Reader.Next",
                 "runtime.growsliceNoAlias"
               ]
             }
@@ -50989,7 +51102,7 @@
               "answer": "http.Request",
               "choices": [
                 "HACK-HTTP2-Protocol",
-                "bufio.Scanner.Err()",
+                "rva20u64",
                 "req.Protocol",
                 "http.Request"
               ]
@@ -51006,7 +51119,7 @@
             {
               "answer": ":protocol",
               "choices": [
-                "GOARCH=wasm32",
+                "GOARCH=wasm",
                 ":protocol",
                 "HACK-HTTP2-Protocol",
                 "req.Protocol"
@@ -51097,7 +51210,7 @@
             {
               "answer": "http.Request",
               "choices": [
-                "runtime.AddCleanup",
+                "O_NOFOLLOW",
                 ":protocol",
                 "http.Request",
                 "Protocol"
@@ -51107,7 +51220,7 @@
               "answer": "HACK-HTTP2-Protocol",
               "choices": [
                 "HACK-HTTP2-Protocol",
-                "UnmarshalFromFunc",
+                "git",
                 ":protocol",
                 "Protocol"
               ]
@@ -52545,7 +52658,7 @@
             {
               "answer": "table",
               "choices": [
-                "synctest.Run",
+                "RESOLVE_NO_SYMLINKS",
                 "x/sys",
                 "table",
                 "go/build.go"
@@ -53316,7 +53429,7 @@
                 "ceil(log62(2^128))",
                 "Equal\u003cT\u003e",
                 "fs.ReadDir",
-                "syscall.RunOnMainThread"
+                ".root.Tr"
               ]
             }
           ]
@@ -53373,7 +53486,7 @@
                 "func(x T)",
                 "strings.Cut",
                 "2^(heapAddrBits - 21 - log2(pageSize))",
-                "GODEBUG=deprecatedgodebug=0"
+                "internal/godebugs/table.go"
               ]
             },
             {
@@ -53388,7 +53501,7 @@
             {
               "answer": "package-url",
               "choices": [
-                "*tar.Header",
+                "go test -exec=...",
                 "slog.Record",
                 "package-url",
                 "Enabled() bool"
@@ -53421,7 +53534,7 @@
               "choices": [
                 "strings.Cut",
                 "package-url",
-                "a + *b",
+                "Float64x4",
                 "CutLast"
               ]
             }
@@ -53713,7 +53826,7 @@
               "choices": [
                 "NewSenderWithPSK",
                 "NewRecipientWithPSK",
-                "VPADDD",
+                "CloneXOF()",
                 "NewAEAD"
               ]
             },
@@ -54290,119 +54403,6 @@
                 "PrivateKey",
                 "aead",
                 "PublicKey"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-48157",
-      "title": "cmd/go: add per-test timeouts",
-      "url": "https://github.com/golang/go/issues/48157",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 48157,
-      "quizzes": [
-        {
-          "id": "issue-48157-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The default per-test case timeout is 1m (one minute). If the new "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " flag is specified explicitly, then that sets a different default. If the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " flag is omitted but "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " is specified explicitly, then that sets the default too. This way, if you have one really long test and use "
-            },
-            {
-              "type": "inline_code",
-              "value": "go test -timeout=30m"
-            },
-            {
-              "type": "text",
-              "value": ", the per-case timeout doesn't kick in after 1 minute and kill it anyway."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "-testtimeout",
-              "choices": [
-                "SetTimeout(d time.Duration)",
-                "go test -timeout=30m",
-                "t.SetTimeout(1*time.Second)",
-                "-testtimeout"
-              ]
-            },
-            {
-              "answer": "-timeout",
-              "choices": [
-                "go test -timeout=30m",
-                "t.SetTimeout(1*time.Second)",
-                "-timeout",
-                "SetTimeout(d time.Duration)"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-48157-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "There is a new testing.TB method "
-            },
-            {
-              "type": "inline_code",
-              "value": "SetTimeout(d time.Duration)"
-            },
-            {
-              "type": "text",
-              "value": " that allows a test to set its own timeout. Calling SetTimeout does not reset the timer. If a test runs for 30 seconds and then calls "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ", it gets killed for having timed out. A timeout set this way is inherited by subtests. (They each have their own timer.)"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "t.SetTimeout(1*time.Second)",
-              "choices": [
-                "t.SetTimeout(1*time.Second)",
-                "-testtimeout",
-                "SetTimeout(d time.Duration)",
-                "-timeout"
               ]
             }
           ]
@@ -55302,7 +55302,7 @@
             {
               "answer": "explicit_bzero",
               "choices": [
-                "SemanticError",
+                "Cleanup",
                 "HandlerFS",
                 "*Named",
                 "explicit_bzero"
@@ -55312,7 +55312,7 @@
               "answer": "memzero_explicit",
               "choices": [
                 "mheap",
-                "RawMessage",
+                "NewEncoder(AllowInvalidUTF8(false), AllowInvalidUTF8(true))",
                 "memzero_explicit",
                 "github.com/spf13/cobra"
               ]
@@ -55975,7 +55975,7 @@
               "choices": [
                 "Select",
                 "LookupFieldOrMethod",
-                "SysProcAttr",
+                "ToArch() any",
                 "func ReadDir"
               ]
             }
@@ -56305,7 +56305,7 @@
             {
               "answer": "crypto/fips140",
               "choices": [
-                "TypeRegA",
+                "v3",
                 "fips140=only",
                 "crypto/fips140",
                 "t[1,:,:][2,:]"
@@ -56892,7 +56892,7 @@
                 "`${let a = {};}`",
                 "`${`${...}`}`",
                 "`,\",',$,{,}",
-                "Err() error"
+                "sendfile"
               ]
             },
             {
@@ -56901,7 +56901,7 @@
                 "`${",
                 "`${let a = {};}`",
                 "`${`${...}`}`",
-                "fmt.Sprintf(\"%d\", new(int))"
+                "[u]int8"
               ]
             },
             {
@@ -56948,7 +56948,7 @@
             {
               "answer": "Sprintf",
               "choices": [
-                "File.OpenFileIn",
+                "RESOLVE_BENEATH",
                 "v1.5.2",
                 "Sprintf",
                 "interface { ~T1|T2|~T3 }"
@@ -58095,7 +58095,7 @@
               "answer": "Interface",
               "choices": [
                 "Interface",
-                "File.OpenIn",
+                "openat2",
                 "Value",
                 "device.Database"
               ]
@@ -58862,7 +58862,7 @@
               "choices": [
                 "url2 := *url1",
                 "u",
-                "ParsePKCS8PrivateKey",
+                "Hash.String()",
                 "map[string][]string"
               ]
             }
@@ -59526,7 +59526,7 @@
             {
               "answer": "libc::res_init",
               "choices": [
-                "a = A{g}",
+                "typeparams.StructuralTerms",
                 "libc::res_init",
                 "Equals",
                 "t[:,1]"
@@ -60108,7 +60108,7 @@
             {
               "answer": "errors.As",
               "choices": [
-                "a + *b",
+                "Float64x4",
                 "errors",
                 "IsA",
                 "errors.As"
@@ -60700,7 +60700,7 @@
                 "//go:cgo_unsafe_stack_pointer",
                 "str",
                 "github.com/pkg/errors",
-                "Xxx"
+                "context:global lang:Go /func.*Must.*Parse.*\\*url\\.URL {/"
               ]
             }
           ]
@@ -60756,7 +60756,7 @@
               "choices": [
                 "t",
                 "GOCACHEPROG",
-                "findCommon",
+                "// Output:",
                 "|"
               ]
             },
@@ -60795,7 +60795,7 @@
               "answer": "GOCACHEPROG",
               "choices": [
                 "Find",
-                "gofmt -l",
+                "Config.Clone()",
                 "GOEXPERIMENT=gocacheprog",
                 "GOCACHEPROG"
               ]
@@ -60827,7 +60827,7 @@
               "choices": [
                 "Config",
                 "GOCACHEPROG",
-                "'",
+                "syscall/exec_windows.go",
                 "GOEXPERIMENT=gocacheprog"
               ]
             }
