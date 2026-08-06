@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-05T02:09:21.644211398Z",
+  "generated_at": "2026-08-06T02:13:09.90829481Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "37e40a499b15b673e65f616a63892bfc361a63ed",
@@ -910,7 +910,7 @@
               "choices": [
                 "_cgo_allocate",
                 "-checkcgo",
-                "reflect.Value.IsZero",
+                "MarshalWrite",
                 "C.struct_addrinfo"
               ]
             },
@@ -1685,10 +1685,10 @@
             {
               "answer": "doc/conduct.html",
               "choices": [
-                "wasm",
+                "jsontext.Value",
                 "doc/conduct.html",
                 "Framer",
-                "testing.T.Run"
+                "*struct"
               ]
             }
           ]
@@ -5316,7 +5316,7 @@
                 "golang.org/x/text/transform",
                 "mellium.im/xmlstream",
                 "encoding/xml",
-                "NewEncoder"
+                "AddMasked"
               ]
             }
           ]
@@ -6742,7 +6742,7 @@
                 "go-import.example.net",
                 "-insecure",
                 "go get",
-                "WithIndent"
+                "VPINSRD"
               ]
             },
             {
@@ -7100,7 +7100,7 @@
               "answer": "Copy",
               "choices": [
                 "RawXML",
-                "MinUintptr",
+                "MarshalWrite",
                 "Copy",
                 "FailNow"
               ]
@@ -7646,7 +7646,7 @@
               "choices": [
                 "scalar",
                 "Set",
-                "cmd",
+                "MaxUint32",
                 "addVecsAsm"
               ]
             }
@@ -12894,7 +12894,7 @@
                 "eventsch",
                 "HelloWorld",
                 "event",
-                "Float32x8"
+                "cancelRequestOnce"
               ]
             },
             {
@@ -12902,7 +12902,7 @@
               "choices": [
                 "value",
                 "HelloWorld",
-                "UnmarshalFromFunc",
+                "Int",
                 "event"
               ]
             }
@@ -14822,16 +14822,16 @@
             {
               "answer": "SetMemoryTarget",
               "choices": [
-                "cha",
-                "also",
-                "LastToken",
+                "reflect",
+                "UnmarshalArrayFromAnyLength",
+                "ReadValue",
                 "SetMemoryTarget"
               ]
             },
             {
               "answer": "amount",
               "choices": [
-                "a2",
+                "are",
                 "amount",
                 "Sender",
                 "Zero"
@@ -25176,7 +25176,7 @@
                 "syscall",
                 "[]bytes.Buffer",
                 "fmt",
-                "jsonv1"
+                "jsonv1.CallMethodsWithLegacySemantics"
               ]
             }
           ]
@@ -27464,6 +27464,808 @@
       ]
     },
     {
+      "id": "issue-73787",
+      "title": "simd/archsimd: architecture-specific SIMD intrinsics under a GOEXPERIMENT",
+      "url": "https://github.com/golang/go/issues/73787",
+      "summary": "This proposal introduces architecture-specific SIMD intrinsics under `GOEXPERIMENT=simd` for Go, focusing on low-level APIs for AMD64, Wasm, and ARM64. It provides fixed-size vector types and operations resembling hardware instructions, serving as building blocks for future portable SIMD APIs. The design balances expressiveness with platform-specific capabilities while avoiding strict portability.",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 73787,
+      "quizzes": [
+        {
+          "id": "issue-73787-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Update (01/15/2026): The AMD64 low-level SIMD package is now available in Go 1.26 RC2 under "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ". The RC2 includes a few bug fixes, some of which involve API changes from the RC1. See https://github.com/golang/go/issues/73787#issuecomment-3757458447 ."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "GOEXPERIMENT=simd",
+              "choices": [
+                "GOEXPERIMENT=simd",
+                "dev.simd",
+                "simd/archsimd",
+                "AddMasked"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-73787-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The machine instruction name (like "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ") will be included in the comment, for the ease of lookup."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "VPADDD",
+              "choices": [
+                "VPADDD",
+                "VPADDD.Z",
+                "VPCMPD",
+                "VPEXTRD"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-73787-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "To give a concrete example, here is the proposed API for "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " on AMD64."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "Uint32x4",
+              "choices": [
+                "LoadUint32x4",
+                "Uint32x4",
+                "Float64x4",
+                "AddUint32x4"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-73787-q04",
+          "kind": "prose",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Some operations are supported only on some types. For example, a vector with floating point elements (e.g. "
+            },
+            {
+              "type": "inline_code",
+              "value": "Float64x4"
+            },
+            {
+              "type": "text",
+              "value": ") supports "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ", "
+            },
+            {
+              "type": "inline_code",
+              "value": "Reciprocal"
+            },
+            {
+              "type": "text",
+              "value": ", and "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": ", but does not support shifts or "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "Div",
+              "choices": [
+                "x",
+                "Add",
+                "Div",
+                "os"
+              ]
+            },
+            {
+              "answer": "Sqrt",
+              "choices": [
+                "Add",
+                "os",
+                "x",
+                "Sqrt"
+              ]
+            },
+            {
+              "answer": "OnesCount",
+              "choices": [
+                "os",
+                "syscall",
+                "OnesCount",
+                "dev.simd"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-73787-q05",
+          "kind": "prose",
+          "index": 4,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Instead of methods, the operations could be defined as top-level functions, like "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ". This name is unnecessarily long, and repetitive if a piece of code operates on the same type of vectors over and over. We also considered defining them as generic functions, like "
+            },
+            {
+              "type": "inline_code",
+              "value": "Add[T Vec](T, T) T"
+            },
+            {
+              "type": "text",
+              "value": ". This makes the name short, but in user code it is likely that the package prefix ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": ") will still be repeated. The main difficulty for generic functions is that it is hard to express relationships between types, e.g. "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " returns a vector with half the number of elements with doubled width. Besides, the implementation will be more complex. Overall it doesn't provide much benefit over methods."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "AddUint32x4",
+              "choices": [
+                "LoadUint32x4",
+                "Uint32x4",
+                "AddUint32x4",
+                "LoadUint32x4Ptr"
+              ]
+            },
+            {
+              "answer": "simd.",
+              "choices": [
+                "Load",
+                "Div",
+                "Add",
+                "simd."
+              ]
+            },
+            {
+              "answer": "MulEvenWiden",
+              "choices": [
+                "MulEvenWiden",
+                "LoadUint32x4",
+                "Add",
+                "dev.simd"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-73787-q06",
+          "kind": "code",
+          "index": 5,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": "(*[4]"
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": ") "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": "\nfunc ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ") Store(*[4]"
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": ")\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "LoadUint32x4",
+              "choices": [
+                "AsUint32x8",
+                "LoadUint32x4",
+                "Uint32x8",
+                "AsUint32x4"
+              ]
+            },
+            {
+              "answer": "uint32",
+              "choices": [
+                "uint8",
+                "float64",
+                "uint32",
+                "int"
+              ]
+            },
+            {
+              "answer": "Uint32x4",
+              "choices": [
+                "Int32x4",
+                "Uint32x4",
+                "Uint32x8",
+                "Uint64x4"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-73787-q07",
+          "kind": "code",
+          "index": 6,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": "(s []"
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": ") Uint32x4 {\n\treturn "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": "((*[4]"
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": ")(s))\n}\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "LoadUint32x4FromSlice",
+              "choices": [
+                "LoadUint32x4FromSlice",
+                "LoadFromSlice",
+                "Mask32x4FromBits",
+                "LoadUint32x4"
+              ]
+            },
+            {
+              "answer": "uint32",
+              "choices": [
+                "int",
+                "float64",
+                "uint8",
+                "uint32"
+              ]
+            },
+            {
+              "answer": "LoadFloat64x4",
+              "choices": [
+                "Float64x8",
+                "Float64x4",
+                "LoadFloat64x4",
+                "LoadUint32x4"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-73787-q08",
+          "kind": "code",
+          "index": 7,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ") "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "() "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " // no-op or VPMOVD2M\nfunc Mask32x4FromBits(uint8)\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "Uint32x4",
+              "choices": [
+                "Uint32x8",
+                "Uint64x4",
+                "Uint32x4",
+                "Int32x4"
+              ]
+            },
+            {
+              "answer": "AsMask",
+              "choices": [
+                "AsMask",
+                "Max",
+                "AddMasked",
+                "simd"
+              ]
+            },
+            {
+              "answer": "Mask32x4",
+              "choices": [
+                "Mask32x4",
+                "Int32x4",
+                "Uint32x8",
+                "Float32x4"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-73787-q09",
+          "kind": "code",
+          "index": 8,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func (Uint32x4) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": "(Uint32x4) Uint32x4 // VCMPEQD\nfunc (Uint32x4) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "(Uint32x4) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " // VPCMPD\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "EqualToVec",
+              "choices": [
+                "Store",
+                "GetElem",
+                "EqualToVec",
+                "Equal"
+              ]
+            },
+            {
+              "answer": "EqualToMask",
+              "choices": [
+                "EqualToMask",
+                "Equal",
+                "AsMask",
+                "Broadcast"
+              ]
+            },
+            {
+              "answer": "Mask32x4",
+              "choices": [
+                "Int32x4",
+                "Uint32x4",
+                "Mask32x4",
+                "Uint32x8"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-73787-q10",
+          "kind": "code",
+          "index": 9,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ") "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": "(int) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " // VPEXTRD\nfunc ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ") SetElem(int, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ") "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " // VPINSRD\nfunc ("
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ") ShiftLeftConst(uint8) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " // VPSLLD\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "Uint32x4",
+              "choices": [
+                "Uint64x4",
+                "Int32x4",
+                "Uint32x8",
+                "Uint32x4"
+              ]
+            },
+            {
+              "answer": "GetElem",
+              "choices": [
+                "SetElem",
+                "GetElem",
+                "Equal",
+                "Store"
+              ]
+            },
+            {
+              "answer": "uint32",
+              "choices": [
+                "uint8",
+                "int",
+                "float64",
+                "uint32"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-73787-q11",
+          "kind": "llm",
+          "index": 10,
+          "gen_method": "llm",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The new SIMD package is named "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ", providing architecture-specific intrinsics under `GOEXPERIMENT=simd`."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "simd/archsimd",
+              "choices": [
+                "simd",
+                "simd/archsimd",
+                "archsimd",
+                "simd/vec"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-73787-q12",
+          "kind": "llm",
+          "index": 11,
+          "gen_method": "llm",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The low-level API is analogous to "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ", similar to the `syscall` package, while the high-level API mirrors `os`."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "syscall",
+              "choices": [
+                "std",
+                "stdlib",
+                "syscall",
+                "os"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-73787-q13",
+          "kind": "llm",
+          "index": 12,
+          "gen_method": "llm",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The low-level API serves as a "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " for the high-level portable SIMD API, enabling architecture-specific optimizations."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "building block",
+              "choices": [
+                "replacement",
+                "alternative",
+                "abstraction",
+                "building block"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-73787-q14",
+          "kind": "llm",
+          "index": 13,
+          "gen_method": "llm",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "SIMD vector types are defined as "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ", with internal elements stored in opaque structs."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "opaque structs",
+              "choices": [
+                "interfaces",
+                "arrays",
+                "opaque structs",
+                "pointers"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-73787-q15",
+          "kind": "llm",
+          "index": 14,
+          "gen_method": "llm",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The `Add` method performs an element-wise addition, equivalent to the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " instruction on AMD64."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "VPADDD",
+              "choices": [
+                "VPADDD",
+                "VADD",
+                "VPADDS",
+                "VPADDQ"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "issue-71497",
       "title": "encoding/json/v2: new API for encoding/json",
       "url": "https://github.com/golang/go/issues/71497",
@@ -28947,7 +29749,7 @@
                 "GORISCV64=rva20u64",
                 "rva20u64",
                 "(*testing.T).Error{,f}",
-                "UnmarshalDecode"
+                "Vec4[T]"
               ]
             },
             {
@@ -29916,8 +30718,8 @@
             {
               "answer": "ResolveFile",
               "choices": [
-                "Float32x8",
-                "ProcThreadAttribute",
+                "http",
+                "tokLength",
                 "ResolveFile",
                 "File"
               ]
@@ -29928,7 +30730,7 @@
                 "File",
                 "Load",
                 "ast",
-                "Uint64x2"
+                "examplepackage"
               ]
             }
           ]
@@ -30098,7 +30900,7 @@
             {
               "answer": "End",
               "choices": [
-                "simd.",
+                "CloneXOF() hash.XOF",
                 "End",
                 "example.com/foo@v1.0.0",
                 "SignatureAlgorithm"
@@ -32849,7 +33651,7 @@
             {
               "answer": "unsafe",
               "choices": [
-                "ThreadAttributes",
+                "fork(2)",
                 "process_a",
                 "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
                 "unsafe"
@@ -33957,7 +34759,7 @@
               "choices": [
                 "http",
                 "MaxHeaderValueCount",
-                "edge",
+                "FormatBytesWithLegacySemantics",
                 "DefaultMaxHeaderValueCount"
               ]
             }
@@ -34211,7 +35013,7 @@
                 "cmd/go",
                 "go test -exec=...",
                 "flakytest.Mark",
-                "jsontext.Encoder"
+                "FormatNilMapAsNull"
               ]
             }
           ]
@@ -35050,7 +35852,7 @@
               "answer": "hash",
               "choices": [
                 "hash",
-                "AddReturningString",
+                "algo",
                 "XOF",
                 "CloneXOF"
               ]
@@ -35060,7 +35862,7 @@
               "choices": [
                 "Clone",
                 "CloneXOF",
-                "Position",
+                "UnmarshalFromFunc",
                 "XOF"
               ]
             },
@@ -35601,808 +36403,6 @@
       ]
     },
     {
-      "id": "issue-73787",
-      "title": "simd/archsimd: architecture-specific SIMD intrinsics under a GOEXPERIMENT",
-      "url": "https://github.com/golang/go/issues/73787",
-      "summary": "This proposal introduces architecture-specific SIMD intrinsics under `GOEXPERIMENT=simd` for Go, focusing on low-level APIs for AMD64, Wasm, and ARM64. It provides fixed-size vector types and operations resembling hardware instructions, serving as building blocks for future portable SIMD APIs. The design balances expressiveness with platform-specific capabilities while avoiding strict portability.",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 73787,
-      "quizzes": [
-        {
-          "id": "issue-73787-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Update (01/15/2026): The AMD64 low-level SIMD package is now available in Go 1.26 RC2 under "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ". The RC2 includes a few bug fixes, some of which involve API changes from the RC1. See https://github.com/golang/go/issues/73787#issuecomment-3757458447 ."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "GOEXPERIMENT=simd",
-              "choices": [
-                "GOEXPERIMENT=simd",
-                "dev.simd",
-                "simd/archsimd",
-                "AddMasked"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-73787-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The machine instruction name (like "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ") will be included in the comment, for the ease of lookup."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "VPADDD",
-              "choices": [
-                "VPADDD",
-                "VPADDD.Z",
-                "VPCMPD",
-                "VPEXTRD"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-73787-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "To give a concrete example, here is the proposed API for "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " on AMD64."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "Uint32x4",
-              "choices": [
-                "LoadUint32x4",
-                "Uint32x4",
-                "Float64x4",
-                "AddUint32x4"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-73787-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Some operations are supported only on some types. For example, a vector with floating point elements (e.g. "
-            },
-            {
-              "type": "inline_code",
-              "value": "Float64x4"
-            },
-            {
-              "type": "text",
-              "value": ") supports "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ", "
-            },
-            {
-              "type": "inline_code",
-              "value": "Reciprocal"
-            },
-            {
-              "type": "text",
-              "value": ", and "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": ", but does not support shifts or "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": "."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "Div",
-              "choices": [
-                "x",
-                "Add",
-                "Div",
-                "os"
-              ]
-            },
-            {
-              "answer": "Sqrt",
-              "choices": [
-                "Add",
-                "os",
-                "x",
-                "Sqrt"
-              ]
-            },
-            {
-              "answer": "OnesCount",
-              "choices": [
-                "os",
-                "syscall",
-                "OnesCount",
-                "dev.simd"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-73787-q05",
-          "kind": "prose",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Instead of methods, the operations could be defined as top-level functions, like "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ". This name is unnecessarily long, and repetitive if a piece of code operates on the same type of vectors over and over. We also considered defining them as generic functions, like "
-            },
-            {
-              "type": "inline_code",
-              "value": "Add[T Vec](T, T) T"
-            },
-            {
-              "type": "text",
-              "value": ". This makes the name short, but in user code it is likely that the package prefix ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": ") will still be repeated. The main difficulty for generic functions is that it is hard to express relationships between types, e.g. "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " returns a vector with half the number of elements with doubled width. Besides, the implementation will be more complex. Overall it doesn't provide much benefit over methods."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "AddUint32x4",
-              "choices": [
-                "LoadUint32x4",
-                "Uint32x4",
-                "AddUint32x4",
-                "LoadUint32x4Ptr"
-              ]
-            },
-            {
-              "answer": "simd.",
-              "choices": [
-                "Load",
-                "Div",
-                "Add",
-                "simd."
-              ]
-            },
-            {
-              "answer": "MulEvenWiden",
-              "choices": [
-                "MulEvenWiden",
-                "LoadUint32x4",
-                "Add",
-                "dev.simd"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-73787-q06",
-          "kind": "code",
-          "index": 5,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "func "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "(*[4]"
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": ") "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "\nfunc ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": ") Store(*[4]"
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": ")\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "LoadUint32x4",
-              "choices": [
-                "AsUint32x8",
-                "LoadUint32x4",
-                "Uint32x8",
-                "AsUint32x4"
-              ]
-            },
-            {
-              "answer": "uint32",
-              "choices": [
-                "uint8",
-                "float64",
-                "uint32",
-                "int"
-              ]
-            },
-            {
-              "answer": "Uint32x4",
-              "choices": [
-                "Int32x4",
-                "Uint32x4",
-                "Uint32x8",
-                "Uint64x4"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-73787-q07",
-          "kind": "code",
-          "index": 6,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "func "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "(s []"
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": ") Uint32x4 {\n\treturn "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "((*[4]"
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": ")(s))\n}\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "LoadUint32x4FromSlice",
-              "choices": [
-                "LoadUint32x4FromSlice",
-                "LoadFromSlice",
-                "Mask32x4FromBits",
-                "LoadUint32x4"
-              ]
-            },
-            {
-              "answer": "uint32",
-              "choices": [
-                "int",
-                "float64",
-                "uint8",
-                "uint32"
-              ]
-            },
-            {
-              "answer": "LoadFloat64x4",
-              "choices": [
-                "Float64x8",
-                "Float64x4",
-                "LoadFloat64x4",
-                "LoadUint32x4"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-73787-q08",
-          "kind": "code",
-          "index": 7,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "func ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ") "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "() "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": " // no-op or VPMOVD2M\nfunc Mask32x4FromBits(uint8)\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "Uint32x4",
-              "choices": [
-                "Uint32x8",
-                "Uint64x4",
-                "Uint32x4",
-                "Int32x4"
-              ]
-            },
-            {
-              "answer": "AsMask",
-              "choices": [
-                "AsMask",
-                "Max",
-                "AddMasked",
-                "simd"
-              ]
-            },
-            {
-              "answer": "Mask32x4",
-              "choices": [
-                "Mask32x4",
-                "Int32x4",
-                "Uint32x8",
-                "Float32x4"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-73787-q09",
-          "kind": "code",
-          "index": 8,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "func (Uint32x4) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "(Uint32x4) Uint32x4 // VCMPEQD\nfunc (Uint32x4) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "(Uint32x4) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": " // VPCMPD\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "EqualToVec",
-              "choices": [
-                "Store",
-                "GetElem",
-                "EqualToVec",
-                "Equal"
-              ]
-            },
-            {
-              "answer": "EqualToMask",
-              "choices": [
-                "EqualToMask",
-                "Equal",
-                "AsMask",
-                "Broadcast"
-              ]
-            },
-            {
-              "answer": "Mask32x4",
-              "choices": [
-                "Int32x4",
-                "Uint32x4",
-                "Mask32x4",
-                "Uint32x8"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-73787-q10",
-          "kind": "code",
-          "index": 9,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "func ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ") "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "(int) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": " // VPEXTRD\nfunc ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ") SetElem(int, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": ") "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": " // VPINSRD\nfunc ("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ") ShiftLeftConst(uint8) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " // VPSLLD\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "Uint32x4",
-              "choices": [
-                "Uint64x4",
-                "Int32x4",
-                "Uint32x8",
-                "Uint32x4"
-              ]
-            },
-            {
-              "answer": "GetElem",
-              "choices": [
-                "SetElem",
-                "GetElem",
-                "Equal",
-                "Store"
-              ]
-            },
-            {
-              "answer": "uint32",
-              "choices": [
-                "uint8",
-                "int",
-                "float64",
-                "uint32"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-73787-q11",
-          "kind": "llm",
-          "index": 10,
-          "gen_method": "llm",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The new SIMD package is named "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ", providing architecture-specific intrinsics under `GOEXPERIMENT=simd`."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "simd/archsimd",
-              "choices": [
-                "simd",
-                "simd/archsimd",
-                "archsimd",
-                "simd/vec"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-73787-q12",
-          "kind": "llm",
-          "index": 11,
-          "gen_method": "llm",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The low-level API is analogous to "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ", similar to the `syscall` package, while the high-level API mirrors `os`."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "syscall",
-              "choices": [
-                "std",
-                "stdlib",
-                "syscall",
-                "os"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-73787-q13",
-          "kind": "llm",
-          "index": 12,
-          "gen_method": "llm",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The low-level API serves as a "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " for the high-level portable SIMD API, enabling architecture-specific optimizations."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "building block",
-              "choices": [
-                "replacement",
-                "alternative",
-                "abstraction",
-                "building block"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-73787-q14",
-          "kind": "llm",
-          "index": 13,
-          "gen_method": "llm",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "SIMD vector types are defined as "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ", with internal elements stored in opaque structs."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "opaque structs",
-              "choices": [
-                "interfaces",
-                "arrays",
-                "opaque structs",
-                "pointers"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-73787-q15",
-          "kind": "llm",
-          "index": 14,
-          "gen_method": "llm",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The `Add` method performs an element-wise addition, equivalent to the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " instruction on AMD64."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "VPADDD",
-              "choices": [
-                "VPADDD",
-                "VADD",
-                "VPADDS",
-                "VPADDQ"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-34055",
       "title": "cmd/go: allow serving module under the subdirectory of git repository",
       "url": "https://github.com/golang/go/issues/34055",
@@ -36521,7 +36521,7 @@
             {
               "answer": "nhooyr.io/websocket/mod",
               "choices": [
-                "jsonv1.ReportErrorsWithLegacySemantics",
+                "ErrNonStringName",
                 "nhooyr.io/websocket/mod",
                 "./mod",
                 "for x := T(0); x \u003c n; x++ { ... }"
@@ -36533,7 +36533,7 @@
                 "nhooyr.io/websocket",
                 "./mod",
                 "golang.org/x/net/http2/http2frame",
-                "jsonv2"
+                "UnmarshalJSON"
               ]
             }
           ]
@@ -39527,7 +39527,7 @@
               "choices": [
                 "WriteFile",
                 "os.ReadFile",
-                "ParentProcess",
+                "proxy.golang.org",
                 "os.WriteFile"
               ]
             },
@@ -39704,7 +39704,7 @@
             {
               "answer": "slices",
               "choices": [
-                "reflect.Value.IsZero",
+                "MarshalWrite",
                 "func (re *Regexp) AllString(s string) iter.Seq[[]string]",
                 "Current() Cursor",
                 "slices"
@@ -40467,7 +40467,7 @@
               "choices": [
                 "Select",
                 "Configuration",
-                "golang",
+                "MaxInt32",
                 "Rand"
               ]
             },
@@ -40484,7 +40484,7 @@
               "answer": "intType",
               "choices": [
                 "formISO",
-                "or",
+                "RawMessage",
                 "intType",
                 "Tokenizer"
               ]
@@ -45003,16 +45003,16 @@
               "answer": "testing",
               "choices": [
                 "testing",
-                "Null",
-                "Packages",
-                "construction"
+                "And",
+                "ParseBytesWithLooseRFC4648",
+                "JSONValue"
               ]
             },
             {
               "answer": "Wait",
               "choices": [
                 "ConnectionAdded",
-                "archsimd",
+                "http",
                 "Wait",
                 "filterA"
               ]
@@ -45348,7 +45348,7 @@
               "answer": "GetCertificate",
               "choices": [
                 "GetConfigForClient",
-                "VPCMPD",
+                "go test -exec=...",
                 "GetCertificate",
                 "GetEncryptedClientHelloKeys"
               ]
@@ -45623,7 +45623,7 @@
                 "none",
                 "AuthCallback",
                 "Details",
-                "WithIndent"
+                "VPINSRD"
               ]
             },
             {
@@ -47821,7 +47821,7 @@
                 "runtime/rt0_js_wasm.s",
                 "GOOS=darwin",
                 "runtime.RunOnMainThread",
-                "VPEXTRD"
+                "zip.ErrInsecurePath"
               ]
             },
             {
@@ -47867,9 +47867,9 @@
               "answer": "runtime",
               "choices": [
                 "runtime",
-                "Transport",
-                "IsLiteral",
-                "types"
+                "MarshalerTo",
+                "MarshalFunc",
+                "white"
               ]
             },
             {
@@ -47877,7 +47877,7 @@
               "choices": [
                 "RunOnMainThread",
                 "bufreader",
-                "org",
+                "old",
                 "btree"
               ]
             }
@@ -48177,7 +48177,7 @@
             {
               "answer": "MLDSA65",
               "choices": [
-                "Usage",
+                "SemanticError",
                 "MLDSA44",
                 "MLDSA65",
                 "SignatureAlgorithm"
@@ -48188,7 +48188,7 @@
               "choices": [
                 "MLDSA44",
                 "SignatureAlgorithm",
-                "AddReturningString",
+                "algo",
                 "MLDSA87"
               ]
             }
@@ -48903,9 +48903,9 @@
             {
               "answer": "add",
               "choices": [
-                "Canonicalize",
+                "AsFloat32x4",
                 "add",
-                "ImplicitConversion",
+                "callgraph",
                 "modfetch"
               ]
             },
@@ -48962,7 +48962,7 @@
                 "newElem",
                 "add",
                 "ExecuteTemplateFuncMap",
-                "ReadValue"
+                "a5"
               ]
             },
             {
@@ -53718,7 +53718,7 @@
                 "[]E",
                 "ceil(log62(2^128))",
                 "go.shape.*uint8_0",
-                "regexp.MustCompile"
+                "simd/mocks.go"
               ]
             }
           ]
@@ -55139,7 +55139,7 @@
                 "helpgc",
                 "expr1|expr2",
                 "-fullpath",
-                "WithIndentPrefix"
+                "Uint32x4"
               ]
             }
           ]
@@ -55533,7 +55533,7 @@
             {
               "answer": "EqFunc",
               "choices": [
-                "UnmarshalFromFunc",
+                "Int",
                 "hash",
                 "HashFunc",
                 "EqFunc"
@@ -56594,7 +56594,7 @@
             {
               "answer": "crypto/fips140",
               "choices": [
-                "jsonv1.UnmarshalArrayFromAnyLength",
+                "NewDecoder",
                 "fips140=only",
                 "ast.IndexExpr.Index",
                 "crypto/fips140"
@@ -59223,22 +59223,22 @@
                 "MarshalBinary",
                 "list",
                 "URL",
-                "MarshalWrite"
+                "KindInvalid"
               ]
             },
             {
               "answer": "Clone",
               "choices": [
                 "Close",
-                "graph",
+                "srcs",
                 "Clone",
-                "old"
+                "SpaceAfterColon"
               ]
             },
             {
               "answer": "Values",
               "choices": [
-                "maps",
+                "Position",
                 "Values",
                 "later",
                 "faded"
@@ -60124,7 +60124,7 @@
               "choices": [
                 "time",
                 "Now",
-                "UnmarshalDecode",
+                "KindTrue",
                 "Foo"
               ]
             },
@@ -61403,7 +61403,7 @@
               "answer": "Loop",
               "choices": [
                 "Benchmark",
-                "OnesCount",
+                "ExampleFunc_taking_a_t",
                 "Loop",
                 "testing"
               ]
@@ -61412,7 +61412,7 @@
               "answer": "op",
               "choices": [
                 "op",
-                "NewFileSet",
+                "JoinUnmarshalers",
                 "Benchmark",
                 "testing"
               ]
@@ -61476,7 +61476,7 @@
             {
               "answer": "Loop",
               "choices": [
-                "MaxHeaderValueCount",
+                "Include",
                 "op",
                 "Loop",
                 "Benchmark"
@@ -61544,7 +61544,7 @@
                 "op",
                 "Loop",
                 "NewSigner",
-                "Mask32x4FromBits"
+                "archsimd"
               ]
             }
           ]
