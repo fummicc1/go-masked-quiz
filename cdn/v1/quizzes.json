@@ -1,16 +1,16 @@
 {
   "version": 1,
-  "generated_at": "2026-08-07T02:29:51.433040485Z",
+  "generated_at": "2026-08-08T01:18:21.751030523Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
-  "source_commit": "58e1ca08bbd8d50694bd8fb43781b553d08ec2b2",
+  "source_commit": "0be13090fdb0cbae0d71641bb676d924bc1c94de",
   "source_license": "BSD-3-Clause",
   "source_license_url": "https://go.googlesource.com/proposal/+/refs/heads/master/LICENSE",
   "sources": [
     {
       "kind": "design-docs",
       "repo": "https://github.com/golang/proposal",
-      "commit": "58e1ca08bbd8d50694bd8fb43781b553d08ec2b2",
+      "commit": "0be13090fdb0cbae0d71641bb676d924bc1c94de",
       "license": "BSD-3-Clause",
       "license_url": "https://go.googlesource.com/proposal/+/refs/heads/master/LICENSE"
     },
@@ -910,7 +910,7 @@
               "choices": [
                 "_cgo_allocate",
                 "-checkcgo",
-                "json",
+                "FormatNilMapAsNull",
                 "C.struct_addrinfo"
               ]
             },
@@ -1685,10 +1685,10 @@
             {
               "answer": "doc/conduct.html",
               "choices": [
-                "AsVector",
+                "ErrUnknownName",
                 "doc/conduct.html",
                 "Framer",
-                "wasmexport"
+                "AddUint32x4"
               ]
             }
           ]
@@ -5316,7 +5316,7 @@
                 "golang.org/x/text/transform",
                 "mellium.im/xmlstream",
                 "encoding/xml",
-                "Decoder"
+                "internal/godebugs/Info"
               ]
             }
           ]
@@ -6742,7 +6742,7 @@
                 "go-import.example.net",
                 "-insecure",
                 "go get",
-                "Multiline"
+                "Token"
               ]
             },
             {
@@ -7646,7 +7646,7 @@
               "choices": [
                 "scalar",
                 "Set",
-                "MaxUint32",
+                "VX",
                 "addVecsAsm"
               ]
             }
@@ -12894,7 +12894,7 @@
                 "eventsch",
                 "HelloWorld",
                 "event",
-                "cancelRequestOnce"
+                "MinInt32"
               ]
             },
             {
@@ -14831,7 +14831,7 @@
             {
               "answer": "amount",
               "choices": [
-                "are",
+                "edge",
                 "amount",
                 "Sender",
                 "Zero"
@@ -25176,7 +25176,7 @@
                 "syscall",
                 "[]bytes.Buffer",
                 "fmt",
-                "ErrUnknownName"
+                "map[~string]T"
               ]
             }
           ]
@@ -27464,22 +27464,22 @@
       ]
     },
     {
-      "id": "issue-73101",
-      "title": "x/crypto/acme: support for acme profiles",
-      "url": "https://github.com/golang/go/issues/73101",
+      "id": "issue-76163",
+      "title": "policy for removing GODEBUG flags",
+      "url": "https://github.com/golang/go/issues/76163",
       "status": "accepted",
       "source_kind": "github-issues",
-      "issue_number": 73101,
+      "issue_number": 76163,
       "quizzes": [
         {
-          "id": "issue-73101-q01",
+          "id": "issue-76163-q01",
           "kind": "prose",
           "index": 0,
           "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
-              "value": "This might be a bit over-eager but as someone using "
+              "value": "This is an umbrella issue for the decommissioning of "
             },
             {
               "type": "mask",
@@ -27487,17 +27487,237 @@
             },
             {
               "type": "text",
-              "value": " to talk to Let's Encrypt, I'm hoping to be able to leverage this and am willing to implement the code sa well."
+              "value": " flags. It proposes a policy that guides their deprecation and eventual removal."
             }
           ],
           "blanks": [
             {
-              "answer": "x/crypto/acme",
+              "answer": "GODEBUG",
               "choices": [
-                "*Interface",
-                "x/crypto/acme",
-                "finally",
-                "GO111MODULE"
+                "gopls",
+                "Info",
+                "GODEBUG",
+                "netdns"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-76163-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " (internal package godebug) provides a new mechanism to identify a flag as deprecated and removed. For instance:"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "godebug.Setting",
+              "choices": [
+                "godebug.Setting",
+                "netdns",
+                "testing.Setenv",
+                "os.Setenv"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-76163-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "(TODO: Determine the best way to represent this information in "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ".)"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "internal/godebugs/Info",
+              "choices": [
+                "internal/godebugs/table.go",
+                "testing.Setenv",
+                "internal/godebugs/Info",
+                "godebug.Setting"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-76163-q04",
+          "kind": "prose",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "\\- "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " lines in go.mod and go.work files  \n\\- use of supported "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " comments in type-checker tests (such as \\-gotypesalias)  \n\\- use of "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " to set deprecated flags  \n\\- possibly others"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "godebug",
+              "choices": [
+                "gopls",
+                "godebug",
+                "Info",
+                "netdns"
+              ]
+            },
+            {
+              "answer": "GODEBUG",
+              "choices": [
+                "GODEBUG",
+                "netdns",
+                "Info",
+                "gopls"
+              ]
+            },
+            {
+              "answer": "testing.Setenv",
+              "choices": [
+                "testing.Setenv",
+                "godebug.Setting",
+                "netdns",
+                "os.Setenv"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-76163-q05",
+          "kind": "prose",
+          "index": 4,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "To support complex systems, we may introduce a new "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " flag that causes a program to panic if a deprecated "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " is set to a non-default value: for instance, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " would disallow setting a deprecated "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " at all and cause a panic if such a flag is set to any value. This includes build tools (report a build error) and calls to "
+            },
+            {
+              "type": "inline_code",
+              "value": "os.Setenv"
+            },
+            {
+              "type": "text",
+              "value": " or "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " that set a deprecated "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " flag (cause a panic)."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "GODEBUG",
+              "choices": [
+                "GODEBUG",
+                "netdns",
+                "Info",
+                "gopls"
+              ]
+            },
+            {
+              "answer": "GODEBUG=deprecatedgodebug=0",
+              "choices": [
+                "GODEBUG=deprecatedgodebug=0",
+                "internal/godebugs/Info",
+                "godebug.Setting",
+                "panicnil=0"
+              ]
+            },
+            {
+              "answer": "testing.Setenv",
+              "choices": [
+                "netdns",
+                "testing.Setenv",
+                "os.Setenv",
+                "godebug.Setting"
               ]
             }
           ]
@@ -28174,6 +28394,119 @@
                 "Value",
                 "True",
                 "False"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-48157",
+      "title": "cmd/go: add per-test timeouts",
+      "url": "https://github.com/golang/go/issues/48157",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 48157,
+      "quizzes": [
+        {
+          "id": "issue-48157-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The default per-test case timeout is 1m (one minute). If the new "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " flag is specified explicitly, then that sets a different default. If the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " flag is omitted but "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " is specified explicitly, then that sets the default too. This way, if you have one really long test and use "
+            },
+            {
+              "type": "inline_code",
+              "value": "go test -timeout=30m"
+            },
+            {
+              "type": "text",
+              "value": ", the per-case timeout doesn't kick in after 1 minute and kill it anyway."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "-testtimeout",
+              "choices": [
+                "go test -timeout=30m",
+                "SetTimeout(d time.Duration)",
+                "-testtimeout",
+                "t.SetTimeout(1*time.Second)"
+              ]
+            },
+            {
+              "answer": "-timeout",
+              "choices": [
+                "SetTimeout(d time.Duration)",
+                "t.SetTimeout(1*time.Second)",
+                "go test -timeout=30m",
+                "-timeout"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-48157-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "There is a new testing.TB method "
+            },
+            {
+              "type": "inline_code",
+              "value": "SetTimeout(d time.Duration)"
+            },
+            {
+              "type": "text",
+              "value": " that allows a test to set its own timeout. Calling SetTimeout does not reset the timer. If a test runs for 30 seconds and then calls "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ", it gets killed for having timed out. A timeout set this way is inherited by subtests. (They each have their own timer.)"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "t.SetTimeout(1*time.Second)",
+              "choices": [
+                "-timeout",
+                "t.SetTimeout(1*time.Second)",
+                "SetTimeout(d time.Duration)",
+                "-testtimeout"
               ]
             }
           ]
@@ -28983,22 +29316,31 @@
       ]
     },
     {
-      "id": "issue-48157",
-      "title": "cmd/go: add per-test timeouts",
-      "url": "https://github.com/golang/go/issues/48157",
+      "id": "issue-78456",
+      "title": "maps: add Same func",
+      "url": "https://github.com/golang/go/issues/78456",
+      "summary": "The proposal adds a maps.Identical function to check if two maps reference the same hash table, avoiding unsafe/reflect workarounds. It enables efficient identity checks for map operations while noting NaN elements break algebraic shortcuts.",
       "status": "accepted",
       "source_kind": "github-issues",
-      "issue_number": 48157,
+      "issue_number": 78456,
       "quizzes": [
         {
-          "id": "issue-48157-q01",
+          "id": "issue-78456-q01",
           "kind": "prose",
           "index": 0,
           "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
-              "value": "The default per-test case timeout is 1m (one minute). If the new "
+              "value": "It is possible to test whether two maps are identical using reflection: "
+            },
+            {
+              "type": "inline_code",
+              "value": "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()"
+            },
+            {
+              "type": "text",
+              "value": "; alternatively you can compare the "
             },
             {
               "type": "mask",
@@ -29006,15 +29348,7 @@
             },
             {
               "type": "text",
-              "value": " flag is specified explicitly, then that sets a different default. If the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " flag is omitted but "
+              "value": "s directly. But both of these compile to rather inefficient code; also the operation is totally safe, so users shouldn't have to reach for "
             },
             {
               "type": "mask",
@@ -29022,55 +29356,121 @@
             },
             {
               "type": "text",
-              "value": " is specified explicitly, then that sets the default too. This way, if you have one really long test and use "
+              "value": " and "
             },
             {
-              "type": "inline_code",
-              "value": "go test -timeout=30m"
+              "type": "mask",
+              "blank_index": 2
             },
             {
               "type": "text",
-              "value": ", the per-case timeout doesn't kick in after 1 minute and kill it anyway."
+              "value": "."
             }
           ],
           "blanks": [
             {
-              "answer": "-testtimeout",
+              "answer": "reflect.Value",
               "choices": [
-                "go test -timeout=30m",
-                "SetTimeout(d time.Duration)",
-                "-testtimeout",
-                "t.SetTimeout(1*time.Second)"
+                "GOAMD64=local go build .",
+                "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
+                "reflect.Value",
+                "[][]float64"
               ]
             },
             {
-              "answer": "-timeout",
+              "answer": "reflect",
               "choices": [
-                "SetTimeout(d time.Duration)",
-                "t.SetTimeout(1*time.Second)",
-                "go test -timeout=30m",
-                "-timeout"
+                "b.Loop",
+                "objdump",
+                "reflect",
+                "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()"
+              ]
+            },
+            {
+              "answer": "unsafe",
+              "choices": [
+                "sql.Rows",
+                "process_a",
+                "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
+                "unsafe"
               ]
             }
           ]
         },
         {
-          "id": "issue-48157-q02",
-          "kind": "prose",
+          "id": "issue-78456-q02",
+          "kind": "code",
           "index": 1,
           "gen_method": "mechanical",
           "blocks": [
             {
-              "type": "text",
-              "value": "There is a new testing.TB method "
+              "type": "code_block",
+              "value": "package maps\n\n// Identical reports whether two maps refer to the same data structure.\n//\n// Note: many algebraic shortcuts based on Identical(x, y) are invalid for NaN elements.\nfunc "
             },
             {
-              "type": "inline_code",
-              "value": "SetTimeout(d time.Duration)"
+              "type": "mask",
+              "blank_index": 0
             },
             {
+              "type": "code_block",
+              "value": "[MX ~map[K]VX, MY ~map[K]VY, K comparable, VX, VY any](x MX, y MY) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " {\n\ttype pointer = "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ".Pointer\n\treturn *(*pointer)(pointer(\u0026x)) == *(*pointer)(pointer(\u0026y))\n}\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "Identical",
+              "choices": [
+                "Identical",
+                "pointer",
+                "MX",
+                "maps"
+              ]
+            },
+            {
+              "answer": "bool",
+              "choices": [
+                "bool",
+                "comparable",
+                "iota",
+                "any"
+              ]
+            },
+            {
+              "answer": "unsafe",
+              "choices": [
+                "unsafe",
+                "maps",
+                "VX",
+                "MX"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-78456-q03",
+          "kind": "llm",
+          "index": 2,
+          "gen_method": "llm",
+          "blocks": [
+            {
               "type": "text",
-              "value": " that allows a test to set its own timeout. Calling SetTimeout does not reset the timer. If a test runs for 30 seconds and then calls "
+              "value": "The maps.Identical function reports "
             },
             {
               "type": "mask",
@@ -29078,17 +29478,120 @@
             },
             {
               "type": "text",
-              "value": ", it gets killed for having timed out. A timeout set this way is inherited by subtests. (They each have their own timer.)"
+              "value": "."
             }
           ],
           "blanks": [
             {
-              "answer": "t.SetTimeout(1*time.Second)",
+              "answer": "whether two maps refer to the same data structure",
               "choices": [
-                "-timeout",
-                "t.SetTimeout(1*time.Second)",
-                "SetTimeout(d time.Duration)",
-                "-testtimeout"
+                "if they are both empty",
+                "if they have the same keys",
+                "if their entries are equal",
+                "whether two maps refer to the same data structure"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-78456-q04",
+          "kind": "llm",
+          "index": 3,
+          "gen_method": "llm",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The Identical function is located in the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " package."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "maps",
+              "choices": [
+                "unsafe",
+                "reflect",
+                "maps",
+                "maputil"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-78456-q05",
+          "kind": "llm",
+          "index": 4,
+          "gen_method": "llm",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The note warns that many algebraic shortcuts using Identical are invalid for "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "NaN elements",
+              "choices": [
+                "empty maps",
+                "NaN elements",
+                "duplicate keys",
+                "nil values"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-73101",
+      "title": "x/crypto/acme: support for acme profiles",
+      "url": "https://github.com/golang/go/issues/73101",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 73101,
+      "quizzes": [
+        {
+          "id": "issue-73101-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "This might be a bit over-eager but as someone using "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " to talk to Let's Encrypt, I'm hoping to be able to leverage this and am willing to implement the code sa well."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "x/crypto/acme",
+              "choices": [
+                "*Interface",
+                "x/crypto/acme",
+                "finally",
+                "GO111MODULE"
               ]
             }
           ]
@@ -29749,7 +30252,7 @@
                 "GORISCV64=rva20u64",
                 "rva20u64",
                 "(*testing.T).Error{,f}",
-                "MarshalEncode"
+                "NewEncoder(AllowInvalidUTF8(false), AllowInvalidUTF8(true))"
               ]
             },
             {
@@ -30718,8 +31221,8 @@
             {
               "answer": "ResolveFile",
               "choices": [
-                "http",
-                "tokLength",
+                "Uintptr",
+                "Transport",
                 "ResolveFile",
                 "File"
               ]
@@ -30900,7 +31403,7 @@
             {
               "answer": "End",
               "choices": [
-                "CloneXOF() hash.XOF",
+                "go test -exec=...",
                 "End",
                 "example.com/foo@v1.0.0",
                 "SignatureAlgorithm"
@@ -33578,248 +34081,6 @@
       ]
     },
     {
-      "id": "issue-78456",
-      "title": "maps: add Identical func",
-      "url": "https://github.com/golang/go/issues/78456",
-      "summary": "The proposal adds a maps.Identical function to check if two maps reference the same hash table, avoiding unsafe/reflect workarounds. It enables efficient identity checks for map operations while noting NaN elements break algebraic shortcuts.",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 78456,
-      "quizzes": [
-        {
-          "id": "issue-78456-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "It is possible to test whether two maps are identical using reflection: "
-            },
-            {
-              "type": "inline_code",
-              "value": "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()"
-            },
-            {
-              "type": "text",
-              "value": "; alternatively you can compare the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "s directly. But both of these compile to rather inefficient code; also the operation is totally safe, so users shouldn't have to reach for "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " and "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": "."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "reflect.Value",
-              "choices": [
-                "GOAMD64=local go build .",
-                "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
-                "reflect.Value",
-                "[][]float64"
-              ]
-            },
-            {
-              "answer": "reflect",
-              "choices": [
-                "b.Loop",
-                "objdump",
-                "reflect",
-                "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()"
-              ]
-            },
-            {
-              "answer": "unsafe",
-              "choices": [
-                "fork(2)",
-                "process_a",
-                "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
-                "unsafe"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-78456-q02",
-          "kind": "code",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "package maps\n\n// Identical reports whether two maps refer to the same data structure.\n//\n// Note: many algebraic shortcuts based on Identical(x, y) are invalid for NaN elements.\nfunc "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "[MX ~map[K]VX, MY ~map[K]VY, K comparable, VX, VY any](x MX, y MY) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " {\n\ttype pointer = "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": ".Pointer\n\treturn *(*pointer)(pointer(\u0026x)) == *(*pointer)(pointer(\u0026y))\n}\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "Identical",
-              "choices": [
-                "Identical",
-                "pointer",
-                "MX",
-                "maps"
-              ]
-            },
-            {
-              "answer": "bool",
-              "choices": [
-                "bool",
-                "comparable",
-                "iota",
-                "any"
-              ]
-            },
-            {
-              "answer": "unsafe",
-              "choices": [
-                "unsafe",
-                "maps",
-                "VX",
-                "MX"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-78456-q03",
-          "kind": "llm",
-          "index": 2,
-          "gen_method": "llm",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The maps.Identical function reports "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "whether two maps refer to the same data structure",
-              "choices": [
-                "if they are both empty",
-                "if they have the same keys",
-                "if their entries are equal",
-                "whether two maps refer to the same data structure"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-78456-q04",
-          "kind": "llm",
-          "index": 3,
-          "gen_method": "llm",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The Identical function is located in the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " package."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "maps",
-              "choices": [
-                "unsafe",
-                "reflect",
-                "maps",
-                "maputil"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-78456-q05",
-          "kind": "llm",
-          "index": 4,
-          "gen_method": "llm",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The note warns that many algebraic shortcuts using Identical are invalid for "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "NaN elements",
-              "choices": [
-                "empty maps",
-                "NaN elements",
-                "duplicate keys",
-                "nil values"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-70638",
       "title": "go/types: add Info.ImplicitConversions mapping",
       "url": "https://github.com/golang/go/issues/70638",
@@ -35013,7 +35274,7 @@
                 "cmd/go",
                 "go test -exec=...",
                 "flakytest.Mark",
-                "UnmarshalFromFunc"
+                "reflect.Value.IsZero"
               ]
             }
           ]
@@ -35852,7 +36113,7 @@
               "answer": "hash",
               "choices": [
                 "hash",
-                "algo",
+                "display",
                 "XOF",
                 "CloneXOF"
               ]
@@ -36521,7 +36782,7 @@
             {
               "answer": "nhooyr.io/websocket/mod",
               "choices": [
-                "jsonv1.FormatDurationAsNano",
+                "omitzero",
                 "nhooyr.io/websocket/mod",
                 "./mod",
                 "for x := T(0); x \u003c n; x++ { ... }"
@@ -36533,7 +36794,7 @@
                 "nhooyr.io/websocket",
                 "./mod",
                 "golang.org/x/net/http2/http2frame",
-                "jsonv1"
+                "netip.Addr"
               ]
             }
           ]
@@ -38041,267 +38302,6 @@
       ]
     },
     {
-      "id": "issue-76163",
-      "title": "policy for removing GODEBUG flags",
-      "url": "https://github.com/golang/go/issues/76163",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 76163,
-      "quizzes": [
-        {
-          "id": "issue-76163-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "This is an umbrella issue for the decommissioning of "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " flags. It proposes a policy that guides their deprecation and eventual removal."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "GODEBUG",
-              "choices": [
-                "gopls",
-                "Info",
-                "GODEBUG",
-                "netdns"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-76163-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " (internal package godebug) provides a new mechanism to identify a flag as deprecated and removed. For instance:"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "godebug.Setting",
-              "choices": [
-                "godebug.Setting",
-                "netdns",
-                "testing.Setenv",
-                "os.Setenv"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-76163-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "(TODO: Determine the best way to represent this information in "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ".)"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "internal/godebugs/Info",
-              "choices": [
-                "internal/godebugs/table.go",
-                "testing.Setenv",
-                "internal/godebugs/Info",
-                "godebug.Setting"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-76163-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "\\- "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " lines in go.mod and go.work files  \n\\- use of supported "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " comments in type-checker tests (such as \\-gotypesalias)  \n\\- use of "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " to set deprecated flags  \n\\- possibly others"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "godebug",
-              "choices": [
-                "gopls",
-                "godebug",
-                "Info",
-                "netdns"
-              ]
-            },
-            {
-              "answer": "GODEBUG",
-              "choices": [
-                "GODEBUG",
-                "netdns",
-                "Info",
-                "gopls"
-              ]
-            },
-            {
-              "answer": "testing.Setenv",
-              "choices": [
-                "testing.Setenv",
-                "godebug.Setting",
-                "netdns",
-                "os.Setenv"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-76163-q05",
-          "kind": "prose",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "To support complex systems, we may introduce a new "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " flag that causes a program to panic if a deprecated "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " is set to a non-default value: for instance, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " would disallow setting a deprecated "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " at all and cause a panic if such a flag is set to any value. This includes build tools (report a build error) and calls to "
-            },
-            {
-              "type": "inline_code",
-              "value": "os.Setenv"
-            },
-            {
-              "type": "text",
-              "value": " or "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " that set a deprecated "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " flag (cause a panic)."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "GODEBUG",
-              "choices": [
-                "GODEBUG",
-                "netdns",
-                "Info",
-                "gopls"
-              ]
-            },
-            {
-              "answer": "GODEBUG=deprecatedgodebug=0",
-              "choices": [
-                "GODEBUG=deprecatedgodebug=0",
-                "internal/godebugs/Info",
-                "godebug.Setting",
-                "panicnil=0"
-              ]
-            },
-            {
-              "answer": "testing.Setenv",
-              "choices": [
-                "netdns",
-                "testing.Setenv",
-                "os.Setenv",
-                "godebug.Setting"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-24673",
       "title": "crypto/tls: provide a way to access local certificate used to set up a connection [freeze exception]",
       "url": "https://github.com/golang/go/issues/24673",
@@ -39527,7 +39527,7 @@
               "choices": [
                 "WriteFile",
                 "os.ReadFile",
-                "proxy.golang.org",
+                "CancelRequest",
                 "os.WriteFile"
               ]
             },
@@ -39704,7 +39704,7 @@
             {
               "answer": "slices",
               "choices": [
-                "json",
+                "FormatNilMapAsNull",
                 "func (re *Regexp) AllString(s string) iter.Seq[[]string]",
                 "Current() Cursor",
                 "slices"
@@ -40467,7 +40467,7 @@
               "choices": [
                 "Select",
                 "Configuration",
-                "MaxInt32",
+                "maps",
                 "Rand"
               ]
             },
@@ -45012,7 +45012,7 @@
               "answer": "Wait",
               "choices": [
                 "ConnectionAdded",
-                "http",
+                "Uintptr",
                 "Wait",
                 "filterA"
               ]
@@ -45220,7 +45220,7 @@
               "choices": [
                 "unique.Make",
                 "runtime.SetFinalizer",
-                "js/wasm32",
+                "hash.CloneXOF",
                 "runtime.AddCleanup"
               ]
             },
@@ -45348,7 +45348,7 @@
               "answer": "GetCertificate",
               "choices": [
                 "GetConfigForClient",
-                "go test -exec=...",
+                "// Output:",
                 "GetCertificate",
                 "GetEncryptedClientHelloKeys"
               ]
@@ -45623,7 +45623,7 @@
                 "none",
                 "AuthCallback",
                 "Details",
-                "Multiline"
+                "Token"
               ]
             },
             {
@@ -47821,7 +47821,7 @@
                 "runtime/rt0_js_wasm.s",
                 "GOOS=darwin",
                 "runtime.RunOnMainThread",
-                "zip.ErrInsecurePath"
+                "ErrNoAuth"
               ]
             },
             {
@@ -47869,7 +47869,7 @@
                 "runtime",
                 "And",
                 "Uint16x8",
-                "white"
+                "Position"
               ]
             },
             {
@@ -47877,7 +47877,7 @@
               "choices": [
                 "RunOnMainThread",
                 "bufreader",
-                "old",
+                "Identical",
                 "btree"
               ]
             }
@@ -48188,7 +48188,7 @@
               "choices": [
                 "MLDSA44",
                 "SignatureAlgorithm",
-                "algo",
+                "display",
                 "MLDSA87"
               ]
             }
@@ -48905,7 +48905,7 @@
               "choices": [
                 "Canonicalize",
                 "add",
-                "callgraph",
+                "prevEndOff",
                 "modfetch"
               ]
             },
@@ -53718,7 +53718,7 @@
                 "[]E",
                 "ceil(log62(2^128))",
                 "go.shape.*uint8_0",
-                "simd/mocks.go"
+                ".git-lfs"
               ]
             }
           ]
@@ -55139,7 +55139,7 @@
                 "helpgc",
                 "expr1|expr2",
                 "-fullpath",
-                "WithIndent"
+                "Float"
               ]
             }
           ]
@@ -56594,7 +56594,7 @@
             {
               "answer": "crypto/fips140",
               "choices": [
-                "FormatNilMapAsNull",
+                "UnmarshalRead",
                 "fips140=only",
                 "ast.IndexExpr.Index",
                 "crypto/fips140"
@@ -57238,7 +57238,7 @@
               "answer": "Sprintf",
               "choices": [
                 "Sprintf",
-                "os.Setenv",
+                "Function.TypeParams",
                 "Record.Add",
                 "io.Copy"
               ]
@@ -59238,7 +59238,7 @@
             {
               "answer": "Values",
               "choices": [
-                "Position",
+                "IsLiteral",
                 "Values",
                 "later",
                 "faded"
@@ -61476,7 +61476,7 @@
             {
               "answer": "Loop",
               "choices": [
-                "Include",
+                "algo",
                 "op",
                 "Loop",
                 "Benchmark"
@@ -61544,7 +61544,7 @@
                 "op",
                 "Loop",
                 "NewSigner",
-                "archsimd"
+                "Foo"
               ]
             }
           ]
