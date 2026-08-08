@@ -66,7 +66,7 @@ private struct ProposalRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
-                Text(number)
+                Text(proposal.displayNumber)
                     .font(Theme.mono(12, .semibold))
                     .foregroundStyle(Theme.accent)
                     .padding(.horizontal, 7).padding(.vertical, 3)
@@ -85,19 +85,19 @@ private struct ProposalRow: View {
                 .foregroundStyle(Theme.textPrimary)
                 .lineLimit(2)
                 .frame(maxWidth: .infinity, alignment: .leading)
+            if let summary = proposal.summary, !summary.isEmpty {
+                Text(summary)
+                    .font(Theme.body(12))
+                    .foregroundStyle(Theme.textFaint)
+                    .lineLimit(2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
             ProgressRail(rate: progress.progressRate, done: progress.status == .completed)
         }
         .padding(16)
         .background(Theme.surface)
         .overlay(RoundedRectangle(cornerRadius: 14).stroke(Theme.border, lineWidth: 1))
         .clipShape(RoundedRectangle(cornerRadius: 14))
-    }
-
-    // "design-61405-range-over-func" -> "61405"
-    private var number: String {
-        let trimmed = proposal.id.replacingOccurrences(of: "design-", with: "")
-        let digits = trimmed.prefix { $0.isNumber }
-        return digits.isEmpty ? "GO" : String(digits)
     }
 
     // strip a leading "Proposal:" for a cleaner card title
