@@ -12,6 +12,12 @@ struct ProposalQuizView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
+                // Read the gist before answering: proposals that have a generated
+                // summary lead with it.
+                if let summary = viewModel.proposal.summary, !summary.isEmpty {
+                    SummaryCard(text: summary)
+                }
+
                 QuizProgressView(progress: viewModel.progress)
                     .padding(16)
                     .background(Theme.surface)
@@ -49,5 +55,28 @@ struct ProposalQuizView: View {
             return String(t[r.upperBound...]).trimmingCharacters(in: .whitespaces)
         }
         return t
+    }
+}
+
+/// The proposal's generated overview. Labelled as machine-written so readers can
+/// weigh it against the proposal text the quizzes are drawn from.
+private struct SummaryCard: View {
+    let text: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("SUMMARY · AI GENERATED")
+                .font(Theme.mono(10, .semibold))
+                .foregroundStyle(Theme.textFaint)
+            Text(text)
+                .font(Theme.body(14))
+                .foregroundStyle(Theme.textSecondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Theme.surface)
+        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Theme.border, lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }

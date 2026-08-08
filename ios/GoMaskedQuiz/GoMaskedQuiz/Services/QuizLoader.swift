@@ -15,18 +15,21 @@ actor QuizLoader {
     private let cacheURL: URL
     private let session: URLSession
 
+    /// `cacheURL` defaults to the app's Caches directory; tests pass their own so
+    /// they exercise a chosen tier instead of whatever the app last cached.
     init(
         url: URL? = Configuration.quizDataURL,
         accepted: ClosedRange<Int> = Configuration.acceptedVersions,
         bundle: Bundle = .main,
-        resourceName: String = "quizzes"
+        resourceName: String = "quizzes",
+        cacheURL: URL? = nil
     ) {
         self.url = url
         self.accepted = accepted
         self.bundle = bundle
         self.resourceName = resourceName
         let caches = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-        self.cacheURL = caches.appendingPathComponent("quizzes.json")
+        self.cacheURL = cacheURL ?? caches.appendingPathComponent("quizzes.json")
         let cfg = URLSessionConfiguration.ephemeral
         cfg.timeoutIntervalForRequest = 10
         cfg.timeoutIntervalForResource = 30

@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 1,
   "generated_at": "2026-05-18T00:00:00Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
@@ -10,11 +10,13 @@
       "id": "design-61405-range-over-func",
       "title": "Proposal: range over func",
       "url": "https://github.com/golang/proposal/blob/master/design/61405-range-over-func.md",
+      "source_kind": "design-docs",
       "quizzes": [
         {
           "id": "design-61405-range-over-func-q01",
           "kind": "prose",
           "index": 0,
+          "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
@@ -37,8 +39,8 @@
               "value": " accept a "
             },
             {
-              "type": "mask",
-              "blank_index": 1
+              "type": "inline_code",
+              "value": "func"
             },
             {
               "type": "text",
@@ -54,7 +56,7 @@
             },
             {
               "type": "mask",
-              "blank_index": 2
+              "blank_index": 1
             },
             {
               "type": "text",
@@ -65,27 +67,18 @@
             {
               "answer": "range",
               "choices": [
-                "go/parser",
-                "for",
-                "go/scanner",
-                "range"
-              ]
-            },
-            {
-              "answer": "func",
-              "choices": [
-                "for",
-                "go/parser",
                 "func",
-                "go/scanner"
+                "for",
+                "range",
+                "defer"
               ]
             },
             {
               "answer": "yield",
               "choices": [
-                "for",
-                "go/scanner",
+                "golang/proposal",
                 "yield",
+                "go/scanner",
                 "go/parser"
               ]
             }
@@ -95,6 +88,7 @@
           "id": "design-61405-range-over-func-q02",
           "kind": "prose",
           "index": 1,
+          "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
@@ -113,10 +107,10 @@
             {
               "answer": "go/parser",
               "choices": [
-                "range",
-                "go/parser",
-                "for",
-                "go/scanner"
+                "golang/proposal",
+                "go/scanner",
+                "yield",
+                "go/parser"
               ]
             }
           ]
@@ -125,6 +119,7 @@
           "id": "design-61405-range-over-func-q03",
           "kind": "prose",
           "index": 2,
+          "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
@@ -151,19 +146,19 @@
             {
               "answer": "go/scanner",
               "choices": [
-                "for",
-                "func",
+                "golang/proposal",
                 "go/scanner",
-                "range"
+                "quizgen",
+                "yield"
               ]
             },
             {
               "answer": "go/parser",
               "choices": [
+                "golang/proposal",
+                "yield",
                 "go/parser",
-                "range",
-                "func",
-                "for"
+                "quizgen"
               ]
             }
           ]
@@ -172,6 +167,7 @@
           "id": "design-61405-range-over-func-q04",
           "kind": "code",
           "index": 3,
+          "gen_method": "mechanical",
           "blocks": [
             {
               "type": "code_block",
@@ -230,28 +226,28 @@
             {
               "answer": "Count",
               "choices": [
-                "yield",
+                "process",
                 "value",
-                "Count",
-                "process"
+                "yield",
+                "Count"
               ]
             },
             {
               "answer": "int",
               "choices": [
-                "value",
+                "int_2",
+                "int_1",
                 "int",
-                "process",
-                "yield"
+                "int_0"
               ]
             },
             {
               "answer": "bool",
               "choices": [
-                "process",
-                "yield",
+                "bool_0",
                 "bool",
-                "value"
+                "bool_2",
+                "bool_1"
               ]
             }
           ]
@@ -260,10 +256,11 @@
           "id": "design-61405-range-over-func-q05",
           "kind": "code",
           "index": 4,
+          "gen_method": "mechanical",
           "blocks": [
             {
               "type": "code_block",
-              "value": "for "
+              "value": "for value := "
             },
             {
               "type": "mask",
@@ -271,7 +268,7 @@
             },
             {
               "type": "code_block",
-              "value": " := range "
+              "value": " "
             },
             {
               "type": "mask",
@@ -287,43 +284,35 @@
             },
             {
               "type": "code_block",
-              "value": "("
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ")   // remaining lines elided ...\n"
+              "value": "(value)   // remaining lines elided ...\n"
             }
           ],
           "blanks": [
             {
-              "answer": "value",
+              "answer": "range",
               "choices": [
-                "value",
-                "yield",
-                "int",
-                "bool"
+                "fallthrough",
+                "else",
+                "range",
+                "return"
               ]
             },
             {
               "answer": "Count",
               "choices": [
+                "value",
                 "yield",
                 "Count",
-                "bool",
-                "int"
+                "Println"
               ]
             },
             {
               "answer": "process",
               "choices": [
+                "value",
                 "yield",
                 "process",
-                "bool",
-                "int"
+                "fmt"
               ]
             }
           ]
@@ -334,11 +323,13 @@
       "id": "design-99999-sample",
       "title": "Proposal: Sample placeholder for quizgen Phase 1",
       "url": "https://github.com/golang/proposal/blob/master/design/99999-sample.md",
+      "source_kind": "design-docs",
       "quizzes": [
         {
           "id": "design-99999-sample-q01",
           "kind": "prose",
           "index": 0,
+          "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
@@ -365,19 +356,19 @@
             {
               "answer": "quizgen",
               "choices": [
-                "yield",
                 "quizgen",
+                "yield",
                 "go/scanner",
-                "for"
+                "go/parser"
               ]
             },
             {
               "answer": "golang/proposal",
               "choices": [
-                "golang/proposal",
-                "for",
+                "go/scanner",
                 "yield",
-                "func"
+                "golang/proposal",
+                "go/parser"
               ]
             }
           ]
@@ -386,6 +377,7 @@
           "id": "design-99999-sample-q02",
           "kind": "code",
           "index": 1,
+          "gen_method": "mechanical",
           "blocks": [
             {
               "type": "code_block",
@@ -428,17 +420,17 @@
             {
               "answer": "main",
               "choices": [
-                "int",
+                "yield",
                 "main",
-                "value",
-                "yield"
+                "process",
+                "value"
               ]
             },
             {
               "answer": "fmt",
               "choices": [
-                "value",
-                "int",
+                "Count",
+                "process",
                 "yield",
                 "fmt"
               ]
@@ -446,10 +438,10 @@
             {
               "answer": "Println",
               "choices": [
-                "yield",
-                "bool",
                 "Println",
-                "Count"
+                "yield",
+                "Count",
+                "value"
               ]
             }
           ]
