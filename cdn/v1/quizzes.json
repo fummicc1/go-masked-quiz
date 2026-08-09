@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-08T01:18:21.751030523Z",
+  "generated_at": "2026-08-09T01:23:24.794663453Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "0be13090fdb0cbae0d71641bb676d924bc1c94de",
@@ -910,7 +910,7 @@
               "choices": [
                 "_cgo_allocate",
                 "-checkcgo",
-                "FormatNilMapAsNull",
+                "ErrNonStringName",
                 "C.struct_addrinfo"
               ]
             },
@@ -1685,10 +1685,10 @@
             {
               "answer": "doc/conduct.html",
               "choices": [
-                "ErrUnknownName",
+                "Marshaler",
                 "doc/conduct.html",
-                "Framer",
-                "AddUint32x4"
+                "sha3.SHA3",
+                "x.Load"
               ]
             }
           ]
@@ -2607,7 +2607,7 @@
               "choices": [
                 "garbage -benchmem 512 -benchtime 30s",
                 "GODEBUG=gcpacertrace=1",
-                "go install .",
+                "//go:fix-to",
                 "go tool"
               ]
             }
@@ -5316,7 +5316,7 @@
                 "golang.org/x/text/transform",
                 "mellium.im/xmlstream",
                 "encoding/xml",
-                "internal/godebugs/Info"
+                "$"
               ]
             }
           ]
@@ -6742,7 +6742,7 @@
                 "go-import.example.net",
                 "-insecure",
                 "go get",
-                "Token"
+                "$.root"
               ]
             },
             {
@@ -7100,7 +7100,7 @@
               "answer": "Copy",
               "choices": [
                 "RawXML",
-                "LoadFloat64x4",
+                "Uint32x8",
                 "Copy",
                 "FailNow"
               ]
@@ -7629,7 +7629,7 @@
                 "AddVecs",
                 "HotNode",
                 "exec",
-                "GroupAttrs"
+                "O_NOFOLLOW_ANY"
               ]
             },
             {
@@ -7646,7 +7646,7 @@
               "choices": [
                 "scalar",
                 "Set",
-                "VX",
+                "Broadcast",
                 "addVecsAsm"
               ]
             }
@@ -7725,7 +7725,7 @@
                 "//go:binary-only-package",
                 "IncompleteSources bool",
                 "latest",
-                "MergePackageFiles"
+                "GOAMD64=v2"
               ]
             }
           ]
@@ -12894,7 +12894,7 @@
                 "eventsch",
                 "HelloWorld",
                 "event",
-                "MinInt32"
+                "old"
               ]
             },
             {
@@ -12902,7 +12902,7 @@
               "choices": [
                 "value",
                 "HelloWorld",
-                "UnmarshalFromFunc",
+                "Marshalers",
                 "event"
               ]
             }
@@ -14822,16 +14822,16 @@
             {
               "answer": "SetMemoryTarget",
               "choices": [
-                "RotateRight",
-                "Uint8x16",
-                "LastToken",
+                "Max",
+                "OnesCount",
+                "ByteOffset",
                 "SetMemoryTarget"
               ]
             },
             {
               "answer": "amount",
               "choices": [
-                "edge",
+                "Usage",
                 "amount",
                 "Sender",
                 "Zero"
@@ -25176,7 +25176,7 @@
                 "syscall",
                 "[]bytes.Buffer",
                 "fmt",
-                "map[~string]T"
+                "~[N]byte"
               ]
             }
           ]
@@ -27464,6 +27464,539 @@
       ]
     },
     {
+      "id": "issue-54450",
+      "title": "text/template, html/template: add ExecuteFuncs",
+      "url": "https://github.com/golang/go/issues/54450",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 54450,
+      "quizzes": [
+        {
+          "id": "issue-54450-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "This proposal is about providing a way to pass a "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " at template execution overriding specific functions within the template."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "template.FuncMap",
+              "choices": [
+                "text/template.Template",
+                "funcs template.FuncMap",
+                "FuncMap",
+                "template.FuncMap"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ":"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "html/template",
+              "choices": [
+                "html/template",
+                "html/template.Template",
+                "ExecuteTemplate",
+                "text/template"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Calling these methods would execute the template as per "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " and "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " with the only difference being that when a template calls a function the provided "
+            },
+            {
+              "type": "inline_code",
+              "value": "funcs template.FuncMap"
+            },
+            {
+              "type": "text",
+              "value": " would be checked first. In this way "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " can be considered a map of function overrides for template execution and acts similarly to the calling the "
+            },
+            {
+              "type": "inline_code",
+              "value": "Funcs(...)"
+            },
+            {
+              "type": "text",
+              "value": " method on the template but would also override functions in templates called by the current executing template."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "Execute",
+              "choices": [
+                "key",
+                "Execute",
+                ".Item",
+                "FuncMap"
+              ]
+            },
+            {
+              "answer": "ExecuteTemplate",
+              "choices": [
+                "text/template",
+                "html/template",
+                "text/template.Template",
+                "ExecuteTemplate"
+              ]
+            },
+            {
+              "answer": "funcs",
+              "choices": [
+                "FuncMap",
+                "key",
+                "funcs",
+                ".Tr"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q04",
+          "kind": "prose",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "In this example this function takes a "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " and provides the translated value for it."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "key",
+              "choices": [
+                "key",
+                ".Tr",
+                ".",
+                "$"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q05",
+          "kind": "prose",
+          "index": 4,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "and then in our subtemplate refer to "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " and "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " (or "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": "). This means that we need to now know that we're in a subtemplate and every time we call the subtemplate we need to do a similar hack."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": ".Item",
+              "choices": [
+                ".",
+                "key",
+                ".Item",
+                "funcs"
+              ]
+            },
+            {
+              "answer": ".Tr",
+              "choices": [
+                "Tr",
+                ".Tr",
+                "key",
+                "."
+              ]
+            },
+            {
+              "answer": ".root.Tr",
+              "choices": [
+                "$.root",
+                ".root.Tr",
+                "Tr",
+                "."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q06",
+          "kind": "code",
+          "index": 5,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func (t *Template) ExecuteFuncMap(wr "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ".Writer, data any, funcs FuncMap) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " { ... }\n\nfunc (t *Template) ExecuteTemplateFuncMap(wr "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ".Writer, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " string, data any, funcs FuncMap) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " { ... }\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "io",
+              "choices": [
+                "Tr",
+                "key",
+                "wr",
+                "io"
+              ]
+            },
+            {
+              "answer": "error",
+              "choices": [
+                "new",
+                "any",
+                "error",
+                "string"
+              ]
+            },
+            {
+              "answer": "name",
+              "choices": [
+                "name",
+                "data",
+                "wr",
+                "Locale"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q07",
+          "kind": "code",
+          "index": 6,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func (t *Template) ExecuteFuncMap(wr io.Writer, data "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ", "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " FuncMap) error { ... }\n\nfunc (t *Template) ExecuteTemplateFuncMap(wr io.Writer, name "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ", data interface{}, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " FuncMap) error {\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "any",
+              "choices": [
+                "error",
+                "any",
+                "new",
+                "uintptr"
+              ]
+            },
+            {
+              "answer": "funcs",
+              "choices": [
+                "FuncMap",
+                "wr",
+                "funcs",
+                "args"
+              ]
+            },
+            {
+              "answer": "string",
+              "choices": [
+                "error",
+                "append",
+                "string",
+                "new"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q08",
+          "kind": "code",
+          "index": 7,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func (l *Locale) Tr(key "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ", "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " ..."
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ") "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " { ... }\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "string",
+              "choices": [
+                "bool",
+                "error",
+                "string",
+                "uint16"
+              ]
+            },
+            {
+              "answer": "args",
+              "choices": [
+                "wr",
+                "args",
+                "err",
+                "Tr"
+              ]
+            },
+            {
+              "answer": "any",
+              "choices": [
+                "cap",
+                "any",
+                "iota",
+                "error"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q09",
+          "kind": "code",
+          "index": 8,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " := tmpl.ExecuteFuncMap(wr, data, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": ".FuncMap(map["
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": "]any{\"Tr\": locale.Tr})\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "err",
+              "choices": [
+                "err",
+                "Tr",
+                "io",
+                "wr"
+              ]
+            },
+            {
+              "answer": "template",
+              "choices": [
+                "name",
+                "tmpl",
+                "data",
+                "template"
+              ]
+            },
+            {
+              "answer": "string",
+              "choices": [
+                "any",
+                "false",
+                "error",
+                "string"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "issue-76163",
       "title": "policy for removing GODEBUG flags",
       "url": "https://github.com/golang/go/issues/76163",
@@ -29371,7 +29904,7 @@
             {
               "answer": "reflect.Value",
               "choices": [
-                "GOAMD64=local go build .",
+                "SetMaxBytes",
                 "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
                 "reflect.Value",
                 "[][]float64"
@@ -29389,7 +29922,7 @@
             {
               "answer": "unsafe",
               "choices": [
-                "sql.Rows",
+                "*struct",
                 "process_a",
                 "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
                 "unsafe"
@@ -30251,8 +30784,8 @@
               "choices": [
                 "GORISCV64=rva20u64",
                 "rva20u64",
-                "(*testing.T).Error{,f}",
-                "NewEncoder(AllowInvalidUTF8(false), AllowInvalidUTF8(true))"
+                "sql.Scanner",
+                "staticcheck"
               ]
             },
             {
@@ -30355,7 +30888,7 @@
             {
               "answer": "splice",
               "choices": [
-                "template.FuncMap",
+                "ClientConfig.Auth",
                 "splice",
                 "hello.go",
                 "http.Server"
@@ -31221,8 +31754,8 @@
             {
               "answer": "ResolveFile",
               "choices": [
+                "MaxInt32",
                 "Uintptr",
-                "Transport",
                 "ResolveFile",
                 "File"
               ]
@@ -31233,7 +31766,7 @@
                 "File",
                 "Load",
                 "ast",
-                "examplepackage"
+                "CapabilityCount"
               ]
             }
           ]
@@ -31403,10 +31936,10 @@
             {
               "answer": "End",
               "choices": [
-                "go test -exec=...",
+                "ExampleXxx",
                 "End",
                 "example.com/foo@v1.0.0",
-                "SignatureAlgorithm"
+                "for-range"
               ]
             },
             {
@@ -34112,7 +34645,7 @@
             {
               "answer": "types.Info",
               "choices": [
-                "GOAMD64=local",
+                "SetMinAge",
                 "igo",
                 "io.ReadWriteCloser",
                 "types.Info"
@@ -35020,7 +35553,7 @@
               "choices": [
                 "http",
                 "MaxHeaderValueCount",
-                "OnesCount",
+                "ShiftRight",
                 "DefaultMaxHeaderValueCount"
               ]
             }
@@ -35240,7 +35773,7 @@
             {
               "answer": "cmd/go",
               "choices": [
-                "interface { Reader; Closer }",
+                "go build .",
                 "reflect.StringHeader",
                 "cmd/go",
                 "go test -exec=..."
@@ -35274,7 +35807,7 @@
                 "cmd/go",
                 "go test -exec=...",
                 "flakytest.Mark",
-                "reflect.Value.IsZero"
+                "omitzero"
               ]
             }
           ]
@@ -36113,7 +36646,7 @@
               "answer": "hash",
               "choices": [
                 "hash",
-                "display",
+                "Position",
                 "XOF",
                 "CloneXOF"
               ]
@@ -36123,7 +36656,7 @@
               "choices": [
                 "Clone",
                 "CloneXOF",
-                "AsUint32x8",
+                "EqualToVec",
                 "XOF"
               ]
             },
@@ -36188,7 +36721,7 @@
               "choices": [
                 "XOF",
                 "Clone",
-                "Bar",
+                "suffix",
                 "CloneXOF"
               ]
             },
@@ -36782,7 +37315,7 @@
             {
               "answer": "nhooyr.io/websocket/mod",
               "choices": [
-                "omitzero",
+                "io.Writer.Write",
                 "nhooyr.io/websocket/mod",
                 "./mod",
                 "for x := T(0); x \u003c n; x++ { ... }"
@@ -36793,8 +37326,8 @@
               "choices": [
                 "nhooyr.io/websocket",
                 "./mod",
-                "golang.org/x/net/http2/http2frame",
-                "netip.Addr"
+                "[]int64",
+                "jsonv1.FormatByteArrayAsArray"
               ]
             }
           ]
@@ -36881,7 +37414,7 @@
               "choices": [
                 "time.Time",
                 "git bisect",
-                "work",
+                "PublicKeyAlgorithm",
                 "(*testing.B).ResetTimer"
               ]
             },
@@ -37061,7 +37594,7 @@
               "answer": "source.go:1234",
               "choices": [
                 "testing",
-                "@version",
+                "rows.Scan",
                 "source.go:1234",
                 "my_test.go:321"
               ]
@@ -39527,7 +40060,7 @@
               "choices": [
                 "WriteFile",
                 "os.ReadFile",
-                "CancelRequest",
+                "i32",
                 "os.WriteFile"
               ]
             },
@@ -39704,7 +40237,7 @@
             {
               "answer": "slices",
               "choices": [
-                "FormatNilMapAsNull",
+                "ErrNonStringName",
                 "func (re *Regexp) AllString(s string) iter.Seq[[]string]",
                 "Current() Cursor",
                 "slices"
@@ -39793,7 +40326,7 @@
               "answer": "$PATH",
               "choices": [
                 "$PATH",
-                "GOAMD64",
+                "traceAdvance",
                 "@version",
                 "go doc"
               ]
@@ -40395,7 +40928,7 @@
               "choices": [
                 "Rand",
                 "ChannelHandler",
-                "now",
+                "ShakeHash",
                 "Int"
               ]
             },
@@ -40405,7 +40938,7 @@
                 "KindUint64",
                 "intType",
                 "Rand",
-                "ScanColumn"
+                "SliceData"
               ]
             }
           ]
@@ -40467,7 +41000,7 @@
               "choices": [
                 "Select",
                 "Configuration",
-                "maps",
+                "Compress",
                 "Rand"
               ]
             },
@@ -40475,7 +41008,7 @@
               "answer": "Int",
               "choices": [
                 "Int",
-                "Hasher",
+                "types2",
                 "out",
                 "SignWithAlgorithm"
               ]
@@ -40484,7 +41017,7 @@
               "answer": "intType",
               "choices": [
                 "formISO",
-                "HasAVX512",
+                "GreaterThan",
                 "intType",
                 "Tokenizer"
               ]
@@ -42788,7 +43321,7 @@
               "answer": "...",
               "choices": [
                 "...",
-                "CreateIn",
+                "typeparams.Union",
                 "-mod=mod",
                 "go list ..."
               ]
@@ -45003,16 +45536,16 @@
               "answer": "testing",
               "choices": [
                 "testing",
-                "Null",
-                "Expand",
-                "RotateLeft"
+                "KindNull",
+                "RotateRightConst",
+                "Mul"
               ]
             },
             {
               "answer": "Wait",
               "choices": [
                 "ConnectionAdded",
-                "Uintptr",
+                "MaxInt32",
                 "Wait",
                 "filterA"
               ]
@@ -45220,7 +45753,7 @@
               "choices": [
                 "unique.Make",
                 "runtime.SetFinalizer",
-                "hash.CloneXOF",
+                "tar.Reader.Next",
                 "runtime.AddCleanup"
               ]
             },
@@ -45348,7 +45881,7 @@
               "answer": "GetCertificate",
               "choices": [
                 "GetConfigForClient",
-                "// Output:",
+                "'",
                 "GetCertificate",
                 "GetEncryptedClientHelloKeys"
               ]
@@ -45623,7 +46156,7 @@
                 "none",
                 "AuthCallback",
                 "Details",
-                "Token"
+                "$.root"
               ]
             },
             {
@@ -46163,8 +46696,8 @@
             {
               "answer": "tlssha1=1",
               "choices": [
-                "FT",
-                ".Tr",
+                "GOARCH=wasm32",
+                "recvmmsg",
                 "new()",
                 "tlssha1=1"
               ]
@@ -47199,539 +47732,6 @@
       ]
     },
     {
-      "id": "issue-54450",
-      "title": "text/template, html/template: add ExecuteFuncs",
-      "url": "https://github.com/golang/go/issues/54450",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 54450,
-      "quizzes": [
-        {
-          "id": "issue-54450-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "This proposal is about providing a way to pass a "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " at template execution overriding specific functions within the template."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "template.FuncMap",
-              "choices": [
-                "text/template.Template",
-                "funcs template.FuncMap",
-                "FuncMap",
-                "template.FuncMap"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ":"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "html/template",
-              "choices": [
-                "html/template",
-                "html/template.Template",
-                "ExecuteTemplate",
-                "text/template"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Calling these methods would execute the template as per "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " and "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " with the only difference being that when a template calls a function the provided "
-            },
-            {
-              "type": "inline_code",
-              "value": "funcs template.FuncMap"
-            },
-            {
-              "type": "text",
-              "value": " would be checked first. In this way "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " can be considered a map of function overrides for template execution and acts similarly to the calling the "
-            },
-            {
-              "type": "inline_code",
-              "value": "Funcs(...)"
-            },
-            {
-              "type": "text",
-              "value": " method on the template but would also override functions in templates called by the current executing template."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "Execute",
-              "choices": [
-                "key",
-                "Execute",
-                ".Item",
-                "FuncMap"
-              ]
-            },
-            {
-              "answer": "ExecuteTemplate",
-              "choices": [
-                "text/template",
-                "html/template",
-                "text/template.Template",
-                "ExecuteTemplate"
-              ]
-            },
-            {
-              "answer": "funcs",
-              "choices": [
-                "FuncMap",
-                "key",
-                "funcs",
-                ".Tr"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "In this example this function takes a "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " and provides the translated value for it."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "key",
-              "choices": [
-                "key",
-                ".Tr",
-                ".",
-                "$"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q05",
-          "kind": "prose",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "and then in our subtemplate refer to "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " and "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " (or "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": "). This means that we need to now know that we're in a subtemplate and every time we call the subtemplate we need to do a similar hack."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": ".Item",
-              "choices": [
-                ".",
-                "key",
-                ".Item",
-                "funcs"
-              ]
-            },
-            {
-              "answer": ".Tr",
-              "choices": [
-                "Tr",
-                ".Tr",
-                "key",
-                "."
-              ]
-            },
-            {
-              "answer": ".root.Tr",
-              "choices": [
-                "$.root",
-                ".root.Tr",
-                "Tr",
-                "."
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q06",
-          "kind": "code",
-          "index": 5,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "func (t *Template) ExecuteFuncMap(wr "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ".Writer, data any, funcs FuncMap) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " { ... }\n\nfunc (t *Template) ExecuteTemplateFuncMap(wr "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ".Writer, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": " string, data any, funcs FuncMap) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " { ... }\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "io",
-              "choices": [
-                "Tr",
-                "key",
-                "wr",
-                "io"
-              ]
-            },
-            {
-              "answer": "error",
-              "choices": [
-                "new",
-                "any",
-                "error",
-                "string"
-              ]
-            },
-            {
-              "answer": "name",
-              "choices": [
-                "name",
-                "data",
-                "wr",
-                "Locale"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q07",
-          "kind": "code",
-          "index": 6,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "func (t *Template) ExecuteFuncMap(wr io.Writer, data "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ", "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " FuncMap) error { ... }\n\nfunc (t *Template) ExecuteTemplateFuncMap(wr io.Writer, name "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": ", data interface{}, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " FuncMap) error {\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "any",
-              "choices": [
-                "error",
-                "any",
-                "new",
-                "uintptr"
-              ]
-            },
-            {
-              "answer": "funcs",
-              "choices": [
-                "FuncMap",
-                "wr",
-                "funcs",
-                "args"
-              ]
-            },
-            {
-              "answer": "string",
-              "choices": [
-                "error",
-                "append",
-                "string",
-                "new"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q08",
-          "kind": "code",
-          "index": 7,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "func (l *Locale) Tr(key "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ", "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " ..."
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": ") "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " { ... }\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "string",
-              "choices": [
-                "bool",
-                "error",
-                "string",
-                "uint16"
-              ]
-            },
-            {
-              "answer": "args",
-              "choices": [
-                "wr",
-                "args",
-                "err",
-                "Tr"
-              ]
-            },
-            {
-              "answer": "any",
-              "choices": [
-                "cap",
-                "any",
-                "iota",
-                "error"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q09",
-          "kind": "code",
-          "index": 8,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " := tmpl.ExecuteFuncMap(wr, data, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": ".FuncMap(map["
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "]any{\"Tr\": locale.Tr})\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "err",
-              "choices": [
-                "err",
-                "Tr",
-                "io",
-                "wr"
-              ]
-            },
-            {
-              "answer": "template",
-              "choices": [
-                "name",
-                "tmpl",
-                "data",
-                "template"
-              ]
-            },
-            {
-              "answer": "string",
-              "choices": [
-                "any",
-                "false",
-                "error",
-                "string"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-64777",
       "title": "runtime/mainthread: new package to manage main thread",
       "url": "https://github.com/golang/go/issues/64777",
@@ -47821,7 +47821,7 @@
                 "runtime/rt0_js_wasm.s",
                 "GOOS=darwin",
                 "runtime.RunOnMainThread",
-                "ErrNoAuth"
+                "f′"
               ]
             },
             {
@@ -47867,9 +47867,9 @@
               "answer": "runtime",
               "choices": [
                 "runtime",
-                "And",
-                "Uint16x8",
-                "Position"
+                "Float64x4",
+                "Equal",
+                "lit"
               ]
             },
             {
@@ -47877,7 +47877,7 @@
               "choices": [
                 "RunOnMainThread",
                 "bufreader",
-                "Identical",
+                "Expand",
                 "btree"
               ]
             }
@@ -48177,7 +48177,7 @@
             {
               "answer": "MLDSA65",
               "choices": [
-                "ShiftRight",
+                "ShiftLeftConst",
                 "MLDSA44",
                 "MLDSA65",
                 "SignatureAlgorithm"
@@ -48188,7 +48188,7 @@
               "choices": [
                 "MLDSA44",
                 "SignatureAlgorithm",
-                "display",
+                "Position",
                 "MLDSA87"
               ]
             }
@@ -48903,10 +48903,10 @@
             {
               "answer": "add",
               "choices": [
-                "Canonicalize",
+                "EndArray",
                 "add",
-                "prevEndOff",
-                "modfetch"
+                "tokLength",
+                "slog"
               ]
             },
             {
@@ -48961,8 +48961,8 @@
               "choices": [
                 "newElem",
                 "add",
-                "ExecuteTemplateFuncMap",
-                "ReadValue"
+                "ContentHash",
+                "tmpl"
               ]
             },
             {
@@ -49522,7 +49522,7 @@
               "choices": [
                 "StringVal",
                 "graph.Graph",
-                "@version",
+                "rows.Scan",
                 "func (re *Regexp) AllString(s string) iter.Seq[[]string]"
               ]
             }
@@ -51409,7 +51409,7 @@
               "answer": ":protocol",
               "choices": [
                 "req.Protocol",
-                "interface { Reader; Close() error }",
+                "Decoder.DisallowDuplicateFields",
                 "HACK-HTTP2-Protocol",
                 ":protocol"
               ]
@@ -52736,7 +52736,7 @@
             {
               "answer": "fmt",
               "choices": [
-                "asTypeParamSlice",
+                "Bar",
                 "to",
                 "WithCancel",
                 "fmt"
@@ -52748,7 +52748,7 @@
                 "Printf",
                 "Female",
                 "variadic",
-                "PrivateKeySize"
+                "v0"
               ]
             }
           ]
@@ -52911,7 +52911,7 @@
                 "Rows",
                 "table",
                 "x/sys",
-                "http2"
+                "hstore"
               ]
             }
           ]
@@ -53718,7 +53718,7 @@
                 "[]E",
                 "ceil(log62(2^128))",
                 "go.shape.*uint8_0",
-                ".git-lfs"
+                "Transport.RoundTrip"
               ]
             }
           ]
@@ -55139,7 +55139,7 @@
                 "helpgc",
                 "expr1|expr2",
                 "-fullpath",
-                "Float"
+                "panicnil"
               ]
             }
           ]
@@ -55533,7 +55533,7 @@
             {
               "answer": "EqFunc",
               "choices": [
-                "UnmarshalFromFunc",
+                "Marshalers",
                 "hash",
                 "HashFunc",
                 "EqFunc"
@@ -56262,7 +56262,7 @@
             {
               "answer": "LookupFieldOrMethod",
               "choices": [
-                "driver.RowsColumnScanner",
+                "[]MyPtr",
                 "Select",
                 "LookupFieldOrMethod",
                 "Underlying()"
@@ -56594,7 +56594,7 @@
             {
               "answer": "crypto/fips140",
               "choices": [
-                "UnmarshalRead",
+                "Decoder",
                 "fips140=only",
                 "ast.IndexExpr.Index",
                 "crypto/fips140"
@@ -57238,7 +57238,7 @@
               "answer": "Sprintf",
               "choices": [
                 "Sprintf",
-                "Function.TypeParams",
+                "Test/Bar",
                 "Record.Add",
                 "io.Copy"
               ]
@@ -58375,7 +58375,7 @@
               "answer": "time.Time",
               "choices": [
                 "time.Time",
-                "ML-DSA μ message representative",
+                "WriteFile",
                 "Value",
                 "verify"
               ]
@@ -59223,22 +59223,22 @@
                 "MarshalBinary",
                 "list",
                 "URL",
-                "MarshalWrite"
+                "ErrDuplicateName"
               ]
             },
             {
               "answer": "Clone",
               "choices": [
                 "Close",
-                "Xor",
+                "AsFloat32x4",
                 "Clone",
-                "Uint32x4"
+                "ParseBytesWithLooseRFC4648"
               ]
             },
             {
               "answer": "Values",
               "choices": [
-                "IsLiteral",
+                "Once",
                 "Values",
                 "later",
                 "faded"
@@ -60124,7 +60124,7 @@
               "choices": [
                 "time",
                 "Now",
-                "UnmarshalDecode",
+                "AppendToken",
                 "Foo"
               ]
             },
@@ -60207,7 +60207,7 @@
             {
               "answer": "Foo",
               "choices": [
-                "SymType",
+                "modload",
                 "EmptyStruct",
                 "time",
                 "Foo"
@@ -60989,7 +60989,7 @@
                 "Println",
                 "str",
                 "//go:cgo_unsafe_stack_pointer",
-                "go/types.Union"
+                "*ast.File"
               ]
             }
           ]
@@ -61045,7 +61045,7 @@
               "choices": [
                 "GOCACHEPROG",
                 "f := print",
-                "runtime.SetFinalizer",
+                "f.OpenIn(x)",
                 "./mod"
               ]
             },
@@ -61116,7 +61116,7 @@
               "choices": [
                 "GOEXPERIMENT=gocacheprog",
                 "time.After",
-                "CreateIn",
+                "typeparams.Union",
                 "GOCACHEPROG"
               ]
             }
@@ -61403,7 +61403,7 @@
               "answer": "Loop",
               "choices": [
                 "Benchmark",
-                "ExampleFunc_taking_a_t",
+                "Reserved",
                 "Loop",
                 "testing"
               ]
@@ -61412,7 +61412,7 @@
               "answer": "op",
               "choices": [
                 "op",
-                "ConvertToFloat32",
+                "Int32x4",
                 "Benchmark",
                 "testing"
               ]
@@ -61476,7 +61476,7 @@
             {
               "answer": "Loop",
               "choices": [
-                "algo",
+                "white",
                 "op",
                 "Loop",
                 "Benchmark"
@@ -61544,7 +61544,7 @@
                 "op",
                 "Loop",
                 "NewSigner",
-                "Foo"
+                "doc"
               ]
             }
           ]
