@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-11T01:22:58.350716169Z",
+  "generated_at": "2026-08-12T01:39:50.292818426Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "0be13090fdb0cbae0d71641bb676d924bc1c94de",
@@ -7100,7 +7100,7 @@
               "answer": "Copy",
               "choices": [
                 "RawXML",
-                "Uint32x8",
+                "LoadFloat64x4",
                 "Copy",
                 "FailNow"
               ]
@@ -7646,7 +7646,7 @@
               "choices": [
                 "scalar",
                 "Set",
-                "Broadcast",
+                "FuncMap",
                 "addVecsAsm"
               ]
             }
@@ -12902,7 +12902,7 @@
               "choices": [
                 "value",
                 "HelloWorld",
-                "Marshalers",
+                "UnmarshalFromFunc",
                 "event"
               ]
             }
@@ -14822,9 +14822,9 @@
             {
               "answer": "SetMemoryTarget",
               "choices": [
-                "Max",
-                "OnesCount",
-                "ByteOffset",
+                "RotateRight",
+                "Uint8x16",
+                "LastToken",
                 "SetMemoryTarget"
               ]
             },
@@ -27464,558 +27464,6 @@
       ]
     },
     {
-      "id": "issue-42502",
-      "title": "runtime/pprof: NewCPUProfile + cpuProfile.Start to allow profile configuration",
-      "url": "https://github.com/golang/go/issues/42502",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 42502,
-      "quizzes": [
-        {
-          "id": "issue-42502-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Given this, what I am trying to say is that the public/exported method **"
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "** is still useful, and sometimes even critical for allowing us to use well "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " and to see something relevant on our profiles, depending on the application. I am not alone on this as you can see here (stack overflow) and here (google groups discussion). Even one principal software engineer (L8) I have been working with at Google found it useful when reviewing my PR https://github.com/google/badwolf/pull/155 above and copied the code to use it in one of his applications, on which setting a higher profiling rate was critical as well."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "runtime.SetCPUProfileRate",
-              "choices": [
-                "runtime.SetCPUProfileRate",
-                "runtime.SetCPUProfileRate(800)",
-                "runtime.SetCPUProfileRate(100)",
-                "SetCPUProfileRate"
-              ]
-            },
-            {
-              "answer": "pprof",
-              "choices": [
-                "runtime",
-                "SetCPUProfileRate",
-                "pprof",
-                "cpuprof.on"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-42502-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "The ideal would be for the **"
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "** method **already receive as argument the CPU profile rate** we want, allowing us to customize it, with this argument having its default value set to 100 if it was not specified by the function call. This would be the ideal, if we had support for default arguments in Go. But, we can achieve something similar if we had a similar method with signature "
-            },
-            {
-              "type": "inline_code",
-              "value": "pprof.StartCPUProfileWithSpecifiedRate(w io.Writer, hz int)"
-            },
-            {
-              "type": "text",
-              "value": ", in addition to the "
-            },
-            {
-              "type": "inline_code",
-              "value": "pprof.StartCPUProfile(w io.Writer)"
-            },
-            {
-              "type": "text",
-              "value": " method we already have. This way, the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " method would not necessarily need to be an exported method anymore."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "pprof.StartCPUProfile",
-              "choices": [
-                "pprof.StartCPUProfile",
-                "SetCPUProfileRate",
-                "cpuprof.on",
-                "pprof.StartCPUProfile(w io.Writer)"
-              ]
-            },
-            {
-              "answer": "runtime.SetCPUProfileRate",
-              "choices": [
-                "runtime.SetCPUProfileRate(800)",
-                "runtime.SetCPUProfileRate",
-                "SetCPUProfileRate",
-                "runtime.SetCPUProfileRate(100)"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-42502-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "We could **keep "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " public/exported**, but we would have to fix the problem with the misleading warning message \"runtime: cannot set cpu profile rate until previous profile has finished\" if we had already manually set the profiling rate before the call to "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": ". For this we could:"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "runtime.SetCPUProfileRate",
-              "choices": [
-                "runtime.SetCPUProfileRate",
-                "runtime.SetCPUProfileRate(100)",
-                "SetCPUProfileRate",
-                "runtime.SetCPUProfileRate(800)"
-              ]
-            },
-            {
-              "answer": "pprof.StartCPUProfile",
-              "choices": [
-                "cpuprof.on",
-                "pprof.StartCPUProfile(w io.Writer)",
-                "pprof.StartCPUProfile",
-                "SetCPUProfileRate"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-42502-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "2.2. Make "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " return an error in the case the profiling rate was already previously set, allowing the caller to handle it and decide what to do from then on (inside "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " we could ignore this error for example). This would change the signature of "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "runtime.SetCPUProfileRate",
-              "choices": [
-                "runtime.SetCPUProfileRate(100)",
-                "runtime.SetCPUProfileRate(800)",
-                "SetCPUProfileRate",
-                "runtime.SetCPUProfileRate"
-              ]
-            },
-            {
-              "answer": "pprof.StartCPUProfile",
-              "choices": [
-                "SetCPUProfileRate",
-                "cpuprof.on",
-                "pprof.StartCPUProfile(w io.Writer)",
-                "pprof.StartCPUProfile"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-42502-q05",
-          "kind": "prose",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "We could **move the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "** public signature **to the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " package** (with some changes as explained above to avoid the misleading warning message), and deprecate it / make it unexported inside the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " package."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "SetCPUProfileRate",
-              "choices": [
-                "runtime.SetCPUProfileRate",
-                "runtime.SetCPUProfileRate(800)",
-                "SetCPUProfileRate",
-                "pprof.StartCPUProfile"
-              ]
-            },
-            {
-              "answer": "pprof",
-              "choices": [
-                "pprof.StartCPUProfile",
-                "runtime.SetCPUProfileRate",
-                "pprof",
-                "cpuprof.on"
-              ]
-            },
-            {
-              "answer": "runtime",
-              "choices": [
-                "pprof.StartCPUProfile",
-                "cpuprof.on",
-                "runtime.SetCPUProfileRate",
-                "runtime"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-76163",
-      "title": "policy for removing GODEBUG flags",
-      "url": "https://github.com/golang/go/issues/76163",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 76163,
-      "quizzes": [
-        {
-          "id": "issue-76163-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "This is an umbrella issue for the decommissioning of "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " flags. It proposes a policy that guides their deprecation and eventual removal."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "GODEBUG",
-              "choices": [
-                "GODEBUG",
-                "Info",
-                "netdns",
-                "gopls"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-76163-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " (internal package godebug) provides a new mechanism to identify a flag as deprecated and removed. For instance:"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "godebug.Setting",
-              "choices": [
-                "os.Setenv",
-                "godebug.Setting",
-                "netdns",
-                "testing.Setenv"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-76163-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "(TODO: Determine the best way to represent this information in "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ".)"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "internal/godebugs/Info",
-              "choices": [
-                "internal/godebugs/table.go",
-                "testing.Setenv",
-                "internal/godebugs/Info",
-                "godebug.Setting"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-76163-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "\\- "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " lines in go.mod and go.work files  \n\\- use of supported "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " comments in type-checker tests (such as \\-gotypesalias)  \n\\- use of "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " to set deprecated flags  \n\\- possibly others"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "godebug",
-              "choices": [
-                "godebug",
-                "gopls",
-                "netdns",
-                "Info"
-              ]
-            },
-            {
-              "answer": "GODEBUG",
-              "choices": [
-                "netdns",
-                "gopls",
-                "GODEBUG",
-                "Info"
-              ]
-            },
-            {
-              "answer": "testing.Setenv",
-              "choices": [
-                "testing.Setenv",
-                "netdns",
-                "godebug.Setting",
-                "os.Setenv"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-76163-q05",
-          "kind": "prose",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "To support complex systems, we may introduce a new "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " flag that causes a program to panic if a deprecated "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " is set to a non-default value: for instance, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " would disallow setting a deprecated "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " at all and cause a panic if such a flag is set to any value. This includes build tools (report a build error) and calls to "
-            },
-            {
-              "type": "inline_code",
-              "value": "os.Setenv"
-            },
-            {
-              "type": "text",
-              "value": " or "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " that set a deprecated "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " flag (cause a panic)."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "GODEBUG",
-              "choices": [
-                "Info",
-                "netdns",
-                "GODEBUG",
-                "gopls"
-              ]
-            },
-            {
-              "answer": "GODEBUG=deprecatedgodebug=0",
-              "choices": [
-                "panicnil=0",
-                "godebug.Setting",
-                "GODEBUG=deprecatedgodebug=0",
-                "internal/godebugs/Info"
-              ]
-            },
-            {
-              "answer": "testing.Setenv",
-              "choices": [
-                "testing.Setenv",
-                "os.Setenv",
-                "godebug.Setting",
-                "netdns"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-29678",
       "title": "net: add MarshalText/UnmarshalText to HardwareAddr, IPNet, IPMask",
       "url": "https://github.com/golang/go/issues/29678",
@@ -28204,740 +27652,6 @@
                 "net.HardwareAddr",
                 "[]byte",
                 "\"ab:cd:ef:ab:cd:ef\""
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-47308",
-      "title": "cmd/go: support for Git LFS via new VCS qualifier",
-      "url": "https://github.com/golang/go/issues/47308",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 47308,
-      "quizzes": [
-        {
-          "id": "issue-47308-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "A new VCS named "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " that prescribes the use of Git LFS when fetching a Git repo."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "git-lfs",
-              "choices": [
-                ".git-lfs",
-                "go get",
-                "git-lfs",
-                "vcs"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-47308-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "If not installed, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " should inform the user that Git LFS is required before erroring out.  i.e. "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " should never leave un-smudged Git LFS ref files in a fetched package."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "cmd/go",
-              "choices": [
-                "cmd/go",
-                "go get",
-                "module",
-                "vcs"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-47308-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Specifying "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " as the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " argument in the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " attribute of the go-import meta tag."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "git-lfs",
-              "choices": [
-                ".git-lfs",
-                "module",
-                "git-lfs",
-                "go get"
-              ]
-            },
-            {
-              "answer": "vcs",
-              "choices": [
-                "module",
-                "vcs",
-                "cmd/go",
-                "go get"
-              ]
-            },
-            {
-              "answer": "content",
-              "choices": [
-                "module",
-                "go get",
-                "cmd/go",
-                "content"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-47308-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "in the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " directive in a "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " file, e.g. "
-            },
-            {
-              "type": "inline_code",
-              "value": "module go.jpap.org/example.git-lfs"
-            },
-            {
-              "type": "text",
-              "value": "."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "module",
-              "choices": [
-                "cmd/go",
-                "go get",
-                "git-lfs",
-                "module"
-              ]
-            },
-            {
-              "answer": "go.mod",
-              "choices": [
-                "go.mod",
-                "cmd/go",
-                "go-import",
-                "go get"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-54450",
-      "title": "text/template, html/template: add ExecuteFuncs",
-      "url": "https://github.com/golang/go/issues/54450",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 54450,
-      "quizzes": [
-        {
-          "id": "issue-54450-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "This proposal is about providing a way to pass a "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " at template execution overriding specific functions within the template."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "template.FuncMap",
-              "choices": [
-                "template.FuncMap",
-                "FuncMap",
-                "text/template.Template",
-                "funcs template.FuncMap"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ":"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "html/template",
-              "choices": [
-                "text/template",
-                "ExecuteTemplate",
-                "html/template",
-                "html/template.Template"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Calling these methods would execute the template as per "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " and "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " with the only difference being that when a template calls a function the provided "
-            },
-            {
-              "type": "inline_code",
-              "value": "funcs template.FuncMap"
-            },
-            {
-              "type": "text",
-              "value": " would be checked first. In this way "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " can be considered a map of function overrides for template execution and acts similarly to the calling the "
-            },
-            {
-              "type": "inline_code",
-              "value": "Funcs(...)"
-            },
-            {
-              "type": "text",
-              "value": " method on the template but would also override functions in templates called by the current executing template."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "Execute",
-              "choices": [
-                "Execute",
-                ".Item",
-                "FuncMap",
-                "key"
-              ]
-            },
-            {
-              "answer": "ExecuteTemplate",
-              "choices": [
-                "html/template",
-                "text/template",
-                "text/template.Template",
-                "ExecuteTemplate"
-              ]
-            },
-            {
-              "answer": "funcs",
-              "choices": [
-                "FuncMap",
-                "funcs",
-                "key",
-                ".Tr"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "In this example this function takes a "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " and provides the translated value for it."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "key",
-              "choices": [
-                ".Tr",
-                "key",
-                ".",
-                "$"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q05",
-          "kind": "prose",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "and then in our subtemplate refer to "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " and "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " (or "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": "). This means that we need to now know that we're in a subtemplate and every time we call the subtemplate we need to do a similar hack."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": ".Item",
-              "choices": [
-                "key",
-                "funcs",
-                ".",
-                ".Item"
-              ]
-            },
-            {
-              "answer": ".Tr",
-              "choices": [
-                ".Tr",
-                "Tr",
-                "key",
-                "."
-              ]
-            },
-            {
-              "answer": ".root.Tr",
-              "choices": [
-                ".root.Tr",
-                "$.root",
-                ".",
-                "Tr"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q06",
-          "kind": "code",
-          "index": 5,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "func (t *Template) ExecuteFuncMap(wr "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ".Writer, data any, funcs FuncMap) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " { ... }\n\nfunc (t *Template) ExecuteTemplateFuncMap(wr "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ".Writer, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": " string, data any, funcs FuncMap) "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " { ... }\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "io",
-              "choices": [
-                "Tr",
-                "key",
-                "wr",
-                "io"
-              ]
-            },
-            {
-              "answer": "error",
-              "choices": [
-                "new",
-                "any",
-                "error",
-                "string"
-              ]
-            },
-            {
-              "answer": "name",
-              "choices": [
-                "name",
-                "data",
-                "wr",
-                "Locale"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q07",
-          "kind": "code",
-          "index": 6,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "func (t *Template) ExecuteFuncMap(wr io.Writer, data "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ", "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " FuncMap) error { ... }\n\nfunc (t *Template) ExecuteTemplateFuncMap(wr io.Writer, name "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": ", data interface{}, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " FuncMap) error {\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "any",
-              "choices": [
-                "error",
-                "any",
-                "new",
-                "uintptr"
-              ]
-            },
-            {
-              "answer": "funcs",
-              "choices": [
-                "FuncMap",
-                "wr",
-                "funcs",
-                "args"
-              ]
-            },
-            {
-              "answer": "string",
-              "choices": [
-                "error",
-                "append",
-                "string",
-                "new"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q08",
-          "kind": "code",
-          "index": 7,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "func (l *Locale) Tr(key "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": ", "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": " ..."
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": ") "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " { ... }\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "string",
-              "choices": [
-                "bool",
-                "error",
-                "string",
-                "uint16"
-              ]
-            },
-            {
-              "answer": "args",
-              "choices": [
-                "wr",
-                "args",
-                "err",
-                "Tr"
-              ]
-            },
-            {
-              "answer": "any",
-              "choices": [
-                "cap",
-                "any",
-                "iota",
-                "error"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-54450-q09",
-          "kind": "code",
-          "index": 8,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " := tmpl.ExecuteFuncMap(wr, data, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": ".FuncMap(map["
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "]any{\"Tr\": locale.Tr})\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "err",
-              "choices": [
-                "err",
-                "Tr",
-                "io",
-                "wr"
-              ]
-            },
-            {
-              "answer": "template",
-              "choices": [
-                "name",
-                "tmpl",
-                "data",
-                "template"
-              ]
-            },
-            {
-              "answer": "string",
-              "choices": [
-                "any",
-                "false",
-                "error",
-                "string"
               ]
             }
           ]
@@ -29621,22 +28335,22 @@
       ]
     },
     {
-      "id": "issue-48157",
-      "title": "cmd/go: add per-test timeouts",
-      "url": "https://github.com/golang/go/issues/48157",
+      "id": "issue-68595",
+      "title": "syscall: support process sandboxing using Landlock on Linux",
+      "url": "https://github.com/golang/go/issues/68595",
       "status": "accepted",
       "source_kind": "github-issues",
-      "issue_number": 48157,
+      "issue_number": 68595,
       "quizzes": [
         {
-          "id": "issue-48157-q01",
+          "id": "issue-68595-q01",
           "kind": "prose",
           "index": 0,
           "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
-              "value": "The default per-test case timeout is 1m (one minute). If the new "
+              "value": "I have a Golang binary that gets deployed once and then it "
             },
             {
               "type": "mask",
@@ -29644,15 +28358,7 @@
             },
             {
               "type": "text",
-              "value": " flag is specified explicitly, then that sets a different default. If the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " flag is omitted but "
+              "value": "'s the ["
             },
             {
               "type": "mask",
@@ -29660,55 +28366,39 @@
             },
             {
               "type": "text",
-              "value": " is specified explicitly, then that sets the default too. This way, if you have one really long test and use "
-            },
-            {
-              "type": "inline_code",
-              "value": "go test -timeout=30m"
-            },
-            {
-              "type": "text",
-              "value": ", the per-case timeout doesn't kick in after 1 minute and kill it anyway."
+              "value": " binary with various arguments under the hood hundreds of thousands of times to process lots of untrusted repositories on the internet."
             }
           ],
           "blanks": [
             {
-              "answer": "-testtimeout",
+              "answer": "os/exec",
               "choices": [
-                "-testtimeout",
-                "go test -timeout=30m",
-                "SetTimeout(d time.Duration)",
-                "t.SetTimeout(1*time.Second)"
+                "fork(2)",
+                "*syscall.SysProcAttr",
+                "fd",
+                "os/exec"
               ]
             },
             {
-              "answer": "-timeout",
+              "answer": "git",
               "choices": [
-                "SetTimeout(d time.Duration)",
-                "t.SetTimeout(1*time.Second)",
-                "-timeout",
-                "go test -timeout=30m"
+                "fork(2)",
+                "fd",
+                "git",
+                "*syscall.SysProcAttr"
               ]
             }
           ]
         },
         {
-          "id": "issue-48157-q02",
+          "id": "issue-68595-q02",
           "kind": "prose",
           "index": 1,
           "gen_method": "mechanical",
           "blocks": [
             {
               "type": "text",
-              "value": "There is a new testing.TB method "
-            },
-            {
-              "type": "inline_code",
-              "value": "SetTimeout(d time.Duration)"
-            },
-            {
-              "type": "text",
-              "value": " that allows a test to set its own timeout. Calling SetTimeout does not reset the timer. If a test runs for 30 seconds and then calls "
+              "value": "This "
             },
             {
               "type": "mask",
@@ -29716,17 +28406,135 @@
             },
             {
               "type": "text",
-              "value": ", it gets killed for having timed out. A timeout set this way is inherited by subtests. (They each have their own timer.)"
+              "value": " invocation ideally should only access a single temporary directory that we create for it and doesn't need anything else, yet the invoking Golang binary needs an access to much more files and directories, including the networking. So basically, I'm looking to exercise the least privilege principle here."
             }
           ],
           "blanks": [
             {
-              "answer": "t.SetTimeout(1*time.Second)",
+              "answer": "git",
               "choices": [
-                "-testtimeout",
-                "SetTimeout(d time.Duration)",
-                "-timeout",
-                "t.SetTimeout(1*time.Second)"
+                "fork(2)",
+                "git",
+                "os/exec",
+                "fd"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Unfortunately due to Go's runtime and the use of threads, it seems to be somewhat complicated to use ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ", and even if it would work, it would mean re-inventing the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "fork(2)",
+              "choices": [
+                "fork(2)",
+                "fd",
+                "*syscall.SysProcAttr",
+                "git"
+              ]
+            },
+            {
+              "answer": "os/exec",
+              "choices": [
+                "git",
+                "fd",
+                "*syscall.SysProcAttr",
+                "os/exec"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q04",
+          "kind": "prose",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "There's a nice ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " package with a very ergonomic API that can be adapted to emit the ruleset file-descriptor instead of restricting the current process with a couple of line changes."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "github.com/landlock-lsm/go-landlock",
+              "choices": [
+                "*syscall.SysProcAttr",
+                "github.com/landlock-lsm/go-landlock",
+                "git",
+                "os/exec"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q05",
+          "kind": "prose",
+          "index": 4,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "To get the "
+            },
+            {
+              "type": "inline_code",
+              "value": "fd"
+            },
+            {
+              "type": "text",
+              "value": " for the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " above, the user might do something like this:"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "*syscall.SysProcAttr",
+              "choices": [
+                "os/exec",
+                "git",
+                "*syscall.SysProcAttr",
+                "fork(2)"
               ]
             }
           ]
@@ -30536,6 +29344,1405 @@
       ]
     },
     {
+      "id": "issue-42502",
+      "title": "runtime/pprof: NewCPUProfile + cpuProfile.Start to allow profile configuration",
+      "url": "https://github.com/golang/go/issues/42502",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 42502,
+      "quizzes": [
+        {
+          "id": "issue-42502-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Given this, what I am trying to say is that the public/exported method **"
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": "** is still useful, and sometimes even critical for allowing us to use well "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " and to see something relevant on our profiles, depending on the application. I am not alone on this as you can see here (stack overflow) and here (google groups discussion). Even one principal software engineer (L8) I have been working with at Google found it useful when reviewing my PR https://github.com/google/badwolf/pull/155 above and copied the code to use it in one of his applications, on which setting a higher profiling rate was critical as well."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "runtime.SetCPUProfileRate",
+              "choices": [
+                "runtime.SetCPUProfileRate",
+                "runtime.SetCPUProfileRate(800)",
+                "runtime.SetCPUProfileRate(100)",
+                "SetCPUProfileRate"
+              ]
+            },
+            {
+              "answer": "pprof",
+              "choices": [
+                "runtime",
+                "SetCPUProfileRate",
+                "pprof",
+                "cpuprof.on"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-42502-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The ideal would be for the **"
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": "** method **already receive as argument the CPU profile rate** we want, allowing us to customize it, with this argument having its default value set to 100 if it was not specified by the function call. This would be the ideal, if we had support for default arguments in Go. But, we can achieve something similar if we had a similar method with signature "
+            },
+            {
+              "type": "inline_code",
+              "value": "pprof.StartCPUProfileWithSpecifiedRate(w io.Writer, hz int)"
+            },
+            {
+              "type": "text",
+              "value": ", in addition to the "
+            },
+            {
+              "type": "inline_code",
+              "value": "pprof.StartCPUProfile(w io.Writer)"
+            },
+            {
+              "type": "text",
+              "value": " method we already have. This way, the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " method would not necessarily need to be an exported method anymore."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "pprof.StartCPUProfile",
+              "choices": [
+                "pprof.StartCPUProfile",
+                "SetCPUProfileRate",
+                "cpuprof.on",
+                "pprof.StartCPUProfile(w io.Writer)"
+              ]
+            },
+            {
+              "answer": "runtime.SetCPUProfileRate",
+              "choices": [
+                "runtime.SetCPUProfileRate(800)",
+                "runtime.SetCPUProfileRate",
+                "SetCPUProfileRate",
+                "runtime.SetCPUProfileRate(100)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-42502-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "We could **keep "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " public/exported**, but we would have to fix the problem with the misleading warning message \"runtime: cannot set cpu profile rate until previous profile has finished\" if we had already manually set the profiling rate before the call to "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": ". For this we could:"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "runtime.SetCPUProfileRate",
+              "choices": [
+                "runtime.SetCPUProfileRate",
+                "runtime.SetCPUProfileRate(100)",
+                "SetCPUProfileRate",
+                "runtime.SetCPUProfileRate(800)"
+              ]
+            },
+            {
+              "answer": "pprof.StartCPUProfile",
+              "choices": [
+                "cpuprof.on",
+                "pprof.StartCPUProfile(w io.Writer)",
+                "pprof.StartCPUProfile",
+                "SetCPUProfileRate"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-42502-q04",
+          "kind": "prose",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "2.2. Make "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " return an error in the case the profiling rate was already previously set, allowing the caller to handle it and decide what to do from then on (inside "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " we could ignore this error for example). This would change the signature of "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "runtime.SetCPUProfileRate",
+              "choices": [
+                "runtime.SetCPUProfileRate(100)",
+                "runtime.SetCPUProfileRate(800)",
+                "SetCPUProfileRate",
+                "runtime.SetCPUProfileRate"
+              ]
+            },
+            {
+              "answer": "pprof.StartCPUProfile",
+              "choices": [
+                "SetCPUProfileRate",
+                "cpuprof.on",
+                "pprof.StartCPUProfile(w io.Writer)",
+                "pprof.StartCPUProfile"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-42502-q05",
+          "kind": "prose",
+          "index": 4,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "We could **move the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": "** public signature **to the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " package** (with some changes as explained above to avoid the misleading warning message), and deprecate it / make it unexported inside the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " package."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "SetCPUProfileRate",
+              "choices": [
+                "runtime.SetCPUProfileRate",
+                "runtime.SetCPUProfileRate(800)",
+                "SetCPUProfileRate",
+                "pprof.StartCPUProfile"
+              ]
+            },
+            {
+              "answer": "pprof",
+              "choices": [
+                "pprof.StartCPUProfile",
+                "runtime.SetCPUProfileRate",
+                "pprof",
+                "cpuprof.on"
+              ]
+            },
+            {
+              "answer": "runtime",
+              "choices": [
+                "pprof.StartCPUProfile",
+                "cpuprof.on",
+                "runtime.SetCPUProfileRate",
+                "runtime"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-76163",
+      "title": "policy for removing GODEBUG flags",
+      "url": "https://github.com/golang/go/issues/76163",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 76163,
+      "quizzes": [
+        {
+          "id": "issue-76163-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "This is an umbrella issue for the decommissioning of "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " flags. It proposes a policy that guides their deprecation and eventual removal."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "GODEBUG",
+              "choices": [
+                "GODEBUG",
+                "Info",
+                "netdns",
+                "gopls"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-76163-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " (internal package godebug) provides a new mechanism to identify a flag as deprecated and removed. For instance:"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "godebug.Setting",
+              "choices": [
+                "os.Setenv",
+                "godebug.Setting",
+                "netdns",
+                "testing.Setenv"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-76163-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "(TODO: Determine the best way to represent this information in "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ".)"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "internal/godebugs/Info",
+              "choices": [
+                "internal/godebugs/table.go",
+                "testing.Setenv",
+                "internal/godebugs/Info",
+                "godebug.Setting"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-76163-q04",
+          "kind": "prose",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "\\- "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " lines in go.mod and go.work files  \n\\- use of supported "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " comments in type-checker tests (such as \\-gotypesalias)  \n\\- use of "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " to set deprecated flags  \n\\- possibly others"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "godebug",
+              "choices": [
+                "godebug",
+                "gopls",
+                "netdns",
+                "Info"
+              ]
+            },
+            {
+              "answer": "GODEBUG",
+              "choices": [
+                "netdns",
+                "gopls",
+                "GODEBUG",
+                "Info"
+              ]
+            },
+            {
+              "answer": "testing.Setenv",
+              "choices": [
+                "testing.Setenv",
+                "netdns",
+                "godebug.Setting",
+                "os.Setenv"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-76163-q05",
+          "kind": "prose",
+          "index": 4,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "To support complex systems, we may introduce a new "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " flag that causes a program to panic if a deprecated "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " is set to a non-default value: for instance, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " would disallow setting a deprecated "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " at all and cause a panic if such a flag is set to any value. This includes build tools (report a build error) and calls to "
+            },
+            {
+              "type": "inline_code",
+              "value": "os.Setenv"
+            },
+            {
+              "type": "text",
+              "value": " or "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " that set a deprecated "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " flag (cause a panic)."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "GODEBUG",
+              "choices": [
+                "Info",
+                "netdns",
+                "GODEBUG",
+                "gopls"
+              ]
+            },
+            {
+              "answer": "GODEBUG=deprecatedgodebug=0",
+              "choices": [
+                "panicnil=0",
+                "godebug.Setting",
+                "GODEBUG=deprecatedgodebug=0",
+                "internal/godebugs/Info"
+              ]
+            },
+            {
+              "answer": "testing.Setenv",
+              "choices": [
+                "testing.Setenv",
+                "os.Setenv",
+                "godebug.Setting",
+                "netdns"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-47308",
+      "title": "cmd/go: support for Git LFS via new VCS qualifier",
+      "url": "https://github.com/golang/go/issues/47308",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 47308,
+      "quizzes": [
+        {
+          "id": "issue-47308-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "A new VCS named "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " that prescribes the use of Git LFS when fetching a Git repo."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "git-lfs",
+              "choices": [
+                ".git-lfs",
+                "go get",
+                "git-lfs",
+                "vcs"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-47308-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "If not installed, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " should inform the user that Git LFS is required before erroring out.  i.e. "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " should never leave un-smudged Git LFS ref files in a fetched package."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "cmd/go",
+              "choices": [
+                "cmd/go",
+                "go get",
+                "module",
+                "vcs"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-47308-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Specifying "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " as the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " argument in the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " attribute of the go-import meta tag."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "git-lfs",
+              "choices": [
+                ".git-lfs",
+                "module",
+                "git-lfs",
+                "go get"
+              ]
+            },
+            {
+              "answer": "vcs",
+              "choices": [
+                "module",
+                "vcs",
+                "cmd/go",
+                "go get"
+              ]
+            },
+            {
+              "answer": "content",
+              "choices": [
+                "module",
+                "go get",
+                "cmd/go",
+                "content"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-47308-q04",
+          "kind": "prose",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "in the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " directive in a "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " file, e.g. "
+            },
+            {
+              "type": "inline_code",
+              "value": "module go.jpap.org/example.git-lfs"
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "module",
+              "choices": [
+                "cmd/go",
+                "go get",
+                "git-lfs",
+                "module"
+              ]
+            },
+            {
+              "answer": "go.mod",
+              "choices": [
+                "go.mod",
+                "cmd/go",
+                "go-import",
+                "go get"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-54450",
+      "title": "text/template, html/template: add ExecuteFuncs",
+      "url": "https://github.com/golang/go/issues/54450",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 54450,
+      "quizzes": [
+        {
+          "id": "issue-54450-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "This proposal is about providing a way to pass a "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " at template execution overriding specific functions within the template."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "template.FuncMap",
+              "choices": [
+                "template.FuncMap",
+                "FuncMap",
+                "text/template.Template",
+                "funcs template.FuncMap"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ":"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "html/template",
+              "choices": [
+                "text/template",
+                "ExecuteTemplate",
+                "html/template",
+                "html/template.Template"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Calling these methods would execute the template as per "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " and "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " with the only difference being that when a template calls a function the provided "
+            },
+            {
+              "type": "inline_code",
+              "value": "funcs template.FuncMap"
+            },
+            {
+              "type": "text",
+              "value": " would be checked first. In this way "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " can be considered a map of function overrides for template execution and acts similarly to the calling the "
+            },
+            {
+              "type": "inline_code",
+              "value": "Funcs(...)"
+            },
+            {
+              "type": "text",
+              "value": " method on the template but would also override functions in templates called by the current executing template."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "Execute",
+              "choices": [
+                "Execute",
+                ".Item",
+                "FuncMap",
+                "key"
+              ]
+            },
+            {
+              "answer": "ExecuteTemplate",
+              "choices": [
+                "html/template",
+                "text/template",
+                "text/template.Template",
+                "ExecuteTemplate"
+              ]
+            },
+            {
+              "answer": "funcs",
+              "choices": [
+                "FuncMap",
+                "funcs",
+                "key",
+                ".Tr"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q04",
+          "kind": "prose",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "In this example this function takes a "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " and provides the translated value for it."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "key",
+              "choices": [
+                ".Tr",
+                "key",
+                ".",
+                "$"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q05",
+          "kind": "prose",
+          "index": 4,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "and then in our subtemplate refer to "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " and "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " (or "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": "). This means that we need to now know that we're in a subtemplate and every time we call the subtemplate we need to do a similar hack."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": ".Item",
+              "choices": [
+                "key",
+                "funcs",
+                ".",
+                ".Item"
+              ]
+            },
+            {
+              "answer": ".Tr",
+              "choices": [
+                ".Tr",
+                "Tr",
+                "key",
+                "."
+              ]
+            },
+            {
+              "answer": ".root.Tr",
+              "choices": [
+                ".root.Tr",
+                "$.root",
+                ".",
+                "Tr"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q06",
+          "kind": "code",
+          "index": 5,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func (t *Template) ExecuteFuncMap(wr "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ".Writer, data any, funcs FuncMap) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " { ... }\n\nfunc (t *Template) ExecuteTemplateFuncMap(wr "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ".Writer, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": " string, data any, funcs FuncMap) "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " { ... }\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "io",
+              "choices": [
+                "Tr",
+                "key",
+                "wr",
+                "io"
+              ]
+            },
+            {
+              "answer": "error",
+              "choices": [
+                "new",
+                "any",
+                "error",
+                "string"
+              ]
+            },
+            {
+              "answer": "name",
+              "choices": [
+                "name",
+                "data",
+                "wr",
+                "Locale"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q07",
+          "kind": "code",
+          "index": 6,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func (t *Template) ExecuteFuncMap(wr io.Writer, data "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ", "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " FuncMap) error { ... }\n\nfunc (t *Template) ExecuteTemplateFuncMap(wr io.Writer, name "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ", data interface{}, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " FuncMap) error {\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "any",
+              "choices": [
+                "error",
+                "any",
+                "new",
+                "uintptr"
+              ]
+            },
+            {
+              "answer": "funcs",
+              "choices": [
+                "FuncMap",
+                "wr",
+                "funcs",
+                "args"
+              ]
+            },
+            {
+              "answer": "string",
+              "choices": [
+                "error",
+                "append",
+                "string",
+                "new"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q08",
+          "kind": "code",
+          "index": 7,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "func (l *Locale) Tr(key "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": ", "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": " ..."
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": ") "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " { ... }\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "string",
+              "choices": [
+                "bool",
+                "error",
+                "string",
+                "uint16"
+              ]
+            },
+            {
+              "answer": "args",
+              "choices": [
+                "wr",
+                "args",
+                "err",
+                "Tr"
+              ]
+            },
+            {
+              "answer": "any",
+              "choices": [
+                "cap",
+                "any",
+                "iota",
+                "error"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-54450-q09",
+          "kind": "code",
+          "index": 8,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " := tmpl.ExecuteFuncMap(wr, data, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": ".FuncMap(map["
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": "]any{\"Tr\": locale.Tr})\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "err",
+              "choices": [
+                "err",
+                "Tr",
+                "io",
+                "wr"
+              ]
+            },
+            {
+              "answer": "template",
+              "choices": [
+                "name",
+                "tmpl",
+                "data",
+                "template"
+              ]
+            },
+            {
+              "answer": "string",
+              "choices": [
+                "any",
+                "false",
+                "error",
+                "string"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-48157",
+      "title": "cmd/go: add per-test timeouts",
+      "url": "https://github.com/golang/go/issues/48157",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 48157,
+      "quizzes": [
+        {
+          "id": "issue-48157-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "The default per-test case timeout is 1m (one minute). If the new "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " flag is specified explicitly, then that sets a different default. If the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " flag is omitted but "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " is specified explicitly, then that sets the default too. This way, if you have one really long test and use "
+            },
+            {
+              "type": "inline_code",
+              "value": "go test -timeout=30m"
+            },
+            {
+              "type": "text",
+              "value": ", the per-case timeout doesn't kick in after 1 minute and kill it anyway."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "-testtimeout",
+              "choices": [
+                "-testtimeout",
+                "go test -timeout=30m",
+                "SetTimeout(d time.Duration)",
+                "t.SetTimeout(1*time.Second)"
+              ]
+            },
+            {
+              "answer": "-timeout",
+              "choices": [
+                "SetTimeout(d time.Duration)",
+                "t.SetTimeout(1*time.Second)",
+                "-timeout",
+                "go test -timeout=30m"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-48157-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "There is a new testing.TB method "
+            },
+            {
+              "type": "inline_code",
+              "value": "SetTimeout(d time.Duration)"
+            },
+            {
+              "type": "text",
+              "value": " that allows a test to set its own timeout. Calling SetTimeout does not reset the timer. If a test runs for 30 seconds and then calls "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ", it gets killed for having timed out. A timeout set this way is inherited by subtests. (They each have their own timer.)"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "t.SetTimeout(1*time.Second)",
+              "choices": [
+                "-testtimeout",
+                "SetTimeout(d time.Duration)",
+                "-timeout",
+                "t.SetTimeout(1*time.Second)"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "issue-78456",
       "title": "maps: add Same func",
       "url": "https://github.com/golang/go/issues/78456",
@@ -31116,7 +31323,7 @@
               "choices": [
                 "Context.Done",
                 "[]MyByteAlias",
-                "funcs template.FuncMap",
+                "FormatNilSliceAsNull",
                 "Cleanup"
               ]
             }
@@ -31145,7 +31352,7 @@
             {
               "answer": "Cleanup",
               "choices": [
-                "funcs template.FuncMap",
+                "FormatNilSliceAsNull",
                 "~int",
                 "Context.Done",
                 "Cleanup"
@@ -31461,7 +31668,7 @@
               "answer": "GORISCV64",
               "choices": [
                 "template.ParseFS",
-                "key",
+                "~[N]byte",
                 "GORISCV64",
                 "GORISCV64=rva20u64"
               ]
@@ -31567,7 +31774,7 @@
               "answer": "sendfile",
               "choices": [
                 "sendfile",
-                "SyntacticError",
+                "jsontext.Encoder",
                 "And",
                 "shardInfo"
               ]
@@ -33055,7 +33262,7 @@
               "answer": "synctest.Subtest",
               "choices": [
                 "synctest.Subtest",
-                "jsontext.Encoder",
+                "pprof.StartCPUProfileWithSpecifiedRate(w io.Writer, hz int)",
                 "t.Run",
                 "[n]T"
               ]
@@ -33129,7 +33336,7 @@
               "choices": [
                 "synctest.Subtest",
                 "go version -m",
-                "[u]int",
+                "wasm32",
                 "synctest.Test"
               ]
             },
@@ -33831,213 +34038,6 @@
                 "a variable name",
                 "a value",
                 "an explicit type"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-68595",
-      "title": "syscall: support process sandboxing using Landlock on Linux",
-      "url": "https://github.com/golang/go/issues/68595",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 68595,
-      "quizzes": [
-        {
-          "id": "issue-68595-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I have a Golang binary that gets deployed once and then it "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "'s the ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " binary with various arguments under the hood hundreds of thousands of times to process lots of untrusted repositories on the internet."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "os/exec",
-              "choices": [
-                "fork(2)",
-                "*syscall.SysProcAttr",
-                "fd",
-                "os/exec"
-              ]
-            },
-            {
-              "answer": "git",
-              "choices": [
-                "fork(2)",
-                "fd",
-                "git",
-                "*syscall.SysProcAttr"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "This "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " invocation ideally should only access a single temporary directory that we create for it and doesn't need anything else, yet the invoking Golang binary needs an access to much more files and directories, including the networking. So basically, I'm looking to exercise the least privilege principle here."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "git",
-              "choices": [
-                "fork(2)",
-                "git",
-                "os/exec",
-                "fd"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Unfortunately due to Go's runtime and the use of threads, it seems to be somewhat complicated to use ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ", and even if it would work, it would mean re-inventing the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": "."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "fork(2)",
-              "choices": [
-                "fork(2)",
-                "fd",
-                "*syscall.SysProcAttr",
-                "git"
-              ]
-            },
-            {
-              "answer": "os/exec",
-              "choices": [
-                "git",
-                "fd",
-                "*syscall.SysProcAttr",
-                "os/exec"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "There's a nice ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " package with a very ergonomic API that can be adapted to emit the ruleset file-descriptor instead of restricting the current process with a couple of line changes."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "github.com/landlock-lsm/go-landlock",
-              "choices": [
-                "*syscall.SysProcAttr",
-                "github.com/landlock-lsm/go-landlock",
-                "git",
-                "os/exec"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q05",
-          "kind": "prose",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "To get the "
-            },
-            {
-              "type": "inline_code",
-              "value": "fd"
-            },
-            {
-              "type": "text",
-              "value": " for the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " above, the user might do something like this:"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "*syscall.SysProcAttr",
-              "choices": [
-                "os/exec",
-                "git",
-                "*syscall.SysProcAttr",
-                "fork(2)"
               ]
             }
           ]
@@ -36039,7 +36039,7 @@
               "choices": [
                 "http",
                 "MaxHeaderValueCount",
-                "ShiftRight",
+                "OnesCount",
                 "DefaultMaxHeaderValueCount"
               ]
             }
@@ -37142,7 +37142,7 @@
               "choices": [
                 "Clone",
                 "CloneXOF",
-                "EqualToVec",
+                "AsUint32x8",
                 "XOF"
               ]
             },
@@ -37901,7 +37901,7 @@
                 "Write",
                 "time.Time",
                 "region",
-                "simd."
+                ".root.Tr"
               ]
             },
             {
@@ -41486,7 +41486,7 @@
               "choices": [
                 "Select",
                 "Configuration",
-                "Compress",
+                "ExecuteFuncMap",
                 "Rand"
               ]
             },
@@ -41503,7 +41503,7 @@
               "answer": "intType",
               "choices": [
                 "formISO",
-                "GreaterThan",
+                "HasAVX512",
                 "intType",
                 "Tokenizer"
               ]
@@ -46022,9 +46022,9 @@
               "answer": "testing",
               "choices": [
                 "testing",
-                "KindNull",
-                "RotateRightConst",
-                "Mul"
+                "Null",
+                "Expand",
+                "RotateLeft"
               ]
             },
             {
@@ -46649,7 +46649,7 @@
               "answer": "ClientConfig.Auth",
               "choices": [
                 "Function.TypeParams",
-                "rv64g",
+                "i32",
                 "AuthCallback",
                 "ClientConfig.Auth"
               ]
@@ -47706,7 +47706,7 @@
             {
               "answer": "Recvmmsg",
               "choices": [
-                "[u]int16",
+                "wasmimport",
                 "Recvmmsg",
                 "net.Buffers",
                 "flags int"
@@ -48315,7 +48315,7 @@
               "choices": [
                 "runtime.RunOnMainThread",
                 "GOOS=ios",
-                "jsontext",
+                "jsonv1.MergeWithLegacySemantics",
                 "IsA"
               ]
             }
@@ -48353,8 +48353,8 @@
               "answer": "runtime",
               "choices": [
                 "runtime",
-                "Float64x4",
-                "Equal",
+                "And",
+                "Uint16x8",
                 "lit"
               ]
             },
@@ -48363,7 +48363,7 @@
               "choices": [
                 "RunOnMainThread",
                 "bufreader",
-                "Expand",
+                "wr",
                 "btree"
               ]
             }
@@ -48663,7 +48663,7 @@
             {
               "answer": "MLDSA65",
               "choices": [
-                "ShiftLeftConst",
+                "ShiftRight",
                 "MLDSA44",
                 "MLDSA65",
                 "SignatureAlgorithm"
@@ -49389,7 +49389,7 @@
             {
               "answer": "add",
               "choices": [
-                "EndArray",
+                "Canonicalize",
                 "add",
                 "tokLength",
                 "slog"
@@ -49448,7 +49448,7 @@
                 "newElem",
                 "add",
                 "ContentHash",
-                "tmpl"
+                "ReadValue"
               ]
             },
             {
@@ -50085,7 +50085,7 @@
             {
               "answer": "UnknownSignatureAlgorithm",
               "choices": [
-                "omitempty",
+                "dev.simd",
                 "PathError",
                 "UnknownSignatureAlgorithm",
                 "Signature"
@@ -51278,7 +51278,7 @@
               "answer": "PartialSuccessError",
               "choices": [
                 "Tilde",
-                "synctest.Test",
+                "GODEBUG=httptransportcancelrequest=1",
                 "PartialSuccessError",
                 "(*Process).Kill"
               ]
@@ -54258,7 +54258,7 @@
             {
               "answer": "strings.Cut",
               "choices": [
-                "net.IP",
+                "io.Writer.Write",
                 "Anonymous bool",
                 "strings.Cut",
                 "/tile/H/data/K[.p/W]"
@@ -54457,7 +54457,7 @@
                 "golang.org/x/net/h2c",
                 "Transport.Protocols",
                 "Server.Protocols",
-                "RawMessage"
+                "json"
               ]
             },
             {
@@ -56019,7 +56019,7 @@
             {
               "answer": "EqFunc",
               "choices": [
-                "Marshalers",
+                "UnmarshalFromFunc",
                 "hash",
                 "HashFunc",
                 "EqFunc"
@@ -58860,9 +58860,9 @@
             {
               "answer": "time.Time",
               "choices": [
-                "Funcs(...)",
+                "jsonv1.UnmarshalArrayFromAnyLength",
                 "Value",
-                "Request.Cancel",
+                "sql.Rows.Err()",
                 "time.Time"
               ]
             },
@@ -59709,16 +59709,16 @@
                 "MarshalBinary",
                 "list",
                 "URL",
-                "ErrDuplicateName"
+                "MarshalWrite"
               ]
             },
             {
               "answer": "Clone",
               "choices": [
                 "Close",
-                "AsFloat32x4",
+                "Xor",
                 "Clone",
-                "ParseBytesWithLooseRFC4648"
+                "Uint32x4"
               ]
             },
             {
@@ -60610,7 +60610,7 @@
               "choices": [
                 "time",
                 "Now",
-                "AppendToken",
+                "UnmarshalDecode",
                 "Foo"
               ]
             },
@@ -61443,7 +61443,7 @@
               "choices": [
                 "str",
                 "go get example.com/m@master",
-                "LoadUint32x4FromSlice",
+                "os.Setenv",
                 "//go:cgo_unsafe_stack_pointer"
               ]
             }
@@ -61538,7 +61538,7 @@
             {
               "answer": "GOEXPERIMENT=gocacheprog",
               "choices": [
-                "t.Run",
+                "+build !go1.24",
                 "go get -p go",
                 "GOEXPERIMENT=gocacheprog",
                 "mcall"
@@ -61898,7 +61898,7 @@
               "answer": "op",
               "choices": [
                 "op",
-                "Int32x4",
+                "ConvertToFloat32",
                 "Benchmark",
                 "testing"
               ]
