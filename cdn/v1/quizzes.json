@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-12T01:39:50.292818426Z",
+  "generated_at": "2026-08-13T01:42:30.940799215Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "0be13090fdb0cbae0d71641bb676d924bc1c94de",
@@ -27464,201 +27464,6 @@
       ]
     },
     {
-      "id": "issue-29678",
-      "title": "net: add MarshalText/UnmarshalText to HardwareAddr, IPNet, IPMask",
-      "url": "https://github.com/golang/go/issues/29678",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 29678,
-      "quizzes": [
-        {
-          "id": "issue-29678-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I'm trying to unmarshal json content into "
-            },
-            {
-              "type": "inline_code",
-              "value": "net.IP"
-            },
-            {
-              "type": "text",
-              "value": " and "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ".\nBoth types are actually of type "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": "\nSince "
-            },
-            {
-              "type": "inline_code",
-              "value": "net.IP"
-            },
-            {
-              "type": "text",
-              "value": " implements "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": ", it works as expected. However, net.HardwareAddr does not and fails with the error \"illegal base64 data at input byte 2\" (that's the position of the separator)."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "net.HardwareAddr",
-              "choices": [
-                "net.HardwareAddr",
-                "net.IP",
-                "\"ab:cd:ef:ab:cd:ef\"",
-                "os.IsPermission"
-              ]
-            },
-            {
-              "answer": "[]byte",
-              "choices": [
-                "net.IP",
-                "\"ab:cd:ef:ab:cd:ef\"",
-                "[]byte",
-                "Field"
-              ]
-            },
-            {
-              "answer": "json.Marshaler",
-              "choices": [
-                "go test\n-race",
-                "\"ab:cd:ef:ab:cd:ef\"",
-                "net.IP",
-                "json.Marshaler"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-29678-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I found the google group discussion about adding the Marshaller to the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " type: https://groups.google.com/forum/#!topic/golang-nuts/io8aHJarm6U"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "net.IP",
-              "choices": [
-                "[]byte",
-                "net.IP",
-                "net.HardwareAddr",
-                "json.Marshaler"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-29678-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I expect "
-            },
-            {
-              "type": "inline_code",
-              "value": "net.HardwareAddr"
-            },
-            {
-              "type": "text",
-              "value": " to be consistent with "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " and implement "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": ".\nStrings in the form of "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " inside json should be parsable to MAC addresses."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "net.IP",
-              "choices": [
-                "net.IP",
-                "net.HardwareAddr",
-                "[]*bytes.Buffer",
-                "[]byte"
-              ]
-            },
-            {
-              "answer": "json.Marshaler",
-              "choices": [
-                "testing.F",
-                "json.Marshaler",
-                "[]byte",
-                "net.HardwareAddr"
-              ]
-            },
-            {
-              "answer": "\"ab:cd:ef:ab:cd:ef\"",
-              "choices": [
-                "cd",
-                "net.HardwareAddr",
-                "[]byte",
-                "\"ab:cd:ef:ab:cd:ef\""
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-71497",
       "title": "encoding/json/v2: new API for encoding/json",
       "url": "https://github.com/golang/go/issues/71497",
@@ -28328,6 +28133,201 @@
                 "Value",
                 "True",
                 "False"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-29678",
+      "title": "net: add MarshalText/UnmarshalText to HardwareAddr, IPNet, IPMask",
+      "url": "https://github.com/golang/go/issues/29678",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 29678,
+      "quizzes": [
+        {
+          "id": "issue-29678-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "I'm trying to unmarshal json content into "
+            },
+            {
+              "type": "inline_code",
+              "value": "net.IP"
+            },
+            {
+              "type": "text",
+              "value": " and "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ".\nBoth types are actually of type "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": "\nSince "
+            },
+            {
+              "type": "inline_code",
+              "value": "net.IP"
+            },
+            {
+              "type": "text",
+              "value": " implements "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": ", it works as expected. However, net.HardwareAddr does not and fails with the error \"illegal base64 data at input byte 2\" (that's the position of the separator)."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "net.HardwareAddr",
+              "choices": [
+                "net.HardwareAddr",
+                "net.IP",
+                "\"ab:cd:ef:ab:cd:ef\"",
+                "os.IsPermission"
+              ]
+            },
+            {
+              "answer": "[]byte",
+              "choices": [
+                "net.IP",
+                "\"ab:cd:ef:ab:cd:ef\"",
+                "[]byte",
+                "Field"
+              ]
+            },
+            {
+              "answer": "json.Marshaler",
+              "choices": [
+                "go test\n-race",
+                "\"ab:cd:ef:ab:cd:ef\"",
+                "net.IP",
+                "json.Marshaler"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-29678-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "I found the google group discussion about adding the Marshaller to the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " type: https://groups.google.com/forum/#!topic/golang-nuts/io8aHJarm6U"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "net.IP",
+              "choices": [
+                "[]byte",
+                "net.IP",
+                "net.HardwareAddr",
+                "json.Marshaler"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-29678-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "I expect "
+            },
+            {
+              "type": "inline_code",
+              "value": "net.HardwareAddr"
+            },
+            {
+              "type": "text",
+              "value": " to be consistent with "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " and implement "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": ".\nStrings in the form of "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " inside json should be parsable to MAC addresses."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "net.IP",
+              "choices": [
+                "net.IP",
+                "net.HardwareAddr",
+                "[]*bytes.Buffer",
+                "[]byte"
+              ]
+            },
+            {
+              "answer": "json.Marshaler",
+              "choices": [
+                "testing.F",
+                "json.Marshaler",
+                "[]byte",
+                "net.HardwareAddr"
+              ]
+            },
+            {
+              "answer": "\"ab:cd:ef:ab:cd:ef\"",
+              "choices": [
+                "cd",
+                "net.HardwareAddr",
+                "[]byte",
+                "\"ab:cd:ef:ab:cd:ef\""
               ]
             }
           ]
@@ -31323,7 +31323,7 @@
               "choices": [
                 "Context.Done",
                 "[]MyByteAlias",
-                "FormatNilSliceAsNull",
+                "jsonv1.FormatByteArrayAsArray",
                 "Cleanup"
               ]
             }
@@ -31352,7 +31352,7 @@
             {
               "answer": "Cleanup",
               "choices": [
-                "FormatNilSliceAsNull",
+                "jsonv1.FormatByteArrayAsArray",
                 "~int",
                 "Context.Done",
                 "Cleanup"
@@ -31668,7 +31668,7 @@
               "answer": "GORISCV64",
               "choices": [
                 "template.ParseFS",
-                "~[N]byte",
+                "Deterministic",
                 "GORISCV64",
                 "GORISCV64=rva20u64"
               ]
@@ -31774,7 +31774,7 @@
               "answer": "sendfile",
               "choices": [
                 "sendfile",
-                "jsontext.Encoder",
+                "jsonv1",
                 "And",
                 "shardInfo"
               ]
@@ -48315,7 +48315,7 @@
               "choices": [
                 "runtime.RunOnMainThread",
                 "GOOS=ios",
-                "jsonv1.MergeWithLegacySemantics",
+                "reflect.Value.IsZero",
                 "IsA"
               ]
             }
@@ -54258,7 +54258,7 @@
             {
               "answer": "strings.Cut",
               "choices": [
-                "io.Writer.Write",
+                "MarshalWrite",
                 "Anonymous bool",
                 "strings.Cut",
                 "/tile/H/data/K[.p/W]"
@@ -54457,7 +54457,7 @@
                 "golang.org/x/net/h2c",
                 "Transport.Protocols",
                 "Server.Protocols",
-                "json"
+                "jsontext.Value"
               ]
             },
             {
@@ -58860,7 +58860,7 @@
             {
               "answer": "time.Time",
               "choices": [
-                "jsonv1.UnmarshalArrayFromAnyLength",
+                "UnmarshalJSON",
                 "Value",
                 "sql.Rows.Err()",
                 "time.Time"
