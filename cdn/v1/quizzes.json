@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-13T01:42:30.940799215Z",
+  "generated_at": "2026-08-14T01:40:34.176704029Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "0be13090fdb0cbae0d71641bb676d924bc1c94de",
@@ -2607,7 +2607,7 @@
               "choices": [
                 "garbage -benchmem 512 -benchtime 30s",
                 "GODEBUG=gcpacertrace=1",
-                "MaxHeaderValueCount",
+                "findCommon",
                 "0o777"
               ]
             }
@@ -5346,7 +5346,7 @@
               "choices": [
                 "mellium.im/xmlstream",
                 "encoding/xml",
-                "trace",
+                "traceAdvance",
                 "golang.org/x/text/transform"
               ]
             }
@@ -7100,7 +7100,7 @@
               "answer": "Copy",
               "choices": [
                 "RawXML",
-                "LoadFloat64x4",
+                "a7",
                 "Copy",
                 "FailNow"
               ]
@@ -7629,7 +7629,7 @@
                 "AddVecs",
                 "HotNode",
                 "exec",
-                "O_NOFOLLOW_ANY"
+                "flag"
               ]
             },
             {
@@ -7646,7 +7646,7 @@
               "choices": [
                 "scalar",
                 "Set",
-                "FuncMap",
+                "HasAVX512",
                 "addVecsAsm"
               ]
             }
@@ -7725,7 +7725,7 @@
                 "//go:binary-only-package",
                 "IncompleteSources bool",
                 "go test all",
-                "yield"
+                "func(yield func(T1, T2)bool) bool"
               ]
             }
           ]
@@ -12838,7 +12838,7 @@
             {
               "answer": "event",
               "choices": [
-                "NewRat",
+                "Floor",
                 "value",
                 "HelloWorld",
                 "event"
@@ -12894,7 +12894,7 @@
                 "eventsch",
                 "HelloWorld",
                 "event",
-                "old"
+                "MX"
               ]
             },
             {
@@ -14822,8 +14822,8 @@
             {
               "answer": "SetMemoryTarget",
               "choices": [
-                "RotateRight",
-                "Uint8x16",
+                "ShiftLeft",
+                "Compress",
                 "LastToken",
                 "SetMemoryTarget"
               ]
@@ -14831,7 +14831,7 @@
             {
               "answer": "amount",
               "choices": [
-                "Usage",
+                "display",
                 "amount",
                 "Sender",
                 "Zero"
@@ -23851,17 +23851,17 @@
             {
               "answer": "crypto/...",
               "choices": [
-                "MaxHeaderValueCount",
+                "findCommon",
                 "crypto/...",
-                "Rat.Ceil",
-                "source.go:1234"
+                "Rat",
+                "nhooyr.io/websocket"
               ]
             },
             {
               "answer": "golang.org/x/crypto/...",
               "choices": [
                 "golang.org/x/crypto/...",
-                "template.Must",
+                "url.MustParse",
                 "trackedObjs",
                 "device"
               ]
@@ -28140,201 +28140,6 @@
       ]
     },
     {
-      "id": "issue-29678",
-      "title": "net: add MarshalText/UnmarshalText to HardwareAddr, IPNet, IPMask",
-      "url": "https://github.com/golang/go/issues/29678",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 29678,
-      "quizzes": [
-        {
-          "id": "issue-29678-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I'm trying to unmarshal json content into "
-            },
-            {
-              "type": "inline_code",
-              "value": "net.IP"
-            },
-            {
-              "type": "text",
-              "value": " and "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ".\nBoth types are actually of type "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": "\nSince "
-            },
-            {
-              "type": "inline_code",
-              "value": "net.IP"
-            },
-            {
-              "type": "text",
-              "value": " implements "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": ", it works as expected. However, net.HardwareAddr does not and fails with the error \"illegal base64 data at input byte 2\" (that's the position of the separator)."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "net.HardwareAddr",
-              "choices": [
-                "net.HardwareAddr",
-                "net.IP",
-                "\"ab:cd:ef:ab:cd:ef\"",
-                "os.IsPermission"
-              ]
-            },
-            {
-              "answer": "[]byte",
-              "choices": [
-                "net.IP",
-                "\"ab:cd:ef:ab:cd:ef\"",
-                "[]byte",
-                "Field"
-              ]
-            },
-            {
-              "answer": "json.Marshaler",
-              "choices": [
-                "go test\n-race",
-                "\"ab:cd:ef:ab:cd:ef\"",
-                "net.IP",
-                "json.Marshaler"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-29678-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I found the google group discussion about adding the Marshaller to the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " type: https://groups.google.com/forum/#!topic/golang-nuts/io8aHJarm6U"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "net.IP",
-              "choices": [
-                "[]byte",
-                "net.IP",
-                "net.HardwareAddr",
-                "json.Marshaler"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-29678-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I expect "
-            },
-            {
-              "type": "inline_code",
-              "value": "net.HardwareAddr"
-            },
-            {
-              "type": "text",
-              "value": " to be consistent with "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " and implement "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": ".\nStrings in the form of "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " inside json should be parsable to MAC addresses."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "net.IP",
-              "choices": [
-                "net.IP",
-                "net.HardwareAddr",
-                "[]*bytes.Buffer",
-                "[]byte"
-              ]
-            },
-            {
-              "answer": "json.Marshaler",
-              "choices": [
-                "testing.F",
-                "json.Marshaler",
-                "[]byte",
-                "net.HardwareAddr"
-              ]
-            },
-            {
-              "answer": "\"ab:cd:ef:ab:cd:ef\"",
-              "choices": [
-                "cd",
-                "net.HardwareAddr",
-                "[]byte",
-                "\"ab:cd:ef:ab:cd:ef\""
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-68595",
       "title": "syscall: support process sandboxing using Landlock on Linux",
       "url": "https://github.com/golang/go/issues/68595",
@@ -28535,6 +28340,372 @@
                 "git",
                 "*syscall.SysProcAttr",
                 "fork(2)"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-71151",
+      "title": "strings, bytes: add CutLast",
+      "url": "https://github.com/golang/go/issues/71151",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 71151,
+      "quizzes": [
+        {
+          "id": "issue-71151-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "A couple of times now while chopping up some strings I've happily enjoyed "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " but had to write my own "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " (the latest was implementing a subset of the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " spec where some of the things you need to find from the back of the string, and some from the front). It's a silly thing but it feels like an oversight."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "strings.Cut",
+              "choices": [
+                "MarshalWrite",
+                "Anonymous bool",
+                "strings.Cut",
+                "/tile/H/data/K[.p/W]"
+              ]
+            },
+            {
+              "answer": "CutLast",
+              "choices": [
+                "LookupAsString",
+                "CutLast",
+                "return nil",
+                "ServerAuthError"
+              ]
+            },
+            {
+              "answer": "package-url",
+              "choices": [
+                "interface { I }",
+                "|",
+                "package-url",
+                "testing.Cover.CoveredPackages"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-71151-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "For reference, here is one of the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " I've implemented, verbatim. Trivial and obvious:"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "CutLast",
+              "choices": [
+                "IsImplicit",
+                "CutLast",
+                "package-url",
+                "strings.Cut"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-71151-q03",
+          "kind": "code",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "code_block",
+              "value": "// CutLast slices s around the last instance of sep,\n// returning the text before and after sep.\n// The found result reports whether sep appears in s.\n// If sep does not appear in s, CutLast returns s, \"\", false.\nfunc stringsꞏCutLast(s, sep string) (before, after string, "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "code_block",
+              "value": " bool) {\n\tif i := "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "code_block",
+              "value": ".LastIndex(s, sep); i \u003e= 0 {\n\t\treturn s[:i], s[i+len(sep):], "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "code_block",
+              "value": "\n\t}\n\treturn s, \"\", false\n}\n"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "found",
+              "choices": [
+                "sep",
+                "after",
+                "before",
+                "found"
+              ]
+            },
+            {
+              "answer": "strings",
+              "choices": [
+                "strings",
+                "before",
+                "after",
+                "sep"
+              ]
+            },
+            {
+              "answer": "true",
+              "choices": [
+                "bool",
+                "true",
+                "len",
+                "string"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-29678",
+      "title": "net: add MarshalText/UnmarshalText to HardwareAddr, IPNet, IPMask",
+      "url": "https://github.com/golang/go/issues/29678",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 29678,
+      "quizzes": [
+        {
+          "id": "issue-29678-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "I'm trying to unmarshal json content into "
+            },
+            {
+              "type": "inline_code",
+              "value": "net.IP"
+            },
+            {
+              "type": "text",
+              "value": " and "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ".\nBoth types are actually of type "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": "\nSince "
+            },
+            {
+              "type": "inline_code",
+              "value": "net.IP"
+            },
+            {
+              "type": "text",
+              "value": " implements "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": ", it works as expected. However, net.HardwareAddr does not and fails with the error \"illegal base64 data at input byte 2\" (that's the position of the separator)."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "net.HardwareAddr",
+              "choices": [
+                "net.HardwareAddr",
+                "net.IP",
+                "\"ab:cd:ef:ab:cd:ef\"",
+                "os.IsPermission"
+              ]
+            },
+            {
+              "answer": "[]byte",
+              "choices": [
+                "net.IP",
+                "\"ab:cd:ef:ab:cd:ef\"",
+                "[]byte",
+                "Field"
+              ]
+            },
+            {
+              "answer": "json.Marshaler",
+              "choices": [
+                "go test\n-race",
+                "\"ab:cd:ef:ab:cd:ef\"",
+                "net.IP",
+                "json.Marshaler"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-29678-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "I found the google group discussion about adding the Marshaller to the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " type: https://groups.google.com/forum/#!topic/golang-nuts/io8aHJarm6U"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "net.IP",
+              "choices": [
+                "[]byte",
+                "net.IP",
+                "net.HardwareAddr",
+                "json.Marshaler"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-29678-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "I expect "
+            },
+            {
+              "type": "inline_code",
+              "value": "net.HardwareAddr"
+            },
+            {
+              "type": "text",
+              "value": " to be consistent with "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " and implement "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": ".\nStrings in the form of "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " inside json should be parsable to MAC addresses."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "net.IP",
+              "choices": [
+                "net.IP",
+                "net.HardwareAddr",
+                "[]*bytes.Buffer",
+                "[]byte"
+              ]
+            },
+            {
+              "answer": "json.Marshaler",
+              "choices": [
+                "testing.F",
+                "json.Marshaler",
+                "[]byte",
+                "net.HardwareAddr"
+              ]
+            },
+            {
+              "answer": "\"ab:cd:ef:ab:cd:ef\"",
+              "choices": [
+                "cd",
+                "net.HardwareAddr",
+                "[]byte",
+                "\"ab:cd:ef:ab:cd:ef\""
               ]
             }
           ]
@@ -30800,7 +30971,7 @@
               "choices": [
                 "errors.Is(err, os.ErrX)",
                 "reflect.Value",
-                "FilterFile",
+                "MergePackageFiles",
                 "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()"
               ]
             },
@@ -31015,7 +31186,7 @@
             {
               "answer": "x/crypto/acme",
               "choices": [
-                "hash.CloneXOF",
+                "Clone() XOF",
                 "x/crypto/acme",
                 "Rat.SetString",
                 "x/exp"
@@ -31677,8 +31848,8 @@
               "answer": "rva20u64",
               "choices": [
                 "GORISCV64=rva20u64",
-                "%q",
-                "unique",
+                "git diff --exit-code",
+                "runtime.AddCleanup",
                 "rva20u64"
               ]
             },
@@ -31686,7 +31857,7 @@
               "answer": "rv64g",
               "choices": [
                 "rv64g",
-                "MaxHeaderValueCount",
+                "findCommon",
                 "eventsch",
                 "GORISCV64=rva20u64"
               ]
@@ -31775,7 +31946,7 @@
               "choices": [
                 "sendfile",
                 "jsonv1",
-                "And",
+                "x.AsFloat64s()",
                 "shardInfo"
               ]
             },
@@ -32642,14 +32813,14 @@
                 "sharedKey",
                 "File",
                 "parser",
-                "big"
+                "PreorderStack"
               ]
             },
             {
               "answer": "ResolveFile",
               "choices": [
-                "MaxInt32",
-                "Uintptr",
+                "Identical",
+                "MaxUint64",
                 "ResolveFile",
                 "File"
               ]
@@ -32660,7 +32831,7 @@
                 "File",
                 "Load",
                 "ast",
-                "CapabilityCount"
+                "ProcThreadAttribute"
               ]
             }
           ]
@@ -33262,7 +33433,7 @@
               "answer": "synctest.Subtest",
               "choices": [
                 "synctest.Subtest",
-                "pprof.StartCPUProfileWithSpecifiedRate(w io.Writer, hz int)",
+                "cpuprof.on",
                 "t.Run",
                 "[n]T"
               ]
@@ -33336,7 +33507,7 @@
               "choices": [
                 "synctest.Subtest",
                 "go version -m",
-                "wasm32",
+                "Context.Done",
                 "synctest.Test"
               ]
             },
@@ -35131,7 +35302,7 @@
             {
               "answer": "types.Info",
               "choices": [
-                "GoMod string",
+                "-d=checkptr",
                 "0o377",
                 "types.Info",
                 "(*Process).Kill"
@@ -35604,7 +35775,7 @@
                 "ErrNoAuth",
                 "NewSignerWithAlgorithms",
                 "findCommon",
-                "GOAMD64"
+                "TypeRegA"
               ]
             }
           ]
@@ -36039,7 +36210,7 @@
               "choices": [
                 "http",
                 "MaxHeaderValueCount",
-                "OnesCount",
+                "RotateRight",
                 "DefaultMaxHeaderValueCount"
               ]
             }
@@ -36251,8 +36422,8 @@
               "answer": "flakytest.Mark",
               "choices": [
                 "flakytest.Mark",
-                "GetConfigForClient",
-                "MarshalPKIXPublicKey",
+                "runtime.SetFinalizer",
+                "crypto.RegisterHash",
                 "go test -exec=..."
               ]
             },
@@ -37132,7 +37303,7 @@
               "answer": "hash",
               "choices": [
                 "hash",
-                "Position",
+                "tokEnd",
                 "XOF",
                 "CloneXOF"
               ]
@@ -37142,7 +37313,7 @@
               "choices": [
                 "Clone",
                 "CloneXOF",
-                "AsUint32x8",
+                "ExtendToUint64",
                 "XOF"
               ]
             },
@@ -37207,7 +37378,7 @@
               "choices": [
                 "XOF",
                 "Clone",
-                "suffix",
+                "install",
                 "CloneXOF"
               ]
             },
@@ -37756,7 +37927,7 @@
                 "nhooyr.io/websocket/mod",
                 "./mod",
                 "buildmode=c-shared",
-                "Hash.HashFunc()"
+                "crypto/mldsa"
               ]
             },
             {
@@ -37801,7 +37972,7 @@
             {
               "answer": "nhooyr.io/websocket/mod",
               "choices": [
-                "func(yield func(T1, T2)bool) bool",
+                "goroutineleakprofile",
                 "./mod",
                 "nhooyr.io/websocket/mod",
                 "MaxShards"
@@ -37812,7 +37983,7 @@
               "choices": [
                 "./mod",
                 "nhooyr.io/websocket",
-                "trace",
+                "traceAdvance",
                 "logr.LogSink"
               ]
             }
@@ -37901,7 +38072,7 @@
                 "Write",
                 "time.Time",
                 "region",
-                ".root.Tr"
+                ".Tr"
               ]
             },
             {
@@ -38079,7 +38250,7 @@
             {
               "answer": "source.go:1234",
               "choices": [
-                "PackageExports",
+                "./...",
                 "source.go:1234",
                 "my_test.go:321",
                 "testing"
@@ -39354,7 +39525,7 @@
                 "new()",
                 "foreach",
                 "PeerCertificates",
-                "interface{ ~[]int }"
+                "math/rand/v2"
               ]
             }
           ]
@@ -39542,7 +39713,7 @@
               "choices": [
                 "sha3.SHA3",
                 "[]F",
-                "TestExampleFoo",
+                "Xxx",
                 "perf sched record --clockid CLOCK_MONOTONIC \u003ccommand\u003e"
               ]
             }
@@ -40723,7 +40894,7 @@
             {
               "answer": "slices",
               "choices": [
-                "go install .",
+                "GOAMD64=v1",
                 "r_n",
                 "T implements Equal\u003cT\u003e",
                 "slices"
@@ -40813,7 +40984,7 @@
               "choices": [
                 "@version",
                 "$PATH",
-                "zero",
+                "f1(j, i)",
                 "go doc"
               ]
             },
@@ -41350,7 +41521,7 @@
               "choices": [
                 "rand.Rand.N",
                 "N",
-                "crypto.Hash",
+                "*mldsa.PublicKey",
                 "go tool link x.a"
               ]
             },
@@ -41360,7 +41531,7 @@
                 "(*LazyProc).Call",
                 "N",
                 "math/rand/v2",
-                "RemoteAddr"
+                "SignMessage"
               ]
             }
           ]
@@ -41414,7 +41585,7 @@
               "choices": [
                 "Rand",
                 "ChannelHandler",
-                "ShakeHash",
+                "DefaultMaxHeaderValueCount",
                 "Int"
               ]
             },
@@ -41424,7 +41595,7 @@
                 "KindUint64",
                 "intType",
                 "Rand",
-                "SliceData"
+                "world"
               ]
             }
           ]
@@ -41486,7 +41657,7 @@
               "choices": [
                 "Select",
                 "Configuration",
-                "ExecuteFuncMap",
+                "TruncateToUint8",
                 "Rand"
               ]
             },
@@ -41494,7 +41665,7 @@
               "answer": "Int",
               "choices": [
                 "Int",
-                "types2",
+                "up",
                 "out",
                 "SignWithAlgorithm"
               ]
@@ -41503,7 +41674,7 @@
               "answer": "intType",
               "choices": [
                 "formISO",
-                "HasAVX512",
+                "Permute",
                 "intType",
                 "Tokenizer"
               ]
@@ -43827,7 +43998,7 @@
                 "-mod=mod",
                 "go list ...",
                 "work",
-                "StartupInfoEx"
+                "ProcessAttributes"
               ]
             }
           ]
@@ -46023,17 +46194,17 @@
               "choices": [
                 "testing",
                 "Null",
-                "Expand",
-                "RotateLeft"
+                "OnesCount",
+                "Xor"
               ]
             },
             {
               "answer": "Wait",
               "choices": [
                 "ConnectionAdded",
-                "MaxInt32",
+                "Identical",
                 "Wait",
-                "filterA"
+                "NodeType"
               ]
             }
           ]
@@ -46592,7 +46763,7 @@
               "choices": [
                 "only",
                 "plugin",
-                "interface { Reader; Closer }",
+                "FilterFile",
                 "packetConn"
               ]
             }
@@ -46648,8 +46819,8 @@
             {
               "answer": "ClientConfig.Auth",
               "choices": [
-                "Function.TypeParams",
-                "i32",
+                "[]*TypeParam",
+                "[u]int",
                 "AuthCallback",
                 "ClientConfig.Auth"
               ]
@@ -46788,7 +46959,7 @@
                 "x/crypto/ssh",
                 "strconv.ParseUint",
                 "slog.Handler",
-                "http.Request"
+                "runtime/debug.BuildSetting"
               ]
             }
           ]
@@ -47272,7 +47443,7 @@
               "choices": [
                 "tools",
                 "multichecker",
-                "interface { m() interface { I } }",
+                "interface { Reader; Close() error }",
                 "go vet"
               ]
             }
@@ -47706,7 +47877,7 @@
             {
               "answer": "Recvmmsg",
               "choices": [
-                "wasmimport",
+                "wasm",
                 "Recvmmsg",
                 "net.Buffers",
                 "flags int"
@@ -48296,7 +48467,7 @@
               "answer": "syscall.RunOnMainThread",
               "choices": [
                 "syscall.RunOnMainThread",
-                "work",
+                "func (*WaitGroup) Go(task func())",
                 "M2",
                 "runtime.RunOnMainThread"
               ]
@@ -48353,9 +48524,9 @@
               "answer": "runtime",
               "choices": [
                 "runtime",
-                "And",
-                "Uint16x8",
-                "lit"
+                "LoadFloat64x4",
+                "AsMask",
+                "Transport"
               ]
             },
             {
@@ -48363,7 +48534,7 @@
               "choices": [
                 "RunOnMainThread",
                 "bufreader",
-                "wr",
+                "Uint8x16",
                 "btree"
               ]
             }
@@ -48663,7 +48834,7 @@
             {
               "answer": "MLDSA65",
               "choices": [
-                "ShiftRight",
+                "Max",
                 "MLDSA44",
                 "MLDSA65",
                 "SignatureAlgorithm"
@@ -48674,7 +48845,7 @@
               "choices": [
                 "MLDSA44",
                 "SignatureAlgorithm",
-                "Position",
+                "tokEnd",
                 "MLDSA87"
               ]
             }
@@ -48916,7 +49087,7 @@
             {
               "answer": "x509.SetFallbackRoots",
               "choices": [
-                "//go:wasmexport",
+                "satconv",
                 "unicode.IsSpace",
                 "x509.SetFallbackRoots",
                 "!="
@@ -49391,8 +49562,8 @@
               "choices": [
                 "Canonicalize",
                 "add",
-                "tokLength",
-                "slog"
+                "parser",
+                "EncryptedClientHelloKeys"
               ]
             },
             {
@@ -49447,7 +49618,7 @@
               "choices": [
                 "newElem",
                 "add",
-                "ContentHash",
+                "SymBind",
                 "ReadValue"
               ]
             },
@@ -50085,7 +50256,7 @@
             {
               "answer": "UnknownSignatureAlgorithm",
               "choices": [
-                "dev.simd",
+                "json.Marshaler",
                 "PathError",
                 "UnknownSignatureAlgorithm",
                 "Signature"
@@ -51004,7 +51175,7 @@
             {
               "answer": "ssh.Conn",
               "choices": [
-                "helper/winexec/create.go",
+                "ThreadAttributes",
                 "1_",
                 "type algorithms",
                 "ssh.Conn"
@@ -51278,7 +51449,7 @@
               "answer": "PartialSuccessError",
               "choices": [
                 "Tilde",
-                "GODEBUG=httptransportcancelrequest=1",
+                "*Request",
                 "PartialSuccessError",
                 "(*Process).Kill"
               ]
@@ -52004,7 +52175,7 @@
               "answer": "req.Protocol",
               "choices": [
                 "Protocol",
-                "File.OpenIn",
+                "f.OpenIn(x)",
                 "req.Protocol",
                 ":protocol"
               ]
@@ -53222,7 +53393,7 @@
             {
               "answer": "fmt",
               "choices": [
-                "Bar",
+                "longer",
                 "to",
                 "WithCancel",
                 "fmt"
@@ -53234,7 +53405,7 @@
                 "Printf",
                 "Female",
                 "variadic",
-                "v0"
+                "FileMode"
               ]
             }
           ]
@@ -54212,177 +54383,6 @@
       ]
     },
     {
-      "id": "issue-71151",
-      "title": "strings, bytes: add CutLast",
-      "url": "https://github.com/golang/go/issues/71151",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 71151,
-      "quizzes": [
-        {
-          "id": "issue-71151-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "A couple of times now while chopping up some strings I've happily enjoyed "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " but had to write my own "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " (the latest was implementing a subset of the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " spec where some of the things you need to find from the back of the string, and some from the front). It's a silly thing but it feels like an oversight."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "strings.Cut",
-              "choices": [
-                "MarshalWrite",
-                "Anonymous bool",
-                "strings.Cut",
-                "/tile/H/data/K[.p/W]"
-              ]
-            },
-            {
-              "answer": "CutLast",
-              "choices": [
-                "LookupAsString",
-                "CutLast",
-                "return nil",
-                "findCommon"
-              ]
-            },
-            {
-              "answer": "package-url",
-              "choices": [
-                "type T = U",
-                "|",
-                "package-url",
-                "testing.Cover.CoveredPackages"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-71151-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "For reference, here is one of the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " I've implemented, verbatim. Trivial and obvious:"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "CutLast",
-              "choices": [
-                "IsImplicit",
-                "CutLast",
-                "package-url",
-                "strings.Cut"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-71151-q03",
-          "kind": "code",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "// CutLast slices s around the last instance of sep,\n// returning the text before and after sep.\n// The found result reports whether sep appears in s.\n// If sep does not appear in s, CutLast returns s, \"\", false.\nfunc stringsꞏCutLast(s, sep string) (before, after string, "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " bool) {\n\tif i := "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": ".LastIndex(s, sep); i \u003e= 0 {\n\t\treturn s[:i], s[i+len(sep):], "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "\n\t}\n\treturn s, \"\", false\n}\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "found",
-              "choices": [
-                "sep",
-                "after",
-                "before",
-                "found"
-              ]
-            },
-            {
-              "answer": "strings",
-              "choices": [
-                "strings",
-                "before",
-                "after",
-                "sep"
-              ]
-            },
-            {
-              "answer": "true",
-              "choices": [
-                "bool",
-                "true",
-                "len",
-                "string"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-72039",
       "title": "x/net/http2/h2c: deprecate h2c package",
       "url": "https://github.com/golang/go/issues/72039",
@@ -54610,7 +54610,7 @@
               "choices": [
                 "NewRecipientWithPSK",
                 "NewKDF",
-                "Option1",
+                "FPT",
                 "NewSenderWithPSK"
               ]
             },
@@ -55622,7 +55622,7 @@
             {
               "answer": "-fullpath",
               "choices": [
-                "go install .",
+                "GOAMD64=v1",
                 "-fullpath",
                 "sync.Once",
                 "GODEBUG=x509sha1=1"
@@ -57684,7 +57684,7 @@
               "choices": [
                 "`${`${...}`}`",
                 "`${\"asd\"}`",
-                "f'",
+                "'",
                 "`${let a = {};}`"
               ]
             }
@@ -58862,7 +58862,7 @@
               "choices": [
                 "UnmarshalJSON",
                 "Value",
-                "sql.Rows.Err()",
+                "sendfile",
                 "time.Time"
               ]
             },
@@ -58903,7 +58903,7 @@
                 "Interface",
                 "time.Time",
                 "Value",
-                "fmt.Formatter"
+                "go fmt"
               ]
             }
           ]
@@ -59716,15 +59716,15 @@
               "answer": "Clone",
               "choices": [
                 "Close",
-                "Xor",
+                "Sub",
                 "Clone",
-                "Uint32x4"
+                "sep"
               ]
             },
             {
               "answer": "Values",
               "choices": [
-                "Once",
+                "MinUint32",
                 "Values",
                 "later",
                 "faded"
@@ -60304,13 +60304,13 @@
                 "Sum() int64",
                 "type MyString string",
                 "libc::res_init",
-                "a = A{g}"
+                "README"
               ]
             },
             {
               "answer": "res_init",
               "choices": [
-                "const MLKEM1024 CurveID = 514",
+                "syscall.RunOnMainThread",
                 "res_init",
                 "MADV_DONTNEED",
                 "E1"
@@ -60693,7 +60693,7 @@
             {
               "answer": "Foo",
               "choices": [
-                "modload",
+                "git",
                 "EmptyStruct",
                 "time",
                 "Foo"
@@ -60916,7 +60916,7 @@
               "choices": [
                 "errors.As",
                 "errors",
-                "FT",
+                "[]MyPtr",
                 "IsA"
               ]
             }
@@ -61443,7 +61443,7 @@
               "choices": [
                 "str",
                 "go get example.com/m@master",
-                "os.Setenv",
+                "staticcheck",
                 "//go:cgo_unsafe_stack_pointer"
               ]
             }
@@ -61538,7 +61538,7 @@
             {
               "answer": "GOEXPERIMENT=gocacheprog",
               "choices": [
-                "+build !go1.24",
+                "*newReq := *req",
                 "go get -p go",
                 "GOEXPERIMENT=gocacheprog",
                 "mcall"
@@ -61889,7 +61889,7 @@
               "answer": "Loop",
               "choices": [
                 "Benchmark",
-                "Reserved",
+                "Attribute",
                 "Loop",
                 "testing"
               ]
@@ -61898,7 +61898,7 @@
               "answer": "op",
               "choices": [
                 "op",
-                "ConvertToFloat32",
+                "EqualToMask",
                 "Benchmark",
                 "testing"
               ]
@@ -61962,7 +61962,7 @@
             {
               "answer": "Loop",
               "choices": [
-                "white",
+                "ScanComments",
                 "op",
                 "Loop",
                 "Benchmark"
@@ -62009,7 +62009,7 @@
             {
               "answer": "Benchmark",
               "choices": [
-                "Enclosing",
+                "details",
                 "State",
                 "Benchmark",
                 "op"
@@ -62030,7 +62030,7 @@
                 "op",
                 "Loop",
                 "NewSigner",
-                "doc"
+                "are"
               ]
             }
           ]
