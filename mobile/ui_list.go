@@ -97,6 +97,11 @@ func (u *UI) proposalRow(gtx layout.Context, th *material.Theme, i int) layout.D
 		u.selected = i
 		u.screen = screenQuiz
 		u.quizV.open(p, u.store)
+		// The screen changes while this frame is already laying out the list,
+		// so the new screen only appears on the next frame — and without this
+		// there is no next frame until some other input arrives, making the
+		// tap look ignored.
+		gtx.Execute(op.InvalidateCmd{})
 	}
 
 	return click.Layout(gtx, func(gtx layout.Context) layout.Dimensions {

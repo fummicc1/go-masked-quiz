@@ -7,6 +7,7 @@ import (
 
 	"gioui.org/font"
 	"gioui.org/layout"
+	"gioui.org/op"
 	"gioui.org/op/clip"
 	"gioui.org/op/paint"
 	"gioui.org/unit"
@@ -58,12 +59,16 @@ func (u *UI) layoutQuiz(gtx layout.Context, th *material.Theme) layout.Dimension
 	v := &u.quizV
 	p := v.proposal
 
+	// Every state change here lands mid-frame, so each one asks for another
+	// frame; otherwise the change is not drawn until the next unrelated input.
 	if v.back.Clicked(gtx) {
 		u.screen = screenList
+		gtx.Execute(op.InvalidateCmd{})
 	}
 	if v.reset.Clicked(gtx) {
 		u.store.reset(p.ID)
 		v.answers = map[blankKey]answer{}
+		gtx.Execute(op.InvalidateCmd{})
 	}
 
 	return layout.Flex{Axis: layout.Vertical}.Layout(gtx,
@@ -263,6 +268,9 @@ func (u *UI) choiceChip(gtx layout.Context, th *material.Theme, v *quizView, q q
 		v.answers[key] = a
 		u.store.record(v.proposal.ID, key, a)
 		ans, answered = a, true
+		// The chips below this one, the mask in the body, and the header
+		// progress all change; ask for the frame that draws them.
+		gtx.Execute(op.InvalidateCmd{})
 	}
 
 	bg, fg := colAccentDim, colText
