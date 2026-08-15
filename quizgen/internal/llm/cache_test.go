@@ -3,7 +3,7 @@ package llm
 import (
 	"testing"
 
-	"github.com/fummicc1/go-masked-quiz/quizgen/internal/quiz"
+	"github.com/fummicc1/go-masked-quiz/quizgen/quiz"
 )
 
 func TestCache_SaveLoadRoundTrip(t *testing.T) {

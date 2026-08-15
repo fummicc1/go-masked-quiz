@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/masker"
-	"github.com/fummicc1/go-masked-quiz/quizgen/internal/quiz"
+	"github.com/fummicc1/go-masked-quiz/quizgen/quiz"
 )
 
 // rawOutput is the JSON shape the model is asked to return.

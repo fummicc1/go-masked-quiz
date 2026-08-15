@@ -1,13 +1,18 @@
 // Package quiz defines the on-disk JSON model emitted by quizgen and consumed
-// by the iOS app.
+// by the client apps.
+//
+// It is deliberately outside internal/: the Gio/Android app imports these same
+// types, so generator and client share one definition of the format instead of
+// keeping hand-synchronised copies. The iOS app, being Swift, still mirrors it
+// by hand.
 package quiz
 
 import "time"
 
-// SchemaVersion is the schema version written to every Bundle. The iOS client
-// rejects payloads whose version it does not understand. The project is
-// pre-release, so there is a single current version rather than a compatibility
-// ladder; optional fields are simply absent when unused.
+// SchemaVersion is the schema version written to every Bundle. Clients reject
+// payloads whose version they do not understand. The project is pre-release, so
+// there is a single current version rather than a compatibility ladder;
+// optional fields are simply absent when unused.
 const SchemaVersion = 1
 
 // Bundle is the top-level structure written to quizzes.json.

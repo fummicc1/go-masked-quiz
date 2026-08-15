@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/fummicc1/go-masked-quiz/quizgen/internal/quiz"
+	"github.com/fummicc1/go-masked-quiz/quizgen/quiz"
 )
 
 var update = flag.Bool("update", false, "update golden files")

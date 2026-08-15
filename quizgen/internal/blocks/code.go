@@ -5,7 +5,7 @@ import (
 
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/masker"
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/parser"
-	"github.com/fummicc1/go-masked-quiz/quizgen/internal/quiz"
+	"github.com/fummicc1/go-masked-quiz/quizgen/quiz"
 )
 
 // BuildCodeBlocks renders a whole code block into code_block / mask blocks.

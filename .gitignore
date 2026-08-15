@@ -32,3 +32,6 @@ xcuserdata/
 # Logs & scratch
 *.log
 .tmp/
+
+# Gio build output
+*.apk
