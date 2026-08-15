@@ -183,12 +183,16 @@ set:
 ```sh
 cd mobile
 go run gioui.org/cmd/gogio@latest -target android -arch arm64 \
-  -appid dev.fummicc1.gomaskedquiz -o gomaskedquiz.apk .
-adb install -r gomaskedquiz.apk
+  -appid dev.fummicc1.go_masked_quiz -o go-masked-quiz.apk .
+adb install -r go-masked-quiz.apk
 ```
 
 `-arch arm64` matters: without it gogio builds all four ABIs and the APK grows
 several times over.
+
+The app id differs from the iOS one on purpose. An Android package name has to
+be a valid Java identifier per segment, so the hyphenated `dev.fummicc1.go-masked-quiz`
+used on iOS is rejected by `aapt2`.
 
 For iOS, use `mobile/build-ios.sh`, which compiles, signs and installs on a
 connected iPhone:

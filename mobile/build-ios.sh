@@ -15,7 +15,7 @@
 #   ./build-ios.sh build           # build only
 set -euo pipefail
 
-APP_ID="${APP_ID:-dev.fummicc1.gomaskedquiz}"
+APP_ID="${APP_ID:-dev.fummicc1.go-masked-quiz}"
 APP_NAME="${APP_NAME:-GoMaskedQuiz}"
 MIN_IOS="${MIN_IOS:-17.0}"
 OUT="${OUT:-$(mktemp -d)/${APP_NAME}.app}"
@@ -108,7 +108,9 @@ if [ "${1:-run}" = "build" ]; then
   exit 0
 fi
 
-DEVICE="${DEVICE:-$(xcrun devicectl list devices 2>/dev/null | awk '/physical/ {print $(NF-2); exit}')}"
+# Columns in `devicectl list devices` are variable width, so pick the device by
+# the shape of its identifier rather than by position.
+DEVICE="${DEVICE:-$(xcrun devicectl list devices 2>/dev/null | grep physical | grep -oE '[0-9A-F]{8}(-[0-9A-F]{4}){3}-[0-9A-F]{12}' | head -1)}"
 [ -n "$DEVICE" ] || die "no physical device found; connect one or set DEVICE=<identifier>"
 echo "==> installing on $DEVICE"
 xcrun devicectl device install app --device "$DEVICE" "$OUT"
