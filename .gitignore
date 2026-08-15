@@ -37,3 +37,4 @@ xcuserdata/
 *.apk
 *.idsig
 mobile/mobile
+mobile/*.app/
