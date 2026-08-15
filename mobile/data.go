@@ -15,8 +15,8 @@ import (
 	"github.com/fummicc1/go-masked-quiz/quizgen/quiz"
 )
 
-// quizDataURL serves the same static bundle the iOS app reads, straight from
-// the repo's cdn/ via jsDelivr.
+// quizDataURL serves the published bundle straight from the repo's cdn/ via
+// jsDelivr, so there is no server to run.
 const quizDataURL = "https://cdn.jsdelivr.net/gh/fummicc1/go-masked-quiz@main/cdn/v1/quizzes.json"
 
 // Source records which tier of loadBundle satisfied the request, shown in the
@@ -29,9 +29,9 @@ const (
 	SourceBundle Source = "bundled"
 )
 
-// loadBundle mirrors the iOS loader's three tiers: network, then the cached
-// copy of a previous fetch, then the embedded snapshot. It never fails — the
-// embedded bundle guarantees the app has something to show offline.
+// loadBundle tries three tiers in turn: network, then the cached copy of a
+// previous fetch, then the embedded snapshot. It never fails — the embedded
+// bundle guarantees the app has something to show offline.
 func loadBundle(ctx context.Context, cachePath string) (quiz.Bundle, Source) {
 	if b, raw, err := fetchRemote(ctx); err == nil {
 		if cachePath != "" {

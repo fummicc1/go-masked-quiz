@@ -6,8 +6,7 @@ import (
 	"gioui.org/widget/material"
 )
 
-// Palette mirrors the iOS app's dark theme so both clients look like the same
-// product.
+// Palette for the app's dark theme.
 var (
 	colBg        = color.NRGBA{R: 0x0F, G: 0x14, B: 0x1A, A: 0xFF}
 	colSurface   = color.NRGBA{R: 0x18, G: 0x20, B: 0x28, A: 0xFF}

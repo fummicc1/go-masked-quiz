@@ -1,6 +1,6 @@
-// Command mobile is the go-masked-quiz client: a Go quiz built entirely in Go,
-// UI included, via Gio. It reads the same quizzes.json the iOS app reads and
-// imports the same schema types quizgen writes.
+// Command mobile is the go-masked-quiz client: a quiz about Go, built entirely
+// in Go, UI included, via Gio. It reads the published quizzes.json and imports
+// the same schema types quizgen writes.
 package main
 
 import (

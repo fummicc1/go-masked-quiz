@@ -1,10 +1,9 @@
 // Package quiz defines the on-disk JSON model emitted by quizgen and consumed
-// by the client apps.
+// by the client app.
 //
-// It is deliberately outside internal/: the Gio/Android app imports these same
-// types, so generator and client share one definition of the format instead of
-// keeping hand-synchronised copies. The iOS app, being Swift, still mirrors it
-// by hand.
+// It is deliberately outside internal/: the client imports these same types, so
+// generator and client share one definition of the format rather than keeping
+// hand-synchronised copies of it.
 package quiz
 
 import "time"
@@ -68,8 +67,8 @@ const (
 )
 
 // BlockType labels one rendered fragment of a quiz. The schema ships pre-parsed
-// blocks so the iOS client renders a quiz by iterating the slice without
-// re-parsing Markdown.
+// blocks so the client renders a quiz by iterating the slice without re-parsing
+// Markdown.
 type BlockType string
 
 const (
