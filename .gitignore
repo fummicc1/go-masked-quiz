@@ -35,3 +35,5 @@ xcuserdata/
 
 # Gio build output
 *.apk
+*.idsig
+mobile/mobile
