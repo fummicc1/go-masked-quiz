@@ -8,9 +8,13 @@ The project consists of:
 
 - **`quizgen/`** — a Go CLI that reads Go proposals (Markdown), masks
   identifiers in both prose and ` ```go ` code blocks, and emits a single
-  `output/quizzes.json` consumed by the iOS app.
-- **`ios/GoMaskedQuiz/`** — a SwiftUI iOS app that ships `quizzes.json` in its
-  resource bundle and lets the user play the quizzes fully offline.
+  `quizzes.json` consumed by the app.
+- **`mobile/`** — the mobile app, written entirely in Go (UI included) with
+  [Gio](https://gioui.org). It ships `quizzes.json` in its binary and lets the
+  user play the quizzes fully offline.
+
+Both import the same schema types from `quizgen/quiz`, so the format has one
+definition rather than a copy per client.
 
 The proposals themselves come from
 [fummicc1/golang-proposal](https://github.com/fummicc1/golang-proposal),
@@ -165,17 +169,56 @@ concurrent writers would race. (The legacy `generate.yml` in the
 `fummicc1/golang-proposal` fork is superseded by this one and should be
 disabled.)
 
-## Running the iOS app
+## Running the app
 
-Open `ios/GoMaskedQuiz/GoMaskedQuiz.xcodeproj` in Xcode and run the
-`GoMaskedQuiz` scheme on an iOS 17+ simulator. The build phase will pick up
-the latest `output/quizzes.json`.
+On the desktop, for a quick look:
+
+```sh
+cd mobile && go run .
+```
+
+To build an Android APK you need the Android SDK and NDK, with `ANDROID_HOME`
+set:
+
+```sh
+cd mobile
+go run gioui.org/cmd/gogio@latest -target android -arch arm64 \
+  -appid dev.fummicc1.go_masked_quiz -o go-masked-quiz.apk .
+adb install -r go-masked-quiz.apk
+```
+
+`-arch arm64` matters: without it gogio builds all four ABIs and the APK grows
+several times over.
+
+The app id differs from the iOS one on purpose. An Android package name has to
+be a valid Java identifier per segment, so the hyphenated `dev.fummicc1.go-masked-quiz`
+used on iOS is rejected by `aapt2`.
+
+For iOS, use `mobile/build-ios.sh`, which compiles, signs and installs on a
+connected iPhone:
+
+```sh
+cd mobile && ./build-ios.sh
+```
+
+It does not use `gogio`, for two reasons:
+
+- `gogio` matches provisioning profiles by **exact** app id, so a team wildcard
+  profile (`TEAMID.*`) is rejected even though Xcode accepts it. Signing by hand
+  works with the wildcard and avoids registering a new App ID.
+- `gogio` maps arm64 to the device SDK and only x86_64 to the simulator, so
+  **there is no simulator build on Apple Silicon** — iOS work has to be done on
+  a device.
+
+The device must be registered in the profile and have Developer Mode enabled.
+
+The embedded copy of the quiz data is refreshed with `go generate ./...`.
 
 ## License
 
 - `go-masked-quiz` itself: BSD 3-Clause, Copyright (c) 2026 Fumiya Tanaka.
   See [`LICENSE`](./LICENSE).
-- Generated `output/quizzes.json` and the iOS bundle contain short fragments
+- The generated `quizzes.json` and the app binary that embeds it contain short fragments
   derived from [`golang/proposal`](https://github.com/golang/proposal),
   Copyright (c) The Go Authors, licensed under BSD 3-Clause.
   See [`NOTICE`](./NOTICE) for the required attribution that downstream

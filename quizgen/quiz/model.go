@@ -1,13 +1,17 @@
 // Package quiz defines the on-disk JSON model emitted by quizgen and consumed
-// by the iOS app.
+// by the client app.
+//
+// It is deliberately outside internal/: the client imports these same types, so
+// generator and client share one definition of the format rather than keeping
+// hand-synchronised copies of it.
 package quiz
 
 import "time"
 
-// SchemaVersion is the schema version written to every Bundle. The iOS client
-// rejects payloads whose version it does not understand. The project is
-// pre-release, so there is a single current version rather than a compatibility
-// ladder; optional fields are simply absent when unused.
+// SchemaVersion is the schema version written to every Bundle. Clients reject
+// payloads whose version they do not understand. The project is pre-release, so
+// there is a single current version rather than a compatibility ladder;
+// optional fields are simply absent when unused.
 const SchemaVersion = 1
 
 // Bundle is the top-level structure written to quizzes.json.
@@ -63,8 +67,8 @@ const (
 )
 
 // BlockType labels one rendered fragment of a quiz. The schema ships pre-parsed
-// blocks so the iOS client renders a quiz by iterating the slice without
-// re-parsing Markdown.
+// blocks so the client renders a quiz by iterating the slice without re-parsing
+// Markdown.
 type BlockType string
 
 const (

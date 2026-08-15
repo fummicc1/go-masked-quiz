@@ -7,7 +7,7 @@ import (
 
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/llm"
 	"github.com/fummicc1/go-masked-quiz/quizgen/internal/parser"
-	"github.com/fummicc1/go-masked-quiz/quizgen/internal/quiz"
+	"github.com/fummicc1/go-masked-quiz/quizgen/quiz"
 )
 
 var epoch = time.Unix(0, 0).UTC()

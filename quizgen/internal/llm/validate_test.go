@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/fummicc1/go-masked-quiz/quizgen/internal/quiz"
+	"github.com/fummicc1/go-masked-quiz/quizgen/quiz"
 )
 
 const sampleBody = "The range keyword now accepts a func value. iter.Seq is a new type."

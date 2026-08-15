@@ -21,8 +21,8 @@ arbitrary local path (preferably outside iCloud Drive) and point the
 
 Derived works
 -------------
-The generated quiz data file (`output/quizzes.json`) and the iOS application
-bundle contain short text fragments derived from the proposals listed above.
+The generated quiz data file (`quizzes.json`) and the application binary that
+embeds it contain short text fragments derived from the proposals listed above.
 Those fragments remain under the BSD 3-Clause license of the original work.
 The above copyright notice, the list of BSD 3-Clause conditions, and the
 BSD 3-Clause disclaimer must be retained in any redistribution of the derived
