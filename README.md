@@ -190,15 +190,23 @@ adb install -r gomaskedquiz.apk
 `-arch arm64` matters: without it gogio builds all four ABIs and the APK grows
 several times over.
 
-iOS builds from the same source, but only for a device — `gogio` maps arm64 to
-the device SDK and only x86_64 to the simulator, so there is no simulator build
-for Apple Silicon. It also matches provisioning profiles by exact app id, so a
-team wildcard profile is not enough:
+For iOS, use `mobile/build-ios.sh`, which compiles, signs and installs on a
+connected iPhone:
 
 ```sh
-go run gioui.org/cmd/gogio@latest -target ios -minsdk 17 -arch arm64 \
-  -appid <an id you hold an exactly-matching profile for> -o app.ipa .
+cd mobile && ./build-ios.sh
 ```
+
+It does not use `gogio`, for two reasons:
+
+- `gogio` matches provisioning profiles by **exact** app id, so a team wildcard
+  profile (`TEAMID.*`) is rejected even though Xcode accepts it. Signing by hand
+  works with the wildcard and avoids registering a new App ID.
+- `gogio` maps arm64 to the device SDK and only x86_64 to the simulator, so
+  **there is no simulator build on Apple Silicon** — iOS work has to be done on
+  a device.
+
+The device must be registered in the profile and have Developer Mode enabled.
 
 The embedded copy of the quiz data is refreshed with `go generate ./...`.
 
