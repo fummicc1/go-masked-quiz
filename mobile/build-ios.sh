@@ -15,6 +15,10 @@
 #   ./build-ios.sh build           # build only
 set -euo pipefail
 
+# Build the module this script lives in, not whatever directory it was invoked
+# from.
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
 APP_ID="${APP_ID:-dev.fummicc1.go-masked-quiz}"
 APP_NAME="${APP_NAME:-GoMaskedQuiz}"
 MIN_IOS="${MIN_IOS:-17.0}"
