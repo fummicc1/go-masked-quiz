@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-15T01:01:45.128634014Z",
+  "generated_at": "2026-08-16T01:05:37.808088139Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "0be13090fdb0cbae0d71641bb676d924bc1c94de",
@@ -52,7 +52,7 @@
               "answer": "[security]",
               "choices": [
                 "\"*testing.T\".Error",
-                "Decoder",
+                "jsontext",
                 "[security]",
                 "0.95 (\\gamma - 1)"
               ]
@@ -1686,7 +1686,7 @@
               "answer": "doc/conduct.html",
               "choices": [
                 "doc/conduct.html",
-                "~[N]byte",
+                "case:ignore",
                 "runtime",
                 "ParseInt"
               ]
@@ -5252,7 +5252,7 @@
               "answer": "encoding/xml",
               "choices": [
                 "golang.org/x/text/transform",
-                "wasm32",
+                "Context.Done",
                 "mellium.im/xmlstream",
                 "encoding/xml"
               ]
@@ -7683,7 +7683,7 @@
             {
               "answer": "//go:binary-only-package",
               "choices": [
-                "PeerCertificates",
+                "go/ssa",
                 "io.EOF",
                 "IncompleteSources bool",
                 "//go:binary-only-package"
@@ -7723,7 +7723,7 @@
               "answer": "//go:binary-only-package",
               "choices": [
                 "instanceof",
-                "panicnil",
+                "pprof.StartCPUProfile(w io.Writer)",
                 "IncompleteSources bool",
                 "//go:binary-only-package"
               ]
@@ -23853,7 +23853,7 @@
               "choices": [
                 "crypto/...",
                 "ReadFileString",
-                "ErrNonStringName",
+                "AllowInvalidUTF8(true)",
                 "IsTimeout"
               ]
             },
@@ -25174,8 +25174,8 @@
               "answer": "syscall",
               "choices": [
                 "internal",
-                "WriteFile",
-                "jsonv1.MergeWithLegacySemantics",
+                "(*testing.T).Fatal{,f}",
+                "~[N]byte",
                 "syscall"
               ]
             }
@@ -25205,7 +25205,7 @@
               "answer": "syscall",
               "choices": [
                 "f[T]",
-                ".Item",
+                "key",
                 "-D=TLS_GD",
                 "syscall"
               ]
@@ -27464,6 +27464,331 @@
       ]
     },
     {
+      "id": "issue-78387",
+      "title": "cmd/go: disallow `go list ...` in module mode",
+      "url": "https://github.com/golang/go/issues/78387",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 78387,
+      "quizzes": [
+        {
+          "id": "issue-78387-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "inline_code",
+              "value": "go list ..."
+            },
+            {
+              "type": "text",
+              "value": " in module mode almost never (or maybe just plain never!) does what a user expects it to do. It tries to list all the packages in all the modules in the build list which in turn requires it to resolve dependencies of those modules that might not be required by the build. Further, those dependencies will not be requirements of the work module which will result in a confusing error in the default "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " mode."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "-mod=mod",
+              "choices": [
+                "...",
+                "work",
+                "-mod=mod",
+                "./..."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-78387-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "We should return an error if a user requests "
+            },
+            {
+              "type": "inline_code",
+              "value": "go list ..."
+            },
+            {
+              "type": "text",
+              "value": ": it should still be okay to have "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " as part of a pattern with other components, because those components limit the search, and the error should say that the pattern has to have another component, and suggest that the user might want "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " or "
+            },
+            {
+              "type": "mask",
+              "blank_index": 2
+            },
+            {
+              "type": "text",
+              "value": " (which is usually what they want)."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "...",
+              "choices": [
+                "NewSignature",
+                "-mod=mod",
+                "go list ...",
+                "..."
+              ]
+            },
+            {
+              "answer": "./...",
+              "choices": [
+                "-mod=mod",
+                "go list ...",
+                "1+GOGC/100",
+                "./..."
+              ]
+            },
+            {
+              "answer": "work",
+              "choices": [
+                ".dict.(*value[int]).get",
+                "-mod=mod",
+                "go list ...",
+                "work"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "issue-68595",
+      "title": "syscall: support process sandboxing using Landlock on Linux",
+      "url": "https://github.com/golang/go/issues/68595",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 68595,
+      "quizzes": [
+        {
+          "id": "issue-68595-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "I have a Golang binary that gets deployed once and then it "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": "'s the ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " binary with various arguments under the hood hundreds of thousands of times to process lots of untrusted repositories on the internet."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "os/exec",
+              "choices": [
+                "os/exec",
+                "fork(2)",
+                "fd",
+                "*syscall.SysProcAttr"
+              ]
+            },
+            {
+              "answer": "git",
+              "choices": [
+                "fd",
+                "*syscall.SysProcAttr",
+                "git",
+                "fork(2)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "This "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " invocation ideally should only access a single temporary directory that we create for it and doesn't need anything else, yet the invoking Golang binary needs an access to much more files and directories, including the networking. So basically, I'm looking to exercise the least privilege principle here."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "git",
+              "choices": [
+                "fd",
+                "git",
+                "fork(2)",
+                "os/exec"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Unfortunately due to Go's runtime and the use of threads, it seems to be somewhat complicated to use ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ", and even if it would work, it would mean re-inventing the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "fork(2)",
+              "choices": [
+                "fork(2)",
+                "git",
+                "*syscall.SysProcAttr",
+                "fd"
+              ]
+            },
+            {
+              "answer": "os/exec",
+              "choices": [
+                "fd",
+                "git",
+                "os/exec",
+                "*syscall.SysProcAttr"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q04",
+          "kind": "prose",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "There's a nice ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " package with a very ergonomic API that can be adapted to emit the ruleset file-descriptor instead of restricting the current process with a couple of line changes."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "github.com/landlock-lsm/go-landlock",
+              "choices": [
+                "git",
+                "github.com/landlock-lsm/go-landlock",
+                "*syscall.SysProcAttr",
+                "os/exec"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q05",
+          "kind": "prose",
+          "index": 4,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "To get the "
+            },
+            {
+              "type": "inline_code",
+              "value": "fd"
+            },
+            {
+              "type": "text",
+              "value": " for the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " above, the user might do something like this:"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "*syscall.SysProcAttr",
+              "choices": [
+                "os/exec",
+                "*syscall.SysProcAttr",
+                "git",
+                "fork(2)"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "issue-71497",
       "title": "encoding/json/v2: new API for encoding/json",
       "url": "https://github.com/golang/go/issues/71497",
@@ -28276,213 +28601,6 @@
       ]
     },
     {
-      "id": "issue-68595",
-      "title": "syscall: support process sandboxing using Landlock on Linux",
-      "url": "https://github.com/golang/go/issues/68595",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 68595,
-      "quizzes": [
-        {
-          "id": "issue-68595-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I have a Golang binary that gets deployed once and then it "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "'s the ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " binary with various arguments under the hood hundreds of thousands of times to process lots of untrusted repositories on the internet."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "os/exec",
-              "choices": [
-                "os/exec",
-                "fork(2)",
-                "fd",
-                "*syscall.SysProcAttr"
-              ]
-            },
-            {
-              "answer": "git",
-              "choices": [
-                "fd",
-                "*syscall.SysProcAttr",
-                "git",
-                "fork(2)"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "This "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " invocation ideally should only access a single temporary directory that we create for it and doesn't need anything else, yet the invoking Golang binary needs an access to much more files and directories, including the networking. So basically, I'm looking to exercise the least privilege principle here."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "git",
-              "choices": [
-                "fd",
-                "git",
-                "fork(2)",
-                "os/exec"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Unfortunately due to Go's runtime and the use of threads, it seems to be somewhat complicated to use ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ", and even if it would work, it would mean re-inventing the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": "."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "fork(2)",
-              "choices": [
-                "fork(2)",
-                "git",
-                "*syscall.SysProcAttr",
-                "fd"
-              ]
-            },
-            {
-              "answer": "os/exec",
-              "choices": [
-                "fd",
-                "git",
-                "os/exec",
-                "*syscall.SysProcAttr"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "There's a nice ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " package with a very ergonomic API that can be adapted to emit the ruleset file-descriptor instead of restricting the current process with a couple of line changes."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "github.com/landlock-lsm/go-landlock",
-              "choices": [
-                "git",
-                "github.com/landlock-lsm/go-landlock",
-                "*syscall.SysProcAttr",
-                "os/exec"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q05",
-          "kind": "prose",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "To get the "
-            },
-            {
-              "type": "inline_code",
-              "value": "fd"
-            },
-            {
-              "type": "text",
-              "value": " for the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " above, the user might do something like this:"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "*syscall.SysProcAttr",
-              "choices": [
-                "os/exec",
-                "*syscall.SysProcAttr",
-                "git",
-                "fork(2)"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "issue-71151",
       "title": "strings, bytes: add CutLast",
       "url": "https://github.com/golang/go/issues/71151",
@@ -28548,9 +28666,9 @@
               "answer": "package-url",
               "choices": [
                 "package-url",
-                "SignWithFlags",
-                "GOARCH=wasm",
-                "Handler.Enabled"
+                "Handler.Enabled",
+                "source.go:1234",
+                "r := rand.New(rand.NewSource(s))"
               ]
             }
           ]
@@ -31105,7 +31223,7 @@
             {
               "answer": "reflect.Value",
               "choices": [
-                "Hash.HashFunc()",
+                "crypto/mldsa",
                 "reflect.Value",
                 "reflect.ValueOf(x).UnsafePointer() ==  reflect.ValueOf(y).UnsafePointer()",
                 "len(t)[1]"
@@ -33577,7 +33695,7 @@
             {
               "answer": "testing.T.Run",
               "choices": [
-                "simd.",
+                "a + *b",
                 "testing.T.Run",
                 "t.Run",
                 "Handler.Enabled"
@@ -33644,7 +33762,7 @@
                 "synctest.Test",
                 "synctest.Subtest",
                 "MergePackageFiles",
-                "ParsePKCS8PrivateKey"
+                "Hash.New()"
               ]
             },
             {
@@ -36557,7 +36675,7 @@
             {
               "answer": "flakytest.Mark",
               "choices": [
-                "std",
+                "ScanColumn",
                 "flakytest.Mark",
                 "go test -exec=...",
                 "RWMutex"
@@ -38118,7 +38236,7 @@
               "answer": "nhooyr.io/websocket",
               "choices": [
                 "Current() Cursor",
-                "crypto.Hash",
+                "*mldsa.PublicKey",
                 "./mod",
                 "nhooyr.io/websocket"
               ]
@@ -38395,7 +38513,7 @@
             {
               "answer": "Test/Bar",
               "choices": [
-                "f1(j, i)",
+                "Function.TypeParams",
                 "Test/Bar",
                 "testing",
                 "my_test.go:321"
@@ -40384,7 +40502,7 @@
               "choices": [
                 "HTTP1",
                 "io.Copy",
-                "FormatNilMapAsNull",
+                "MatchCaseInsensitiveNames",
                 "go/types"
               ]
             }
@@ -40845,13 +40963,13 @@
                 "os.WriteFile",
                 "os.ReadFile",
                 "ReadFile",
-                "go test -timeout=30m"
+                "$.root"
               ]
             },
             {
               "answer": "WriteFile",
               "choices": [
-                "GOARCH=wasm32",
+                "wasi_snapshot_preview1",
                 "os.WriteFile",
                 "os.ReadFile",
                 "WriteFile"
@@ -44014,127 +44132,9 @@
               "answer": "DisallowUnknownFields",
               "choices": [
                 "runtime.gentraceback",
-                "jsonv1.MatchCaseSensitiveDelimiter",
+                "ErrNonStringName",
                 "DisallowUnknownFields",
                 "Decoder.DisallowDuplicateFields"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-78387",
-      "title": "cmd/go: disallow `go list ...` in module mode",
-      "url": "https://github.com/golang/go/issues/78387",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 78387,
-      "quizzes": [
-        {
-          "id": "issue-78387-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "inline_code",
-              "value": "go list ..."
-            },
-            {
-              "type": "text",
-              "value": " in module mode almost never (or maybe just plain never!) does what a user expects it to do. It tries to list all the packages in all the modules in the build list which in turn requires it to resolve dependencies of those modules that might not be required by the build. Further, those dependencies will not be requirements of the work module which will result in a confusing error in the default "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " mode."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "-mod=mod",
-              "choices": [
-                "...",
-                "work",
-                "-mod=mod",
-                "./..."
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-78387-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "We should return an error if a user requests "
-            },
-            {
-              "type": "inline_code",
-              "value": "go list ..."
-            },
-            {
-              "type": "text",
-              "value": ": it should still be okay to have "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " as part of a pattern with other components, because those components limit the search, and the error should say that the pattern has to have another component, and suggest that the user might want "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " or "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "text",
-              "value": " (which is usually what they want)."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "...",
-              "choices": [
-                "NewSignature",
-                "-mod=mod",
-                "go list ...",
-                "..."
-              ]
-            },
-            {
-              "answer": "./...",
-              "choices": [
-                "-mod=mod",
-                "go list ...",
-                "1+GOGC/100",
-                "./..."
-              ]
-            },
-            {
-              "answer": "work",
-              "choices": [
-                ".dict.(*value[int]).get",
-                "-mod=mod",
-                "go list ...",
-                "work"
               ]
             }
           ]
@@ -46553,7 +46553,7 @@
             {
               "answer": "GOMAXPROCS",
               "choices": [
-                "TypeReg",
+                "golang.org/x/tools/cmd/eg",
                 "unique.Make",
                 "GOMAXPROCS",
                 "runtime.SetFinalizer"
@@ -46957,7 +46957,7 @@
               "choices": [
                 "x.c",
                 "AuthCallback",
-                "pprof",
+                "runtime.SetCPUProfileRate(100)",
                 "ClientConfig.Auth"
               ]
             }
@@ -47086,7 +47086,7 @@
                 "_go_.o",
                 "slog.Logger",
                 ".()",
-                "GOAMD64=local"
+                "archive/zip.FileHeader"
               ]
             },
             {
@@ -48735,8 +48735,8 @@
               "answer": "parser.ParseDir()",
               "choices": [
                 "f[int, float64]",
-                "flakytest.Mark",
-                "github.com/landlock-lsm/go-landlock",
+                "net/http.Server.MaxHeaderValueCount",
+                "UnmarshalTypeError.Field",
                 "parser.ParseDir()"
               ]
             }
@@ -49223,7 +49223,7 @@
             {
               "answer": "x509.SetFallbackRoots",
               "choices": [
-                "net.IP",
+                "strings.Cut",
                 "$GOPROXY",
                 "go 1.14",
                 "x509.SetFallbackRoots"
@@ -50375,7 +50375,7 @@
               "answer": "crypto/X509.ParseCertificate()",
               "choices": [
                 "Signature",
-                "jsonv2",
+                "MarshalJSONTo",
                 "crypto/X509.ParseCertificate()",
                 "runtime.gentraceback"
               ]
@@ -52183,7 +52183,7 @@
             {
               "answer": "http.Request",
               "choices": [
-                "jsontext.EscapeForHTML",
+                "omitzero",
                 "HACK-HTTP2-Protocol",
                 "req.Protocol",
                 "http.Request"
@@ -52301,7 +52301,7 @@
             {
               "answer": "HACK-HTTP2-Protocol",
               "choices": [
-                "-testtimeout",
+                "Tr",
                 "Protocol",
                 "HACK-HTTP2-Protocol",
                 ":protocol"
@@ -53750,7 +53750,7 @@
               "answer": "Rows",
               "choices": [
                 "Rows",
-                ".Item",
+                "key",
                 "GoSyscallEndBlocked",
                 "x/sys"
               ]
@@ -54581,7 +54581,7 @@
             {
               "answer": "UnencryptedHTTP2",
               "choices": [
-                "Unmarshaler",
+                "jsontext.EscapeForJS",
                 "Server.Protocols",
                 "UnencryptedHTTP2",
                 "golang.org/x/net/h2c"
@@ -54602,7 +54602,7 @@
                 "golang.org/x/net/h2c",
                 "Server.Protocols",
                 "HTTP1",
-                "template.FuncMap"
+                "package example // import \"go.jpap.org/example.git-lfs\""
               ]
             }
           ]
@@ -54747,14 +54747,14 @@
                 "NewKDF",
                 "NewSenderWithPSK",
                 "NewRecipientWithPSK",
-                "hash.CloneXOF"
+                "Clone() XOF"
               ]
             },
             {
               "answer": "AES128GCM().ID()",
               "choices": [
                 "AES128GCM().ID()",
-                "internal/godebugs/Info",
+                "godebug.Setting",
                 "NewSenderWithPSK",
                 "NewRecipientWithPSK"
               ]
@@ -56916,7 +56916,7 @@
               "answer": "Select",
               "choices": [
                 "Select",
-                "go list ...",
+                "Fields",
                 "LookupFieldOrMethod",
                 "Selection"
               ]
