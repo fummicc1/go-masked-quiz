@@ -100,6 +100,45 @@ func TestParseDocument_SplitsInlineCodeFromText(t *testing.T) {
 	}
 }
 
+// Links contribute their text but not their URL, and autolinks contribute the
+// URL itself — the same result the regex-based cleanText produced for the old
+// output, reached here through the AST instead.
+func TestParseDocument_LinkHandling(t *testing.T) {
+	src := "subscribe to [golang-announce](https://groups.google.com/x) for `news`\n\n" +
+		"auto <https://go.dev/doc>\n"
+	d := ParseDocument("x.md", []byte(src), Options{})
+
+	var joined string
+	for _, b := range d.Blocks {
+		for _, s := range b.Spans {
+			joined += s.Text
+		}
+	}
+	if strings.Contains(joined, "groups.google.com") || strings.Contains(joined, "](") {
+		t.Errorf("raw link syntax leaked: %q", joined)
+	}
+	if !strings.Contains(joined, "golang-announce") {
+		t.Errorf("link text lost: %q", joined)
+	}
+	if !strings.Contains(joined, "https://go.dev/doc") {
+		t.Errorf("autolink text lost: %q", joined)
+	}
+}
+
+// The old pipeline had to strip stray backticks because it sliced the raw
+// source around inline-code offsets. Spans come from the AST here, so the
+// delimiters are never part of the text.
+func TestParseDocument_NoStrayBackticks(t *testing.T) {
+	d := ParseDocument("x.md", []byte("a `code` b\n"), Options{})
+	for _, b := range d.Blocks {
+		for _, s := range b.Spans {
+			if strings.Contains(s.Text, "`") {
+				t.Errorf("backtick leaked into span %+v", s)
+			}
+		}
+	}
+}
+
 func TestParseDocument_CodeBlockKeepsBodyAndLanguage(t *testing.T) {
 	d := ParseDocument("x.md", []byte(sampleDoc), Options{})
 	for _, b := range d.Blocks {

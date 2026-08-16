@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "generated_at": "2026-05-18T00:00:00Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
@@ -11,442 +11,500 @@
       "title": "Proposal: range over func",
       "url": "https://github.com/golang/proposal/blob/master/design/61405-range-over-func.md",
       "source_kind": "design-docs",
-      "quizzes": [
-        {
-          "id": "design-61405-range-over-func-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "We propose that a "
-            },
-            {
-              "type": "inline_code",
-              "value": "for"
-            },
-            {
-              "type": "text",
-              "value": " statement with "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " accept a "
-            },
-            {
-              "type": "inline_code",
-              "value": "func"
-            },
-            {
-              "type": "text",
-              "value": " value, so that\nuser-defined iterators compose with the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " clause. An iterator is a\nfunction that is passed a "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " callback and calls it once per element."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "range",
-              "choices": [
-                "func",
-                "for",
-                "range",
-                "defer"
-              ]
-            },
-            {
-              "answer": "yield",
-              "choices": [
-                "golang/proposal",
-                "yield",
-                "go/scanner",
-                "go/parser"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "design-61405-range-over-func-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Consumers then range over the iterator directly. The fragment below is\ndeliberately incomplete — it has no surrounding package or function and a\nmissing brace — yet a lexer still tokenises it even though "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " would\nreject it:"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "go/parser",
-              "choices": [
-                "golang/proposal",
-                "go/scanner",
-                "yield",
-                "go/parser"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "design-61405-range-over-func-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "This difference between lexical scanning and full parsing is exactly why the\nmasker relies on "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " rather than "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": "."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "go/scanner",
-              "choices": [
-                "golang/proposal",
-                "go/scanner",
-                "quizgen",
-                "yield"
-              ]
-            },
-            {
-              "answer": "go/parser",
-              "choices": [
-                "golang/proposal",
-                "yield",
-                "go/parser",
-                "quizgen"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "design-61405-range-over-func-q04",
-          "kind": "code",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "func "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "(n "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": ") func(yield func("
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": ") "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": ") {\n    return func(yield func("
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": ") "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": ") {\n        for i := 0; i \u003c n; i++ {\n            if !yield(i) {\n                return\n            }\n        }\n    }\n}\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "Count",
-              "choices": [
-                "process",
-                "value",
-                "yield",
-                "Count"
-              ]
-            },
-            {
-              "answer": "int",
-              "choices": [
-                "int_2",
-                "int_1",
-                "int",
-                "int_0"
-              ]
-            },
-            {
-              "answer": "bool",
-              "choices": [
-                "bool_0",
-                "bool",
-                "bool_2",
-                "bool_1"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "design-61405-range-over-func-q05",
-          "kind": "code",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "for value := "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": " "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "(10) {\n    "
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "(value)   // remaining lines elided ...\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "range",
-              "choices": [
-                "fallthrough",
-                "else",
-                "range",
-                "return"
-              ]
-            },
-            {
-              "answer": "Count",
-              "choices": [
-                "value",
-                "yield",
-                "Count",
-                "Println"
-              ]
-            },
-            {
-              "answer": "process",
-              "choices": [
-                "value",
-                "yield",
-                "process",
-                "fmt"
-              ]
-            }
-          ]
-        }
-      ]
+      "document": {
+        "blocks": [
+          {
+            "kind": "heading",
+            "level": 1,
+            "spans": [
+              {
+                "kind": "text",
+                "value": "Proposal: range over func"
+              }
+            ]
+          },
+          {
+            "kind": "paragraph",
+            "spans": [
+              {
+                "kind": "text",
+                "value": "We propose that a "
+              },
+              {
+                "kind": "inline_code",
+                "value": "for"
+              },
+              {
+                "kind": "text",
+                "value": " statement with "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 0
+              },
+              {
+                "kind": "text",
+                "value": " accept a "
+              },
+              {
+                "kind": "inline_code",
+                "value": "func"
+              },
+              {
+                "kind": "text",
+                "value": " value, so that\nuser-defined iterators compose with the "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 0
+              },
+              {
+                "kind": "text",
+                "value": " clause. An iterator is a\nfunction that is passed a "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 1
+              },
+              {
+                "kind": "text",
+                "value": " callback and calls it once per element."
+              }
+            ]
+          },
+          {
+            "kind": "paragraph",
+            "spans": [
+              {
+                "kind": "text",
+                "value": "A full iterator definition parses cleanly:"
+              }
+            ]
+          },
+          {
+            "kind": "code",
+            "lang": "go",
+            "spans": [
+              {
+                "kind": "text",
+                "value": "func Count(n "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 2
+              },
+              {
+                "kind": "text",
+                "value": ") func("
+              },
+              {
+                "kind": "mask",
+                "blank_index": 3
+              },
+              {
+                "kind": "text",
+                "value": " func("
+              },
+              {
+                "kind": "mask",
+                "blank_index": 2
+              },
+              {
+                "kind": "text",
+                "value": ") "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 4
+              },
+              {
+                "kind": "text",
+                "value": ") {\n    return func("
+              },
+              {
+                "kind": "mask",
+                "blank_index": 3
+              },
+              {
+                "kind": "text",
+                "value": " func("
+              },
+              {
+                "kind": "mask",
+                "blank_index": 2
+              },
+              {
+                "kind": "text",
+                "value": ") "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 4
+              },
+              {
+                "kind": "text",
+                "value": ") {\n        for i := 0; i \u003c n; i++ {\n            if !"
+              },
+              {
+                "kind": "mask",
+                "blank_index": 3
+              },
+              {
+                "kind": "text",
+                "value": "(i) {\n                return\n            }\n        }\n    }\n}\n"
+              }
+            ]
+          },
+          {
+            "kind": "paragraph",
+            "spans": [
+              {
+                "kind": "text",
+                "value": "Consumers then range over the iterator directly. The fragment below is\ndeliberately incomplete — it has no surrounding package or function and a\nmissing brace — yet a lexer still tokenises it even though "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 5
+              },
+              {
+                "kind": "text",
+                "value": " would\nreject it:"
+              }
+            ]
+          },
+          {
+            "kind": "code",
+            "lang": "go",
+            "spans": [
+              {
+                "kind": "text",
+                "value": "for "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 6
+              },
+              {
+                "kind": "text",
+                "value": " := range "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 7
+              },
+              {
+                "kind": "text",
+                "value": "(10) {\n    "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 8
+              },
+              {
+                "kind": "text",
+                "value": "("
+              },
+              {
+                "kind": "mask",
+                "blank_index": 6
+              },
+              {
+                "kind": "text",
+                "value": ")   // remaining lines elided ...\n"
+              }
+            ]
+          },
+          {
+            "kind": "paragraph",
+            "spans": [
+              {
+                "kind": "text",
+                "value": "This difference between lexical scanning and full parsing is exactly why the\nmasker relies on "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 9
+              },
+              {
+                "kind": "text",
+                "value": " rather than "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 10
+              },
+              {
+                "kind": "text",
+                "value": "."
+              }
+            ]
+          }
+        ],
+        "blanks": [
+          {
+            "answer": "range",
+            "choices": [
+              "select",
+              "range",
+              "for",
+              "func"
+            ]
+          },
+          {
+            "answer": "yield",
+            "choices": [
+              "value",
+              "process",
+              "Count",
+              "yield"
+            ]
+          },
+          {
+            "answer": "int",
+            "choices": [
+              "int_0",
+              "int_1",
+              "int",
+              "int_2"
+            ]
+          },
+          {
+            "answer": "yield",
+            "choices": [
+              "process",
+              "value",
+              "Count",
+              "yield"
+            ]
+          },
+          {
+            "answer": "bool",
+            "choices": [
+              "bool_1",
+              "bool_0",
+              "bool_2",
+              "bool"
+            ]
+          },
+          {
+            "answer": "go/parser",
+            "choices": [
+              "Count",
+              "go/scanner",
+              "value",
+              "go/parser"
+            ]
+          },
+          {
+            "answer": "value",
+            "choices": [
+              "go/scanner",
+              "go/parser",
+              "value",
+              "yield"
+            ]
+          },
+          {
+            "answer": "Count",
+            "choices": [
+              "Count",
+              "go/parser",
+              "yield",
+              "go/scanner"
+            ]
+          },
+          {
+            "answer": "process",
+            "choices": [
+              "yield",
+              "process",
+              "go/scanner",
+              "go/parser"
+            ]
+          },
+          {
+            "answer": "go/scanner",
+            "choices": [
+              "process",
+              "Count",
+              "value",
+              "go/scanner"
+            ]
+          },
+          {
+            "answer": "go/parser",
+            "choices": [
+              "Count",
+              "value",
+              "go/parser",
+              "process"
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "design-99999-sample",
       "title": "Proposal: Sample placeholder for quizgen Phase 1",
       "url": "https://github.com/golang/proposal/blob/master/design/99999-sample.md",
       "source_kind": "design-docs",
-      "quizzes": [
-        {
-          "id": "design-99999-sample-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "This is a sample Markdown file used only by the Phase 1 end-to-end\nverification of "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ". It exists so the CLI can be exercised before a\nreal clone of "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " is available."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "quizgen",
-              "choices": [
-                "quizgen",
-                "yield",
-                "go/scanner",
-                "go/parser"
-              ]
-            },
-            {
-              "answer": "golang/proposal",
-              "choices": [
-                "go/scanner",
-                "yield",
-                "golang/proposal",
-                "go/parser"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "design-99999-sample-q02",
-          "kind": "code",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "code_block",
-              "value": "package "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "\n\nimport \"fmt\"\n\nfunc "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "code_block",
-              "value": "() {\n    "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "code_block",
-              "value": "."
-            },
-            {
-              "type": "mask",
-              "blank_index": 2
-            },
-            {
-              "type": "code_block",
-              "value": "(\"hello, quizgen\")\n}\n"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "main",
-              "choices": [
-                "yield",
-                "main",
-                "process",
-                "value"
-              ]
-            },
-            {
-              "answer": "fmt",
-              "choices": [
-                "Count",
-                "process",
-                "yield",
-                "fmt"
-              ]
-            },
-            {
-              "answer": "Println",
-              "choices": [
-                "Println",
-                "yield",
-                "Count",
-                "value"
-              ]
-            }
-          ]
-        }
-      ]
+      "document": {
+        "blocks": [
+          {
+            "kind": "heading",
+            "level": 1,
+            "spans": [
+              {
+                "kind": "text",
+                "value": "Proposal: Sample placeholder for quizgen Phase 1"
+              }
+            ]
+          },
+          {
+            "kind": "paragraph",
+            "spans": [
+              {
+                "kind": "text",
+                "value": "Author: Example Author\nLast updated: 2026-05-13"
+              }
+            ]
+          },
+          {
+            "kind": "heading",
+            "level": 2,
+            "spans": [
+              {
+                "kind": "text",
+                "value": "Abstract"
+              }
+            ]
+          },
+          {
+            "kind": "paragraph",
+            "spans": [
+              {
+                "kind": "text",
+                "value": "This is a sample Markdown file used only by the Phase 1 end-to-end\nverification of "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 0
+              },
+              {
+                "kind": "text",
+                "value": ". It exists so the CLI can be exercised before a\nreal clone of "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 1
+              },
+              {
+                "kind": "text",
+                "value": " is available."
+              }
+            ]
+          },
+          {
+            "kind": "heading",
+            "level": 2,
+            "spans": [
+              {
+                "kind": "text",
+                "value": "Proposal"
+              }
+            ]
+          },
+          {
+            "kind": "code",
+            "lang": "go",
+            "spans": [
+              {
+                "kind": "text",
+                "value": "package "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 2
+              },
+              {
+                "kind": "text",
+                "value": "\n\nimport \"fmt\"\n\nfunc "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 2
+              },
+              {
+                "kind": "text",
+                "value": "() {\n    "
+              },
+              {
+                "kind": "mask",
+                "blank_index": 3
+              },
+              {
+                "kind": "text",
+                "value": "."
+              },
+              {
+                "kind": "mask",
+                "blank_index": 4
+              },
+              {
+                "kind": "text",
+                "value": "(\"hello, quizgen\")\n}\n"
+              }
+            ]
+          }
+        ],
+        "blanks": [
+          {
+            "answer": "quizgen",
+            "choices": [
+              "fmt",
+              "Println",
+              "quizgen",
+              "main"
+            ]
+          },
+          {
+            "answer": "golang/proposal",
+            "choices": [
+              "Println",
+              "golang/proposal",
+              "fmt",
+              "main"
+            ]
+          },
+          {
+            "answer": "main",
+            "choices": [
+              "quizgen",
+              "golang/proposal",
+              "process",
+              "main"
+            ]
+          },
+          {
+            "answer": "fmt",
+            "choices": [
+              "fmt",
+              "go/parser",
+              "golang/proposal",
+              "quizgen"
+            ]
+          },
+          {
+            "answer": "Println",
+            "choices": [
+              "process",
+              "Println",
+              "golang/proposal",
+              "quizgen"
+            ]
+          }
+        ]
+      }
     }
   ]
 }

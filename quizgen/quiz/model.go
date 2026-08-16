@@ -12,7 +12,7 @@ import "time"
 // payloads whose version they do not understand. The project is pre-release, so
 // there is a single current version rather than a compatibility ladder;
 // optional fields are simply absent when unused.
-const SchemaVersion = 1
+const SchemaVersion = 2
 
 // Bundle is the top-level structure written to quizzes.json.
 //
@@ -41,19 +41,26 @@ type Source struct {
 	LicenseURL string `json:"license_url"`
 }
 
-// Proposal groups the quizzes generated from one upstream item (a design/*.md
-// file or a golang/go issue). Summary is present only when LLM content was
-// merged; the others are absent for items that lack them (e.g. IssueNumber for
-// design docs).
+// Proposal is one upstream item (a design/*.md file or a golang/go issue) as
+// the client presents it: the whole document with blanks punched into it, plus
+// any standalone questions an LLM produced about it.
+//
+// Document carries the reading experience; Quizzes are separate because an
+// LLM-written question is about the proposal rather than a part of it, and has
+// nowhere to sit in the document flow.
+//
+// Summary is present only when LLM content was merged; the others are absent
+// for items that lack them (e.g. IssueNumber for design docs).
 type Proposal struct {
-	ID          string `json:"id"`
-	Title       string `json:"title"`
-	URL         string `json:"url"`
-	Summary     string `json:"summary,omitempty"`      // LLM-generated one-paragraph summary
-	Status      string `json:"status,omitempty"`       // "accepted" | "active" (issues)
-	SourceKind  string `json:"source_kind,omitempty"`  // "design-docs" | "github-issues"
-	IssueNumber int    `json:"issue_number,omitempty"` // golang/go issue number
-	Quizzes     []Quiz `json:"quizzes"`
+	ID          string   `json:"id"`
+	Title       string   `json:"title"`
+	URL         string   `json:"url"`
+	Summary     string   `json:"summary,omitempty"`      // LLM-generated one-paragraph summary
+	Status      string   `json:"status,omitempty"`       // "accepted" | "active" (issues)
+	SourceKind  string   `json:"source_kind,omitempty"`  // "design-docs" | "github-issues"
+	IssueNumber int      `json:"issue_number,omitempty"` // golang/go issue number
+	Document    Document `json:"document"`
+	Quizzes     []Quiz   `json:"quizzes,omitempty"`
 }
 
 // Kind discriminates how a quiz was derived: from prose inline code, from a code
