@@ -57,6 +57,44 @@ func (u *UI) layoutBlock(gtx layout.Context, th *material.Theme, b quiz.DocBlock
 	return dims
 }
 
+// maxBlockChars caps how much text one block renders.
+//
+// A block is laid out as a single wrapped run, so its cost is not bounded by
+// the screen: the largest code block in the corpus is ~38k characters and costs
+// ~90MB to lay out, which iOS kills the app for. Proposals occasionally paste
+// whole files, and no one reads those on a phone anyway.
+const maxBlockChars = 4000
+
+// truncateSpans limits a block's text to maxBlockChars, keeping whole spans and
+// appending a marker so the elision is visible rather than silent.
+func truncateSpans(spans []quiz.Span) ([]quiz.Span, bool) {
+	total := 0
+	for _, s := range spans {
+		total += len(s.Value)
+	}
+	if total <= maxBlockChars {
+		return spans, false
+	}
+
+	out := make([]quiz.Span, 0, len(spans))
+	used := 0
+	for _, s := range spans {
+		if used >= maxBlockChars {
+			break
+		}
+		if s.Kind == quiz.SpanMask {
+			out = append(out, s)
+			continue
+		}
+		if room := maxBlockChars - used; len(s.Value) > room {
+			s.Value = s.Value[:room]
+		}
+		used += len(s.Value)
+		out = append(out, s)
+	}
+	return out, true
+}
+
 // buildBlockView converts a block's spans into styled runs, resolving each mask
 // to its current label and colour: a number while unanswered, the answer once
 // it has been picked.
@@ -72,7 +110,8 @@ func buildBlockView(th *material.Theme, b quiz.DocBlock, d quiz.Document, answer
 	size, weight, col := blockTextStyle(b)
 	mono := font.Font{Typeface: "monospace"}
 
-	for _, s := range b.Spans {
+	spans, truncated := truncateSpans(b.Spans)
+	for _, s := range spans {
 		switch s.Kind {
 		case quiz.SpanText:
 			f := font.Font{Weight: weight}
@@ -106,6 +145,15 @@ func buildBlockView(th *material.Theme, b quiz.DocBlock, d quiz.Document, answer
 				Font: font.Font{Typeface: "monospace", Weight: font.Bold},
 			}, true, fill, bi)
 		}
+	}
+	if truncated {
+		bv.spans = append(bv.spans, styledtext.SpanStyle{
+			Content: "\n… (truncated)", Size: unit.Sp(13), Color: colFaint,
+			Font: font.Font{Typeface: "monospace"},
+		})
+		bv.mask = append(bv.mask, false)
+		bv.fill = append(bv.fill, color.NRGBA{})
+		bv.blank = append(bv.blank, -1)
 	}
 	return bv
 }
