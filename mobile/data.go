@@ -123,11 +123,7 @@ func displayTitle(p quiz.Proposal) string {
 	return strings.TrimSpace(strings.TrimPrefix(p.Title, "Proposal:"))
 }
 
-// blankCount is the number of answerable blanks across a proposal's quizzes.
+// blankCount is how many blanks a proposal's document holds.
 func blankCount(p quiz.Proposal) int {
-	n := 0
-	for _, q := range p.Quizzes {
-		n += len(q.Blanks)
-	}
-	return n
+	return len(p.Document.Blanks)
 }

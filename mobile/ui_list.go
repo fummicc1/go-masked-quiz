@@ -38,7 +38,7 @@ func (u *UI) layout(gtx layout.Context, th *material.Theme) layout.Dimensions {
 	paint.Fill(gtx.Ops, colBg)
 	switch u.screen {
 	case screenQuiz:
-		return u.layoutQuiz(gtx, th)
+		return u.layoutDoc(gtx, th)
 	default:
 		return u.layoutList(gtx, th)
 	}
@@ -96,7 +96,7 @@ func (u *UI) proposalRow(gtx layout.Context, th *material.Theme, i int) layout.D
 	if click.Clicked(gtx) {
 		u.selected = i
 		u.screen = screenQuiz
-		u.quizV.open(p, u.store)
+		u.docV.open2(p, u.store)
 		// The screen changes while this frame is already laying out the list,
 		// so the new screen only appears on the next frame — and without this
 		// there is no next frame until some other input arrives, making the
