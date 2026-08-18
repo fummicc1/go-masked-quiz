@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-08-17T01:02:54.133152591Z",
+  "generated_at": "2026-08-18T01:01:16.435845876Z",
   "source_repo": "https://github.com/golang/proposal",
   "source_fork": "https://github.com/fummicc1/golang-proposal",
   "source_commit": "0be13090fdb0cbae0d71641bb676d924bc1c94de",
@@ -27464,6 +27464,213 @@
       ]
     },
     {
+      "id": "issue-68595",
+      "title": "syscall: support process sandboxing using Landlock on Linux",
+      "url": "https://github.com/golang/go/issues/68595",
+      "status": "accepted",
+      "source_kind": "github-issues",
+      "issue_number": 68595,
+      "quizzes": [
+        {
+          "id": "issue-68595-q01",
+          "kind": "prose",
+          "index": 0,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "I have a Golang binary that gets deployed once and then it "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": "'s the ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": " binary with various arguments under the hood hundreds of thousands of times to process lots of untrusted repositories on the internet."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "os/exec",
+              "choices": [
+                "os/exec",
+                "*syscall.SysProcAttr",
+                "fork(2)",
+                "fd"
+              ]
+            },
+            {
+              "answer": "git",
+              "choices": [
+                "*syscall.SysProcAttr",
+                "fork(2)",
+                "fd",
+                "git"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q02",
+          "kind": "prose",
+          "index": 1,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "This "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " invocation ideally should only access a single temporary directory that we create for it and doesn't need anything else, yet the invoking Golang binary needs an access to much more files and directories, including the networking. So basically, I'm looking to exercise the least privilege principle here."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "git",
+              "choices": [
+                "git",
+                "os/exec",
+                "fork(2)",
+                "fd"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q03",
+          "kind": "prose",
+          "index": 2,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "Unfortunately due to Go's runtime and the use of threads, it seems to be somewhat complicated to use ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": ", and even if it would work, it would mean re-inventing the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 1
+            },
+            {
+              "type": "text",
+              "value": "."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "fork(2)",
+              "choices": [
+                "fd",
+                "git",
+                "fork(2)",
+                "*syscall.SysProcAttr"
+              ]
+            },
+            {
+              "answer": "os/exec",
+              "choices": [
+                "*syscall.SysProcAttr",
+                "git",
+                "fd",
+                "os/exec"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q04",
+          "kind": "prose",
+          "index": 3,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "There's a nice ["
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " package with a very ergonomic API that can be adapted to emit the ruleset file-descriptor instead of restricting the current process with a couple of line changes."
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "github.com/landlock-lsm/go-landlock",
+              "choices": [
+                "*syscall.SysProcAttr",
+                "git",
+                "github.com/landlock-lsm/go-landlock",
+                "os/exec"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "issue-68595-q05",
+          "kind": "prose",
+          "index": 4,
+          "gen_method": "mechanical",
+          "blocks": [
+            {
+              "type": "text",
+              "value": "To get the "
+            },
+            {
+              "type": "inline_code",
+              "value": "fd"
+            },
+            {
+              "type": "text",
+              "value": " for the "
+            },
+            {
+              "type": "mask",
+              "blank_index": 0
+            },
+            {
+              "type": "text",
+              "value": " above, the user might do something like this:"
+            }
+          ],
+          "blanks": [
+            {
+              "answer": "*syscall.SysProcAttr",
+              "choices": [
+                "os/exec",
+                "fork(2)",
+                "git",
+                "*syscall.SysProcAttr"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "issue-73193",
       "title": "runtime: CPU limit-aware GOMAXPROCS default",
       "url": "https://github.com/golang/go/issues/73193",
@@ -27799,213 +28006,6 @@
                 "go list ...",
                 "strings.Builder",
                 "work"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "issue-68595",
-      "title": "syscall: support process sandboxing using Landlock on Linux",
-      "url": "https://github.com/golang/go/issues/68595",
-      "status": "accepted",
-      "source_kind": "github-issues",
-      "issue_number": 68595,
-      "quizzes": [
-        {
-          "id": "issue-68595-q01",
-          "kind": "prose",
-          "index": 0,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "I have a Golang binary that gets deployed once and then it "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": "'s the ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": " binary with various arguments under the hood hundreds of thousands of times to process lots of untrusted repositories on the internet."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "os/exec",
-              "choices": [
-                "os/exec",
-                "*syscall.SysProcAttr",
-                "fork(2)",
-                "fd"
-              ]
-            },
-            {
-              "answer": "git",
-              "choices": [
-                "*syscall.SysProcAttr",
-                "fork(2)",
-                "fd",
-                "git"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q02",
-          "kind": "prose",
-          "index": 1,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "This "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " invocation ideally should only access a single temporary directory that we create for it and doesn't need anything else, yet the invoking Golang binary needs an access to much more files and directories, including the networking. So basically, I'm looking to exercise the least privilege principle here."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "git",
-              "choices": [
-                "git",
-                "os/exec",
-                "fork(2)",
-                "fd"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q03",
-          "kind": "prose",
-          "index": 2,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "Unfortunately due to Go's runtime and the use of threads, it seems to be somewhat complicated to use ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": ", and even if it would work, it would mean re-inventing the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 1
-            },
-            {
-              "type": "text",
-              "value": "."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "fork(2)",
-              "choices": [
-                "fd",
-                "git",
-                "fork(2)",
-                "*syscall.SysProcAttr"
-              ]
-            },
-            {
-              "answer": "os/exec",
-              "choices": [
-                "*syscall.SysProcAttr",
-                "git",
-                "fd",
-                "os/exec"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q04",
-          "kind": "prose",
-          "index": 3,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "There's a nice ["
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " package with a very ergonomic API that can be adapted to emit the ruleset file-descriptor instead of restricting the current process with a couple of line changes."
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "github.com/landlock-lsm/go-landlock",
-              "choices": [
-                "*syscall.SysProcAttr",
-                "git",
-                "github.com/landlock-lsm/go-landlock",
-                "os/exec"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "issue-68595-q05",
-          "kind": "prose",
-          "index": 4,
-          "gen_method": "mechanical",
-          "blocks": [
-            {
-              "type": "text",
-              "value": "To get the "
-            },
-            {
-              "type": "inline_code",
-              "value": "fd"
-            },
-            {
-              "type": "text",
-              "value": " for the "
-            },
-            {
-              "type": "mask",
-              "blank_index": 0
-            },
-            {
-              "type": "text",
-              "value": " above, the user might do something like this:"
-            }
-          ],
-          "blanks": [
-            {
-              "answer": "*syscall.SysProcAttr",
-              "choices": [
-                "os/exec",
-                "fork(2)",
-                "git",
-                "*syscall.SysProcAttr"
               ]
             }
           ]
@@ -36901,7 +36901,7 @@
               "choices": [
                 "*ast.UnaryExpr",
                 "go test -exec=...",
-                "os/exec",
+                "GOMAXPROCS=10",
                 "flakytest.Mark"
               ]
             },
@@ -47308,7 +47308,7 @@
               "answer": "slog.Logger",
               "choices": [
                 "dwarf.dwAbbrev",
-                "sched_getaffinity(2)",
+                "cpu.cfs_quota_us",
                 "slog.Logger",
                 "NtCreateFile"
               ]
@@ -54734,7 +54734,7 @@
               "choices": [
                 "ceil(log62(2^128))",
                 "Directives",
-                "runtime.GOMAXPROCS(runtime.NumCPU())",
+                "--cpu-quota",
                 "[]MyByte"
               ]
             }
