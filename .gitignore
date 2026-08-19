@@ -27,3 +27,6 @@ coverage.out
 *.idsig
 mobile/mobile
 mobile/*.app/
+
+# Leftover Xcode artifacts from the removed SwiftUI app (generated, not sources).
+ios/
