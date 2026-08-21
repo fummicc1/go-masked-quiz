@@ -17,7 +17,7 @@ import (
 
 // quizDataURL serves the published bundle straight from the repo's cdn/ via
 // jsDelivr, so there is no server to run.
-const quizDataURL = "https://cdn.jsdelivr.net/gh/fummicc1/go-masked-quiz@main/cdn/v1/quizzes.json"
+const quizDataURL = "https://cdn.jsdelivr.net/gh/fummicc1/go-masked-quiz@main/cdn/v2/quizzes.json"
 
 // Source records which tier of loadBundle satisfied the request, shown in the
 // UI so a stale demo is never mistaken for live data.
