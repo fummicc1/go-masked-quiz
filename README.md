@@ -101,7 +101,7 @@ go run ./cmd/quizgen generate \
   --source        design-docs,github-issues \
   --proposals     ~/Work/LocalApps/golang-proposal/design \
   --max-proposals 200 \
-  --out           ../../cdn/v1/quizzes.json \
+  --out           ../../cdn/v2/quizzes.json \
   --seed 42
 ```
 
@@ -147,23 +147,25 @@ go run ./cmd/quizgen generate \
   --source     design-docs,github-issues \
   --proposals  ~/Work/LocalApps/golang-proposal/design \
   --llm-cache  cache/llm \
-  --out        ../../cdn/v1/quizzes.json \
+  --out        ../../cdn/v2/quizzes.json \
   --seed 42
 ```
 
-The schema is `1` either way — LLM fields are simply present when merged and
+The schema is `2` either way — LLM fields are simply present when merged and
 absent otherwise. The project is pre-release, so there is a single current
-schema version rather than a compatibility ladder.
+schema version rather than a compatibility ladder: when the schema bumps, the
+published path bumps with it (`cdn/v1/` → `cdn/v2/`) and the old one is frozen
+rather than kept up to date.
 
 ## Automated refresh (CDN)
 
-`cdn/v1/quizzes.json` is refreshed by the
+`cdn/v2/quizzes.json` is refreshed by the
 [`generate-quizzes`](.github/workflows/generate.yml) GitHub Actions workflow in
 this repo: daily (and on demand) it clones `golang/proposal` upstream, fetches
 golang/go proposal issues, merges the committed LLM cache, and commits only when
 the content (ignoring `generated_at`) actually changes.
 
-This workflow is the **single writer** of `cdn/v1/quizzes.json`. Do not add
+This workflow is the **single writer** of `cdn/v2/quizzes.json`. Do not add
 another workflow — in this repo or any fork — that also writes that file;
 concurrent writers would race. (The legacy `generate.yml` in the
 `fummicc1/golang-proposal` fork is superseded by this one and should be

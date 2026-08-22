@@ -77,7 +77,8 @@ func runGenerate(args []string) error {
 		seed           = fs.Int64("seed", 42, "deterministic RNG seed")
 		commit         = fs.String("commit", "", "source repo commit SHA (recorded in metadata)")
 		maxPerProposal = fs.Int("max-per-proposal", 5, "maximum quizzes of each kind per proposal")
-		maxBlanks      = fs.Int("max-blanks-per-quiz", 3, "maximum blanks (distinct tokens masked) per quiz")
+		maxBlanks      = fs.Int("max-blanks-per-block", 3, "maximum blanks (distinct tokens masked) per document block")
+		indent         = fs.Bool("indent", false, "pretty-print the output (doubles its size; for golden fixtures)")
 		choices        = fs.Int("choices", 4, "number of choices per blank")
 		maxProposals   = fs.Int("max-proposals", 0, "max proposals to fetch (github-issues; 0 = no limit)")
 		query          = fs.String("query", "", "issue-search query (github-issues; default: accepted proposals)")
@@ -142,7 +143,7 @@ func runGenerate(args []string) error {
 
 	bundle, notes := buildBundle(allItems, srcs, generatedAt, *seed, *maxPerProposal, *maxBlanks, *choices, *llmCache)
 
-	if err := writeJSON(*out, &bundle); err != nil {
+	if err := writeJSON(*out, &bundle, *indent); err != nil {
 		return err
 	}
 	for _, n := range notes {
@@ -209,8 +210,9 @@ func buildBundle(items []genItem, srcs []quiz.Source, generatedAt time.Time, see
 
 	var notes []string
 
+	cross := append(append([]string{}, crossProse...), crossCode...)
+
 	for _, it := range items {
-		quizzes := buildQuizzes(it.p, it.id, seed, maxPerProposal, maxBlanks, nChoices, crossProse, crossCode)
 		p := quiz.Proposal{
 			ID:          it.id,
 			Title:       it.p.Title,
@@ -219,21 +221,88 @@ func buildBundle(items []genItem, srcs []quiz.Source, generatedAt time.Time, see
 			Status:      it.status,
 			IssueNumber: it.issueNumber,
 		}
-		for i := range quizzes {
-			quizzes[i].GenMethod = "mechanical"
-		}
+		p.Document = buildDocument(it, seed, maxBlanks, nChoices, cross)
+
+		var quizzes []quiz.Quiz
 		if llmCacheDir != "" && it.issueNumber > 0 {
 			if note := mergeLLM(&p, &quizzes, it, llmCacheDir); note != "" {
 				notes = append(notes, note)
 			}
 		}
-		if len(quizzes) == 0 {
+		if len(p.Document.Blanks) == 0 && len(quizzes) == 0 {
 			continue
 		}
 		p.Quizzes = quizzes
 		bundle.Proposals = append(bundle.Proposals, p)
 	}
 	return bundle, notes
+}
+
+// buildDocument parses the proposal's source into reading order, masks it, and
+// fills in each blank's choices.
+//
+// maxBlanks caps blanks per block rather than per proposal: a document is read
+// straight through, so the density that matters is how often a reader meets a
+// blank, not how many the whole page holds.
+func buildDocument(it genItem, seed int64, maxBlanks, nChoices int, cross []string) quiz.Document {
+	parsedDoc := parser.ParseDocument(it.id+".md", it.p.Source, parser.Options{AcceptBareGoFences: true})
+	masked := masker.MaskDocument(masker.NewRNG(seed, "doc:"+it.id), parsedDoc, maxBlanks)
+
+	pool := append(masker.ProposalTokens(it.p), masker.CodeTokens(it.p)...)
+
+	doc := quiz.Document{
+		Blocks: make([]quiz.DocBlock, 0, len(masked.Blocks)),
+		Blanks: make([]quiz.Blank, 0, len(masked.Blanks)),
+	}
+
+	// A blank's siblings are the other blanks of the same block, so one block's
+	// options never spell out an answer the reader can still see unanswered.
+	siblings := make([][]string, len(masked.Blanks))
+	for _, b := range masked.Blocks {
+		var inBlock []int
+		for _, s := range b.Spans {
+			if s.Kind == "mask" {
+				inBlock = append(inBlock, s.BlankIndex)
+			}
+		}
+		for _, i := range inBlock {
+			for _, j := range inBlock {
+				if i != j {
+					siblings[i] = append(siblings[i], masked.Blanks[j].Answer)
+				}
+			}
+		}
+	}
+
+	for i, bl := range masked.Blanks {
+		tag := fmt.Sprintf("choice:doc:%s:%d:%s", it.id, i, bl.Answer)
+		doc.Blanks = append(doc.Blanks, quiz.Blank{
+			Answer:  bl.Answer,
+			Choices: masker.GenerateChoices(masker.NewRNG(seed, tag), bl.Answer, pool, cross, siblings[i], nChoices),
+		})
+	}
+
+	for _, b := range masked.Blocks {
+		nb := quiz.DocBlock{
+			Kind:  quiz.BlockKind(b.Kind),
+			Level: b.Level,
+			Lang:  b.Lang,
+			Spans: make([]quiz.Span, 0, len(b.Spans)),
+		}
+		for _, s := range b.Spans {
+			switch s.Kind {
+			case "mask":
+				bi := s.BlankIndex
+				nb.Spans = append(nb.Spans, quiz.Span{Kind: quiz.SpanMask, BlankIndex: &bi})
+			case "inline_code":
+				nb.Spans = append(nb.Spans, quiz.Span{Kind: quiz.SpanInlineCode, Value: s.Text})
+			default:
+				nb.Spans = append(nb.Spans, quiz.Span{Kind: quiz.SpanText, Value: s.Text})
+			}
+		}
+		doc.Blocks = append(doc.Blocks, nb)
+	}
+	return doc
 }
 
 // mergeLLM merges an issue's cached LLM summary and quizzes into p/quizzes,
@@ -540,7 +609,11 @@ func listMarkdown(dir string) ([]string, error) {
 	return out, nil
 }
 
-func writeJSON(path string, v any) error {
+// writeJSON writes v to path. Indenting is opt-in because carrying the whole
+// document text makes the bundle large enough that pretty-printing doubles it —
+// it is worth it for the golden fixture, whose diffs a person reads, and not
+// for the artifact that ships to a phone.
+func writeJSON(path string, v any, indent bool) error {
 	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
 		return fmt.Errorf("mkdir output dir: %w", err)
 	}
@@ -550,7 +623,9 @@ func writeJSON(path string, v any) error {
 	}
 	defer f.Close()
 	enc := json.NewEncoder(f)
-	enc.SetIndent("", "  ")
+	if indent {
+		enc.SetIndent("", "  ")
+	}
 	if err := enc.Encode(v); err != nil {
 		return fmt.Errorf("encode JSON: %w", err)
 	}
@@ -560,7 +635,7 @@ func writeJSON(path string, v any) error {
 func countQuizzes(b *quiz.Bundle) int {
 	n := 0
 	for _, p := range b.Proposals {
-		n += len(p.Quizzes)
+		n += len(p.Document.Blanks) + len(p.Quizzes)
 	}
 	return n
 }

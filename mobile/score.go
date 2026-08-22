@@ -7,8 +7,9 @@ import (
 	"sync"
 )
 
-// blankKey identifies one answerable blank within a proposal: the quiz's Index
-// field (not its position in the slice) plus the blank's position in that quiz.
+// blankKey identifies one answerable blank within a proposal by its position in
+// the document's Blanks slice. QuizIndex is retained for the standalone LLM
+// questions, which are numbered separately from the document.
 type blankKey struct {
 	QuizIndex  int `json:"quiz_index"`
 	BlankIndex int `json:"blank_index"`
@@ -96,12 +97,15 @@ func (s *scoreStore) flush() {
 	_ = os.Rename(tmp, s.path)
 }
 
-func (s *scoreStore) answers(proposalID string) map[blankKey]answer {
+// answers returns the document blanks answered so far, keyed by blank index.
+func (s *scoreStore) answers(proposalID string) map[int]answer {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	out := make(map[blankKey]answer, len(s.scores[proposalID]))
+	out := make(map[int]answer, len(s.scores[proposalID]))
 	for k, v := range s.scores[proposalID] {
-		out[k] = v
+		if k.QuizIndex == 0 {
+			out[k.BlankIndex] = v
+		}
 	}
 	return out
 }
