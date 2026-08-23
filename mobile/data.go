@@ -17,7 +17,7 @@ import (
 
 // quizDataURL serves the published bundle straight from the repo's cdn/ via
 // jsDelivr, so there is no server to run.
-const quizDataURL = "https://cdn.jsdelivr.net/gh/fummicc1/go-masked-quiz@main/cdn/v1/quizzes.json"
+const quizDataURL = "https://cdn.jsdelivr.net/gh/fummicc1/go-masked-quiz@main/cdn/v2/quizzes.json"
 
 // Source records which tier of loadBundle satisfied the request, shown in the
 // UI so a stale demo is never mistaken for live data.
@@ -123,11 +123,7 @@ func displayTitle(p quiz.Proposal) string {
 	return strings.TrimSpace(strings.TrimPrefix(p.Title, "Proposal:"))
 }
 
-// blankCount is the number of answerable blanks across a proposal's quizzes.
+// blankCount is how many blanks a proposal's document holds.
 func blankCount(p quiz.Proposal) int {
-	n := 0
-	for _, q := range p.Quizzes {
-		n += len(q.Blanks)
-	}
-	return n
+	return len(p.Document.Blanks)
 }

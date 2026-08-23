@@ -64,8 +64,8 @@ func issueSrc() quiz.Source {
 
 func TestBuildBundle_SingleSourceOmitsSources(t *testing.T) {
 	b, _ := buildBundle([]genItem{designItem()}, []quiz.Source{designSrc()}, epoch, 42, 5, 3, 4, "")
-	if b.Version != 1 {
-		t.Errorf("Version = %d, want 1", b.Version)
+	if b.Version != quiz.SchemaVersion {
+		t.Errorf("Version = %d, want %d", b.Version, quiz.SchemaVersion)
 	}
 	if b.Sources != nil {
 		t.Errorf("single source must omit Sources, got %v", b.Sources)
@@ -150,8 +150,8 @@ func TestBuildBundle_MergesLLMCache(t *testing.T) {
 	if len(notes) != 0 {
 		t.Errorf("unexpected notes: %v", notes)
 	}
-	if b.Version != 1 {
-		t.Fatalf("Version = %d, want 1", b.Version)
+	if b.Version != quiz.SchemaVersion {
+		t.Fatalf("Version = %d, want %d", b.Version, quiz.SchemaVersion)
 	}
 	p := b.Proposals[0]
 	if p.Summary != "A concise summary." {
@@ -160,29 +160,20 @@ func TestBuildBundle_MergesLLMCache(t *testing.T) {
 	if p.SourceKind != "github-issues" || p.IssueNumber != 77 || p.Status != "accepted" {
 		t.Errorf("source metadata missing: %+v", p)
 	}
-	var llmQ *quiz.Quiz
-	var mechCount int
-	for i := range p.Quizzes {
-		if p.Quizzes[i].Kind == quiz.KindLLM {
-			llmQ = &p.Quizzes[i]
-		} else {
-			mechCount++
-			if p.Quizzes[i].GenMethod != "mechanical" {
-				t.Errorf("mechanical quiz %s gen_method = %q", p.Quizzes[i].ID, p.Quizzes[i].GenMethod)
-			}
-		}
+	// Mechanical blanks live in the document now; Quizzes carries only the
+	// standalone questions the model wrote.
+	if len(p.Document.Blanks) == 0 {
+		t.Error("expected the document to carry mechanical blanks")
 	}
-	if mechCount == 0 {
-		t.Error("expected at least one mechanical quiz")
+	if len(p.Quizzes) != 1 {
+		t.Fatalf("Quizzes = %d, want 1 (llm only)", len(p.Quizzes))
 	}
-	if llmQ == nil {
-		t.Fatal("llm quiz not merged")
+	llmQ := p.Quizzes[0]
+	if llmQ.Kind != quiz.KindLLM {
+		t.Errorf("quiz kind = %q, want llm", llmQ.Kind)
 	}
 	if llmQ.GenMethod != "llm" || !strings.HasPrefix(llmQ.ID, "issue-77-q") {
 		t.Errorf("llm quiz id=%q gen_method=%q", llmQ.ID, llmQ.GenMethod)
-	}
-	if llmQ.Index != mechCount {
-		t.Errorf("llm quiz Index = %d, want %d (after mechanical)", llmQ.Index, mechCount)
 	}
 }
 

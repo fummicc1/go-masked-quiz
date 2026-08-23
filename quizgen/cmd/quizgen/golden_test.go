@@ -24,7 +24,7 @@ func generate(t *testing.T) []byte {
 	outPath := filepath.Join(t.TempDir(), "out.json")
 	if err := runGenerate([]string{
 		"--proposals", proposalsDir, "--out", outPath,
-		"--seed", "42", "--now", fixedNow,
+		"--seed", "42", "--now", fixedNow, "--indent",
 	}); err != nil {
 		t.Fatalf("runGenerate: %v", err)
 	}
@@ -77,6 +77,7 @@ func TestSchemaInvariants(t *testing.T) {
 		t.Fatal("no proposals")
 	}
 	for _, p := range b.Proposals {
+		checkDocument(t, p)
 		for _, q := range p.Quizzes {
 			if len(q.Blanks) == 0 {
 				t.Errorf("%s: no blanks", q.ID)
@@ -141,4 +142,62 @@ func choicesContain(choices []string, answer string) bool {
 		}
 	}
 	return false
+}
+
+// checkDocument asserts the invariants the client relies on when rendering a
+// proposal: every mask resolves to a blank, every blank is reachable, and no
+// block is empty.
+func checkDocument(t *testing.T, p quiz.Proposal) {
+	t.Helper()
+	d := p.Document
+	if len(d.Blocks) == 0 {
+		t.Errorf("%s: document has no blocks", p.ID)
+		return
+	}
+
+	referenced := make([]bool, len(d.Blanks))
+	for i, b := range d.Blocks {
+		if len(b.Spans) == 0 {
+			t.Errorf("%s: block %d (%s) has no spans", p.ID, i, b.Kind)
+		}
+		for _, s := range b.Spans {
+			switch s.Kind {
+			case quiz.SpanMask:
+				if s.BlankIndex == nil {
+					t.Errorf("%s: block %d: mask without blank_index", p.ID, i)
+					continue
+				}
+				bi := *s.BlankIndex
+				if bi < 0 || bi >= len(d.Blanks) {
+					t.Errorf("%s: block %d: blank_index %d out of range (%d blanks)", p.ID, i, bi, len(d.Blanks))
+					continue
+				}
+				if s.Value != "" {
+					t.Errorf("%s: block %d: mask carries value %q", p.ID, i, s.Value)
+				}
+				referenced[bi] = true
+			default:
+				if s.Value == "" {
+					t.Errorf("%s: block %d: %s span is empty", p.ID, i, s.Kind)
+				}
+				if s.BlankIndex != nil {
+					t.Errorf("%s: block %d: %s span has blank_index", p.ID, i, s.Kind)
+				}
+			}
+		}
+	}
+
+	for i, used := range referenced {
+		if !used {
+			t.Errorf("%s: blank %d (%q) referenced by no mask", p.ID, i, d.Blanks[i].Answer)
+		}
+	}
+	for _, bl := range d.Blanks {
+		if len(bl.Choices) != 4 {
+			t.Errorf("%s: blank %q choices = %d, want 4", p.ID, bl.Answer, len(bl.Choices))
+		}
+		if !choicesContain(bl.Choices, bl.Answer) {
+			t.Errorf("%s: blank %q choices missing answer", p.ID, bl.Answer)
+		}
+	}
 }

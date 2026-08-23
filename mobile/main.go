@@ -48,7 +48,7 @@ type UI struct {
 	selected int // index into bundle.Proposals when screen == screenQuiz
 
 	list  listView
-	quizV quizView
+	docV  docView
 }
 
 func run(w *app.Window) error {

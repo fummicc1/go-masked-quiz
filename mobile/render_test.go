@@ -15,8 +15,7 @@ import (
 
 // renderUI lays the UI out into a headless window and returns the frame. This
 // exercises the real layout and paint path — including the two-pass chip
-// drawing in quizBody, whose bugs are only visible in pixels — without needing
-// a device or emulator.
+// drawing, whose bugs are only visible in pixels — without a device.
 func renderUI(t *testing.T, u *UI, w, h int) *image.RGBA {
 	t.Helper()
 
@@ -76,66 +75,82 @@ func TestRenderList(t *testing.T) {
 	writePNG(t, img, "testdata/screen-list.png")
 }
 
-// TestRenderQuiz renders a proposal that has both a prose quiz and a code quiz,
-// with one blank answered correctly and one wrong, so every chip state appears
-// in a single frame.
-func TestRenderQuiz(t *testing.T) {
+// TestRenderDocument opens a proposal that mixes prose and code, answers the
+// first two blanks (one right, one wrong) so every chip state appears, and
+// renders the reader.
+func TestRenderDocument(t *testing.T) {
 	u := testUI(t)
 
-	idx := findProposalWithCode(u.bundle)
+	idx := findRichProposal(u.bundle)
 	if idx < 0 {
-		t.Skip("no proposal with a code quiz in the embedded bundle")
+		t.Skip("no proposal with both prose and code in the embedded bundle")
 	}
 	p := u.bundle.Proposals[idx]
 
 	u.selected = idx
 	u.screen = screenQuiz
-	u.quizV.open(p, u.store)
+	u.docV.open2(p, u.store)
 
-	// Answer the first blank correctly and the second one wrong, going through
-	// the same path a tap takes so the header's progress reflects it.
 	answerNth(u, p, 0, true)
 	answerNth(u, p, 1, false)
 
 	img := renderUI(t, u, 1080, 2000)
-	writePNG(t, img, "testdata/screen-quiz.png")
+	writePNG(t, img, "testdata/screen-document.png")
 }
 
-func findProposalWithCode(b quiz.Bundle) int {
+// TestRenderChoiceSheet renders the reader with a blank's choices open, which
+// is the state a tap on a mask produces.
+func TestRenderChoiceSheet(t *testing.T) {
+	u := testUI(t)
+
+	idx := findRichProposal(u.bundle)
+	if idx < 0 {
+		t.Skip("no suitable proposal in the embedded bundle")
+	}
+	p := u.bundle.Proposals[idx]
+
+	u.selected = idx
+	u.screen = screenQuiz
+	u.docV.open2(p, u.store)
+	if len(p.Document.Blanks) == 0 {
+		t.Skip("proposal has no blanks")
+	}
+	u.docV.open = 0
+
+	img := renderUI(t, u, 1080, 2000)
+	writePNG(t, img, "testdata/screen-sheet.png")
+}
+
+// findRichProposal returns a proposal whose document has both prose and code
+// blocks plus at least two blanks, so one frame shows every rendering path.
+func findRichProposal(b quiz.Bundle) int {
 	for i, p := range b.Proposals {
 		var hasCode, hasProse bool
-		for _, q := range p.Quizzes {
-			switch q.Kind {
-			case quiz.KindCode:
+		for _, blk := range p.Document.Blocks {
+			switch blk.Kind {
+			case quiz.BlockCode:
 				hasCode = true
-			case quiz.KindProse:
+			case quiz.BlockParagraph:
 				hasProse = true
 			}
 		}
-		if hasCode && hasProse {
+		if hasCode && hasProse && len(p.Document.Blanks) >= 2 {
 			return i
 		}
 	}
 	return -1
 }
 
-// answerNth answers the nth blank of a proposal (in document order), updating
-// both the view and the store exactly as choiceChip does on a tap.
+// answerNth answers the nth blank of a proposal's document, going through the
+// same path a tap takes so the header's progress reflects it.
 func answerNth(u *UI, p quiz.Proposal, n int, correct bool) {
-	seen := 0
-	for _, q := range p.Quizzes {
-		for bi, bl := range q.Blanks {
-			if seen != n {
-				seen++
-				continue
-			}
-			k := blankKey{QuizIndex: q.Index, BlankIndex: bi}
-			a := pick(bl, correct)
-			u.quizV.answers[k] = a
-			u.store.record(p.ID, k, a)
-			return
-		}
+	if n >= len(p.Document.Blanks) {
+		return
 	}
+	bl := p.Document.Blanks[n]
+	a := pick(bl, correct)
+	u.docV.answers[n] = a
+	u.store.record(p.ID, blankKey{BlankIndex: n}, a)
 }
 
 // pick returns an answer for a blank: the right one, or the first choice that

@@ -20,6 +20,7 @@ var (
 	colSuccess   = color.NRGBA{R: 0x3F, G: 0xB9, B: 0x50, A: 0xFF}
 	colDanger    = color.NRGBA{R: 0xE5, G: 0x53, B: 0x4B, A: 0xFF}
 	colOnAccent  = color.NRGBA{R: 0x0B, G: 0x10, B: 0x14, A: 0xFF}
+	colScrim     = color.NRGBA{R: 0x00, G: 0x00, B: 0x00, A: 0xA8}
 )
 
 // newTheme returns the app theme.
