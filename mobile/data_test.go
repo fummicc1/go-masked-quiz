@@ -1,7 +1,10 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 
@@ -10,8 +13,7 @@ import (
 
 // TestQuizDataURLMatchesSchemaVersion guards the drift that already bit once:
 // the schema was bumped to 2 while quizDataURL still pointed at the v1 path, so
-// every remote fetch decoded to a version the client rejects and the app
-// silently served the embedded snapshot forever.
+// every remote fetch decoded to a version the client rejects.
 func TestQuizDataURLMatchesSchemaVersion(t *testing.T) {
 	want := fmt.Sprintf("/cdn/v%d/", quiz.SchemaVersion)
 	if !strings.Contains(quizDataURL, want) {
@@ -20,16 +22,70 @@ func TestQuizDataURLMatchesSchemaVersion(t *testing.T) {
 	}
 }
 
-// TestEmbeddedBundleIsCurrentSchema keeps the offline fallback usable: an
-// embedded snapshot from an older schema is rejected by decodeBundle, which
-// would leave the app with nothing to show on a first run without network.
-func TestEmbeddedBundleIsCurrentSchema(t *testing.T) {
-	b, err := decodeBundle(embeddedQuizzes)
+// deadContext is a context that is already cancelled, so fetchRemote fails
+// without the test needing a network at all.
+func deadContext(t *testing.T) context.Context {
+	t.Helper()
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	return ctx
+}
+
+// TestLoadBundleReportsFailure is the regression guard for dropping the
+// embedded snapshot: a failed fetch with no cache has to surface as an error.
+// While the snapshot existed this path returned a usable bundle, which is how a
+// week of broken fetches went unnoticed.
+func TestLoadBundleReportsFailure(t *testing.T) {
+	b, src, err := loadBundle(deadContext(t), "")
+	if err == nil {
+		t.Fatal("loadBundle succeeded with no network and no cache; a silent fallback is back")
+	}
+	if src != "" {
+		t.Errorf("source = %q, want empty on failure", src)
+	}
+	if len(b.Proposals) != 0 {
+		t.Errorf("got %d proposals on failure, want none", len(b.Proposals))
+	}
+}
+
+// TestLoadBundleUsesCacheWhenFetchFails covers the one tier left behind the
+// network: a previous successful fetch keeps the app usable offline.
+func TestLoadBundleUsesCacheWhenFetchFails(t *testing.T) {
+	raw, err := os.ReadFile("testdata/bundle.json")
 	if err != nil {
-		t.Fatalf("decode embedded bundle: %v", err)
+		t.Fatalf("read fixture: %v", err)
+	}
+	cache := filepath.Join(t.TempDir(), "quizzes.json")
+	if err := os.WriteFile(cache, raw, 0o644); err != nil {
+		t.Fatalf("seed cache: %v", err)
+	}
+
+	b, src, err := loadBundle(deadContext(t), cache)
+	if err != nil {
+		t.Fatalf("loadBundle with a warm cache: %v", err)
+	}
+	if src != SourceCache {
+		t.Errorf("source = %q, want %q", src, SourceCache)
 	}
 	if len(b.Proposals) == 0 {
-		t.Fatal("embedded bundle has no proposals")
+		t.Error("cached bundle has no proposals")
+	}
+}
+
+// TestFixtureIsCurrentSchema keeps the render fixture decodable. It is a subset
+// of the published bundle, so it goes stale the same way the embedded snapshot
+// did — the difference is that only tests depend on it.
+func TestFixtureIsCurrentSchema(t *testing.T) {
+	raw, err := os.ReadFile("testdata/bundle.json")
+	if err != nil {
+		t.Fatalf("read fixture: %v", err)
+	}
+	b, err := decodeBundle(raw)
+	if err != nil {
+		t.Fatalf("decode fixture: %v", err)
+	}
+	if len(b.Proposals) == 0 {
+		t.Fatal("fixture has no proposals")
 	}
 	for _, p := range b.Proposals {
 		if len(p.Document.Blocks) == 0 && len(p.Quizzes) == 0 {

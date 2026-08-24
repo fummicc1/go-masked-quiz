@@ -10,8 +10,8 @@ The project consists of:
   identifiers in both prose and ` ```go ` code blocks, and emits a single
   `quizzes.json` consumed by the app.
 - **`mobile/`** — the mobile app, written entirely in Go (UI included) with
-  [Gio](https://gioui.org). It ships `quizzes.json` in its binary and lets the
-  user play the quizzes fully offline.
+  [Gio](https://gioui.org). It fetches `quizzes.json` on first run and caches it
+  on the device, so every run after that works offline.
 
 Both import the same schema types from `quizgen/quiz`, so the format has one
 definition rather than a copy per client.
@@ -214,13 +214,12 @@ It does not use `gogio`, for two reasons:
 
 The device must be registered in the profile and have Developer Mode enabled.
 
-The embedded copy of the quiz data is refreshed with `go generate ./...`.
-
 ## License
 
 - `go-masked-quiz` itself: BSD 3-Clause, Copyright (c) 2026 Fumiya Tanaka.
   See [`LICENSE`](./LICENSE).
-- The generated `quizzes.json` and the app binary that embeds it contain short fragments
+- The generated `quizzes.json`, and the small fixture under `mobile/testdata/`
+  cut from it, contain short fragments
   derived from [`golang/proposal`](https://github.com/golang/proposal),
   Copyright (c) The Go Authors, licensed under BSD 3-Clause.
   See [`NOTICE`](./NOTICE) for the required attribution that downstream

@@ -43,18 +43,25 @@ func TestBlockLayoutStaysWithinMemoryBudget(t *testing.T) {
 	u.screen = screenQuiz
 	u.docV.open2(p, u.store)
 
+	layoutOnce := func() {
+		var ops op.Ops
+		gtx := layout.Context{
+			Ops:         &ops,
+			Metric:      unit.Metric{PxPerDp: 2.75, PxPerSp: 2.75},
+			Constraints: layout.Exact(image.Pt(1080, 2000)),
+		}
+		u.docBlock(gtx, th, &u.docV, worstIdx)
+	}
+
+	// The first shape in a process initialises the font shaper, which costs tens
+	// of MB whatever the text — enough to swamp what this test is about. The
+	// same block measured cold reads ~78MB and warm ~0.3MB, so measure warm.
+	layoutOnce()
+
 	var m0, m1 runtime.MemStats
 	runtime.GC()
 	runtime.ReadMemStats(&m0)
-
-	var ops op.Ops
-	gtx := layout.Context{
-		Ops:         &ops,
-		Metric:      unit.Metric{PxPerDp: 2.75, PxPerSp: 2.75},
-		Constraints: layout.Exact(image.Pt(1080, 2000)),
-	}
-	u.docBlock(gtx, th, &u.docV, worstIdx)
-
+	layoutOnce()
 	runtime.ReadMemStats(&m1)
 	usedMB := float64(m1.HeapAlloc-m0.HeapAlloc) / 1048576
 	t.Logf("largest block: %s #%d (%d chars) cost %.1f MB", p.ID, worstIdx, worstChars, usedMB)

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -26,32 +27,37 @@ type Source string
 const (
 	SourceRemote Source = "remote"
 	SourceCache  Source = "cache"
-	SourceBundle Source = "bundled"
 )
 
-// loadBundle tries three tiers in turn: network, then the cached copy of a
-// previous fetch, then the embedded snapshot. It never fails — the embedded
-// bundle guarantees the app has something to show offline.
-func loadBundle(ctx context.Context, cachePath string) (quiz.Bundle, Source) {
-	if b, raw, err := fetchRemote(ctx); err == nil {
+// maxBundleBytes caps how much of a remote response is read. The published
+// bundle is a few MB; anything far larger is a misconfigured endpoint rather
+// than data worth loading onto a phone.
+const maxBundleBytes = 32 << 20
+
+// loadBundle fetches the published bundle, falling back to the cached copy of a
+// previous fetch.
+//
+// There is deliberately no embedded snapshot behind these two tiers. One used to
+// exist, and for the week the client spent pointed at a stale cdn path it turned
+// a broken fetch into a silently outdated app instead of a visible failure.
+// Reporting the error is what makes that class of bug survivable.
+func loadBundle(ctx context.Context, cachePath string) (quiz.Bundle, Source, error) {
+	b, raw, err := fetchRemote(ctx)
+	if err == nil {
 		if cachePath != "" {
 			_ = os.MkdirAll(filepath.Dir(cachePath), 0o755)
 			_ = os.WriteFile(cachePath, raw, 0o644)
 		}
-		return b, SourceRemote
+		return b, SourceRemote, nil
 	}
 	if cachePath != "" {
-		if raw, err := os.ReadFile(cachePath); err == nil {
-			if b, err := decodeBundle(raw); err == nil {
-				return b, SourceCache
+		if cached, rerr := os.ReadFile(cachePath); rerr == nil {
+			if b, derr := decodeBundle(cached); derr == nil {
+				return b, SourceCache, nil
 			}
 		}
 	}
-	b, err := decodeBundle(embeddedQuizzes)
-	if err != nil {
-		return quiz.Bundle{}, SourceBundle
-	}
-	return b, SourceBundle
+	return quiz.Bundle{}, "", err
 }
 
 func fetchRemote(ctx context.Context) (quiz.Bundle, []byte, error) {
@@ -70,7 +76,7 @@ func fetchRemote(ctx context.Context) (quiz.Bundle, []byte, error) {
 	if resp.StatusCode != http.StatusOK {
 		return quiz.Bundle{}, nil, fmt.Errorf("fetch quizzes: unexpected status %s", resp.Status)
 	}
-	raw, err := readAllLimited(resp)
+	raw, err := io.ReadAll(io.LimitReader(resp.Body, maxBundleBytes))
 	if err != nil {
 		return quiz.Bundle{}, nil, err
 	}

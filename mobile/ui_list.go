@@ -7,6 +7,7 @@ import (
 	"gioui.org/layout"
 	"gioui.org/op"
 	"gioui.org/op/paint"
+	"gioui.org/text"
 	"gioui.org/widget"
 	"gioui.org/widget/material"
 	"github.com/fummicc1/go-masked-quiz/quizgen/quiz"
@@ -45,6 +46,11 @@ func (u *UI) layout(gtx layout.Context, th *material.Theme) layout.Dimensions {
 }
 
 func (u *UI) layoutList(gtx layout.Context, th *material.Theme) layout.Dimensions {
+	if u.retry.Clicked(gtx) {
+		u.load()
+		gtx.Execute(op.InvalidateCmd{})
+	}
+
 	props := u.bundle.Proposals
 	u.list.ensureRows(len(props))
 
@@ -58,6 +64,9 @@ func (u *UI) layoutList(gtx layout.Context, th *material.Theme) layout.Dimension
 				})
 		}),
 		layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+			if u.state == loadFailed {
+				return u.layoutLoadFailed(gtx, th)
+			}
 			if len(props) == 0 {
 				return layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 					l := material.Body1(th, "Loading…")
@@ -74,6 +83,9 @@ func (u *UI) layoutList(gtx layout.Context, th *material.Theme) layout.Dimension
 				})
 		}),
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+			if u.state != loadReady {
+				return layout.Dimensions{}
+			}
 			return layout.Inset{Top: dp(6), Bottom: dp(10)}.Layout(gtx,
 				func(gtx layout.Context) layout.Dimensions {
 					return layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
@@ -85,6 +97,45 @@ func (u *UI) layoutList(gtx layout.Context, th *material.Theme) layout.Dimension
 				})
 		}),
 	)
+}
+
+// layoutLoadFailed is what replaces the embedded snapshot. Saying the fetch
+// failed, and why, is the whole point of dropping the fallback: a schema
+// mismatch used to look exactly like a working app.
+func (u *UI) layoutLoadFailed(gtx layout.Context, th *material.Theme) layout.Dimensions {
+	return layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+		return layout.Inset{Left: dp(28), Right: dp(28)}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+			return layout.Flex{Axis: layout.Vertical, Alignment: layout.Middle}.Layout(gtx,
+				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+					l := material.Body1(th, "Couldn\u2019t load quizzes")
+					l.Color = colText
+					l.Alignment = text.Middle
+					return l.Layout(gtx)
+				}),
+				layout.Rigid(layout.Spacer{Height: dp(10)}.Layout),
+				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+					l := material.Caption(th, u.loadErrText())
+					l.Color = colFaint
+					l.Alignment = text.Middle
+					l.MaxLines = 4
+					return l.Layout(gtx)
+				}),
+				layout.Rigid(layout.Spacer{Height: dp(22)}.Layout),
+				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+					gtx.Constraints.Min.X = 0
+					return material.Button(th, &u.retry, "Retry").Layout(gtx)
+				}),
+			)
+		})
+	})
+}
+
+// loadErrText is the detail line under the failure headline.
+func (u *UI) loadErrText() string {
+	if u.loadErr == nil {
+		return "No network connection."
+	}
+	return u.loadErr.Error()
 }
 
 func (u *UI) proposalRow(gtx layout.Context, th *material.Theme, i int) layout.Dimensions {
