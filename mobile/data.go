@@ -133,3 +133,18 @@ func displayTitle(p quiz.Proposal) string {
 func blankCount(p quiz.Proposal) int {
 	return len(p.Document.Blanks)
 }
+
+// filterProposals returns the bundle indices of proposals whose display title
+// or number contains q, case-insensitively. An empty query keeps everything.
+func filterProposals(props []quiz.Proposal, q string) []int {
+	q = strings.ToLower(strings.TrimSpace(q))
+	idx := make([]int, 0, len(props))
+	for i, p := range props {
+		if q == "" ||
+			strings.Contains(strings.ToLower(displayTitle(p)), q) ||
+			strings.Contains(strings.ToLower(displayNumber(p)), q) {
+			idx = append(idx, i)
+		}
+	}
+	return idx
+}

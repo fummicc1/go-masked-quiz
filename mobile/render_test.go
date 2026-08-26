@@ -96,6 +96,16 @@ func TestRenderList(t *testing.T) {
 	writePNG(t, img, "testdata/screen-list.png")
 }
 
+// TestRenderListFiltered renders the list narrowed by a query. The query is
+// taken from the fixture's first proposal so the frame always shows at least
+// one surviving row, whatever the fixture holds.
+func TestRenderListFiltered(t *testing.T) {
+	u := testUI(t)
+	u.list.query.SetText(displayNumber(u.bundle.Proposals[0]))
+	img := renderUI(t, u, 1080, 2000)
+	writePNG(t, img, "testdata/screen-list-filtered.png")
+}
+
 // TestRenderDocument opens a proposal that mixes prose and code, answers the
 // first two blanks (one right, one wrong) so every chip state appears, and
 // renders the reader.

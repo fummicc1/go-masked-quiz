@@ -19,11 +19,13 @@ import (
 type listView struct {
 	list  widget.List
 	rows  []widget.Clickable
+	query widget.Editor
 	ready bool
 }
 
 func (v *listView) init() {
 	v.list.Axis = layout.Vertical
+	v.query.SingleLine = true
 	v.ready = true
 }
 
@@ -51,8 +53,17 @@ func (u *UI) layoutList(gtx layout.Context, th *material.Theme) layout.Dimension
 		gtx.Execute(op.InvalidateCmd{})
 	}
 
+	// Drain editor events before computing the filter, so the visible set
+	// reflects this frame's keystrokes rather than layout order.
+	for {
+		if _, ok := u.list.query.Update(gtx); !ok {
+			break
+		}
+	}
+
 	props := u.bundle.Proposals
 	u.list.ensureRows(len(props))
+	visible := filterProposals(props, u.list.query.Text())
 
 	return layout.Flex{Axis: layout.Vertical}.Layout(gtx,
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
@@ -61,6 +72,22 @@ func (u *UI) layoutList(gtx layout.Context, th *material.Theme) layout.Dimension
 					l := material.H6(th, "Go Proposals")
 					l.Color = colText
 					return l.Layout(gtx)
+				})
+		}),
+		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+			if u.state != loadReady || len(props) == 0 {
+				return layout.Dimensions{}
+			}
+			return layout.Inset{Left: dp(16), Right: dp(16), Bottom: dp(8)}.Layout(gtx,
+				func(gtx layout.Context) layout.Dimensions {
+					return card(gtx, colSurface, colBorder, func(gtx layout.Context) layout.Dimensions {
+						return layout.UniformInset(dp(12)).Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+							ed := material.Editor(th, &u.list.query, "Search title or number")
+							ed.Color = colText
+							ed.HintColor = colFaint
+							return ed.Layout(gtx)
+						})
+					})
 				})
 		}),
 		layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
@@ -74,11 +101,18 @@ func (u *UI) layoutList(gtx layout.Context, th *material.Theme) layout.Dimension
 					return l.Layout(gtx)
 				})
 			}
-			return material.List(th, &u.list.list).Layout(gtx, len(props),
-				func(gtx layout.Context, i int) layout.Dimensions {
+			if len(visible) == 0 {
+				return layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+					l := material.Body1(th, "No matches")
+					l.Color = colFaint
+					return l.Layout(gtx)
+				})
+			}
+			return material.List(th, &u.list.list).Layout(gtx, len(visible),
+				func(gtx layout.Context, row int) layout.Dimensions {
 					return layout.Inset{Left: dp(16), Right: dp(16), Bottom: dp(10)}.Layout(gtx,
 						func(gtx layout.Context) layout.Dimensions {
-							return u.proposalRow(gtx, th, i)
+							return u.proposalRow(gtx, th, visible[row])
 						})
 				})
 		}),
