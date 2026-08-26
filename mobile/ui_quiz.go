@@ -235,6 +235,8 @@ func (u *UI) choiceSheet(gtx layout.Context, th *material.Theme, v *docView) {
 	if v.dismiss.Clicked(gtx) {
 		v.open = -1
 		gtx.Execute(op.InvalidateCmd{})
+		// Nothing below may run with open == -1: it indexes Blanks/blankMarker.
+		return
 	}
 
 	// Scrim: dims the document and swallows taps meant for the sheet.
