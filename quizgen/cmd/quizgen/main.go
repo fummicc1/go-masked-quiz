@@ -46,6 +46,11 @@ func main() {
 			fmt.Fprintln(os.Stderr, "quizgen:", err)
 			os.Exit(1)
 		}
+	case "embed-generate":
+		if err := runEmbedGenerate(os.Args[2:]); err != nil {
+			fmt.Fprintln(os.Stderr, "quizgen:", err)
+			os.Exit(1)
+		}
 	case "-h", "--help", "help":
 		usage(os.Stdout)
 	default:
@@ -64,8 +69,12 @@ subcommands:
                 Pass --llm-cache <dir> to merge cached LLM quizzes.
   llm-generate  Generate LLM quizzes locally via ollama and cache them on disk
                 (run before "generate --llm-cache"). Requires --ollama-model.
+  embed-generate
+                Compute token embeddings locally via ollama and cache them on
+                disk (run before "generate --embeddings"). Requires
+                --ollama-model (an embedding model, e.g. nomic-embed-text).
 
-Run "quizgen generate -h" or "quizgen llm-generate -h" for flag details.`)
+Run "quizgen <subcommand> -h" for flag details.`)
 }
 
 func runGenerate(args []string) error {
@@ -83,10 +92,20 @@ func runGenerate(args []string) error {
 		maxProposals   = fs.Int("max-proposals", 0, "max proposals to fetch (github-issues; 0 = no limit)")
 		query          = fs.String("query", "", "issue-search query (github-issues; default: accepted proposals)")
 		llmCache       = fs.String("llm-cache", "", "merge committed LLM quizzes from this dir (default: mechanical only)")
+		embeddings     = fs.String("embeddings", "", "rank same-proposal distractors by cosine similarity using this embed-generate cache (default: edit distance)")
 		now            = fs.String("now", "", "fix generated_at to this RFC3339 time (for reproducible/golden output)")
 	)
 	if err := fs.Parse(args); err != nil {
 		return err
+	}
+
+	var vecs masker.Vectors
+	if *embeddings != "" {
+		cache, err := llm.LoadEmbedCache(*embeddings)
+		if err != nil {
+			return fmt.Errorf("--embeddings: %w", err)
+		}
+		vecs = masker.Vectors(cache.Vectors)
 	}
 
 	generatedAt := time.Now().UTC()
@@ -98,50 +117,12 @@ func runGenerate(args []string) error {
 		generatedAt = t.UTC()
 	}
 
-	kinds, err := splitSources(*sourceKind)
+	allItems, srcs, err := collectFromSources(*sourceKind, *proposals, *query, *maxProposals, *commit)
 	if err != nil {
 		return err
 	}
 
-	var (
-		allItems []genItem
-		srcs     []quiz.Source
-	)
-	for _, k := range kinds {
-		var items []genItem
-		var src quiz.Source
-		switch k {
-		case "design-docs":
-			items, err = collectDesignDocs(*proposals)
-			src = quiz.Source{
-				Kind:       "design-docs",
-				Repo:       "https://github.com/golang/proposal",
-				Commit:     *commit,
-				License:    "BSD-3-Clause",
-				LicenseURL: "https://go.googlesource.com/proposal/+/refs/heads/master/LICENSE",
-			}
-		case "github-issues":
-			items, err = collectIssues(*query, *maxProposals)
-			src = quiz.Source{
-				Kind:       "github-issues",
-				Repo:       "https://github.com/golang/go",
-				License:    "BSD-3-Clause",
-				LicenseURL: "https://go.dev/LICENSE",
-			}
-		default:
-			return fmt.Errorf("--source %q: want design-docs and/or github-issues", k)
-		}
-		if err != nil {
-			return err
-		}
-		allItems = append(allItems, items...)
-		srcs = append(srcs, src)
-	}
-	if len(allItems) == 0 {
-		return fmt.Errorf("no proposals collected from source(s) %q", *sourceKind)
-	}
-
-	bundle, notes := buildBundle(allItems, srcs, generatedAt, *seed, *maxPerProposal, *maxBlanks, *choices, *llmCache)
+	bundle, notes := buildBundle(allItems, srcs, generatedAt, *seed, *maxPerProposal, *maxBlanks, *choices, *llmCache, vecs)
 
 	if err := writeJSON(*out, &bundle, *indent); err != nil {
 		return err
@@ -152,6 +133,54 @@ func runGenerate(args []string) error {
 	fmt.Fprintf(os.Stderr, "wrote %d proposal(s) / %d quiz(zes) (v%d) from %d source(s) to %s\n",
 		len(bundle.Proposals), countQuizzes(&bundle), bundle.Version, len(srcs), *out)
 	return nil
+}
+
+// collectFromSources exists so generate and embed-generate load proposals
+// through one code path: an embeddings cache built from a different selection
+// than generation would silently lack vectors for part of the token universe.
+func collectFromSources(sourceKind, proposalsDir, query string, maxProposals int, commit string) ([]genItem, []quiz.Source, error) {
+	kinds, err := splitSources(sourceKind)
+	if err != nil {
+		return nil, nil, err
+	}
+	var (
+		allItems []genItem
+		srcs     []quiz.Source
+	)
+	for _, k := range kinds {
+		var items []genItem
+		var src quiz.Source
+		switch k {
+		case "design-docs":
+			items, err = collectDesignDocs(proposalsDir)
+			src = quiz.Source{
+				Kind:       "design-docs",
+				Repo:       "https://github.com/golang/proposal",
+				Commit:     commit,
+				License:    "BSD-3-Clause",
+				LicenseURL: "https://go.googlesource.com/proposal/+/refs/heads/master/LICENSE",
+			}
+		case "github-issues":
+			items, err = collectIssues(query, maxProposals)
+			src = quiz.Source{
+				Kind:       "github-issues",
+				Repo:       "https://github.com/golang/go",
+				License:    "BSD-3-Clause",
+				LicenseURL: "https://go.dev/LICENSE",
+			}
+		default:
+			return nil, nil, fmt.Errorf("--source %q: want design-docs and/or github-issues", k)
+		}
+		if err != nil {
+			return nil, nil, err
+		}
+		allItems = append(allItems, items...)
+		srcs = append(srcs, src)
+	}
+	if len(allItems) == 0 {
+		return nil, nil, fmt.Errorf("no proposals collected from source(s) %q", sourceKind)
+	}
+	return allItems, srcs, nil
 }
 
 // splitSources parses the comma-separated --source value into a deduped,
@@ -182,7 +211,7 @@ func splitSources(s string) ([]string, error) {
 // Each proposal carries its source metadata and each mechanical quiz is tagged
 // gen_method=mechanical. If llmCacheDir is set, each issue's cached LLM summary
 // and quizzes are merged in; notes report missing/stale caches.
-func buildBundle(items []genItem, srcs []quiz.Source, generatedAt time.Time, seed int64, maxPerProposal, maxBlanks, nChoices int, llmCacheDir string) (quiz.Bundle, []string) {
+func buildBundle(items []genItem, srcs []quiz.Source, generatedAt time.Time, seed int64, maxPerProposal, maxBlanks, nChoices int, llmCacheDir string, vecs masker.Vectors) (quiz.Bundle, []string) {
 	bundle := quiz.Bundle{
 		Version:     quiz.SchemaVersion,
 		GeneratedAt: generatedAt,
@@ -221,7 +250,7 @@ func buildBundle(items []genItem, srcs []quiz.Source, generatedAt time.Time, see
 			Status:      it.status,
 			IssueNumber: it.issueNumber,
 		}
-		p.Document = buildDocument(it, seed, maxBlanks, nChoices, cross)
+		p.Document = buildDocument(it, seed, maxBlanks, nChoices, cross, vecs)
 
 		var quizzes []quiz.Quiz
 		if llmCacheDir != "" && it.issueNumber > 0 {
@@ -244,7 +273,7 @@ func buildBundle(items []genItem, srcs []quiz.Source, generatedAt time.Time, see
 // maxBlanks caps blanks per block rather than per proposal: a document is read
 // straight through, so the density that matters is how often a reader meets a
 // blank, not how many the whole page holds.
-func buildDocument(it genItem, seed int64, maxBlanks, nChoices int, cross []string) quiz.Document {
+func buildDocument(it genItem, seed int64, maxBlanks, nChoices int, cross []string, vecs masker.Vectors) quiz.Document {
 	parsedDoc := parser.ParseDocument(it.id+".md", it.p.Source, parser.Options{AcceptBareGoFences: true})
 	masked := masker.MaskDocument(masker.NewRNG(seed, "doc:"+it.id), parsedDoc, maxBlanks)
 
@@ -278,7 +307,7 @@ func buildDocument(it genItem, seed int64, maxBlanks, nChoices int, cross []stri
 		tag := fmt.Sprintf("choice:doc:%s:%d:%s", it.id, i, bl.Answer)
 		doc.Blanks = append(doc.Blanks, quiz.Blank{
 			Answer:  bl.Answer,
-			Choices: masker.GenerateChoices(masker.NewRNG(seed, tag), bl.Answer, pool, cross, siblings[i], nChoices),
+			Choices: masker.GenerateChoicesSemantic(masker.NewRNG(seed, tag), bl.Answer, pool, cross, siblings[i], nChoices, vecs),
 		})
 	}
 
@@ -483,6 +512,102 @@ func runLLMGenerate(args []string) error {
 	if failed > 0 {
 		return fmt.Errorf("%d proposal(s) failed", failed)
 	}
+	return nil
+}
+
+// runEmbedGenerate computes an embedding for every distinct maskable token
+// across the selected proposals and caches them on disk. Like llm-generate it
+// runs locally against ollama, never in CI: "generate --embeddings" later ranks
+// distractors with the cache, so generation itself stays deterministic and
+// model-free.
+func runEmbedGenerate(args []string) error {
+	fs := flag.NewFlagSet("embed-generate", flag.ContinueOnError)
+	var (
+		model        = fs.String("ollama-model", "", "ollama embedding model name (required), e.g. nomic-embed-text")
+		ollamaURL    = fs.String("ollama-url", llm.DefaultOllamaURL, "ollama server URL")
+		sourceKind   = fs.String("source", "design-docs", "comma-separated data sources: design-docs, github-issues")
+		proposals    = fs.String("proposals", "", "path to the design/ directory of golang/proposal (required for design-docs)")
+		query        = fs.String("query", "", "issue-search query (github-issues; default: accepted proposals)")
+		maxProposals = fs.Int("max-proposals", 0, "max proposals to fetch (github-issues; 0 = no limit)")
+		out          = fs.String("out", "cache/embeddings.json", "embeddings cache path (read by generate --embeddings)")
+		batch        = fs.Int("batch", 64, "tokens per ollama request")
+		force        = fs.Bool("force", false, "recompute every token even if already cached")
+	)
+	if err := fs.Parse(args); err != nil {
+		return err
+	}
+	if *model == "" {
+		return fmt.Errorf("--ollama-model is required")
+	}
+	if *batch < 1 {
+		*batch = 1
+	}
+
+	items, _, err := collectFromSources(*sourceKind, *proposals, *query, *maxProposals, "")
+	if err != nil {
+		return err
+	}
+
+	// The universe matches what GenerateChoicesSemantic can ever compare: the
+	// blank answers and their same-proposal candidate pools.
+	seen := map[string]bool{}
+	var universe []string
+	for _, it := range items {
+		for _, t := range append(masker.ProposalTokens(it.p), masker.CodeTokens(it.p)...) {
+			if !seen[t] {
+				seen[t] = true
+				universe = append(universe, t)
+			}
+		}
+	}
+	sort.Strings(universe)
+
+	cache := &llm.EmbedCache{Model: *model, Vectors: map[string][]float64{}}
+	if !*force {
+		if existing, err := llm.LoadEmbedCache(*out); err == nil {
+			if existing.Model != *model {
+				return fmt.Errorf("cache %s was built with model %q; rerun with --force to rebuild for %q", *out, existing.Model, *model)
+			}
+			cache = existing
+		} else if !os.IsNotExist(err) {
+			return err
+		}
+	}
+
+	var missing []string
+	for _, t := range universe {
+		if _, ok := cache.Vectors[t]; !ok {
+			missing = append(missing, t)
+		}
+	}
+
+	client := llm.NewClient(*ollamaURL, *model)
+	ctx := context.Background()
+	embedded := 0
+	for start := 0; start < len(missing); start += *batch {
+		end := min(start+*batch, len(missing))
+		vecs, err := client.Embed(ctx, missing[start:end])
+		if err != nil {
+			// Keep what already succeeded: a long run interrupted near the end
+			// should resume from the cache, not start over.
+			if embedded > 0 {
+				if saveErr := llm.SaveEmbedCache(*out, cache); saveErr != nil {
+					return fmt.Errorf("embed failed (%v) and saving partial cache also failed: %w", err, saveErr)
+				}
+			}
+			return fmt.Errorf("embed tokens %d..%d: %w", start, end-1, err)
+		}
+		for i, v := range vecs {
+			cache.Vectors[missing[start+i]] = v
+		}
+		embedded += end - start
+		fmt.Fprintf(os.Stderr, "embedded %d/%d tokens\r", embedded, len(missing))
+	}
+	if err := llm.SaveEmbedCache(*out, cache); err != nil {
+		return err
+	}
+	fmt.Fprintf(os.Stderr, "\nembed-generate: %d new, %d already cached, %d total tokens (cache: %s)\n",
+		embedded, len(universe)-len(missing), len(cache.Vectors), *out)
 	return nil
 }
 

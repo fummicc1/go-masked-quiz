@@ -63,7 +63,7 @@ func issueSrc() quiz.Source {
 }
 
 func TestBuildBundle_SingleSourceOmitsSources(t *testing.T) {
-	b, _ := buildBundle([]genItem{designItem()}, []quiz.Source{designSrc()}, epoch, 42, 5, 3, 4, "")
+	b, _ := buildBundle([]genItem{designItem()}, []quiz.Source{designSrc()}, epoch, 42, 5, 3, 4, "", nil)
 	if b.Version != quiz.SchemaVersion {
 		t.Errorf("Version = %d, want %d", b.Version, quiz.SchemaVersion)
 	}
@@ -89,7 +89,7 @@ func TestBuildBundle_SingleSourceOmitsSources(t *testing.T) {
 func TestBuildBundle_MultiSourceMergesAndAttributes(t *testing.T) {
 	items := []genItem{designItem(), issueItem()}
 	srcs := []quiz.Source{designSrc(), issueSrc()}
-	b, _ := buildBundle(items, srcs, epoch, 42, 5, 3, 4, "")
+	b, _ := buildBundle(items, srcs, epoch, 42, 5, 3, 4, "", nil)
 
 	if len(b.Sources) != 2 {
 		t.Fatalf("Sources = %d, want 2", len(b.Sources))
@@ -114,8 +114,8 @@ func TestBuildBundle_MultiSourceMergesAndAttributes(t *testing.T) {
 func TestBuildBundle_Deterministic(t *testing.T) {
 	items := []genItem{designItem(), issueItem()}
 	srcs := []quiz.Source{designSrc(), issueSrc()}
-	a, _ := buildBundle(items, srcs, epoch, 42, 5, 3, 4, "")
-	b, _ := buildBundle(items, srcs, epoch, 42, 5, 3, 4, "")
+	a, _ := buildBundle(items, srcs, epoch, 42, 5, 3, 4, "", nil)
+	b, _ := buildBundle(items, srcs, epoch, 42, 5, 3, 4, "", nil)
 	if countQuizzes(&a) != countQuizzes(&b) || len(a.Proposals) != len(b.Proposals) {
 		t.Error("multi-source bundle is not deterministic")
 	}
@@ -146,7 +146,7 @@ func TestBuildBundle_MergesLLMCache(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	b, notes := buildBundle([]genItem{it}, []quiz.Source{issueSrc()}, epoch, 42, 5, 3, 4, dir)
+	b, notes := buildBundle([]genItem{it}, []quiz.Source{issueSrc()}, epoch, 42, 5, 3, 4, dir, nil)
 	if len(notes) != 0 {
 		t.Errorf("unexpected notes: %v", notes)
 	}
@@ -189,7 +189,7 @@ func TestBuildBundle_StaleCacheReportsNote(t *testing.T) {
 	}); err != nil {
 		t.Fatal(err)
 	}
-	b, notes := buildBundle([]genItem{it}, []quiz.Source{issueSrc()}, epoch, 42, 5, 3, 4, dir)
+	b, notes := buildBundle([]genItem{it}, []quiz.Source{issueSrc()}, epoch, 42, 5, 3, 4, dir, nil)
 	if b.Proposals[0].Summary != "" {
 		t.Error("stale cache must not merge summary")
 	}

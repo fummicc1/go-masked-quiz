@@ -72,6 +72,41 @@ func TestLoadBundleUsesCacheWhenFetchFails(t *testing.T) {
 	}
 }
 
+// TestFilterProposals pins the matching contract to the display helpers: what
+// the badge and title show is exactly what a query can hit, so a proposal the
+// user can read on screen is always findable by retyping it.
+func TestFilterProposals(t *testing.T) {
+	props := []quiz.Proposal{
+		{ID: "design-61405-range-over-func", Title: "Proposal: Range over func"},
+		{ID: "issue-73787", Title: "encoding/json/v2: new API"},
+	}
+	cases := []struct {
+		name  string
+		query string
+		want  []int
+	}{
+		{"empty keeps everything", "", []int{0, 1}},
+		{"title is case-insensitive", "RANGE", []int{0}},
+		{"design number", "61405", []int{0}},
+		{"issue number", "73787", []int{1}},
+		{"surrounding space is trimmed", "  json  ", []int{1}},
+		{"no match", "zzz", []int{}},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			got := filterProposals(props, tc.query)
+			if len(got) != len(tc.want) {
+				t.Fatalf("filterProposals(%q) = %v, want %v", tc.query, got, tc.want)
+			}
+			for i := range got {
+				if got[i] != tc.want[i] {
+					t.Fatalf("filterProposals(%q) = %v, want %v", tc.query, got, tc.want)
+				}
+			}
+		})
+	}
+}
+
 // TestFixtureIsCurrentSchema keeps the render fixture decodable. It is a subset
 // of the published bundle, so it goes stale the same way the embedded snapshot
 // did — the difference is that only tests depend on it.

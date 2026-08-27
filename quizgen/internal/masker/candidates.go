@@ -37,6 +37,17 @@ func GoKeywords() []string {
 // variable like "value" are never plausible substitutes for one another, so
 // they must never appear as each other's distractor.
 func GenerateChoices(rng *RNG, answer string, proposalTokens, crossPoolTokens, exclude []string, count int) []string {
+	return GenerateChoicesSemantic(rng, answer, proposalTokens, crossPoolTokens, exclude, count, nil)
+}
+
+// GenerateChoicesSemantic is GenerateChoices with an optional semantic ranking:
+// when vecs is non-nil, the same-proposal tier is ordered by descending cosine
+// similarity of embeddings to the answer instead of ascending edit distance.
+// Edit distance measures surface similarity ("looks alike"); embeddings rank
+// by meaning ("is about the same thing"), which can make a more plausible
+// distractor even when the spelling differs. Tokens without a vector keep the
+// edit-distance order, after the semantically ranked ones.
+func GenerateChoicesSemantic(rng *RNG, answer string, proposalTokens, crossPoolTokens, exclude []string, count int, vecs Vectors) []string {
 	if count < 1 {
 		count = 1
 	}
@@ -73,7 +84,12 @@ func GenerateChoices(rng *RNG, answer string, proposalTokens, crossPoolTokens, e
 		}
 	}
 
-	add(rankByEdit(dedupeFold(sameCategory(proposalTokens), answer), answer))
+	tier1 := dedupeFold(sameCategory(proposalTokens), answer)
+	if vecs != nil {
+		add(rankBySimilarity(tier1, answer, vecs))
+	} else {
+		add(rankByEdit(tier1, answer))
+	}
 
 	cross := dedupeFold(sameCategory(crossPoolTokens), answer)
 	rng.Shuffle(len(cross), func(i, j int) { cross[i], cross[j] = cross[j], cross[i] })

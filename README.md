@@ -157,6 +157,39 @@ schema version rather than a compatibility ladder: when the schema bumps, the
 published path bumps with it (`cdn/v1/` → `cdn/v2/`) and the old one is frozen
 rather than kept up to date.
 
+## Semantic distractor ranking (embeddings, experimental)
+
+By default, same-proposal distractors are ranked by edit distance to the
+answer — surface similarity. Embeddings rank them by *meaning* instead, which
+can produce more plausible wrong answers when the spelling differs. Like the
+LLM quizzes, embeddings are computed **locally via ollama and cached; CI never
+calls a model**, so generation stays deterministic given the cache.
+
+```sh
+# 1. Pull an embedding model (one time)
+ollama pull nomic-embed-text
+
+# 2. Embed every maskable token across the selected proposals
+cd quizgen
+go run ./cmd/quizgen embed-generate \
+  --proposals    ~/Work/LocalApps/golang-proposal/design \
+  --ollama-model nomic-embed-text
+
+# 3. Generate with cosine-similarity ranking
+go run ./cmd/quizgen generate \
+  --proposals  ~/Work/LocalApps/golang-proposal/design \
+  --embeddings cache/embeddings.json \
+  --out        ../../output/quizzes.json \
+  --seed 42
+```
+
+`embed-generate` is incremental (only missing tokens are embedded; `--force`
+rebuilds) and refuses to mix models in one cache. Tokens absent from the cache
+fall back to edit-distance order, and omitting `--embeddings` keeps the default
+behaviour byte-identical — the golden fixtures cover that path. Note the cache
+can grow to tens of MB on the full corpus; decide deliberately whether to
+commit it or keep it local.
+
 ## Automated refresh (CDN)
 
 `cdn/v2/quizzes.json` is refreshed by the
