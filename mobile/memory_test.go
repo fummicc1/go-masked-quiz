@@ -10,14 +10,13 @@ import (
 	"gioui.org/unit"
 )
 
-// maxBlockHeapMB is the ceiling one block may cost to lay out.
+// maxBlockAllocMB is the ceiling one block may allocate to lay out.
 //
 // A block is a single wrapped run, so its cost scales with its text, not with
 // the screen. Proposals sometimes paste an entire file into one fence: the
-// worst in the corpus is ~38k characters, which cost ~90MB before
-// truncateSpans and got the app killed on iOS. This test fails if that
-// regresses.
-const maxBlockHeapMB = 25
+// worst in the corpus is 38,371 characters, which allocated 309MB before
+// truncateSpans and got the app killed on iOS. Truncated it allocates 0.5MB.
+const maxBlockAllocMB = 25
 
 func TestBlockLayoutStaysWithinMemoryBudget(t *testing.T) {
 	u := testUI(t)
@@ -43,22 +42,32 @@ func TestBlockLayoutStaysWithinMemoryBudget(t *testing.T) {
 	u.screen = screenQuiz
 	u.docV.open2(p, u.store)
 
+	layoutOnce := func() {
+		var ops op.Ops
+		gtx := layout.Context{
+			Ops:         &ops,
+			Metric:      unit.Metric{PxPerDp: 2.75, PxPerSp: 2.75},
+			Constraints: layout.Exact(image.Pt(1080, 2000)),
+		}
+		u.docBlock(gtx, th, &u.docV, worstIdx)
+	}
+
+	// The first shape in a process initialises the font shaper, which allocates
+	// ~84MB whatever the text — enough to swamp what this test is about. The
+	// same block reads 83.8MB cold and 0.5MB warm, so measure warm.
+	layoutOnce()
+
 	var m0, m1 runtime.MemStats
 	runtime.GC()
 	runtime.ReadMemStats(&m0)
-
-	var ops op.Ops
-	gtx := layout.Context{
-		Ops:         &ops,
-		Metric:      unit.Metric{PxPerDp: 2.75, PxPerSp: 2.75},
-		Constraints: layout.Exact(image.Pt(1080, 2000)),
-	}
-	u.docBlock(gtx, th, &u.docV, worstIdx)
-
+	layoutOnce()
 	runtime.ReadMemStats(&m1)
-	usedMB := float64(m1.HeapAlloc-m0.HeapAlloc) / 1048576
-	t.Logf("largest block: %s #%d (%d chars) cost %.1f MB", p.ID, worstIdx, worstChars, usedMB)
-	if usedMB > maxBlockHeapMB {
-		t.Errorf("block layout used %.1f MB, budget is %d MB", usedMB, maxBlockHeapMB)
+	// TotalAlloc is cumulative, so a GC landing mid-layout cannot move it. The
+	// HeapAlloc reading of this same block swings between 40 and 64MB run to
+	// run; TotalAlloc reads the same figure every time.
+	usedMB := float64(m1.TotalAlloc-m0.TotalAlloc) / 1048576
+	t.Logf("largest block: %s #%d (%d chars) allocated %.1f MB", p.ID, worstIdx, worstChars, usedMB)
+	if usedMB > maxBlockAllocMB {
+		t.Errorf("block layout allocated %.1f MB, budget is %d MB", usedMB, maxBlockAllocMB)
 	}
 }

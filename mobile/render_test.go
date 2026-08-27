@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"image"
 	"image/png"
 	"os"
@@ -57,16 +58,36 @@ func writePNG(t *testing.T, img *image.RGBA, path string) {
 	t.Logf("wrote %s", path)
 }
 
-// testUI builds a UI over the embedded bundle with persistence disabled.
+// testUI builds a UI over the committed fixture with persistence disabled. The
+// fixture is a few proposals rather than the whole published set: these tests
+// only need one document rich enough to hit every drawing path.
 func testUI(t *testing.T) *UI {
 	t.Helper()
-	b, err := decodeBundle(embeddedQuizzes)
+	raw, err := os.ReadFile("testdata/bundle.json")
 	if err != nil {
-		t.Fatalf("decode embedded bundle: %v", err)
+		t.Fatalf("read fixture: %v", err)
 	}
-	u := &UI{bundle: b, source: SourceBundle, store: newScoreStore("")}
+	b, err := decodeBundle(raw)
+	if err != nil {
+		t.Fatalf("decode fixture: %v", err)
+	}
+	u := &UI{bundle: b, source: SourceCache, state: loadReady, store: newScoreStore("")}
 	u.list.init()
 	return u
+}
+
+// TestRenderLoadFailed renders the screen that replaced the embedded fallback.
+// The detail line carries the real error, so the schema mismatch that used to
+// hide behind a working-looking app is now the first thing on screen.
+func TestRenderLoadFailed(t *testing.T) {
+	u := &UI{
+		state:   loadFailed,
+		loadErr: errors.New("decode bundle: unsupported schema version 1"),
+		store:   newScoreStore(""),
+	}
+	u.list.init()
+	img := renderUI(t, u, 1080, 2000)
+	writePNG(t, img, "testdata/screen-load-failed.png")
 }
 
 func TestRenderList(t *testing.T) {
@@ -83,7 +104,7 @@ func TestRenderDocument(t *testing.T) {
 
 	idx := findRichProposal(u.bundle)
 	if idx < 0 {
-		t.Skip("no proposal with both prose and code in the embedded bundle")
+		t.Skip("no proposal with both prose and code in the fixture")
 	}
 	p := u.bundle.Proposals[idx]
 
@@ -105,7 +126,7 @@ func TestRenderChoiceSheet(t *testing.T) {
 
 	idx := findRichProposal(u.bundle)
 	if idx < 0 {
-		t.Skip("no suitable proposal in the embedded bundle")
+		t.Skip("no suitable proposal in the fixture")
 	}
 	p := u.bundle.Proposals[idx]
 

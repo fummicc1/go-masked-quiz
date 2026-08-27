@@ -1,0 +1,6251 @@
+{
+ "version": 2,
+ "generated_at": "2026-08-23T12:43:26.525200956Z",
+ "source_repo": "https://github.com/golang/proposal",
+ "source_fork": "https://github.com/fummicc1/golang-proposal",
+ "source_commit": "0be13090fdb0cbae0d71641bb676d924bc1c94de",
+ "source_license": "BSD-3-Clause",
+ "source_license_url": "https://go.googlesource.com/proposal/+/refs/heads/master/LICENSE",
+ "sources": [
+  {
+   "kind": "design-docs",
+   "repo": "https://github.com/golang/proposal",
+   "commit": "0be13090fdb0cbae0d71641bb676d924bc1c94de",
+   "license": "BSD-3-Clause",
+   "license_url": "https://go.googlesource.com/proposal/+/refs/heads/master/LICENSE"
+  },
+  {
+   "kind": "github-issues",
+   "repo": "https://github.com/golang/go",
+   "license": "BSD-3-Clause",
+   "license_url": "https://go.dev/LICENSE"
+  }
+ ],
+ "proposals": [
+  {
+   "id": "design-11502-securitypolicy",
+   "title": "Proposal: Security Policy for Go",
+   "url": "https://github.com/golang/proposal/blob/master/design/11502-securitypolicy.md",
+   "source_kind": "design-docs",
+   "document": {
+    "blocks": [
+     {
+      "kind": "heading",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Proposal: Security Policy for Go"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Author(s): Jason Buberel"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Last updated: 2015-07-31"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Discussion at https://golang.org/issue/11502."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 2,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Abstract"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Go programs are being deployed as part of security-critical applications.\nAlthough Go has a generally good history of being free of security\nvulnerabilities, the current process for handling security issues is very\ninformal. In order to be more transparent and the better coordinate with the\ncommunity, I am proposing that the Go project adopt a well-defined security\nand vulnerability disclosure policy."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 2,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Background"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The Go standard library includes a complete, modern cryptography\npackage. Since the initial release of Go,\nthere has a single documented security vulnerability [CVE-2014-7189]\n(https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-7189) in the crypto\npackage. This is a promising track record, but as Go usage increases the\nlanguage and standard library will come under increasing scrutiny by the\nsecurity research community."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "In order to better manage security issues, a formal security policy for Go\nshould be established."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Other language and library open source projects have established security\npolicies. The following policies were reviewed and considered in the creation\nof this proposal:"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Python Security Policy"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Ruby on Rails Security Policy"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Rust Security Policy"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Webkit Security Policy"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Xen Project Security Policy"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "These policies differ in various aspects, but in general there is a common set\nof guidelines that are typically established:"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "How security issues should be reported"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Who will be responsible for reviewing these reports"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "What is the response time promises made for initial review"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Exactly what steps will be followed for handing issues"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "What type of embargo period will be applied"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "How will communication of issues be handled, both pre- and post-disclosure"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "It was also suggested that the Go project consider the use of managed security\nservices, such as HackerOne. The consensus of\ncommenters on this topic was a reluctance to base the Go process on a third-\nparty system at this time."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 2,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Proposal"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Among the existing security policies reviewed, the Rust\npolicy is considered a good starting\npoint. Once adopted, this policy will be hosted at\nhttps://golang.org/security. The details of the\npolicy are in the Implementation section below."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 2,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Implementation"
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Reporting a Security Bug"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Safety is one of the core principles of Go, and to that end, we would like to\nensure that Go has a secure implementation. Thank you for taking the time to\nresponsibly disclose any issues you find."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "All security bugs in the Go distribution should be reported by email to\nsecurity@golang.org. This list is delivered to a\nsmall security team. Your email will be acknowledged within 24 hours, and\nyou'll receive a more detailed response to your email within 72 hours\nindicating the next steps in handling your report. If you would like, you can\nencrypt your report using our PGP key (listed below)."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Please use a descriptive subject line for your report email. After the initial\nreply to your report, the security team will endeavor to keep you informed of\nthe progress being made towards a fix and full announcement. As recommended by\nRFPolicy, these updates will be sent at least every five days. In reality,\nthis is more likely to be every 24-48 hours."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "If you have not received a reply to your email within 48 hours, or have not\nheard from the security team for the past five days, please contact the\nfollowing members of the Go security team directly:"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Contact the primary security coordinator - [Andrew Gerrand]\n(mailto:adg@golang.org) - directly."
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Contact the secondary coordinator - Adam Langley -\npublic key directly."
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Post a message to golang-dev@golang.org or\n[golang-dev web interface]\n(https://groups.google.com/forum/#!forum/golang-dev)."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Please note that golang-dev@golang.org is a public discussion forum. When\nescalating on this list, please do not disclose the details of the issue.\nSimply state that you're trying to reach a member of the security team."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Flagging Existing Issues as Security-related"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "If you believe that an existing issue\nis security-related, we ask that you send an email to\nsecurity@golang.org. The email\nshould include the issue ID and a short description of why it should be\nhandled according to this security policy."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Disclosure Process"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The Go project will use the following disclosure process:"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Once the security report is received it will be assigned a primary handler.\nThis person will coordinate the fix and release process."
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The problem will be confirmed and a list of all affected versions is\ndetermined."
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Code will be audited to find any potential similar problems."
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "If it is determined, in consultation with the submitter, that a CVE-ID is\nrequired the primary handler will be responsible for obtaining via email\nto the [oss-distros]\n(http://oss-security.openwall.org/wiki/mailing-lists/distros) list."
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Fixes will be prepared for the current stable release and the head/master\nrevision. These fixes will not be committed to the public repository."
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Details of the issue and patch files will be sent to the\n[distros@openwall]\n(http://oss-security.openwall.org/wiki/mailing-lists/distros)\nmailing list."
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Three working days following this notification, the fixes will be\napplied to the public repository and new\nbuilds deployed to https://golang.org/dl"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "On the date that the fixes are applied, announcements will be sent to\n[golang-announce]\n(https://groups.google.com/forum/#!forum/golang-announce),\ngolang-dev@golang.org,\ngolang-nuts@golang.org\nand the oss-security@openwall."
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Within 6 hours of the mailing lists being notified, a copy of the advisory\nwill also be published on the Go blog."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "This process can take some time, especially when coordination is required with\nmaintainers of other projects. Every effort will be made to handle the bug in\nas timely a manner as possible, however it's important that we follow the\nrelease process above to ensure that the disclosure is handled in a consistent\nmanner."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "For those security issues that include the assignment of a CVE-ID, the issue\nwill be publicly listed under the [\"Golang\" product on the CVEDetails\nwebsite]\n(http://www.cvedetails.com/vulnerability-list/vendor_id-14185/Golang.html)\nas well as the [National Vulnerability Disclosure site]\n(https://web.nvd.nist.gov/view/vuln/search)."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Receiving Security Updates"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The best way to receive security announcements is to subscribe to the\n[golang-announce]\n(https://groups.google.com/forum/#!forum/golang-announce)\nmailing list. Any messages pertaining to a security issue will be prefixed\nwith "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 0
+       },
+       {
+        "kind": "text",
+        "value": "."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Comments on This Policy"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "If you have any suggestions to improve this policy, please send an email to\ngolang-dev@golang.org for discussion."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Plaintext PGP Key for security@golang.org"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "-----BEGIN PGP PUBLIC KEY BLOCK-----\nComment: GPGTools - https://gpgtools.org\n\nmQINBFXI1h0BEADZdm05GDFWvjmQKutUVb0cJKS+VR+6XU3g/YQZGC8tnIL6i7te\n+fPJHfQc2uIw0xeBgZX4Ni/S8yIqsbIjqYeaToX7QFUufJDQwrmlQRDVAvvT5HBT\nJ80JEs7yHRreFoLzB6dnWehWXzWle4gFKeIy+hvLrYquZVvbeEYTnX7fNzZg0+5L\nksvj7lnQlJIy1l3sL/7uPr9qsm45/hzd0WjTQS85Ry6Na3tMwRpqGENDh25Blz75\n8JgK9JmtTJa00my1zzeCXU04CKKEMRbkMLozzudOH4ZLiLWcFiKRpeCn860wC8l3\noJcyyObuTSbr9o05ra3On+epjCEFkknGX1WxPv+TV34i0a23AtuVyTCloKb7RYXc\n7mUaskZpU2rFBqIkzZ4MQJ7RDtGlm5oBy36j2QL63jAZ1cKoT/yvjJNp2ObmWaVF\nX3tk/nYw2H0YDjTkTCgGtyAOj3Cfqrtsa5L0jG5K2p4RY8mtVgQ5EOh7QxuS+rmN\nJiA39SWh7O6uFCwkz/OCXzqeh6/nP10HAb9S9IC34QQxm7Fhd0ZXzEv9IlBTIRzk\nxddSdACPnLE1gJcFHxBd2LTqS/"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 1
+       },
+       {
+        "kind": "text",
+        "value": "\n0muq6KRKeDXv01afAUvoB4QW/3chUrtgL2HryyO8ugMu7leVGmoZhFkIrQARAQAB\ntCZHbyBTZWN1cml0eSBUZWFtIDxzZWN1cml0eUBnb2xhbmcub3JnPokCPQQTAQoA\nJwUCVcjWHQIbAwUJB4YfgAULCQgHAwUVCgkICwUWAgMBAAIeAQIXgAAKCRA6RtGR\neVpYOLnDD/9YVTd6DTwdJq6irVfM/ICPlPTXB0JLERqCI1Veptcp56eQoJ0XWGQp\ntkGlgbvmCzFo0B+65Te7YA4R3oyBCXd6JgyWQQPy5p60FHyuuCPVAReclSWyt9f2\nYj/u4DjghKhELOvPiI96egcU3g9jrEEcPjm7JYkc9M2gVSNOnnJvcD7wpQJNCzon\n51eMZ1ZyfA5UCBTa0SaT9eXg5zwNlYQnB6ZF6TjXezkhLqlTsBuHxoNVf+9vCC0o\nZKIM2ovptMx9eEguTDKWaQ7tero7Zs/q5fwk/MDzM/LGJ9aXy2RCtqBxv46vDS7G\nfCNq+aPD/wyFd6hxQkvkua6hgZwYT+cJWHYA2Yv0LO3BYOJdjfc+j2hjv+mC9lF0\nUpWhCVJv3hHoFaxnz62GdROzf2wXz6aR9Saj1rYSvqT9jC20VInxqMufXNN2sbpo\nKyk6MTbAeepphQpfAWQv+ltWgBiEjuFxYdwv/vmw20996JV7O8nqkeCUW84B6su+\nY3bbdP9o3DBtOT0j9LTB/FucmdNCNHoO+EnNBKJd6FoYTGLWi3Rq9DLx2V9tdJHo\nBn67dymcl+iyp337HJNY+qS+KCgoqAWlxkzXRiXKb/yluhXdIkqhg4kL8JPAJvfS\ncs7Zn67Mx04ixJnRMYCDmxtD4xPsFMzM7g8m3PQp+nE7WhujM/ImM7kCDQRVyNYd\nARAAlw9H/1ybQs4K3XKA1joII16rta9KS7ew76+agXo0jeSRwMEQfItOxYvfhmo8\n+ydn5TWsTbifGU8L3+EBTMRRyzWhbaGO0Wizw7BTVJ7n5JW+ndPrcUpp/ilUk6AU\nVxaO/8/R+9+VJZpoeoLHXYloFGNuX58GLIy1jSBvLsLl/Ki5IOrHvD1GK6TftOl5\nj8IPC1LSBrwGJO803x7wUdQP/tsKN/QPR8pnBntrEgrQFSI+Q3qrCvVMmXnBlYum\njfOBt8pKMgB9/ix+HWN8piQNQiJxD+"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 2
+       },
+       {
+        "kind": "text",
+        "value": "\n9p2Br6UPrTJi12LfKv5s2R6NnxFHv/ad29CpPTeLJRsSqFfqBL969BCpj/isXmQE\nm4FtziZidARXo12KiGAnPF9otirNHp4+8hwNB3scf7cI53y8nZivO9cwI7BoClY6\nZIabjDcJxjK+24emoz3mJ5SHpZpQLSb9o8GbLLfXOq+4uzEX2A30fhrtsQb/x0GM\n4v3EU1aP2mjuksyYbgldtY64tD35wqAA9mVl5Ux+g1HoUBvLw0h+lzwh370NJw//\nITvBQVUtDMB96rfIP4fL5pYl5pmRz+vsuJ0iXzm05qBgKfSqO7To9SWxQPdX89R4\nu0/XVAlw0Ak9Zceq3W96vseEUTR3aoZCMIPiwfcDaq60rWUAEQEAAYkCJQQYAQoA\nDwUCVcjWHQIbDAUJB4YfgAAKCRA6RtGReVpYOEg/EADZcIYw4q1jAbDkDy3LQG07\nAR8QmLp/RDp72RKbCSIYyvyXEnmrhUg98lUG676qTH+Y7dlEX107dLhFuKEYyV8D\nZalrFQO/3WpLWdIAmWrj/"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 3
+       },
+       {
+        "kind": "text",
+        "value": "\npgoTcwOfT+h8s0HlZdIS/cv2wXqwPgMWr1PIk3as1fu1OH8n/BjeGQQnNJEaoBV7\nEl2C/hz3oqf2uYQ1QvpU23F1NrstekxukO8o2Y/fqsgMJqAiNJApUCl/dNhK+W57\niicjvPirUQk8MUVEHXKhWIzYxon6aEUTx+xyNMBpRJIZlJ61FxtnZhoPiAFtXVPb\n+95BRJA9npidlVFjqz9QDK/4NSnJ3KaERR9tTDcvq4zqT22Z1Ai5gWQKqogTz5Mk\nF+nZwVizW0yi33id9qDpAuApp8o6AiyH5Ql1Bo23bvqS2lMrXPIS/QmPPsA76CBs\nlYjQwwz8abUD1pPdzyYtMKZUMwhicSFOHFDM4oQN16k2KJuntuih8BKVDCzIOq+E\nKHyeh1BqWplUtFh1ckxZlXW9p9F7TsWjtfcKaY8hkX0Cr4uVjwAFIjLcAxk67ROe\nhuEb3Gt+lwJz6aNnZUU87ukMAxRVR2LL0btdxgc6z8spl66GXro/LUkXmAdyOEMV\nUDrmjf9pr7o00hC7lCHFzw==\n=WE0r\n-----END PGP PUBLIC KEY BLOCK-----\n\n"
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 2,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Rationale"
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Early Disclosure"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The Go security policy does not contain a provision for the early disclosure\nof vulnerabilities to a small set of \"trusted\" partners. The Xen and WebKit\npolicies do contain provisions for this. According to several members of the\nsecurity response team at Google (Ben Laurie, Adam Langley), it is incredibly\ndifficult to retain secrecy of embargoed issues once they have been shared\nwith even a small number of partners."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Security Review Team Membership"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The Go security policy does not contain formal provisions for nomination or\nremoval of members of the security review team. WebKit, for example, specifies\nhow new members can become members of the security review team. This may be\nneeded for the Go project at some point in the future; it does not seem\nnecessary at this time."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 2,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Open issues"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "PGP key pair needed for security@golang.org address."
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Need to designate a primary and secondary alternative contact."
+       }
+      ]
+     }
+    ],
+    "blanks": [
+     {
+      "answer": "[security]",
+      "choices": [
+       "[security]",
+       "x/crypto/acme",
+       "city",
+       "ErrDuplicateName"
+      ]
+     },
+     {
+      "answer": "lmAFShCsf8S252kagKJfHRebQJZHCIs6kT9PfE",
+      "choices": [
+       "lmAFShCsf8S252kagKJfHRebQJZHCIs6kT9PfE",
+       "f'",
+       "RequestHandler",
+       "[security]"
+      ]
+     },
+     {
+      "answer": "XjEM6XwUmQqIR7y5GINKWgundCmtYIzVgY",
+      "choices": [
+       "Chmod",
+       "[security]",
+       "XjEM6XwUmQqIR7y5GINKWgundCmtYIzVgY",
+       "SetMemoryLimit"
+      ]
+     },
+     {
+      "answer": "wq14qii1rgmy96Nh3EqG3CS50HEMGkW1llRx2rgBvGl",
+      "choices": [
+       "//go:*",
+       "wq14qii1rgmy96Nh3EqG3CS50HEMGkW1llRx2rgBvGl",
+       "t[1,2,:]",
+       "[security]"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "design-56345-structured-logging",
+   "title": "Proposal: Structured Logging",
+   "url": "https://github.com/golang/proposal/blob/master/design/56345-structured-logging.md",
+   "source_kind": "design-docs",
+   "document": {
+    "blocks": [
+     {
+      "kind": "heading",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Proposal: Structured Logging"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Author: Jonathan Amsterdam"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Date: 2022-10-19"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Issue: https://go.dev/issue/56345"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Discussion: https://github.com/golang/go/discussions/54763"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Preliminary implementation: https://go.googlesource.com/exp/+/refs/heads/master/slog"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Package documentation: https://pkg.go.dev/golang.org/x/exp/slog"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "We propose adding structured logging with levels to the standard library, to\nreside in a new package with import path "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 0
+       },
+       {
+        "kind": "text",
+        "value": "."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Structured logging is the ability to output logs with machine-readable\nstructure, typically key-value pairs, in addition to a human-readable message.\nStructured logs can be parsed, filtered, searched and analyzed faster and more\nreliably than logs designed only for people to read.\nFor many programs that aren't run directly by a user, like servers, logging is\nthe main way for developers to observe the detailed behavior of the system, and\noften the first place they go to debug it.\nLogs therefore tend to be voluminous, and the ability to search and filter them\nquickly is essential."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "In theory, one can produce structured logs with any logging package:"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "spans": [
+       {
+        "kind": "mask",
+        "blank_index": 1
+       },
+       {
+        "kind": "text",
+        "value": "."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 2
+       },
+       {
+        "kind": "text",
+        "value": "(`{\"message\": %q, \"count\": %d}`, "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 3
+       },
+       {
+        "kind": "text",
+        "value": ", count)\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "In practice, this is too tedious and error-prone, so structured logging packages\nprovide an API for expressing key-value pairs.\nThis proposal contains such an API."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "We also propose generalizing the logging \"backend.\"\nThe "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 4
+       },
+       {
+        "kind": "text",
+        "value": " package provides control only over the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 5
+       },
+       {
+        "kind": "text",
+        "value": " that logs are\nwritten to.\nIn the new package, every logger has a handler that can process a log event\nhowever it wishes.\nAlthough it is possible to have a structured logger with a fixed backend (for\ninstance, zerolog outputs only JSON), having a flexible backend provides\nseveral benefits: programs can display the logs in a variety of formats, convert\nthem to an RPC message for a network logging service, store them for later\nprocessing, and add to or modify the data."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Lastly, the design incorporates levels in a way that accommodates both\ntraditional named levels and logr-style verbosities."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The goals of this design are:"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Ease of use.\nA survey of the existing logging packages shows that programmers\nwant an API that is light on the page and easy to understand.\nThis proposal adopts the most popular way to express key-value pairs:\nalternating keys and values."
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "High performance.\nThe API has been designed to minimize allocation and locking.\nIt provides an alternative to alternating keys and values that is\nmore cumbersome but faster (similar to Zap's "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 6
+       },
+       {
+        "kind": "text",
+        "value": "s)."
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Integration with runtime tracing.\nThe Go team is developing an improved runtime tracing system.\nLogs from this package will be incorporated seamlessly\ninto those traces, giving developers the ability to correlate their program's\nactions with the behavior of the runtime."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 2,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "What does success look like?"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Go has many popular structured logging packages, all good at what they do.\nWe do not expect developers to rewrite their existing third-party structured\nlogging code to use this new package.\nWe expect existing logging packages to coexist with this one for the foreseeable\nfuture."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "We have tried to provide an API that is pleasant enough that users will prefer it to existing\npackages in new code, if only to avoid a dependency.\n(Some developers may find the runtime tracing integration compelling.)\nWe also expect newcomers to Go to encounter this package before\nlearning third-party packages, so they will likely be most familiar with it."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "But more important than any traction gained by the \"frontend\" is the promise of\na common \"backend.\"\nAn application with many dependencies may find that it has linked in many\nlogging packages.\nWhen all the logging packages support the standard handler interface proposed here,\nthen the application can create a single handler and install it once\nfor each logging library to get consistent logging across all its dependencies.\nSince this happens in the application's main function, the benefits of a unified\nbackend can be obtained with minimal code churn.\nWe expect that this proposal's handlers will be implemented for all popular logging\nformats and network protocols, and that every common logging framework will\nprovide a shim from their own backend to a handler.\nThen the Go logging community can work together to build high-quality backends\nthat all can share."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 2,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Prior Work"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The existing "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 7
+       },
+       {
+        "kind": "text",
+        "value": " package has been in the standard library since the release of\nGo 1 in March 2012. It provides formatted logging, but not structured logging or\nlevels."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Logrus, one of the first structured\nlogging packages, showed how an API could add structure while preserving the\nformatted printing of the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 8
+       },
+       {
+        "kind": "text",
+        "value": " package. It uses maps to hold key-value pairs,\nwhich is relatively inefficient."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Zap grew out of Uber's frustration with the slow log times of their\nhigh-performance servers. It showed how a logger that avoided allocations could\nbe very fast."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Zerolog reduced allocations even further, but at the cost of reducing the\nflexibility of the logging backend."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "All the above loggers include named levels along with key-value pairs. Logr\nand Google's own glog use integer verbosities instead of named levels,\nproviding a more fine-grained approach to filtering high-detail logs."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Other popular logging packages are Go-kit's\nlog, HashiCorp's hclog, and\nklog."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 2,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Design"
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Overview"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Here is a short program that uses some of the new API:"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "import \"log/slog\"\n\nfunc main() {\n    slog."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 9
+       },
+       {
+        "kind": "text",
+        "value": "(slog.New(slog.NewTextHandler(os.Stderr)))\n    slog.Info(\"hello\", \"name\", \"Al\")\n    slog.Error(\"oops\", \"err\", net."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 10
+       },
+       {
+        "kind": "text",
+        "value": ", \"status\", 500)\n    slog."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 11
+       },
+       {
+        "kind": "text",
+        "value": "(slog.LevelError, \"oops\",\n        slog.Any(\"err\", net."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 10
+       },
+       {
+        "kind": "text",
+        "value": "), slog.Int(\"status\", 500))\n}\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "This program generates the following output on standard error:"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "time=2022-10-24"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 12
+       },
+       {
+        "kind": "text",
+        "value": ":05:48.054-04:00 "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 13
+       },
+       {
+        "kind": "text",
+        "value": "="
+       },
+       {
+        "kind": "mask",
+        "blank_index": 14
+       },
+       {
+        "kind": "text",
+        "value": " msg=hello name=Al\ntime=2022-10-24"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 12
+       },
+       {
+        "kind": "text",
+        "value": ":05:48.054-04:00 "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 13
+       },
+       {
+        "kind": "text",
+        "value": "=ERROR err=\"use of closed network connection\" msg=oops status=500\ntime=2022-10-24"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 12
+       },
+       {
+        "kind": "text",
+        "value": ":05:48.054-04:00 "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 13
+       },
+       {
+        "kind": "text",
+        "value": "=ERROR err=\"use of closed network connection\" msg=oops status=500\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "It begins by setting the default logger to one that writes log records in an\neasy-to-read format similar to logfmt.\n(There is also a built-in handler for JSON.)"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "If the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 15
+       },
+       {
+        "kind": "text",
+        "value": " line is omitted,\nthe output is sent to the standard log package,\nproducing mostly structured output:"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "2022/10/24 16:07:00 INFO hello name=Al\n2022/10/24 16:07:00 "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 16
+       },
+       {
+        "kind": "text",
+        "value": " oops "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 17
+       },
+       {
+        "kind": "text",
+        "value": "=\"use of closed network connection\" "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 18
+       },
+       {
+        "kind": "text",
+        "value": "=500\n2022/10/24 16:07:00 "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 16
+       },
+       {
+        "kind": "text",
+        "value": " oops  "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 17
+       },
+       {
+        "kind": "text",
+        "value": "=\"use of closed network connection\" "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 18
+       },
+       {
+        "kind": "text",
+        "value": "=500\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The program outputs three log messages augmented with key-value pairs.\nThe first logs at the Info level, passing a single key-value pair along with the\nmessage.\nThe second logs at the Error level, passing two key-value pairs."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The third produces the same output as the second, but more efficiently.\nFunctions like "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 19
+       },
+       {
+        "kind": "text",
+        "value": " and "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 20
+       },
+       {
+        "kind": "text",
+        "value": " construct "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 21
+       },
+       {
+        "kind": "text",
+        "value": " values, which are key-value\npairs that avoid memory allocation for most values."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Main Types"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 22
+       },
+       {
+        "kind": "text",
+        "value": " package contains three main types:"
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "mask",
+        "blank_index": 23
+       },
+       {
+        "kind": "text",
+        "value": " is the frontend, providing output methods like "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 24
+       },
+       {
+        "kind": "text",
+        "value": " and "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 25
+       },
+       {
+        "kind": "text",
+        "value": " that\ndevelopers call to produce logs."
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Each call to a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 26
+       },
+       {
+        "kind": "text",
+        "value": " output method creates a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 27
+       },
+       {
+        "kind": "text",
+        "value": "."
+       }
+      ]
+     },
+     {
+      "kind": "list_item",
+      "level": 1,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 28
+       },
+       {
+        "kind": "text",
+        "value": " is passed to a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 29
+       },
+       {
+        "kind": "text",
+        "value": " for output."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "We cover these bottom-up, beginning with "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 30
+       },
+       {
+        "kind": "text",
+        "value": "."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Handlers"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "A "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 31
+       },
+       {
+        "kind": "text",
+        "value": " describes the logging backend.\nIt handles log records produced by a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 32
+       },
+       {
+        "kind": "text",
+        "value": "."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "A typical handler may print log records to standard error, or write them to\na file, database or network service, or perhaps augment them with additional attributes and\npass them on to another handler."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "mask",
+        "blank_index": 33
+       },
+       {
+        "kind": "text",
+        "value": " Handler interface {\n\t// Enabled reports whether the handler handles records at the given level.\n\t// The handler ignores records whose level is lower.\n\t// It is called early, before any arguments are processed,\n\t// to save effort if the log event should be discarded.\n\t// The Logger's context is passed so Enabled can use its values\n\t// to make a decision. The context may be nil.\n\t"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 34
+       },
+       {
+        "kind": "text",
+        "value": "(context.Context, Level) bool\n\n\t// Handle handles the Record.\n\t// It will only be called if Enabled returns true.\n\t//\n\t// The first argument is the context of the Logger that created the Record,\n\t// which may be nil.\n\t// It is present solely to provide Handlers access to the context's values.\n\t// Canceling the context should not affect record processing.\n\t// (Among other things, log messages may be necessary to debug a\n\t// cancellation-related problem.)\n\t//\n\t// Handle methods that produce output should observe the following rules:\n\t//   - If r.Time is the zero time, ignore the time.\n\t//   - If an Attr's key is the empty string and the value is not a group,\n\t//     ignore the Attr.\n\t//   - If a group's key is empty, inline the group's Attrs.\n\t//   - If a group has no Attrs (even if it has a non-empty key),\n\t//     ignore it.\n\tHandle(ctx context.Context, r Record) error\n\n\t// WithAttrs returns a new Handler whose attributes consist of\n\t// both the receiver's attributes and the arguments.\n\t// The Handler owns the slice: it may retain, modify or discard it.\n\tWithAttrs("
+       },
+       {
+        "kind": "mask",
+        "blank_index": 35
+       },
+       {
+        "kind": "text",
+        "value": " []Attr) Handler\n\n\t// WithGroup returns a new Handler with the given group appended to\n\t// the receiver's existing groups.\n\t// The keys of all subsequent attributes, whether added by With or in a\n\t// Record, should be qualified by the sequence of group names.\n\t//\n\t// How this qualification happens is up to the Handler, so long as\n\t// this Handler's attribute keys differ from those of another Handler\n\t// with a different sequence of group names.\n\t//\n\t// A Handler should treat WithGroup as starting a Group of Attrs that ends\n\t// at the end of the log event. That is,\n\t//\n\t//     logger.WithGroup(\"s\").LogAttrs(level, msg, slog.Int(\"a\", 1), slog.Int(\"b\", 2))\n\t//\n\t// should behave like\n\t//\n\t//     logger.LogAttrs(level, msg, slog.Group(\"s\", slog.Int(\"a\", 1), slog.Int(\"b\", 2)))\n\t//\n\t// If the name is empty, WithGroup returns the receiver.\n\tWithGroup(name string) Handler\n}\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 36
+       },
+       {
+        "kind": "text",
+        "value": " package provides two handlers, one for simple textual output and one\nfor JSON. They are described in more detail below."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 37
+       },
+       {
+        "kind": "text",
+        "value": " Type"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "A Record holds information about a log event."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "type "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 38
+       },
+       {
+        "kind": "text",
+        "value": " struct {\n\t// The time at which the output method (Log, Info, etc.) was called.\n\tTime time.Time\n\n\t// The log message.\n\tMessage string\n\n\t// The level of the event.\n\tLevel Level\n\n\t// The program counter at the time the record was constructed, as determined\n\t// by runtime.Callers. If zero, no program counter is available.\n\t//\n\t// The only valid use for this value is as an argument to\n\t// [runtime.CallersFrames]. In particular, it must not be passed to\n\t// [runtime.FuncForPC].\n\t"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 39
+       },
+       {
+        "kind": "text",
+        "value": " "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 40
+       },
+       {
+        "kind": "text",
+        "value": "\n\n\t// Has unexported fields.\n}\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Records have two methods for accessing the sequence of "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 41
+       },
+       {
+        "kind": "text",
+        "value": "s. This API allows\nan efficient implementation of the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 41
+       },
+       {
+        "kind": "text",
+        "value": " sequence that avoids copying and\nminimizes allocation."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "func (r "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 42
+       },
+       {
+        "kind": "text",
+        "value": ") Attrs(f func(Attr))\n    Attrs calls f on each Attr in the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 42
+       },
+       {
+        "kind": "text",
+        "value": ".\n\nfunc (r "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 42
+       },
+       {
+        "kind": "text",
+        "value": ") NumAttrs() "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 43
+       },
+       {
+        "kind": "text",
+        "value": "\n    NumAttrs returns the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 44
+       },
+       {
+        "kind": "text",
+        "value": " of attributes in the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 42
+       },
+       {
+        "kind": "text",
+        "value": ".\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "So that other logging backends can wrap "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 45
+       },
+       {
+        "kind": "text",
+        "value": "s, it is possible to construct\na "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 46
+       },
+       {
+        "kind": "text",
+        "value": " directly and add attributes to it:"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "func "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 47
+       },
+       {
+        "kind": "text",
+        "value": "(t time.Time, level "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 48
+       },
+       {
+        "kind": "text",
+        "value": ", msg string, pc uintptr) Record\n    "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 47
+       },
+       {
+        "kind": "text",
+        "value": " creates a Record from the given arguments. Use Record.AddAttrs to\n    add attributes to the Record.\n\n    "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 47
+       },
+       {
+        "kind": "text",
+        "value": " is intended for logging APIs that want to support a Handler as a\n    backend.\n\nfunc (r *Record) AddAttrs(attrs ...Attr)\n    AddAttrs appends the given Attrs to the Record's list of Attrs. It resolves\n    the Attrs before doing so.\n\nfunc (r *Record) Add(args ...any)\n    Add converts the args to Attrs as described in Logger."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 49
+       },
+       {
+        "kind": "text",
+        "value": ", then appends the\n    Attrs to the Record's list of Attrs. It resolves the Attrs before doing so.\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Copies of a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 50
+       },
+       {
+        "kind": "text",
+        "value": " share state. A "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 50
+       },
+       {
+        "kind": "text",
+        "value": " should not be modified after\nhanding out a copy to it. Use "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 51
+       },
+       {
+        "kind": "text",
+        "value": " for that:"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "func (r "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 52
+       },
+       {
+        "kind": "text",
+        "value": ") Clone() "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 52
+       },
+       {
+        "kind": "text",
+        "value": "\n    Clone returns a copy of "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 53
+       },
+       {
+        "kind": "text",
+        "value": " "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 54
+       },
+       {
+        "kind": "text",
+        "value": " with no shared state. The original "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 54
+       },
+       {
+        "kind": "text",
+        "value": "\n    and "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 53
+       },
+       {
+        "kind": "text",
+        "value": " clone can both be modified without interfering with each other.\n"
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 55
+       },
+       {
+        "kind": "text",
+        "value": " and "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 56
+       },
+       {
+        "kind": "text",
+        "value": " Types"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "An "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 57
+       },
+       {
+        "kind": "text",
+        "value": " is a key-value pair."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "mask",
+        "blank_index": 58
+       },
+       {
+        "kind": "text",
+        "value": " "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 59
+       },
+       {
+        "kind": "text",
+        "value": " struct {\n\tKey   string\n\t"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 60
+       },
+       {
+        "kind": "text",
+        "value": " "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 60
+       },
+       {
+        "kind": "text",
+        "value": "\n}\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "There are convenience functions for constructing "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 61
+       },
+       {
+        "kind": "text",
+        "value": "s with various value\ntypes, as well as "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 62
+       },
+       {
+        "kind": "text",
+        "value": " and "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 63
+       },
+       {
+        "kind": "text",
+        "value": " methods."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "func Any(key string, value any) Attr\n    Any returns an Attr for the supplied value. See Value.AnyValue for how\n    values are treated.\n\nfunc "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 64
+       },
+       {
+        "kind": "text",
+        "value": "(key string, v bool) Attr\n    "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 64
+       },
+       {
+        "kind": "text",
+        "value": " returns an Attr for a bool.\n\nfunc Duration(key string, v time.Duration) Attr\n    Duration returns an Attr for a time.Duration.\n\nfunc Float64(key string, v float64) Attr\n    Float64 returns an Attr for a floating-point number.\n\nfunc Group(key string, as ...Attr) Attr\n    Group returns an Attr for a Group Value. The caller must not subsequently\n    "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 65
+       },
+       {
+        "kind": "text",
+        "value": " the argument slice.\n\n    Use Group to collect several Attrs under a single key on a log line, or as\n    the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 66
+       },
+       {
+        "kind": "text",
+        "value": " of LogValue in order to log a single value as multiple Attrs.\n\nfunc Int(key string, value int) Attr\n    Int converts an int to an int64 and returns an Attr with that value.\n\nfunc Int64(key string, value int64) Attr\n    Int64 returns an Attr for an int64.\n\nfunc String(key, value string) Attr\n    String returns an Attr for a string value.\n\nfunc Time(key string, v time.Time) Attr\n    Time returns an Attr for a time.Time. It discards the monotonic portion.\n\nfunc Uint64(key string, v uint64) Attr\n    Uint64 returns an Attr for a uint64.\n\nfunc (a Attr) Equal(b Attr) bool\n    Equal reports whether a and b have equal keys and values.\n\nfunc (a Attr) String() string\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "A "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 67
+       },
+       {
+        "kind": "text",
+        "value": " can represent any Go value, but unlike type "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 68
+       },
+       {
+        "kind": "text",
+        "value": ", it can represent\nmost small values without an allocation.\nIn particular, integer types and strings, which account for the vast\nmajority of values in log messages, do not require allocation.\nThe default version of "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 67
+       },
+       {
+        "kind": "text",
+        "value": " uses package "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 69
+       },
+       {
+        "kind": "text",
+        "value": " to store any value in three\nmachine words.\nThe version without "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 69
+       },
+       {
+        "kind": "text",
+        "value": " requires five."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "There are constructor functions for common types, and a general one,\n"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 70
+       },
+       {
+        "kind": "text",
+        "value": ", that dispatches on its argument type."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "type Value struct {\n\t// Has unexported fields.\n}\n\nfunc AnyValue(v any) Value\n    AnyValue returns a Value for the supplied value.\n\n    Given a value of one of Go's predeclared string, bool, or (non-complex)\n    numeric types, AnyValue returns a Value of kind String, Bool, "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 71
+       },
+       {
+        "kind": "text",
+        "value": ", Int64,\n    or Float64. The width of the original numeric type is not preserved.\n\n    Given a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 72
+       },
+       {
+        "kind": "text",
+        "value": ".Time or "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 72
+       },
+       {
+        "kind": "text",
+        "value": ".Duration value, AnyValue returns a Value of kind\n    TimeKind or DurationKind. The monotonic "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 72
+       },
+       {
+        "kind": "text",
+        "value": " is not preserved.\n\n    For nil, or values of all other types, including named types whose\n    underlying type is numeric, AnyValue returns a value of kind AnyKind.\n\nfunc BoolValue(v bool) Value\n    BoolValue returns a Value for a bool.\n\nfunc "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 73
+       },
+       {
+        "kind": "text",
+        "value": "(v "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 72
+       },
+       {
+        "kind": "text",
+        "value": ".Duration) Value\n    "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 73
+       },
+       {
+        "kind": "text",
+        "value": " returns a Value for a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 72
+       },
+       {
+        "kind": "text",
+        "value": ".Duration.\n\nfunc Float64Value(v float64) Value\n    Float64Value returns a Value for a floating-point number.\n\nfunc GroupValue(as ...Attr) Value\n    GroupValue returns a new Value for a list of Attrs. The caller must not\n    subsequently mutate the argument slice.\n\nfunc Int64Value(v int64) Value\n    Int64Value returns a Value for an int64.\n\nfunc IntValue(v int) Value\n    IntValue returns a Value for an int.\n\nfunc StringValue(value string) Value\n    String returns a new Value for a string.\n\nfunc TimeValue(v "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 72
+       },
+       {
+        "kind": "text",
+        "value": ".Time) Value\n    TimeValue returns a Value for a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 72
+       },
+       {
+        "kind": "text",
+        "value": ".Time. It discards the monotonic\n    portion.\n\nfunc Uint64Value(v uint64) Value\n    Uint64Value returns a Value for a uint64.\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Extracting Go values from a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 74
+       },
+       {
+        "kind": "text",
+        "value": " is reminiscent of "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 75
+       },
+       {
+        "kind": "text",
+        "value": ": there is\na "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 76
+       },
+       {
+        "kind": "text",
+        "value": " method that returns an enum of type "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 76
+       },
+       {
+        "kind": "text",
+        "value": ", and a method for each "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 76
+       },
+       {
+        "kind": "text",
+        "value": "\nthat returns the value or panics if it is the wrong kind."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "type Kind "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 77
+       },
+       {
+        "kind": "text",
+        "value": "\n    Kind is the kind of a Value.\n\nconst (\n\tAnyKind Kind = iota\n\tBoolKind\n\tDurationKind\n\tFloat64Kind\n\tInt64Kind\n\tStringKind\n\tTimeKind\n\tUint64Kind\n\tGroupKind\n\tLogValuerKind\n)\n\nfunc (v Value) Any() any\n    Any returns v's value as an any.\n\nfunc (v Value) Bool() bool\n    Bool returns v's value as a bool. It panics if v is not a bool.\n\nfunc (a Value) "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 78
+       },
+       {
+        "kind": "text",
+        "value": "() time."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 78
+       },
+       {
+        "kind": "text",
+        "value": "\n    "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 78
+       },
+       {
+        "kind": "text",
+        "value": " returns v's value as a time.Duration. It panics if v is not a\n    time."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 78
+       },
+       {
+        "kind": "text",
+        "value": ".\n\nfunc (v Value) Equal(w Value) bool\n    Equal reports whether v and w have equal keys and values.\n\nfunc (v Value) Float64() float64\n    Float64 returns v's value as a float64. It panics if v is not a float64.\n\nfunc (v Value) Group() []Attr\n    Group returns v's value as a []Attr. It panics if v's Kind is not GroupKind.\n\nfunc (v Value) Int64() int64\n    Int64 returns v's value as an int64. It panics if v is not a signed integer.\n\nfunc (v Value) Kind() Kind\n    Kind returns v's Kind.\n\nfunc (v Value) LogValuer() LogValuer\n    LogValuer returns v's value as a LogValuer. It panics if v is not a\n    LogValuer.\n\nfunc (v Value) Resolve() Value\n    Resolve repeatedly calls LogValue on v while it implements LogValuer, and\n    returns the result. If the number of LogValue calls exceeds a threshold, a\n    Value containing an error is "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 79
+       },
+       {
+        "kind": "text",
+        "value": ". Resolve's return value is guaranteed\n    not to be of Kind LogValuerKind.\n\nfunc (v Value) String() string\n    String returns Value's value as a string, formatted like fmt.Sprint.\n    Unlike the methods Int64, Float64, and so on, which panic if v is of the\n    wrong kind, String never panics.\n\nfunc (v Value) Time() time.Time\n    Time returns v's value as a time.Time. It panics if v is not a time.Time.\n\nfunc (v Value) Uint64() uint64\n    Uint64 returns v's value as a uint64. It panics if v is not an unsigned\n    integer.\n"
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 4,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The LogValuer interface"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "A LogValuer is any Go value that can convert itself into a Value for\nlogging."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "This mechanism may be used to defer expensive operations until they are\nneeded, or to expand a single value into a sequence of components."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "mask",
+        "blank_index": 80
+       },
+       {
+        "kind": "text",
+        "value": " LogValuer "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 81
+       },
+       {
+        "kind": "text",
+        "value": " {\n\tLogValue() "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 82
+       },
+       {
+        "kind": "text",
+        "value": "\n}\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "mask",
+        "blank_index": 83
+       },
+       {
+        "kind": "text",
+        "value": " can be used to call the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 84
+       },
+       {
+        "kind": "text",
+        "value": " method."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "func (v "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 85
+       },
+       {
+        "kind": "text",
+        "value": ") Resolve() "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 85
+       },
+       {
+        "kind": "text",
+        "value": "\n    Resolve repeatedly calls LogValue on v while it implements LogValuer, and\n    returns the result. If the number of LogValue calls exceeds a threshold, a\n    "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 85
+       },
+       {
+        "kind": "text",
+        "value": " containing an error is returned. Resolve's return value is guaranteed\n    not to "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 86
+       },
+       {
+        "kind": "text",
+        "value": " of "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 87
+       },
+       {
+        "kind": "text",
+        "value": " LogValuerKind.\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The Attrs passed to a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 88
+       },
+       {
+        "kind": "text",
+        "value": ", and the Attrs obtained\nvia "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 89
+       },
+       {
+        "kind": "text",
+        "value": ", have already been resolved, that is, replaced\nwith a call to "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 90
+       },
+       {
+        "kind": "text",
+        "value": "."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "As an example of "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 91
+       },
+       {
+        "kind": "text",
+        "value": ", a type could obscure its value in log output like\nso:"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "mask",
+        "blank_index": 92
+       },
+       {
+        "kind": "text",
+        "value": " Password string\n\nfunc (p Password) LogValue() "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 93
+       },
+       {
+        "kind": "text",
+        "value": "."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 94
+       },
+       {
+        "kind": "text",
+        "value": " {\n    return "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 93
+       },
+       {
+        "kind": "text",
+        "value": ".StringValue(\"REDACTED\")\n}\n"
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Loggers"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "A Logger records structured information about each call to its Log, Debug,\nInfo, Warn, and Error methods. For each call, it creates a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 95
+       },
+       {
+        "kind": "text",
+        "value": " and passes\nit to a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 96
+       },
+       {
+        "kind": "text",
+        "value": "."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "mask",
+        "blank_index": 97
+       },
+       {
+        "kind": "text",
+        "value": " "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 98
+       },
+       {
+        "kind": "text",
+        "value": " "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 99
+       },
+       {
+        "kind": "text",
+        "value": " {\n\t// Has unexported fields.\n}\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "A "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 100
+       },
+       {
+        "kind": "text",
+        "value": " consists of a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 101
+       },
+       {
+        "kind": "text",
+        "value": ". Use "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 102
+       },
+       {
+        "kind": "text",
+        "value": " to create "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 100
+       },
+       {
+        "kind": "text",
+        "value": " with a\n"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 101
+       },
+       {
+        "kind": "text",
+        "value": ", and the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 101
+       },
+       {
+        "kind": "text",
+        "value": " method to retrieve it."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "func New(h "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 103
+       },
+       {
+        "kind": "text",
+        "value": ") *"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 104
+       },
+       {
+        "kind": "text",
+        "value": "\n    New creates a new "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 104
+       },
+       {
+        "kind": "text",
+        "value": " "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 105
+       },
+       {
+        "kind": "text",
+        "value": " the given "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 103
+       },
+       {
+        "kind": "text",
+        "value": ".\n\nfunc (l *"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 104
+       },
+       {
+        "kind": "text",
+        "value": ") "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 103
+       },
+       {
+        "kind": "text",
+        "value": "() "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 103
+       },
+       {
+        "kind": "text",
+        "value": "\n    "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 103
+       },
+       {
+        "kind": "text",
+        "value": " returns l's Handler.\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "There is a single, global default "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 106
+       },
+       {
+        "kind": "text",
+        "value": ".\nIt can be set and retrieved with the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 107
+       },
+       {
+        "kind": "text",
+        "value": " and\n"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 108
+       },
+       {
+        "kind": "text",
+        "value": " functions."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "func SetDefault(l *Logger)\n    SetDefault makes l the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 109
+       },
+       {
+        "kind": "text",
+        "value": " Logger. After "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 110
+       },
+       {
+        "kind": "text",
+        "value": " call, output from the\n    "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 111
+       },
+       {
+        "kind": "text",
+        "value": " package's default Logger (as with log.Print, etc.) will be logged at\n    LevelInfo using l's Handler.\n\nfunc Default() *Logger\n    Default returns the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 109
+       },
+       {
+        "kind": "text",
+        "value": " Logger.\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 112
+       },
+       {
+        "kind": "text",
+        "value": " package works to ensure consistent output with the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 113
+       },
+       {
+        "kind": "text",
+        "value": " package.\nWriting to "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 112
+       },
+       {
+        "kind": "text",
+        "value": "'s default logger without setting a handler will write\nstructured text to "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 113
+       },
+       {
+        "kind": "text",
+        "value": "'s default logger.\nOnce a handler is set with "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 114
+       },
+       {
+        "kind": "text",
+        "value": ", as in the example above, the default\n"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 113
+       },
+       {
+        "kind": "text",
+        "value": " logger will send its text output to the structured handler."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 4,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Output methods"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "inline_code",
+        "value": "Logger"
+       },
+       {
+        "kind": "text",
+        "value": "'s output methods produce log output by constructing a "
+       },
+       {
+        "kind": "inline_code",
+        "value": "Record"
+       },
+       {
+        "kind": "text",
+        "value": " and\npassing it to the "
+       },
+       {
+        "kind": "inline_code",
+        "value": "Logger"
+       },
+       {
+        "kind": "text",
+        "value": "'s handler.\nThere are two output methods for each of four most common levels, one which\ntakes a context and one which doesn't. There is also a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 115
+       },
+       {
+        "kind": "text",
+        "value": " method\nthat takes any level, and a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 116
+       },
+       {
+        "kind": "text",
+        "value": " method that accepts only "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 117
+       },
+       {
+        "kind": "text",
+        "value": "s as an\noptimization, both of which take a context."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "These methods first call "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 118
+       },
+       {
+        "kind": "text",
+        "value": " to see if they should proceed."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Each of these methods has a corresponding top-level function that uses the\ndefault logger."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The context is passed to Handler.Enabled and Handler.Handle. Handlers sometimes\nneed to retrieve values from a context, tracing spans being a prime example."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "We will provide a vet check for the methods that take a list of "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 119
+       },
+       {
+        "kind": "text",
+        "value": " arguments\nto catch problems with missing keys or values."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "func (l *Logger) Log(ctx context.Context, level Level, "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 120
+       },
+       {
+        "kind": "text",
+        "value": " string, args ...any)\n    Log emits a log record with the current time and the given level and\n    message. The Record's Attrs consist of the Logger's attributes followed by\n    the Attrs specified by args.\n\n    The attribute arguments are processed as follows:\n      - If an argument is an Attr, it is used as is.\n      - If an argument is a string and this is not the last argument, the\n        following argument is treated as the value and the two are "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 121
+       },
+       {
+        "kind": "text",
+        "value": " into\n        an Attr.\n      - Otherwise, the argument is treated as a value with key \"!BADKEY\".\n\nfunc (l *Logger) LogAttrs(ctx context.Context, level Level, "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 120
+       },
+       {
+        "kind": "text",
+        "value": " string, attrs ...Attr)\n    LogAttrs is a more efficient version of Logger.Log that accepts "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 122
+       },
+       {
+        "kind": "text",
+        "value": " Attrs.\n\nfunc (l *Logger) Debug("
+       },
+       {
+        "kind": "mask",
+        "blank_index": 120
+       },
+       {
+        "kind": "text",
+        "value": " string, args ...any)\n    Debug logs at LevelDebug.\n\nfunc (l *Logger) Info("
+       },
+       {
+        "kind": "mask",
+        "blank_index": 120
+       },
+       {
+        "kind": "text",
+        "value": " string, args ...any)\n    Info logs at LevelInfo.\n\nfunc (l *Logger) Warn("
+       },
+       {
+        "kind": "mask",
+        "blank_index": 120
+       },
+       {
+        "kind": "text",
+        "value": " string, args ...any)\n    Warn logs at LevelWarn.\n\nfunc (l *Logger) Error("
+       },
+       {
+        "kind": "mask",
+        "blank_index": 120
+       },
+       {
+        "kind": "text",
+        "value": " string, args ...any)\n    Error logs at LevelError.\n\nfunc (l *Logger) DebugCtx(ctx context.Context, "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 120
+       },
+       {
+        "kind": "text",
+        "value": " string, args ...any)\n    DebugCtx logs at LevelDebug with the given context.\n\nfunc (l *Logger) InfoCtx(ctx context.Context, "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 120
+       },
+       {
+        "kind": "text",
+        "value": " string, args ...any)\n    InfoCtx logs at LevelInfo with the given context.\n\nfunc (l *Logger) WarnCtx(ctx context.Context, "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 120
+       },
+       {
+        "kind": "text",
+        "value": " string, args ...any)\n    WarnCtx logs at LevelWarn with the given context.\n\nfunc (l *Logger) ErrorCtx(ctx context.Context, "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 120
+       },
+       {
+        "kind": "text",
+        "value": " string, args ...any)\n    ErrorCtx logs at LevelError with the given context.\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Loggers can have attributes as well, added by the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 123
+       },
+       {
+        "kind": "text",
+        "value": " method."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "func (l *Logger) With(args ...any) *Logger\n    With returns a new Logger that includes the given arguments, converted to\n    Attrs as in Logger."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 124
+       },
+       {
+        "kind": "text",
+        "value": ". "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 125
+       },
+       {
+        "kind": "text",
+        "value": " Attrs will be added to each output "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 126
+       },
+       {
+        "kind": "text",
+        "value": " the\n    Logger.\n\n    "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 125
+       },
+       {
+        "kind": "text",
+        "value": " new Logger's handler is the result of calling WithAttrs on the\n    receiver's handler.\n"
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Groups"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Although most attribute values are simple types like strings and integers,\nsometimes aggregate or composite values are desired.\nFor example, consider"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "type "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 127
+       },
+       {
+        "kind": "text",
+        "value": " struct {\n    First, "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 128
+       },
+       {
+        "kind": "text",
+        "value": " "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 129
+       },
+       {
+        "kind": "text",
+        "value": "\n}\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "To handle values like this we include "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 130
+       },
+       {
+        "kind": "text",
+        "value": " for groups of Attrs.\nTo log a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 131
+       },
+       {
+        "kind": "text",
+        "value": " "
+       },
+       {
+        "kind": "inline_code",
+        "value": "n"
+       },
+       {
+        "kind": "text",
+        "value": " as a group, we could write"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "slog."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 132
+       },
+       {
+        "kind": "text",
+        "value": "(\"message\",\n    slog."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 133
+       },
+       {
+        "kind": "text",
+        "value": "(\"name\",\n        slog."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 134
+       },
+       {
+        "kind": "text",
+        "value": "(\"first\", n.First),\n        slog."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 134
+       },
+       {
+        "kind": "text",
+        "value": "(\"last\", n.Last),\n    ),\n)\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Handlers should qualify a group's members by its name.\nWhat \"qualify\" means depends on the handler.\nA handler that supports recursive data, like the\nbuilt-in "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 135
+       },
+       {
+        "kind": "text",
+        "value": ", can use the group name as a key to a nested object:"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "\"name\": {\"first\": \"Ren\", \"last\": \"Hoek\"}\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Handlers that use a flat output representation, like the built-in "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 136
+       },
+       {
+        "kind": "text",
+        "value": ",\ncould prefix the group member's keys with the group name.\nThis is "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 136
+       },
+       {
+        "kind": "text",
+        "value": "'s output:"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "name.first="
+       },
+       {
+        "kind": "mask",
+        "blank_index": 137
+       },
+       {
+        "kind": "text",
+        "value": " name."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 138
+       },
+       {
+        "kind": "text",
+        "value": "="
+       },
+       {
+        "kind": "mask",
+        "blank_index": 139
+       },
+       {
+        "kind": "text",
+        "value": "\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "If the author of the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 140
+       },
+       {
+        "kind": "text",
+        "value": " type wanted to arrange matters so that "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 140
+       },
+       {
+        "kind": "text",
+        "value": "s\nalways logged in this way, they could implement the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 141
+       },
+       {
+        "kind": "text",
+        "value": " interface discussed\nabove:"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "func (n Name) "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 142
+       },
+       {
+        "kind": "text",
+        "value": "() slog.Value {\n    return slog.GroupValue(\n        slog."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 143
+       },
+       {
+        "kind": "text",
+        "value": "(\"first\", n.First),\n        slog."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 143
+       },
+       {
+        "kind": "text",
+        "value": "(\"last\", n."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 144
+       },
+       {
+        "kind": "text",
+        "value": "),\n    )\n}\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Now, if "
+       },
+       {
+        "kind": "inline_code",
+        "value": "n"
+       },
+       {
+        "kind": "text",
+        "value": " is a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 145
+       },
+       {
+        "kind": "text",
+        "value": ", the log line"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "spans": [
+       {
+        "kind": "mask",
+        "blank_index": 146
+       },
+       {
+        "kind": "text",
+        "value": "."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 147
+       },
+       {
+        "kind": "text",
+        "value": "(\"message\", \"name\", n)\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "will render exactly like the example with an explicit "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 148
+       },
+       {
+        "kind": "text",
+        "value": " above."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 4,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Logger groups"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Sometimes it is useful to qualify all the attribute keys from a Logger.\nFor example, an application may be composed of multiple subsystems, some of\nwhich may use the same attribute keys.\nQualifying each subsystem's keys is one way to avoid duplicates.\nThis can be done with "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 149
+       },
+       {
+        "kind": "text",
+        "value": ".\nDuplicate keys can be avoided by handing each subsystem a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 150
+       },
+       {
+        "kind": "text",
+        "value": " with a\ndifferent group."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "func (l *Logger) WithGroup(name string) *Logger\n    WithGroup "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 151
+       },
+       {
+        "kind": "text",
+        "value": " a new Logger that starts a group. The keys "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 152
+       },
+       {
+        "kind": "text",
+        "value": " all\n    attributes added "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 153
+       },
+       {
+        "kind": "text",
+        "value": " the Logger will be qualified by the given name.\n"
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Levels"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "A Level is the importance or severity of a log event. The higher the level,\nthe more important or severe the event."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "spans": [
+       {
+        "kind": "mask",
+        "blank_index": 154
+       },
+       {
+        "kind": "text",
+        "value": " "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 155
+       },
+       {
+        "kind": "text",
+        "value": " "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 156
+       },
+       {
+        "kind": "text",
+        "value": "\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 157
+       },
+       {
+        "kind": "text",
+        "value": " package provides names for common levels."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The level numbers below don't really matter too much. Any system can map\nthem to another numbering scheme if it wishes. We picked them to satisfy\nthree constraints."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "First, we wanted the default level to be Info. Since Levels are ints,\nInfo is the default value for int, zero."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Second, we wanted to make it easy to work with verbosities instead of levels.\nAs discussed above,\nsome logging packages like glog and Logr use verbosities instead, where\na verbosity of 0 corresponds to the Info level and higher values represent less\nimportant messages.\nNegating a verbosity converts it into a Level. To use a verbosity of "
+       },
+       {
+        "kind": "inline_code",
+        "value": "v"
+       },
+       {
+        "kind": "text",
+        "value": " with\nthis design, pass "
+       },
+       {
+        "kind": "inline_code",
+        "value": "-v"
+       },
+       {
+        "kind": "text",
+        "value": " to "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 158
+       },
+       {
+        "kind": "text",
+        "value": " or "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 159
+       },
+       {
+        "kind": "text",
+        "value": "."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Third, we wanted some room between levels to accommodate schemes with\nnamed levels between ours. For example, Google Cloud Logging defines a\nNotice level between Info and Warn. Since there are only a few of these\nintermediate levels, the gap between the numbers need not be large.\nOur gap of 4 matches OpenTelemetry's mapping. Subtracting 9 from an\nOpenTelemetry level in the DEBUG, INFO, WARN and ERROR ranges converts it to\nthe corresponding slog Level range. OpenTelemetry also has the names TRACE\nand FATAL, which slog does not. But those OpenTelemetry levels can still be\nrepresented as slog Levels by using the appropriate integers."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "const (\n\t"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 160
+       },
+       {
+        "kind": "text",
+        "value": " "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 161
+       },
+       {
+        "kind": "text",
+        "value": " = -4\n\t"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 162
+       },
+       {
+        "kind": "text",
+        "value": "  "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 161
+       },
+       {
+        "kind": "text",
+        "value": " = 0\n\tLevelWarn  "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 161
+       },
+       {
+        "kind": "text",
+        "value": " = 4\n\tLevelError "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 161
+       },
+       {
+        "kind": "text",
+        "value": " = 8\n)\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 163
+       },
+       {
+        "kind": "text",
+        "value": " interface generalizes "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 164
+       },
+       {
+        "kind": "text",
+        "value": ", so that a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 165
+       },
+       {
+        "kind": "text",
+        "value": "\nimplementation can vary its behavior. One way to get dynamic behavior\nis to use "
+       },
+       {
+        "kind": "inline_code",
+        "value": "LevelVar"
+       },
+       {
+        "kind": "text",
+        "value": "."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "type Leveler interface {\n\tLevel() Level\n}\n    A Leveler provides a Level value.\n\n    As Level itself implements Leveler, clients typically supply a Level value\n    wherever a Leveler is needed, "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 166
+       },
+       {
+        "kind": "text",
+        "value": " as in "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 167
+       },
+       {
+        "kind": "text",
+        "value": ". Clients who need to\n    vary the level dynamically can provide a more complex Leveler implementation\n    "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 166
+       },
+       {
+        "kind": "text",
+        "value": " as *LevelVar.\n\nfunc (l Level) Level() Level\n    Level returns the receiver. It implements Leveler.\n\ntype LevelVar "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 168
+       },
+       {
+        "kind": "text",
+        "value": " {\n\t// Has unexported fields.\n}\n    A LevelVar is a Level variable, to allow a Handler level to change\n    dynamically. It implements Leveler as well as a Set method, and it is safe\n    for use by multiple goroutines. The zero LevelVar corresponds to LevelInfo.\n\nfunc (v *LevelVar) Level() Level\n    Level returns v's level.\n\nfunc (v *LevelVar) Set(l Level)\n    Set sets v's level to l.\n\nfunc (v *LevelVar) String() string\n"
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Provided Handlers"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 169
+       },
+       {
+        "kind": "text",
+        "value": " package includes two handlers, which behave similarly except for\ntheir output format. "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 170
+       },
+       {
+        "kind": "text",
+        "value": " emits attributes as "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 171
+       },
+       {
+        "kind": "text",
+        "value": ", and\n"
+       },
+       {
+        "kind": "inline_code",
+        "value": "JSONHandler"
+       },
+       {
+        "kind": "text",
+        "value": " writes line-delimited JSON objects.\nBoth can be configured using a "
+       },
+       {
+        "kind": "inline_code",
+        "value": "HandlerOptions"
+       },
+       {
+        "kind": "text",
+        "value": ".\nA zero "
+       },
+       {
+        "kind": "inline_code",
+        "value": "HandlerOptions"
+       },
+       {
+        "kind": "text",
+        "value": " consists entirely of default values."
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "type HandlerOptions "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 172
+       },
+       {
+        "kind": "text",
+        "value": " {\n\t// When AddSource is true, the handler adds a (\"source\", \"file:line\")\n\t// attribute to the output indicating the source code position of the log\n\t// statement. AddSource is false by default to skip the cost of computing\n\t// this information.\n\tAddSource "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 173
+       },
+       {
+        "kind": "text",
+        "value": "\n\n\t// Level reports the minimum record level that will be logged.\n\t// The handler discards records with lower levels.\n\t// If Level is nil, the handler assumes LevelInfo.\n\t// The handler calls Level.Level for each record processed;\n\t// to adjust the minimum level dynamically, use a LevelVar.\n\tLevel Leveler\n\n\t// ReplaceAttr is called to rewrite each non-group attribute before it is logged.\n\t// The attribute's value has been resolved (see [Value.Resolve]).\n\t// If ReplaceAttr returns an Attr with Key == \"\", the attribute is discarded.\n\t//\n\t// The built-in attributes with keys \"time\", \"level\", \"source\", and \"msg\"\n\t// are passed to this function, except that time is omitted\n\t// if zero, and source is omitted if AddSource is false.\n\t//\n\t// The first argument is a list of currently open groups that contain the\n\t// Attr. It must not be retained or modified. ReplaceAttr is never called\n\t// for Group attributes, only their contents. For example, the attribute\n\t// list\n\t//\n\t//     Int(\"a\", 1), Group(\"g\", Int(\"b\", 2)), Int(\"c\", 3)\n\t//\n\t// results in consecutive calls to ReplaceAttr with the following arguments:\n\t//\n\t//     nil, Int(\"a\", 1)\n\t//     []string{\"g\"}, Int(\"b\", 2)\n\t//     nil, Int(\"c\", 3)\n\t//\n\t// ReplaceAttr can be used to change the default keys of the built-in\n\t// attributes, convert types (for example, to replace a `time.Time` with the\n\t// integer seconds since the Unix epoch), sanitize personal information, or\n\t// remove attributes from the output.\n\tReplaceAttr func(groups []string, a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 174
+       },
+       {
+        "kind": "text",
+        "value": ") "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 174
+       },
+       {
+        "kind": "text",
+        "value": "\n}\n"
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 2,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Interoperating with Other Log Packages"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "As stated earlier, we expect that this package will interoperate with other log\npackages."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "One way that could happen is for another package's frontend to send\n"
+       },
+       {
+        "kind": "inline_code",
+        "value": "slog.Record"
+       },
+       {
+        "kind": "text",
+        "value": "s to a "
+       },
+       {
+        "kind": "inline_code",
+        "value": "slog.Handler"
+       },
+       {
+        "kind": "text",
+        "value": ".\nFor instance, a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 175
+       },
+       {
+        "kind": "text",
+        "value": " implementation could construct a "
+       },
+       {
+        "kind": "inline_code",
+        "value": "Record"
+       },
+       {
+        "kind": "text",
+        "value": " from a\nmessage and list of keys and values, and pass it to a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 176
+       },
+       {
+        "kind": "text",
+        "value": ".\nThat is facilitated by "
+       },
+       {
+        "kind": "inline_code",
+        "value": "NewRecord"
+       },
+       {
+        "kind": "text",
+        "value": ", "
+       },
+       {
+        "kind": "inline_code",
+        "value": "Record.Add"
+       },
+       {
+        "kind": "text",
+        "value": " and "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 177
+       },
+       {
+        "kind": "text",
+        "value": ",\ndescribed above."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Another way for two log packages to work together is for the other package to\nwrap its backend as a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 178
+       },
+       {
+        "kind": "text",
+        "value": ", so users could write code with the "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 179
+       },
+       {
+        "kind": "text",
+        "value": "\npackage's API but connect the results to an existing "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 180
+       },
+       {
+        "kind": "text",
+        "value": ", for\nexample.\nThis involves writing a "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 178
+       },
+       {
+        "kind": "text",
+        "value": " that wraps the other logger's backend.\nDoing so doesn't seem to require any additional support from this package."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 2,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Testing Package"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "To verify that a Handler's behavior matches the specification, we propose\na package testing/slogtest with one exported function:"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "// TestHandler tests a [slog.Handler].\n// If TestHandler finds any misbehaviors, it returns an error for each,\n// combined into a single error with errors.Join.\n//\n// TestHandler installs the given Handler in a [slog.Logger] and\n// makes several calls to the Logger's output methods.\n//\n// The results function is invoked after all such calls.\n// It should return a slice of map[string]any, one for each call to a Logger output method.\n// The keys and values of the map should correspond to the keys and values of the Handler's\n// output. Each group in the output should be represented as its own nested map[string]any.\n//\n// If the Handler outputs JSON, then calling [encoding/json.Unmarshal] with a `map[string]any`\n// will create the right data structure.\nfunc "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 181
+       },
+       {
+        "kind": "text",
+        "value": "(h slog."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 182
+       },
+       {
+        "kind": "text",
+        "value": ", results func() []"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 183
+       },
+       {
+        "kind": "text",
+        "value": "[string]any) error\n"
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 2,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Acknowledgements"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Ian Cottrell's ideas about high-performance observability, captured in the\n"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 184
+       },
+       {
+        "kind": "text",
+        "value": " package, informed a great deal of the design and\nimplementation of this proposal."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Seth Vargo’s ideas on logging were a source of motivation and inspiration. His\ncomments on an earlier draft helped improve the proposal."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Michael Knyszek explained how logging could work with runtime tracing."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Tim Hockin helped us understand logr's design choices, which led to significant\nimprovements."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Abhinav Gupta helped me understand Zap in depth, which informed the design."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Russ Cox provided valuable feedback and helped shape the final design."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Alan Donovan's CL reviews greatly improved the implementation."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "The participants in the GitHub\ndiscussion helped us confirm we\nwere on the right track, and called our attention to important features we had\noverlooked (and have since added)."
+       }
+      ]
+     },
+     {
+      "kind": "heading",
+      "level": 2,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Appendix: API"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "package slog\n\nPackage slog provides structured logging, in which log records include a\nmessage, a severity level, and various other attributes expressed as key-value\npairs.\n\nIt defines a type, Logger, which provides several methods (such as Logger.Info\nand Logger.Error) for reporting events of interest.\n\nEach Logger is associated with a Handler. A Logger output method creates a\nRecord from the method arguments and passes it to the Handler, which decides how\nto handle it. There is a default Logger accessible through top-level functions\n(such as Info and Error) that call the corresponding Logger methods.\n\nA log record consists of a time, a level, a message, and a set of key-value\npairs, where the keys are strings and the values may be of any type. As an\nexample,\n\n    slog.Info(\"hello\", \"count\", 3)\n\ncreates a record containing the time of the call, a level of Info, the message\n\"hello\", and a single pair with key \"count\" and value 3.\n\nThe Info top-level function calls the Logger.Info method on the default Logger.\nIn addition to Logger.Info, "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 185
+       },
+       {
+        "kind": "text",
+        "value": " are methods for Debug, Warn and Error levels.\nBesides these convenience methods for common levels, "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 185
+       },
+       {
+        "kind": "text",
+        "value": " is also a Logger.Log\nmethod which takes the level as an argument. Each of these methods has a\ncorresponding top-level function that uses the default logger.\n\nThe default handler formats the log record's message, time, level, and\nattributes as a string and passes it to the log package.\n\n    2022/11/08 15:28:26 INFO hello count=3\n\nFor more control over the output format, create a logger with a different\nhandler. This statement uses New to create a new logger with a TextHandler that\nwrites structured records in text form to standard error:\n\n    logger := slog.New(slog.NewTextHandler(os.Stderr))\n\nTextHandler output is a sequence of key=value pairs, easily and unambiguously\nparsed by machine. This statement:\n\n    logger.Info(\"hello\", \"count\", 3)\n\nproduces this output:\n\n    time=2022-11-08T15:28:26.000-05:00 level=INFO msg=hello count=3\n\nThe package also provides JSONHandler, whose output is line-delimited JSON:\n\n    logger := slog.New(slog.NewJSONHandler(os.Stdout))\n    logger.Info(\"hello\", \"count\", 3)\n\nproduces this output:\n\n    {\"time\":\"2022-11-08T15:28:26.000000000-05:00\",\"level\":\"INFO\",\"msg\":\"hello\",\"count\":3}\n\nBoth TextHandler and JSONHandler can be configured with a HandlerOptions.\nThere are options for setting the minimum level (see Levels, below), displaying\nthe source file and line of the log call, and modifying attributes before they\nare logged.\n\nSetting a logger as the default with\n\n    slog.SetDefault(logger)\n\nwill cause the top-level functions like Info to use it. SetDefault also updates\nthe default logger used by the log package, so that existing applications that\nuse log.Printf and related functions will send log records to the logger's\nhandler without needing to be rewritten.\n\n# Attrs and Values\n\nAn Attr is a key-value pair. The Logger output methods accept Attrs as well as\nalternating keys and values. The statement\n\n    slog.Info(\"hello\", slog.Int(\"count\", 3))\n\nbehaves the same as\n\n    slog.Info(\"hello\", \"count\", 3)\n\nThere are convenience constructors for Attr such as Int, String, and Bool for\ncommon types, as well as the function Any for constructing Attrs of any type.\n\nThe value part of an Attr is a type called Value. Like an [any], a Value can\nhold any Go value, but it can represent typical values, including all numbers\nand strings, without an allocation.\n\nFor the most efficient log output, use Logger.LogAttrs. It is similar to\nLogger.Log but accepts only Attrs, not alternating keys and values; this allows\nit, too, to avoid allocation.\n\nThe call\n\n    logger.LogAttrs(nil, slog.LevelInfo, \"hello\", slog.Int(\"count\", 3))\n\nis the most efficient way to achieve the same output as\n\n    slog.Info(\"hello\", \"count\", 3)\n\nSome attributes are common to many log calls. For example, you may wish to\ninclude the URL or trace identifier of a server request with all log events\narising from the request. Rather than repeat the attribute with every log call,\nyou can use Logger.With to construct a new Logger containing the attributes:\n\n    logger2 := logger.With(\"url\", r.URL)\n\nThe arguments to With are the same key-value pairs used in Logger.Info.\nThe result is a new Logger with the same handler as the original, but additional\nattributes that will appear in the output of every call.\n\n# Levels\n\nA Level is an integer representing the importance or severity of a log event.\nThe higher the level, the more severe the event. This package defines constants\nfor the most common levels, but any int can be used as a level.\n\nIn an application, you may wish to log messages only at a certain level or\ngreater. One common configuration is to log messages at Info or higher levels,\nsuppressing debug logging until it is needed. The built-in handlers can be\nconfigured with the minimum level to output by setting [HandlerOptions.Level].\nThe program's `main` function typically does this. The default value is\nLevelInfo.\n\nSetting the [HandlerOptions.Level] field to a Level value fixes the handler's\nminimum level throughout its lifetime. Setting it to a LevelVar allows the level\nto be varied dynamically. A LevelVar holds a Level and is safe to read or write\nfrom multiple goroutines. To vary the level dynamically for an entire program,\nfirst initialize a global LevelVar:\n\n    var programLevel = new(slog.LevelVar) // Info by default\n\nThen use the LevelVar to construct a handler, and make it the default:\n\n    h := slog.HandlerOptions{Level: programLevel}.NewJSONHandler(os.Stderr)\n    slog.SetDefault(slog.New(h))\n\nNow the program can change its logging level with a single statement:\n\n    programLevel.Set(slog.LevelDebug)\n\n# Groups\n\nAttributes can be collected into groups. A group has a name that is used to\nqualify the names of its attributes. How this qualification is displayed depends\non the handler. TextHandler separates the group and attribute names with a dot.\nJSONHandler treats each group as a separate JSON object, with the group name as\nthe key.\n\nUse Group to create a Group Attr from a name and a list of Attrs:\n\n    slog.Group(\"request\",\n        slog.String(\"method\", r.Method),\n        slog.Any(\"url\", r.URL))\n\nTextHandler would display this group as\n\n    request.method=GET request.url=http://example.com\n\nJSONHandler would display it as\n\n    \"request\":{\"method\":\"GET\",\"url\":\"http://example.com\"}\n\nUse Logger.WithGroup to qualify all of a Logger's output with a group name.\nCalling WithGroup on a Logger results in a new Logger with the same Handler as\nthe original, but with all its attributes qualified by the group name.\n\nThis can help prevent duplicate attribute keys in large systems, where\nsubsystems might use the same keys. Pass each subsystem a different Logger with\nits own group name so that potential duplicates are qualified:\n\n    logger := slog.Default().With(\"id\", systemID)\n    parserLogger := logger.WithGroup(\"parser\")\n    parseInput(input, parserLogger)\n\nWhen parseInput logs with parserLogger, its keys will be qualified with\n\"parser\", so even if it uses the common key \"id\", the log line will have\ndistinct keys.\n\n# Contexts\n\nSome handlers may wish to include information from the context.Context that is\navailable at the call site. One example of such information is the identifier\nfor the current span when tracing is is enabled.\n\nThe Logger.Log and Logger.LogAttrs methods take a context as a first argument,\nas do their corresponding top-level functions.\n\n"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 186
+       },
+       {
+        "kind": "text",
+        "value": " the convenience methods on Logger (Info and so on) and the\ncorresponding top-level functions do not take a context, the alternatives ending\nin \"Ctx\" do. For example,\n\n    slog.InfoCtx(ctx, \"message\")\n\nIt is recommended to pass a context to an output method if one is available.\n\n# Advanced topics\n\n## Customizing a type's logging behavior\n\nIf a type implements the LogValuer interface, the Value returned from its\nLogValue method is used for logging. You can use this to control how values\nof the type appear in logs. For example, you can redact secret information\nlike passwords, or gather a struct's fields in a Group. See the examples under\nLogValuer for details.\n\nA LogValue method may return a Value that itself implements LogValuer. The\nValue.Resolve method handles these cases carefully, avoiding infinite loops and\nunbounded recursion. Handler authors and others may wish to use Value.Resolve\ninstead of calling LogValue directly.\n\n## Wrapping output methods\n\nThe logger functions use reflection over the call stack to find the file name\nand line number of the logging call within the application. This can produce\nincorrect source information for functions that wrap slog. For instance,\nif you define this function in file mylog.go:\n\n    func Infof(format string, args ...any) {\n        slog.Default().Info(fmt.Sprintf(format, args...))\n    }\n\nand you call it like this in main.go:\n\n    Infof(slog.Default(), \"hello, %s\", \"world\")\n\nthen slog will report the source file as mylog.go, not main.go.\n\nA correct implementation of Infof will obtain the source location (pc) and\npass it to NewRecord. The Infof function in the package-level example called\n\"wrapping\" demonstrates how to do this.\n\n## Working with Records\n\nSometimes a Handler will need to modify a Record before passing it on to another\nHandler or backend. A Record contains a mixture of simple public fields (e.g.\nTime, Level, Message) and hidden fields that refer to state (such as attributes)\nindirectly. This means that modifying a simple copy of a Record (e.g. by calling\nRecord.Add or Record.AddAttrs to add attributes) may have unexpected effects\non the original. Before modifying a Record, use [Clone] to create a copy that\nshares no state with the original, or create a new Record with NewRecord and\nbuild up its Attrs by traversing the old ones with Record.Attrs.\n\n## Performance considerations\n\nIf profiling your application demonstrates that logging is taking significant\ntime, the following suggestions may help.\n\nIf many log lines have a common attribute, use Logger.With to create a Logger\nwith that attribute. The built-in handlers will format that attribute only once,\nat the call to Logger.With. The Handler interface is designed to allow that\noptimization, and a well-written Handler should take advantage of it.\n\nThe arguments to a log call are always evaluated, even if the log event is\ndiscarded. If possible, defer computation so that it happens only if the value\nis actually logged. For example, consider the call\n\n    slog.Info(\"starting request\", \"url\", r.URL.String())  // may compute String unnecessarily\n\nThe URL.String method will be called even if the logger discards Info-level\nevents. Instead, pass the URL directly:\n\n    slog.Info(\"starting request\", \"url\", &r.URL) // calls URL.String only if needed\n\nThe built-in TextHandler will call its String method, but only if the log event\nis enabled. Avoiding the call to String also preserves the structure of the\nunderlying value. For example JSONHandler emits the components of the parsed\nURL as a JSON object. If you want to avoid eagerly paying the cost of the String\ncall without causing the handler to potentially inspect the structure of the\nvalue, wrap the value in a fmt.Stringer implementation that hides its Marshal\nmethods.\n\nYou can also use the LogValuer interface to avoid unnecessary work in disabled\nlog calls. Say you need to log some expensive value:\n\n    slog.Debug(\"frobbing\", \"value\", computeExpensiveValue(arg))\n\nEven if this line is disabled, computeExpensiveValue will be called. To avoid\nthat, define a type implementing LogValuer:\n\n    type expensive struct { arg int }\n\n    func (e expensive) LogValue() slog.Value {\n        return slog.AnyValue(computeExpensiveValue(e.arg))\n    }\n\nThen use a value of that type in log calls:\n\n    slog.Debug(\"frobbing\", \"value\", expensive{arg})\n\nNow computeExpensiveValue will only be called when the line is enabled.\n\nThe built-in handlers acquire a lock before calling io.Writer.Write to ensure\nthat each record is written in one piece. User-defined handlers are responsible\nfor their own locking.\n\nCONSTANTS\n\nconst (\n\t// TimeKey is the key used by the built-in handlers for the time\n\t// when the log method is called. The associated Value is a [time.Time].\n\tTimeKey = \"time\"\n\t// LevelKey is the key used by the built-in handlers for the level\n\t// of the log call. The associated value is a [Level].\n\tLevelKey = \"level\"\n\t// MessageKey is the key used by the built-in handlers for the\n\t// message of the log call. The associated value is a string.\n\tMessageKey = \"msg\"\n\t// SourceKey is the key used by the built-in handlers for the source file\n\t// and line of the log call. The associated value is a string.\n\tSourceKey = \"source\"\n)\n    Keys for \"built-in\" attributes.\n\n\nFUNCTIONS\n\nfunc Debug(msg string, args ...any)\n    Debug calls Logger.Debug on the default logger.\n\nfunc DebugCtx(ctx context.Context, msg string, args ...any)\n    DebugCtx calls Logger.DebugCtx on the default logger.\n\nfunc Error(msg string, args ...any)\n    Error calls Logger.Error on the default logger.\n\nfunc ErrorCtx(ctx context.Context, msg string, args ...any)\n    ErrorCtx calls Logger.ErrorCtx on the default logger.\n\nfunc Info(msg string, args ...any)\n    Info calls Logger.Info on the default logger.\n\nfunc InfoCtx(ctx context.Context, msg string, args ...any)\n    InfoCtx calls Logger.InfoCtx on the default logger.\n\nfunc Log(ctx context.Context, level Level, msg string, args ...any)\n    Log calls Logger.Log on the default logger.\n\nfunc LogAttrs(ctx context.Context, level Level, msg string, attrs ...Attr)\n    LogAttrs calls Logger.LogAttrs on the default logger.\n\nfunc NewLogLogger(h Handler, level Level) *log.Logger\n    NewLogLogger returns a new log.Logger such that each call to its Output\n    method dispatches a Record to the specified handler. The logger acts as a\n    bridge from the older log API to newer structured logging handlers.\n\nfunc SetDefault(l *Logger)\n    SetDefault makes l the default Logger. After this call, output from the\n    log package's default Logger (as with log.Print, etc.) will be logged at\n    LevelInfo using l's Handler.\n\nfunc Warn(msg string, args ...any)\n    Warn calls Logger.Warn on the default logger.\n\nfunc WarnCtx(ctx context.Context, msg string, args ...any)\n    WarnCtx calls Logger.WarnCtx on the default logger.\n\n\nTYPES\n\ntype Attr struct {\n\tKey   string\n\tValue Value\n}\n    An Attr is a key-value pair.\n\nfunc Any(key string, value any) Attr\n    Any returns an Attr for the supplied value. See [Value.AnyValue] for how\n    values are treated.\n\nfunc Bool(key string, v bool) Attr\n    Bool returns an Attr for a bool.\n\nfunc Duration(key string, v time.Duration) Attr\n    Duration returns an Attr for a time.Duration.\n\nfunc Float64(key string, v float64) Attr\n    Float64 returns an Attr for a floating-point number.\n\nfunc Group(key string, as ...Attr) Attr\n    Group returns an Attr for a Group Value. The caller must not subsequently\n    mutate the argument slice.\n\n    Use Group to collect several Attrs under a single key on a log line, or as\n    the result of LogValue in order to log a single value as multiple Attrs.\n\nfunc Int(key string, value int) Attr\n    Int converts an int to an int64 and returns an Attr with that value.\n\nfunc Int64(key string, value int64) Attr\n    Int64 returns an Attr for an int64.\n\nfunc String(key, value string) Attr\n    String returns an Attr for a string value.\n\nfunc Time(key string, v time.Time) Attr\n    Time returns an Attr for a time.Time. It discards the monotonic portion.\n\nfunc Uint64(key string, v uint64) Attr\n    Uint64 returns an Attr for a uint64.\n\nfunc (a Attr) Equal(b Attr) bool\n    Equal reports whether a and b have equal keys and values.\n\nfunc (a Attr) String() string\n\ntype Handler interface {\n\t// Enabled reports whether the handler handles records at the given level.\n\t// The handler ignores records whose level is lower.\n\t// It is called early, before any arguments are processed,\n\t// to save effort if the log event should be discarded.\n\t// If called from a Logger method, the first argument is the context\n\t// passed to that method, or context.Background() if nil was passed\n\t// or the method does not take a context.\n\t// The context is passed so Enabled can use its values\n\t// to make a decision.\n\tEnabled(context.Context, Level) bool\n\n\t// Handle handles the Record.\n\t// It will only be called Enabled returns true.\n\t// The Context argument is as for Enabled.\n\t// It is present solely to provide Handlers access to the context's values.\n\t// Canceling the context should not affect record processing.\n\t// (Among other things, log messages may be necessary to debug a\n\t// cancellation-related problem.)\n\t//\n\t// Handle methods that produce output should observe the following rules:\n\t//   - If r.Time is the zero time, ignore the time.\n\t//   - If r.PC is zero, ignore it.\n\t//   - If an Attr's key is the empty string and the value is not a group,\n\t//     ignore the Attr.\n\t//   - If a group's key is empty, inline the group's Attrs.\n\t//   - If a group has no Attrs (even if it has a non-empty key),\n\t//     ignore it.\n\tHandle(context.Context, Record) error\n\n\t// WithAttrs returns a new Handler whose attributes consist of\n\t// both the receiver's attributes and the arguments.\n\t// The Handler owns the slice: it may retain, modify or discard it.\n\t// [Logger.With] will resolve the Attrs.\n\tWithAttrs(attrs []Attr) Handler\n\n\t// WithGroup returns a new Handler with the given group appended to\n\t// the receiver's existing groups.\n\t// The keys of all subsequent attributes, whether added by With or in a\n\t// Record, should be qualified by the sequence of group names.\n\t//\n\t// How this qualification happens is up to the Handler, so long as\n\t// this Handler's attribute keys differ from those of another Handler\n\t// with a different sequence of group names.\n\t//\n\t// A Handler should treat WithGroup as starting a Group of Attrs that ends\n\t// at the end of the log event. That is,\n\t//\n\t//     logger.WithGroup(\"s\").LogAttrs(level, msg, slog.Int(\"a\", 1), slog.Int(\"b\", 2))\n\t//\n\t// should behave like\n\t//\n\t//     logger.LogAttrs(level, msg, slog.Group(\"s\", slog.Int(\"a\", 1), slog.Int(\"b\", 2)))\n\t//\n\t// If the name is empty, WithGroup returns the receiver.\n\tWithGroup(name string) Handler\n}\n    A Handler handles log records produced by a Logger..\n\n    A typical handler may print log records to standard error, or write them to\n    a file or database, or perhaps augment them with additional attributes and\n    pass them on to another handler.\n\n    Any of the Handler's methods may be called concurrently with itself or\n    with other methods. It is the responsibility of the Handler to manage this\n    concurrency.\n\n    Users of the slog package should not invoke Handler methods directly.\n    They should use the methods of Logger instead.\n\ntype HandlerOptions struct {\n\t// When AddSource is true, the handler adds a (\"source\", \"file:line\")\n\t// attribute to the output indicating the source code position of the log\n\t// statement. AddSource is false by default to skip the cost of computing\n\t// this information.\n\tAddSource bool\n\n\t// Level reports the minimum record level that will be logged.\n\t// The handler discards records with lower levels.\n\t// If Level is nil, the handler assumes LevelInfo.\n\t// The handler calls Level.Level for each record processed;\n\t// to adjust the minimum level dynamically, use a LevelVar.\n\tLevel Leveler\n\n\t// ReplaceAttr is called to rewrite each non-group attribute before it is logged.\n\t// The attribute's value has been resolved (see [Value.Resolve]).\n\t// If ReplaceAttr returns an Attr with Key == \"\", the attribute is discarded.\n\t//\n\t// The built-in attributes with keys \"time\", \"level\", \"source\", and \"msg\"\n\t// are passed to this function, except that time is omitted\n\t// if zero, and source is omitted if AddSource is false.\n\t//\n\t// The first argument is a list of currently open groups that contain the\n\t// Attr. It must not be retained or modified. ReplaceAttr is never called\n\t// for Group attributes, only their contents. For example, the attribute\n\t// list\n\t//\n\t//     Int(\"a\", 1), Group(\"g\", Int(\"b\", 2)), Int(\"c\", 3)\n\t//\n\t// results in consecutive calls to ReplaceAttr with the following arguments:\n\t//\n\t//     nil, Int(\"a\", 1)\n\t//     []string{\"g\"}, Int(\"b\", 2)\n\t//     nil, Int(\"c\", 3)\n\t//\n\t// ReplaceAttr can be used to change the default keys of the built-in\n\t// attributes, convert types (for example, to replace a `time.Time` with the\n\t// integer seconds since the Unix epoch), sanitize personal information, or\n\t// remove attributes from the output.\n\tReplaceAttr func(groups []string, a Attr) Attr\n}\n    HandlerOptions are options for a TextHandler or JSONHandler. A zero\n    HandlerOptions consists entirely of default values.\n\nfunc (opts HandlerOptions) NewJSONHandler(w io.Writer) *JSONHandler\n    NewJSONHandler creates a JSONHandler with the given options that writes to\n    w.\n\nfunc (opts HandlerOptions) NewTextHandler(w io.Writer) *TextHandler\n    NewTextHandler creates a TextHandler with the given options that writes to\n    w.\n\ntype JSONHandler struct {\n\t// Has unexported fields.\n}\n    JSONHandler is a Handler that writes Records to an io.Writer as\n    line-delimited JSON objects.\n\nfunc NewJSONHandler(w io.Writer) *JSONHandler\n    NewJSONHandler creates a JSONHandler that writes to w, using the default\n    options.\n\nfunc (h *JSONHandler) Enabled(_ context.Context, level Level) bool\n    Enabled reports whether the handler handles records at the given level.\n    The handler ignores records whose level is lower.\n\nfunc (h *JSONHandler) Handle(_ context.Context, r Record) error\n    Handle formats its argument Record as a JSON object on a single line.\n\n    If the Record's time is zero, the time is omitted. Otherwise, the key is\n    \"time\" and the value is output as with json.Marshal.\n\n    If the Record's level is zero, the level is omitted. Otherwise, the key is\n    \"level\" and the value of Level.String is output.\n\n    If the AddSource option is set and source information is available, the key\n    is \"source\" and the value is output as \"FILE:LINE\".\n\n    The message's key is \"msg\".\n\n    To modify these or other attributes, or remove them from the output,\n    use [HandlerOptions.ReplaceAttr].\n\n    Values are formatted as with encoding/json.Marshal, with the following\n    exceptions:\n      - Floating-point NaNs and infinities are formatted as one of the strings\n        \"NaN\", \"+Inf\" or \"-Inf\".\n      - Levels are formatted as with Level.String.\n      - HTML characters are not escaped.\n\n    Each call to Handle results in a single serialized call to io.Writer.Write.\n\nfunc (h *JSONHandler) WithAttrs(attrs []Attr) Handler\n    WithAttrs returns a new JSONHandler whose attributes consists of h's\n    attributes followed by attrs.\n\nfunc (h *JSONHandler) WithGroup(name string) Handler\n\ntype Kind int\n    Kind is the kind of a Value.\n\nconst (\n\tKindAny Kind = iota\n\tKindBool\n\tKindDuration\n\tKindFloat64\n\tKindInt64\n\tKindString\n\tKindTime\n\tKindUint64\n\tKindGroup\n\tKindLogValuer\n)\nfunc (k Kind) String() string\n\ntype Level int\n    A Level is the importance or severity of a log event. The higher the level,\n    the more important or severe the event.\n\nconst (\n\tLevelDebug Level = -4\n\tLevelInfo  Level = 0\n\tLevelWarn  Level = 4\n\tLevelError Level = 8\n)\n    Second, we wanted to make it easy to use levels to specify logger verbosity.\n    Since a larger level means a more severe event, a logger that accepts events\n    with smaller (or more negative) level means a more verbose logger. Logger\n    verbosity is thus the negation of event severity, and the default verbosity\n    of 0 accepts all events at least as severe as INFO.\n\n    Third, we wanted some room between levels to accommodate schemes with\n    named levels between ours. For example, Google Cloud Logging defines a\n    Notice level between Info and Warn. Since "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 185
+       },
+       {
+        "kind": "text",
+        "value": " are only a few of these\n    intermediate levels, the gap between the numbers need not be large.\n    Our gap of 4 matches OpenTelemetry's mapping. Subtracting 9 from an\n    OpenTelemetry level in the DEBUG, INFO, WARN and ERROR ranges converts it to\n    the corresponding slog Level range. OpenTelemetry also has the names "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 187
+       },
+       {
+        "kind": "text",
+        "value": "\n    and FATAL, which slog does not. But those OpenTelemetry levels can still be\n    represented as slog Levels by using the appropriate integers.\n\n    Names for common levels.\n\nfunc (l Level) Level() Level\n    Level returns the receiver. It implements Leveler.\n\nfunc (l Level) MarshalJSON() ([]byte, error)\n    MarshalJSON implements encoding/json.Marshaler by quoting the output of\n    Level.String.\n\nfunc (l Level) MarshalText() ([]byte, error)\n    MarshalText implements encoding.TextMarshaler by calling Level.String.\n\nfunc (l Level) String() string\n    String returns a name for the level. If the level has a name, then that\n    name in uppercase is returned. If the level is between named values, then an\n    integer is appended to the uppercased name. Examples:\n\n        LevelWarn.String() => \"WARN\"\n        (LevelInfo+2).String() => \"INFO+2\"\n\nfunc (l *Level) UnmarshalJSON(data []byte) error\n    UnmarshalJSON implements encoding/json.Unmarshaler It accepts any string\n    produced by Level.MarshalJSON, ignoring case. It also accepts numeric\n    offsets that would result in a different string on output. For example,\n    \"Error-8\" would marshal as \"INFO\".\n\nfunc (l *Level) UnmarshalText(data []byte) error\n    UnmarshalText implements encoding.TextUnmarshaler. It accepts any string\n    produced by Level.MarshalText, ignoring case. It also accepts numeric\n    offsets that would result in a different string on output. For example,\n    \"Error-8\" would marshal as \"INFO\".\n\ntype LevelVar struct {\n\t// Has unexported fields.\n}\n    A LevelVar is a Level variable, to allow a Handler level to change\n    dynamically. It implements Leveler as well as a Set method, and it is safe\n    for use by multiple goroutines. The zero LevelVar corresponds to LevelInfo.\n\nfunc (v *LevelVar) Level() Level\n    Level returns v's level.\n\nfunc (v *LevelVar) MarshalText() ([]byte, error)\n    MarshalText implements encoding.TextMarshaler by calling Level.MarshalText.\n\nfunc (v *LevelVar) Set(l Level)\n    Set sets v's level to l.\n\nfunc (v *LevelVar) String() string\n\nfunc (v *LevelVar) UnmarshalText(data []byte) error\n    UnmarshalText implements encoding.TextUnmarshaler by calling\n    Level.UnmarshalText.\n\ntype Leveler interface {\n\tLevel() Level\n}\n    A Leveler provides a Level value.\n\n    As Level itself implements Leveler, clients typically supply a Level value\n    wherever a Leveler is needed, such as in HandlerOptions. Clients who need to\n    vary the level dynamically can provide a more complex Leveler implementation\n    such as *LevelVar.\n\ntype LogValuer interface {\n\tLogValue() Value\n}\n    A LogValuer is any Go value that can convert itself into a Value for\n    logging.\n\n    This mechanism may be used to defer expensive operations until they are\n    needed, or to expand a single value into a sequence of components.\n\ntype Logger struct {\n\t// Has unexported fields.\n}\n    A Logger records structured information about each call to its Log, Debug,\n    Info, Warn, and Error methods. For each call, it creates a Record and passes\n    it to a Handler.\n\n    To create a new Logger, call New or a Logger method that begins \"With\".\n\nfunc Default() *Logger\n    Default returns the default Logger.\n\nfunc New(h Handler) *Logger\n    New creates a new Logger with the given non-nil Handler and a nil context.\n\nfunc With(args ...any) *Logger\n    With calls Logger.With on the default logger.\n\nfunc (l *Logger) Debug(msg string, args ...any)\n    Debug logs at LevelDebug.\n\nfunc (l *Logger) DebugCtx(ctx context.Context, msg string, args ...any)\n    DebugCtx logs at LevelDebug with the given context.\n\nfunc (l *Logger) Enabled(ctx context.Context, level Level) bool\n    Enabled reports whether l emits log records at the given context and level.\n\nfunc (l *Logger) Error(msg string, args ...any)\n    Error logs at LevelError.\n\nfunc (l *Logger) ErrorCtx(ctx context.Context, msg string, args ...any)\n    ErrorCtx logs at LevelError with the given context.\n\nfunc (l *Logger) Handler() Handler\n    Handler returns l's Handler.\n\nfunc (l *Logger) Info(msg string, args ...any)\n    Info logs at LevelInfo.\n\nfunc (l *Logger) InfoCtx(ctx context.Context, msg string, args ...any)\n    InfoCtx logs at LevelInfo with the given context.\n\nfunc (l *Logger) Log(ctx context.Context, level Level, msg string, args ...any)\n    Log emits a log record with the current time and the given level and\n    message. The Record's Attrs consist of the Logger's attributes followed by\n    the Attrs specified by args.\n\n    The attribute arguments are processed as follows:\n      - If an argument is an Attr, it is used as is.\n      - If an argument is a string and this is not the last argument, the\n        following argument is treated as the value and the two are combined into\n        an Attr.\n      - Otherwise, the argument is treated as a value with key \"!BADKEY\".\n\nfunc (l *Logger) LogAttrs(ctx context.Context, level Level, msg string, attrs ...Attr)\n    LogAttrs is a more efficient version of Logger.Log that accepts only Attrs.\n\nfunc (l *Logger) Warn(msg string, args ...any)\n    Warn logs at LevelWarn.\n\nfunc (l *Logger) WarnCtx(ctx context.Context, msg string, args ...any)\n    WarnCtx logs at LevelWarn with the given context.\n\nfunc (l *Logger) With(args ...any) *Logger\n    With returns a new Logger that includes the given arguments, converted\n    to Attrs as in Logger.Log and resolved. The Attrs will be added to each\n    output from the Logger. The new Logger shares the old Logger's context. The\n    new Logger's handler is the result of calling WithAttrs on the receiver's\n    handler.\n\nfunc (l *Logger) WithGroup(name string) *Logger\n    WithGroup returns a new Logger that starts a group. The keys of all\n    attributes added to the Logger will be qualified by the given name. The new\n    Logger shares the old Logger's context.\n\n    The new Logger's handler is the result of calling WithGroup on the\n    receiver's handler.\n\ntype Record struct {\n\t// The time at which the output method (Log, Info, etc.) was called.\n\tTime time.Time\n\n\t// The log message.\n\tMessage string\n\n\t// The level of the event.\n\tLevel Level\n\n\t// The program counter at the time the record was constructed, as determined\n\t// by runtime.Callers. If zero, no program counter is available.\n\t//\n\t// The only valid use for this value is as an argument to\n\t// [runtime.CallersFrames]. In particular, it must not be passed to\n\t// [runtime.FuncForPC].\n\tPC uintptr\n\n\t// Has unexported fields.\n}\n    A Record holds information about a log event. Copies of a Record share\n    state. Do not modify a Record after handing out a copy to it. Use\n    Record.Clone to create a copy with no shared state.\n\nfunc NewRecord(t time.Time, level Level, msg string, pc uintptr) Record\n    NewRecord creates a Record from the given arguments. Use Record.AddAttrs to\n    add attributes to the Record.\n\n    NewRecord is intended for logging APIs that want to support a Handler as a\n    backend.\n\nfunc (r *Record) Add(args ...any)\n    Add converts the args to Attrs as described in Logger.Log, then appends the\n    Attrs to the Record's list of Attrs. It resolves the Attrs before doing so.\n\nfunc (r *Record) AddAttrs(attrs ...Attr)\n    AddAttrs appends the given Attrs to the Record's list of Attrs. It resolves\n    the Attrs before doing so.\n\nfunc (r Record) Attrs(f func(Attr))\n    Attrs calls f on each Attr in the Record. The Attrs are already resolved.\n\nfunc (r Record) Clone() Record\n    Clone returns a copy of the record with no shared state. The original record\n    and the clone can both be modified without interfering with each other.\n\nfunc (r Record) NumAttrs() int\n    NumAttrs returns the number of attributes in the Record.\n\ntype TextHandler struct {\n\t// Has unexported fields.\n}\n    TextHandler is a Handler that writes Records to an io.Writer as a sequence\n    of key=value pairs separated by spaces and followed by a newline.\n\nfunc NewTextHandler(w io.Writer) *TextHandler\n    NewTextHandler creates a TextHandler that writes to w, using the default\n    options.\n\nfunc (h *TextHandler) Enabled(_ context.Context, level Level) bool\n    Enabled reports whether the handler handles records at the given level.\n    The handler ignores records whose level is lower.\n\nfunc (h *TextHandler) Handle(_ context.Context, r Record) error\n    Handle formats its argument Record as a single line of space-separated\n    key=value items.\n\n    If the Record's time is zero, the time is omitted. Otherwise, the key is\n    \"time\" and the value is output in RFC3339 format with millisecond precision.\n\n    If the Record's level is zero, the level is omitted. Otherwise, the key is\n    \"level\" and the value of Level.String is output.\n\n    If the AddSource option is set and source information is available, the key\n    is \"source\" and the value is output as FILE:LINE.\n\n    The message's key \"msg\".\n\n    To modify these or other attributes, or remove them from the output,\n    use [HandlerOptions.ReplaceAttr].\n\n    If a value implements encoding.TextMarshaler, the result of MarshalText is\n    written. Otherwise, the result of fmt.Sprint is written.\n\n    Keys and values are quoted with strconv.Quote if they contain Unicode space\n    characters, non-printing characters, '\"' or '='.\n\n    Keys inside groups consist of components (keys or group names) separated by\n    dots. No further escaping is performed. If it is necessary to reconstruct\n    the group structure of a key even in the presence of dots inside components,\n    use [HandlerOptions.ReplaceAttr] to escape the keys.\n\n    Each call to Handle results in a single serialized call to io.Writer.Write.\n\nfunc (h *TextHandler) WithAttrs(attrs []Attr) Handler\n    WithAttrs returns a new TextHandler whose attributes consists of h's\n    attributes followed by attrs.\n\nfunc (h *TextHandler) WithGroup(name string) Handler\n\ntype Value struct {\n\t// Has unexported fields.\n}\n    A Value can represent any Go value, but unlike type any, it can represent\n    most small values without an allocation. The zero Value corresponds to nil.\n\nfunc AnyValue(v any) Value\n    AnyValue returns a Value for the supplied value.\n\n    If the supplied value is of type Value, it is returned unmodified.\n\n    Given a value of one of Go's predeclared string, bool, or (non-complex)\n    numeric types, AnyValue returns a Value of kind String, Bool, Uint64, Int64,\n    or Float64. The width of the original numeric type is not preserved.\n\n    Given a time.Time or time.Duration value, AnyValue returns a Value of kind\n    KindTime or KindDuration. The monotonic time is not preserved.\n\n    For nil, or values of all other types, including named types whose\n    underlying type is numeric, AnyValue returns a value of kind KindAny.\n\nfunc BoolValue(v bool) Value\n    BoolValue returns a Value for a bool.\n\nfunc DurationValue(v time.Duration) Value\n    DurationValue returns a Value for a time.Duration.\n\nfunc Float64Value(v float64) Value\n    Float64Value returns a Value for a floating-point number.\n\nfunc GroupValue(as ...Attr) Value\n    GroupValue returns a new Value for a list of Attrs. The caller must not\n    subsequently mutate the argument slice.\n\nfunc Int64Value(v int64) Value\n    Int64Value returns a Value for an int64.\n\nfunc IntValue(v int) Value\n    IntValue returns a Value for an int.\n\nfunc StringValue(value string) Value\n    StringValue returns a new Value for a string.\n\nfunc TimeValue(v time.Time) Value\n    TimeValue returns a Value for a time.Time. It discards the monotonic\n    portion.\n\nfunc Uint64Value(v uint64) Value\n    Uint64Value returns a Value for a uint64.\n\nfunc (v Value) Any() any\n    Any returns v's value as an any.\n\nfunc (v Value) Bool() bool\n    Bool returns v's value as a bool. It panics if v is not a bool.\n\nfunc (a Value) Duration() time.Duration\n    Duration returns v's value as a time.Duration. It panics if v is not a\n    time.Duration.\n\nfunc (v Value) Equal(w Value) bool\n    Equal reports whether v and w have equal keys and values.\n\nfunc (v Value) Float64() float64\n    Float64 returns v's value as a float64. It panics if v is not a float64.\n\nfunc (v Value) Group() []Attr\n    Group returns v's value as a []Attr. It panics if v's Kind is not KindGroup.\n\nfunc (v Value) Int64() int64\n    Int64 returns v's value as an int64. It panics if v is not a signed integer.\n\nfunc (v Value) Kind() Kind\n    Kind returns v's Kind.\n\nfunc (v Value) LogValuer() LogValuer\n    LogValuer returns v's value as a LogValuer. It panics if v is not a\n    LogValuer.\n\nfunc (v Value) Resolve() Value\n    Resolve repeatedly calls LogValue on v while it implements LogValuer, and\n    returns the result. If v resolves to a group, the group's attributes' values\n    are also resolved. If the number of LogValue calls exceeds a threshold, a\n    Value containing an error is returned. Resolve's return value is guaranteed\n    not to be of Kind KindLogValuer.\n\nfunc (v Value) String() string\n    String returns Value's value as a string, formatted like fmt.Sprint.\n    Unlike the methods Int64, Float64, and so on, which panic if v is of the\n    wrong kind, String never panics.\n\nfunc (v Value) Time() time.Time\n    Time returns v's value as a time.Time. It panics if v is not a time.Time.\n\nfunc (v Value) Uint64() uint64\n    Uint64 returns v's value as a uint64. It panics if v is not an unsigned\n    integer.\n\n\npackage slogtest\n\nFUNCTIONS\n\nfunc TestHandler(h slog.Handler, results func() []map[string]any) error\n    TestHandler tests a slog.Handler. If TestHandler finds any misbehaviors,\n    it returns an error for each, combined into a single error with errors.Join.\n\n    TestHandler installs the given Handler in a slog.Logger and makes several\n    calls to the Logger's output methods.\n\n    The results function is invoked after all such calls. It should return\n    a slice of map[string]any, one for each call to a Logger output method.\n    The keys and values of the map should correspond to the keys and values of\n    the Handler's output. Each group in the output should be represented as its\n    own nested map[string]any.\n\n    If the Handler outputs JSON, then calling encoding/json.Unmarshal with a\n    `map[string]any` will create the right data structure.\n"
+       }
+      ]
+     }
+    ],
+    "blanks": [
+     {
+      "answer": "log/slog",
+      "choices": [
+       "log",
+       "slog",
+       "log/slog",
+       "LogValue"
+      ]
+     },
+     {
+      "answer": "log",
+      "choices": [
+       "Any",
+       "log",
+       "slog",
+       "Int"
+      ]
+     },
+     {
+      "answer": "Printf",
+      "choices": [
+       "Kind",
+       "String",
+       "Printf",
+       "Int"
+      ]
+     },
+     {
+      "answer": "msg",
+      "choices": [
+       "Int",
+       "msg",
+       "Any",
+       "slog"
+      ]
+     },
+     {
+      "answer": "log",
+      "choices": [
+       "Any",
+       "log",
+       "Int",
+       "slog"
+      ]
+     },
+     {
+      "answer": "io.Writer",
+      "choices": [
+       "Logger",
+       "LogValuer",
+       "io.Writer",
+       "With"
+      ]
+     },
+     {
+      "answer": "Field",
+      "choices": [
+       "Kind",
+       "New",
+       "Field",
+       "With"
+      ]
+     },
+     {
+      "answer": "log",
+      "choices": [
+       "slog",
+       "log",
+       "Any",
+       "Int"
+      ]
+     },
+     {
+      "answer": "log",
+      "choices": [
+       "Int",
+       "slog",
+       "log",
+       "Any"
+      ]
+     },
+     {
+      "answer": "SetDefault",
+      "choices": [
+       "SetDefault",
+       "Level",
+       "Default",
+       "slog.SetDefault"
+      ]
+     },
+     {
+      "answer": "ErrClosed",
+      "choices": [
+       "log",
+       "ErrClosed",
+       "Clone",
+       "Field"
+      ]
+     },
+     {
+      "answer": "LogAttrs",
+      "choices": [
+       "slog.Attr",
+       "LogAttrs",
+       "Logger",
+       "Attr"
+      ]
+     },
+     {
+      "answer": "T16",
+      "choices": [
+       "log",
+       "T16",
+       "Any",
+       "Int"
+      ]
+     },
+     {
+      "answer": "level",
+      "choices": [
+       "Leveler",
+       "Field",
+       "log",
+       "level"
+      ]
+     },
+     {
+      "answer": "INFO",
+      "choices": [
+       "INFO",
+       "Int",
+       "New",
+       "log"
+      ]
+     },
+     {
+      "answer": "slog.SetDefault",
+      "choices": [
+       "slog.Attr",
+       "Default",
+       "SetDefault",
+       "slog.SetDefault"
+      ]
+     },
+     {
+      "answer": "ERROR",
+      "choices": [
+       "ERROR",
+       "Equal",
+       "log",
+       "Field"
+      ]
+     },
+     {
+      "answer": "err",
+      "choices": [
+       "log",
+       "err",
+       "Any",
+       "Int"
+      ]
+     },
+     {
+      "answer": "status",
+      "choices": [
+       "Attr",
+       "status",
+       "Int",
+       "Value"
+      ]
+     },
+     {
+      "answer": "Any",
+      "choices": [
+       "log",
+       "Any",
+       "n",
+       "Info"
+      ]
+     },
+     {
+      "answer": "Int",
+      "choices": [
+       "Int",
+       "log",
+       "n",
+       "Info"
+      ]
+     },
+     {
+      "answer": "slog.Attr",
+      "choices": [
+       "LogAttrs",
+       "slog",
+       "slog.Attr",
+       "Attr"
+      ]
+     },
+     {
+      "answer": "slog",
+      "choices": [
+       "log",
+       "log/slog",
+       "Clone",
+       "slog"
+      ]
+     },
+     {
+      "answer": "Logger",
+      "choices": [
+       "Leveler",
+       "Logger",
+       "LogValuer",
+       "log"
+      ]
+     },
+     {
+      "answer": "Info",
+      "choices": [
+       "n",
+       "Info",
+       "Int",
+       "Any"
+      ]
+     },
+     {
+      "answer": "LogAttrs",
+      "choices": [
+       "slog.Attr",
+       "Attr",
+       "LogValue",
+       "LogAttrs"
+      ]
+     },
+     {
+      "answer": "Logger",
+      "choices": [
+       "Logger",
+       "log",
+       "LogValuer",
+       "LogAttrs"
+      ]
+     },
+     {
+      "answer": "Record",
+      "choices": [
+       "Record",
+       "NewRecord",
+       "Resolve",
+       "Record.Add"
+      ]
+     },
+     {
+      "answer": "Record",
+      "choices": [
+       "NewRecord",
+       "Resolve",
+       "Record.Add",
+       "Record"
+      ]
+     },
+     {
+      "answer": "Handler",
+      "choices": [
+       "TextHandler",
+       "JSONHandler",
+       "Handler",
+       "Leveler"
+      ]
+     },
+     {
+      "answer": "Handler",
+      "choices": [
+       "TextHandler",
+       "Leveler",
+       "JSONHandler",
+       "Handler"
+      ]
+     },
+     {
+      "answer": "Handler",
+      "choices": [
+       "Leveler",
+       "JSONHandler",
+       "TextHandler",
+       "Handler"
+      ]
+     },
+     {
+      "answer": "Logger",
+      "choices": [
+       "log",
+       "LogAttrs",
+       "Logger",
+       "LogValuer"
+      ]
+     },
+     {
+      "answer": "type",
+      "choices": [
+       "if",
+       "chan",
+       "goto",
+       "type"
+      ]
+     },
+     {
+      "answer": "Enabled",
+      "choices": [
+       "Equal",
+       "Enabled",
+       "Field",
+       "Handler"
+      ]
+     },
+     {
+      "answer": "attrs",
+      "choices": [
+       "Int",
+       "attrs",
+       "Attr",
+       "LogAttrs"
+      ]
+     },
+     {
+      "answer": "slog",
+      "choices": [
+       "log",
+       "Clone",
+       "log/slog",
+       "slog"
+      ]
+     },
+     {
+      "answer": "Record",
+      "choices": [
+       "NewRecord",
+       "Resolve",
+       "Record.Add",
+       "Record"
+      ]
+     },
+     {
+      "answer": "Record",
+      "choices": [
+       "Record",
+       "Resolve",
+       "NewRecord",
+       "Record.Add"
+      ]
+     },
+     {
+      "answer": "PC",
+      "choices": [
+       "v",
+       "n",
+       "PC",
+       "-v"
+      ]
+     },
+     {
+      "answer": "uintptr",
+      "choices": [
+       "uintptr",
+       "iota",
+       "true",
+       "println"
+      ]
+     },
+     {
+      "answer": "Attr",
+      "choices": [
+       "Any",
+       "Int",
+       "Attr",
+       "With"
+      ]
+     },
+     {
+      "answer": "Record",
+      "choices": [
+       "Record.Add",
+       "NewRecord",
+       "Record",
+       "Resolve"
+      ]
+     },
+     {
+      "answer": "int",
+      "choices": [
+       "int",
+       "println",
+       "copy",
+       "float64"
+      ]
+     },
+     {
+      "answer": "number",
+      "choices": [
+       "number",
+       "Name",
+       "Handler",
+       "Logger"
+      ]
+     },
+     {
+      "answer": "Handler",
+      "choices": [
+       "Leveler",
+       "TextHandler",
+       "Handler",
+       "JSONHandler"
+      ]
+     },
+     {
+      "answer": "Record",
+      "choices": [
+       "Resolve",
+       "Record",
+       "Record.Add",
+       "NewRecord"
+      ]
+     },
+     {
+      "answer": "NewRecord",
+      "choices": [
+       "New",
+       "slog.Record",
+       "NewRecord",
+       "Record"
+      ]
+     },
+     {
+      "answer": "Level",
+      "choices": [
+       "Level",
+       "Field",
+       "Leveler",
+       "LevelVar"
+      ]
+     },
+     {
+      "answer": "Log",
+      "choices": [
+       "Log",
+       "Int",
+       "Any",
+       "slog"
+      ]
+     },
+     {
+      "answer": "Record",
+      "choices": [
+       "NewRecord",
+       "Record.Add",
+       "Record",
+       "Resolve"
+      ]
+     },
+     {
+      "answer": "Clone",
+      "choices": [
+       "Any",
+       "Clone",
+       "log",
+       "slog"
+      ]
+     },
+     {
+      "answer": "Record",
+      "choices": [
+       "Resolve",
+       "Record",
+       "Record.Add",
+       "NewRecord"
+      ]
+     },
+     {
+      "answer": "the",
+      "choices": [
+       "Int",
+       "Any",
+       "the",
+       "log"
+      ]
+     },
+     {
+      "answer": "record",
+      "choices": [
+       "log",
+       "Field",
+       "NewRecord",
+       "record"
+      ]
+     },
+     {
+      "answer": "Attr",
+      "choices": [
+       "Int",
+       "Any",
+       "With",
+       "Attr"
+      ]
+     },
+     {
+      "answer": "Value",
+      "choices": [
+       "Value",
+       "LogValue",
+       "Name",
+       "AnyValue"
+      ]
+     },
+     {
+      "answer": "Attr",
+      "choices": [
+       "Int",
+       "Attr",
+       "With",
+       "Any"
+      ]
+     },
+     {
+      "answer": "type",
+      "choices": [
+       "struct",
+       "go",
+       "type",
+       "map"
+      ]
+     },
+     {
+      "answer": "Attr",
+      "choices": [
+       "Any",
+       "With",
+       "Attr",
+       "Int"
+      ]
+     },
+     {
+      "answer": "Value",
+      "choices": [
+       "Name",
+       "Value",
+       "LogValue",
+       "AnyValue"
+      ]
+     },
+     {
+      "answer": "Attr",
+      "choices": [
+       "Int",
+       "Any",
+       "Attr",
+       "With"
+      ]
+     },
+     {
+      "answer": "Equal",
+      "choices": [
+       "Level",
+       "Equal",
+       "log",
+       "Field"
+      ]
+     },
+     {
+      "answer": "String",
+      "choices": [
+       "Kind",
+       "log",
+       "String",
+       "Any"
+      ]
+     },
+     {
+      "answer": "Bool",
+      "choices": [
+       "Field",
+       "log",
+       "slog",
+       "Bool"
+      ]
+     },
+     {
+      "answer": "mutate",
+      "choices": [
+       "mutate",
+       "Name",
+       "Attr",
+       "unsafe"
+      ]
+     },
+     {
+      "answer": "result",
+      "choices": [
+       "Default",
+       "Level",
+       "Resolve",
+       "result"
+      ]
+     },
+     {
+      "answer": "Value",
+      "choices": [
+       "Value",
+       "AnyValue",
+       "Name",
+       "LogValue"
+      ]
+     },
+     {
+      "answer": "any",
+      "choices": [
+       "new",
+       "bool",
+       "any",
+       "float64"
+      ]
+     },
+     {
+      "answer": "unsafe",
+      "choices": [
+       "unsafe",
+       "Int",
+       "Name",
+       "Info"
+      ]
+     },
+     {
+      "answer": "AnyValue",
+      "choices": [
+       "LogValuer",
+       "Value",
+       "AnyValue",
+       "LogValue"
+      ]
+     },
+     {
+      "answer": "Uint64",
+      "choices": [
+       "Kind",
+       "Int",
+       "Uint64",
+       "With"
+      ]
+     },
+     {
+      "answer": "time",
+      "choices": [
+       "Kind",
+       "With",
+       "Name",
+       "time"
+      ]
+     },
+     {
+      "answer": "DurationValue",
+      "choices": [
+       "DurationValue",
+       "LogValue",
+       "AnyValue",
+       "Value"
+      ]
+     },
+     {
+      "answer": "Value",
+      "choices": [
+       "LogValue",
+       "AnyValue",
+       "Name",
+       "Value"
+      ]
+     },
+     {
+      "answer": "reflect.Value",
+      "choices": [
+       "reflect.Value",
+       "LogValue",
+       "AnyValue",
+       "LogValuer"
+      ]
+     },
+     {
+      "answer": "Kind",
+      "choices": [
+       "Int",
+       "Kind",
+       "Any",
+       "Field"
+      ]
+     },
+     {
+      "answer": "int",
+      "choices": [
+       "uint16",
+       "int",
+       "false",
+       "byte"
+      ]
+     },
+     {
+      "answer": "Duration",
+      "choices": [
+       "String",
+       "Duration",
+       "Default",
+       "log/slog"
+      ]
+     },
+     {
+      "answer": "returned",
+      "choices": [
+       "Attr",
+       "returned",
+       "Record",
+       "Clone"
+      ]
+     },
+     {
+      "answer": "type",
+      "choices": [
+       "func",
+       "select",
+       "type",
+       "return"
+      ]
+     },
+     {
+      "answer": "interface",
+      "choices": [
+       "defer",
+       "interface",
+       "var",
+       "chan"
+      ]
+     },
+     {
+      "answer": "Value",
+      "choices": [
+       "LogValue",
+       "Name",
+       "AnyValue",
+       "Value"
+      ]
+     },
+     {
+      "answer": "Value.Resolve",
+      "choices": [
+       "Resolve",
+       "slog.Record",
+       "Value",
+       "Value.Resolve"
+      ]
+     },
+     {
+      "answer": "LogValue",
+      "choices": [
+       "AnyValue",
+       "LogValuer",
+       "Value",
+       "LogValue"
+      ]
+     },
+     {
+      "answer": "Value",
+      "choices": [
+       "Value",
+       "LogValue",
+       "AnyValue",
+       "Name"
+      ]
+     },
+     {
+      "answer": "be",
+      "choices": [
+       "New",
+       "be",
+       "n",
+       "v"
+      ]
+     },
+     {
+      "answer": "Kind",
+      "choices": [
+       "Field",
+       "Kind",
+       "Any",
+       "Int"
+      ]
+     },
+     {
+      "answer": "Handler.WithAttrs",
+      "choices": [
+       "HandlerOptions",
+       "Handler.Enabled",
+       "Handler.WithAttrs",
+       "Handler"
+      ]
+     },
+     {
+      "answer": "Record.Attrs",
+      "choices": [
+       "Record.Attrs",
+       "Record.AddAttrs",
+       "slog.Attr",
+       "Record.Add"
+      ]
+     },
+     {
+      "answer": "Resolve",
+      "choices": [
+       "slog",
+       "Record",
+       "Resolve",
+       "Clone"
+      ]
+     },
+     {
+      "answer": "LogValuer",
+      "choices": [
+       "LogValuer",
+       "LogValue",
+       "Logger",
+       "Value"
+      ]
+     },
+     {
+      "answer": "type",
+      "choices": [
+       "map",
+       "struct",
+       "select",
+       "type"
+      ]
+     },
+     {
+      "answer": "slog",
+      "choices": [
+       "log",
+       "Clone",
+       "slog",
+       "log/slog"
+      ]
+     },
+     {
+      "answer": "Value",
+      "choices": [
+       "Name",
+       "LogValue",
+       "AnyValue",
+       "Value"
+      ]
+     },
+     {
+      "answer": "Record",
+      "choices": [
+       "Record.Add",
+       "Record",
+       "Resolve",
+       "NewRecord"
+      ]
+     },
+     {
+      "answer": "Handler",
+      "choices": [
+       "JSONHandler",
+       "TextHandler",
+       "Handler",
+       "Leveler"
+      ]
+     },
+     {
+      "answer": "type",
+      "choices": [
+       "chan",
+       "import",
+       "type",
+       "go"
+      ]
+     },
+     {
+      "answer": "Logger",
+      "choices": [
+       "log",
+       "LogAttrs",
+       "LogValuer",
+       "Logger"
+      ]
+     },
+     {
+      "answer": "struct",
+      "choices": [
+       "for",
+       "goto",
+       "struct",
+       "range"
+      ]
+     },
+     {
+      "answer": "Logger",
+      "choices": [
+       "LogAttrs",
+       "LogValuer",
+       "Logger",
+       "log"
+      ]
+     },
+     {
+      "answer": "Handler",
+      "choices": [
+       "Handler",
+       "JSONHandler",
+       "Leveler",
+       "TextHandler"
+      ]
+     },
+     {
+      "answer": "New",
+      "choices": [
+       "Any",
+       "log",
+       "New",
+       "Int"
+      ]
+     },
+     {
+      "answer": "Handler",
+      "choices": [
+       "JSONHandler",
+       "Leveler",
+       "TextHandler",
+       "Handler"
+      ]
+     },
+     {
+      "answer": "Logger",
+      "choices": [
+       "Logger",
+       "log",
+       "LogAttrs",
+       "LogValuer"
+      ]
+     },
+     {
+      "answer": "with",
+      "choices": [
+       "with",
+       "Kind",
+       "Int",
+       "Attr"
+      ]
+     },
+     {
+      "answer": "Logger",
+      "choices": [
+       "LogAttrs",
+       "log",
+       "Logger",
+       "LogValuer"
+      ]
+     },
+     {
+      "answer": "SetDefault",
+      "choices": [
+       "Level",
+       "Field",
+       "slog.SetDefault",
+       "SetDefault"
+      ]
+     },
+     {
+      "answer": "Default",
+      "choices": [
+       "Field",
+       "Default",
+       "Equal",
+       "Level"
+      ]
+     },
+     {
+      "answer": "default",
+      "choices": [
+       "default",
+       "const",
+       "break",
+       "func"
+      ]
+     },
+     {
+      "answer": "this",
+      "choices": [
+       "Int",
+       "this",
+       "Any",
+       "slog"
+      ]
+     },
+     {
+      "answer": "log",
+      "choices": [
+       "Any",
+       "slog",
+       "log",
+       "Int"
+      ]
+     },
+     {
+      "answer": "slog",
+      "choices": [
+       "Clone",
+       "log/slog",
+       "Any",
+       "slog"
+      ]
+     },
+     {
+      "answer": "log",
+      "choices": [
+       "Int",
+       "Clone",
+       "Any",
+       "log"
+      ]
+     },
+     {
+      "answer": "SetDefault",
+      "choices": [
+       "SetDefault",
+       "Default",
+       "slog.SetDefault",
+       "Level"
+      ]
+     },
+     {
+      "answer": "Log",
+      "choices": [
+       "Log",
+       "Int",
+       "slog",
+       "Any"
+      ]
+     },
+     {
+      "answer": "LogAttrs",
+      "choices": [
+       "slog.Attr",
+       "LogValue",
+       "LogAttrs",
+       "Logger"
+      ]
+     },
+     {
+      "answer": "Attr",
+      "choices": [
+       "Any",
+       "With",
+       "Int",
+       "Attr"
+      ]
+     },
+     {
+      "answer": "Handler.Enabled",
+      "choices": [
+       "Handler.WithAttrs",
+       "HandlerOptions",
+       "Handler.Enabled",
+       "Handler"
+      ]
+     },
+     {
+      "answer": "any",
+      "choices": [
+       "any",
+       "max",
+       "false",
+       "uint16"
+      ]
+     },
+     {
+      "answer": "msg",
+      "choices": [
+       "log",
+       "msg",
+       "Int",
+       "Any"
+      ]
+     },
+     {
+      "answer": "combined",
+      "choices": [
+       "io.Writer",
+       "combined",
+       "Field",
+       "Kind"
+      ]
+     },
+     {
+      "answer": "only",
+      "choices": [
+       "Any",
+       "Int",
+       "Info",
+       "only"
+      ]
+     },
+     {
+      "answer": "With",
+      "choices": [
+       "Int",
+       "With",
+       "Kind",
+       "Attr"
+      ]
+     },
+     {
+      "answer": "Log",
+      "choices": [
+       "slog",
+       "Any",
+       "Log",
+       "Int"
+      ]
+     },
+     {
+      "answer": "The",
+      "choices": [
+       "The",
+       "New",
+       "Any",
+       "Int"
+      ]
+     },
+     {
+      "answer": "from",
+      "choices": [
+       "Int",
+       "Any",
+       "slog",
+       "from"
+      ]
+     },
+     {
+      "answer": "Name",
+      "choices": [
+       "Value",
+       "New",
+       "Name",
+       "log"
+      ]
+     },
+     {
+      "answer": "Last",
+      "choices": [
+       "Int",
+       "Any",
+       "log",
+       "Last"
+      ]
+     },
+     {
+      "answer": "string",
+      "choices": [
+       "int8",
+       "string",
+       "copy",
+       "print"
+      ]
+     },
+     {
+      "answer": "GroupKind",
+      "choices": [
+       "Kind",
+       "String",
+       "Clone",
+       "GroupKind"
+      ]
+     },
+     {
+      "answer": "Name",
+      "choices": [
+       "Name",
+       "New",
+       "log",
+       "Value"
+      ]
+     },
+     {
+      "answer": "Info",
+      "choices": [
+       "n",
+       "Info",
+       "Int",
+       "Any"
+      ]
+     },
+     {
+      "answer": "Group",
+      "choices": [
+       "Clone",
+       "slog",
+       "Group",
+       "log"
+      ]
+     },
+     {
+      "answer": "String",
+      "choices": [
+       "Kind",
+       "log",
+       "Any",
+       "String"
+      ]
+     },
+     {
+      "answer": "JSONHandler",
+      "choices": [
+       "TextHandler",
+       "JSONHandler",
+       "slog.Handler",
+       "Handler"
+      ]
+     },
+     {
+      "answer": "TextHandler",
+      "choices": [
+       "JSONHandler",
+       "TextHandler",
+       "Handler",
+       "slog.Handler"
+      ]
+     },
+     {
+      "answer": "Ren",
+      "choices": [
+       "n",
+       "New",
+       "Ren",
+       "log"
+      ]
+     },
+     {
+      "answer": "last",
+      "choices": [
+       "Int",
+       "Name",
+       "last",
+       "log"
+      ]
+     },
+     {
+      "answer": "Hoek",
+      "choices": [
+       "Hoek",
+       "New",
+       "log",
+       "Field"
+      ]
+     },
+     {
+      "answer": "Name",
+      "choices": [
+       "Name",
+       "log",
+       "Value",
+       "New"
+      ]
+     },
+     {
+      "answer": "LogValuer",
+      "choices": [
+       "Value",
+       "LogValuer",
+       "LogValue",
+       "Logger"
+      ]
+     },
+     {
+      "answer": "LogValue",
+      "choices": [
+       "LogValue",
+       "LogValuer",
+       "Value",
+       "AnyValue"
+      ]
+     },
+     {
+      "answer": "String",
+      "choices": [
+       "log",
+       "Kind",
+       "Any",
+       "String"
+      ]
+     },
+     {
+      "answer": "Last",
+      "choices": [
+       "Int",
+       "Last",
+       "Name",
+       "log"
+      ]
+     },
+     {
+      "answer": "Name",
+      "choices": [
+       "log",
+       "New",
+       "Name",
+       "Value"
+      ]
+     },
+     {
+      "answer": "slog",
+      "choices": [
+       "slog",
+       "Clone",
+       "log",
+       "log/slog"
+      ]
+     },
+     {
+      "answer": "Info",
+      "choices": [
+       "n",
+       "Info",
+       "Int",
+       "Any"
+      ]
+     },
+     {
+      "answer": "slog.Group",
+      "choices": [
+       "slog.Attr",
+       "slog.Group",
+       "slog.Record",
+       "log/slog"
+      ]
+     },
+     {
+      "answer": "Logger.WithGroup",
+      "choices": [
+       "slog.Group",
+       "Logger.WithGroup",
+       "Handler.WithAttrs",
+       "io.Writer"
+      ]
+     },
+     {
+      "answer": "Logger",
+      "choices": [
+       "LogAttrs",
+       "log",
+       "Logger",
+       "LogValuer"
+      ]
+     },
+     {
+      "answer": "returns",
+      "choices": [
+       "returns",
+       "Record",
+       "String",
+       "Attr"
+      ]
+     },
+     {
+      "answer": "of",
+      "choices": [
+       "v",
+       "n",
+       "of",
+       "log"
+      ]
+     },
+     {
+      "answer": "to",
+      "choices": [
+       "to",
+       "n",
+       "log",
+       "v"
+      ]
+     },
+     {
+      "answer": "type",
+      "choices": [
+       "map",
+       "type",
+       "chan",
+       "select"
+      ]
+     },
+     {
+      "answer": "Level",
+      "choices": [
+       "Level",
+       "LevelVar",
+       "Leveler",
+       "Field"
+      ]
+     },
+     {
+      "answer": "int",
+      "choices": [
+       "int64",
+       "clear",
+       "bool",
+       "int"
+      ]
+     },
+     {
+      "answer": "slog",
+      "choices": [
+       "log/slog",
+       "log",
+       "slog",
+       "Clone"
+      ]
+     },
+     {
+      "answer": "Log",
+      "choices": [
+       "Int",
+       "slog",
+       "Log",
+       "Any"
+      ]
+     },
+     {
+      "answer": "LogAttrs",
+      "choices": [
+       "Logger",
+       "slog.Attr",
+       "Attr",
+       "LogAttrs"
+      ]
+     },
+     {
+      "answer": "LevelDebug",
+      "choices": [
+       "Leveler",
+       "Resolve",
+       "LevelVar",
+       "LevelDebug"
+      ]
+     },
+     {
+      "answer": "Level",
+      "choices": [
+       "Level",
+       "LevelVar",
+       "Leveler",
+       "Field"
+      ]
+     },
+     {
+      "answer": "LevelInfo",
+      "choices": [
+       "Leveler",
+       "LevelVar",
+       "Info",
+       "LevelInfo"
+      ]
+     },
+     {
+      "answer": "Leveler",
+      "choices": [
+       "LevelVar",
+       "Logger",
+       "Handler",
+       "Leveler"
+      ]
+     },
+     {
+      "answer": "Level",
+      "choices": [
+       "Level",
+       "LevelVar",
+       "Field",
+       "Logger"
+      ]
+     },
+     {
+      "answer": "Handler.Enabled",
+      "choices": [
+       "HandlerOptions",
+       "Handler.Enabled",
+       "Handler.WithAttrs",
+       "Handler"
+      ]
+     },
+     {
+      "answer": "such",
+      "choices": [
+       "such",
+       "With",
+       "slog",
+       "log"
+      ]
+     },
+     {
+      "answer": "HandlerOptions",
+      "choices": [
+       "Handler.WithAttrs",
+       "Handler",
+       "HandlerOptions",
+       "Handler.Enabled"
+      ]
+     },
+     {
+      "answer": "struct",
+      "choices": [
+       "continue",
+       "range",
+       "struct",
+       "map"
+      ]
+     },
+     {
+      "answer": "slog",
+      "choices": [
+       "log",
+       "slog",
+       "Clone",
+       "log/slog"
+      ]
+     },
+     {
+      "answer": "TextHandler",
+      "choices": [
+       "slog.Handler",
+       "TextHandler",
+       "Handler",
+       "JSONHandler"
+      ]
+     },
+     {
+      "answer": "KEY=VALUE",
+      "choices": [
+       "KEY=VALUE",
+       "slog.Attr",
+       "Attr",
+       "Any"
+      ]
+     },
+     {
+      "answer": "struct",
+      "choices": [
+       "struct",
+       "goto",
+       "range",
+       "import"
+      ]
+     },
+     {
+      "answer": "bool",
+      "choices": [
+       "uint",
+       "print",
+       "bool",
+       "string"
+      ]
+     },
+     {
+      "answer": "Attr",
+      "choices": [
+       "Attr",
+       "With",
+       "Int",
+       "Any"
+      ]
+     },
+     {
+      "answer": "logr.LogSink",
+      "choices": [
+       "slog.Attr",
+       "log/slog",
+       "logr.LogSink",
+       "log"
+      ]
+     },
+     {
+      "answer": "Handler",
+      "choices": [
+       "Handler",
+       "Leveler",
+       "TextHandler",
+       "JSONHandler"
+      ]
+     },
+     {
+      "answer": "Record.AddAttrs",
+      "choices": [
+       "Record.Add",
+       "slog.Attr",
+       "Record.AddAttrs",
+       "Record.Attrs"
+      ]
+     },
+     {
+      "answer": "slog.Handler",
+      "choices": [
+       "JSONHandler",
+       "TextHandler",
+       "slog.Handler",
+       "Handler"
+      ]
+     },
+     {
+      "answer": "slog",
+      "choices": [
+       "log",
+       "Clone",
+       "log/slog",
+       "slog"
+      ]
+     },
+     {
+      "answer": "logr.LogSink",
+      "choices": [
+       "log",
+       "log/slog",
+       "logr.LogSink",
+       "slog.Attr"
+      ]
+     },
+     {
+      "answer": "TestHandler",
+      "choices": [
+       "TestHandler",
+       "slog.Handler",
+       "JSONHandler",
+       "TextHandler"
+      ]
+     },
+     {
+      "answer": "Handler",
+      "choices": [
+       "Handler",
+       "JSONHandler",
+       "TextHandler",
+       "Leveler"
+      ]
+     },
+     {
+      "answer": "map",
+      "choices": [
+       "break",
+       "type",
+       "map",
+       "interface"
+      ]
+     },
+     {
+      "answer": "golang.org/x/exp/event",
+      "choices": [
+       "golang.org/x/exp/event",
+       "slog.Group",
+       "slog.SetDefault",
+       "Value.Resolve"
+      ]
+     },
+     {
+      "answer": "there",
+      "choices": [
+       "Clone",
+       "there",
+       "Field",
+       "Attr"
+      ]
+     },
+     {
+      "answer": "Although",
+      "choices": [
+       "log",
+       "slog",
+       "Attr",
+       "Although"
+      ]
+     },
+     {
+      "answer": "TRACE",
+      "choices": [
+       "TRACE",
+       "Any",
+       "Field",
+       "log"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "issue-69712",
+   "title": "cmd/go: `-json` flag for `go version -m`",
+   "url": "https://github.com/golang/go/issues/69712",
+   "status": "accepted",
+   "source_kind": "github-issues",
+   "issue_number": 69712,
+   "document": {
+    "blocks": [
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "$ go version -m -json ~/go/bin/"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 0
+       },
+       {
+        "kind": "text",
+        "value": "\nflag provided but not defined: -json\n"
+       },
+       {
+        "kind": "mask",
+        "blank_index": 1
+       },
+       {
+        "kind": "text",
+        "value": ": go version [-m] [-v] [file ...]\nRun 'go help version' for "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 2
+       },
+       {
+        "kind": "text",
+        "value": ".\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "VS Code Go (TS/JS) uses "
+       },
+       {
+        "kind": "inline_code",
+        "value": "go version -m"
+       },
+       {
+        "kind": "text",
+        "value": " when inspecting the tools versions.\nIf "
+       },
+       {
+        "kind": "inline_code",
+        "value": "go version -m"
+       },
+       {
+        "kind": "text",
+        "value": " can output JSON-encoded "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 3
+       },
+       {
+        "kind": "text",
+        "value": " format,\nit will help simplifying output parsing  a lot."
+       }
+      ]
+     }
+    ],
+    "blanks": [
+     {
+      "answer": "gopls",
+      "choices": [
+       "json",
+       "file",
+       "not",
+       "gopls"
+      ]
+     },
+     {
+      "answer": "usage",
+      "choices": [
+       "file",
+       "usage",
+       "flag",
+       "json"
+      ]
+     },
+     {
+      "answer": "details",
+      "choices": [
+       "version",
+       "defined",
+       "details",
+       "file"
+      ]
+     },
+     {
+      "answer": "runtime/debug.BuildSetting",
+      "choices": [
+       "defined",
+       "provided",
+       "runtime/debug.BuildSetting",
+       "details"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "issue-72850",
+   "title": "cmd/vet: add check for using %q with non-{rune,byte} integer types",
+   "url": "https://github.com/golang/go/issues/72850",
+   "status": "accepted",
+   "source_kind": "github-issues",
+   "issue_number": 72850,
+   "document": {
+    "blocks": [
+     {
+      "kind": "heading",
+      "level": 3,
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Proposal Details"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "#32479 added a go vet warning for "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 0
+       },
+       {
+        "kind": "text",
+        "value": ", because it has the surprising behavior of returning the character with that integer code, as opposed to doing what "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 1
+       },
+       {
+        "kind": "text",
+        "value": " does."
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "There is another similar case, where someone uses the "
+       },
+       {
+        "kind": "inline_code",
+        "value": "%q"
+       },
+       {
+        "kind": "text",
+        "value": " format verb like so:"
+       }
+      ]
+     },
+     {
+      "kind": "code",
+      "lang": "go",
+      "spans": [
+       {
+        "kind": "mask",
+        "blank_index": 2
+       },
+       {
+        "kind": "text",
+        "value": "."
+       },
+       {
+        "kind": "mask",
+        "blank_index": 3
+       },
+       {
+        "kind": "text",
+        "value": "(\"%q\", 123) // prints '{'\n"
+       }
+      ]
+     },
+     {
+      "kind": "paragraph",
+      "spans": [
+       {
+        "kind": "text",
+        "value": "Consequently, it would be helpful if go vet also warned about using "
+       },
+       {
+        "kind": "inline_code",
+        "value": "%q"
+       },
+       {
+        "kind": "text",
+        "value": " with an integer type that does not implement "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 4
+       },
+       {
+        "kind": "text",
+        "value": ", "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 5
+       },
+       {
+        "kind": "text",
+        "value": ", or "
+       },
+       {
+        "kind": "mask",
+        "blank_index": 6
+       },
+       {
+        "kind": "text",
+        "value": "."
+       }
+      ]
+     }
+    ],
+    "blanks": [
+     {
+      "answer": "string(i)",
+      "choices": [
+       "string(i)",
+       "fmt.Stringer",
+       "%q",
+       "Printf"
+      ]
+     },
+     {
+      "answer": "strconv.Itoa",
+      "choices": [
+       "fmt.Formatter",
+       "fmt",
+       "strconv.Itoa",
+       "Printf"
+      ]
+     },
+     {
+      "answer": "fmt",
+      "choices": [
+       "fmt.Stringer",
+       "string(i)",
+       "fmt",
+       "%q"
+      ]
+     },
+     {
+      "answer": "Printf",
+      "choices": [
+       "string(i)",
+       "%q",
+       "Printf",
+       "strconv.Itoa"
+      ]
+     },
+     {
+      "answer": "error",
+      "choices": [
+       "error",
+       "true",
+       "println",
+       "string"
+      ]
+     },
+     {
+      "answer": "fmt.Stringer",
+      "choices": [
+       "Printf",
+       "fmt.Stringer",
+       "fmt",
+       "string(i)"
+      ]
+     },
+     {
+      "answer": "fmt.Formatter",
+      "choices": [
+       "fmt",
+       "fmt.Formatter",
+       "strconv.Itoa",
+       "string(i)"
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}
