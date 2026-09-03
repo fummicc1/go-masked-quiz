@@ -152,6 +152,36 @@ func TestRenderChoiceSheet(t *testing.T) {
 	writePNG(t, img, "testdata/screen-sheet.png")
 }
 
+// TestChoiceSheetDismissWithoutSelection closes the sheet by tapping the
+// scrim instead of a choice. That used to panic: the dismiss handler reset
+// v.open to -1 without returning, and the rest of the same frame kept
+// rendering the sheet against that now-invalid index (blankMarker(-1)
+// indexed circled[-1]).
+func TestChoiceSheetDismissWithoutSelection(t *testing.T) {
+	u := testUI(t)
+
+	idx := findRichProposal(u.bundle)
+	if idx < 0 {
+		t.Skip("no suitable proposal in the fixture")
+	}
+	p := u.bundle.Proposals[idx]
+
+	u.selected = idx
+	u.screen = screenQuiz
+	u.docV.open2(p, u.store)
+	if len(p.Document.Blanks) == 0 {
+		t.Skip("proposal has no blanks")
+	}
+	u.docV.open = 0
+	u.docV.dismiss.Click()
+
+	renderUI(t, u, 1080, 2000)
+
+	if u.docV.open != -1 {
+		t.Errorf("open = %d, want -1 after dismissing without a selection", u.docV.open)
+	}
+}
+
 // findRichProposal returns a proposal whose document has both prose and code
 // blocks plus at least two blanks, so one frame shows every rendering path.
 func findRichProposal(b quiz.Bundle) int {
