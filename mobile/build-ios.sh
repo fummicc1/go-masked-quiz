@@ -113,8 +113,10 @@ if [ "${1:-run}" = "build" ]; then
 fi
 
 # Columns in `devicectl list devices` are variable width, so pick the device by
-# the shape of its identifier rather than by position.
-DEVICE="${DEVICE:-$(xcrun devicectl list devices 2>/dev/null | grep physical | grep -oE '[0-9A-F]{8}(-[0-9A-F]{4}){3}-[0-9A-F]{12}' | head -1)}"
+# the shape of its identifier rather than by position. A paired Apple Watch
+# also reports Reality "physical", so the platform must be filtered too or a
+# Watch listed before the iPhone gets picked instead.
+DEVICE="${DEVICE:-$(xcrun devicectl list devices --filter "Platform = 'iOS' AND Reality = 'physical'" 2>/dev/null | grep -oE '[0-9A-F]{8}(-[0-9A-F]{4}){3}-[0-9A-F]{12}' | head -1)}"
 [ -n "$DEVICE" ] || die "no physical device found; connect one or set DEVICE=<identifier>"
 echo "==> installing on $DEVICE"
 xcrun devicectl device install app --device "$DEVICE" "$OUT"
