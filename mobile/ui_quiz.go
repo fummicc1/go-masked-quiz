@@ -301,7 +301,7 @@ func (u *UI) sheetChoice(gtx layout.Context, th *material.Theme, v *docView, ci 
 // falls back to on Android, so they render without bundling anything.
 func blankMarker(i int) string {
 	circled := []string{"①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨"}
-	if i < len(circled) {
+	if i >= 0 && i < len(circled) {
 		return circled[i]
 	}
 	return fmt.Sprintf("(%d)", i+1)
