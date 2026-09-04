@@ -1,13 +1,15 @@
-# CDN (Cloudflare Pages)
+# CDN (jsDelivr)
 
-Static delivery of the quiz bundle. No server, no database, no Functions — just
-files, so there is no per-request billing to exploit and Cloudflare's DDoS
-mitigation applies by default.
+Static delivery of the quiz bundle. No server, no database, no deploy step —
+the client (`mobile/`) fetches these files straight off GitHub via jsDelivr's
+GitHub CDN feature:
+`https://cdn.jsdelivr.net/gh/fummicc1/go-masked-quiz@main/cdn/v2/quizzes.json`.
+Committing to `main` *is* publishing; there is nothing else to run.
 
 ## Layout
 ```
 cdn/
-├── _headers          # Cache-Control / CORS / content-type for /v*/*.json
+├── _headers          # Cloudflare Pages-era header config; jsDelivr ignores it (see below)
 ├── v1/
 │   └── quizzes.json  # frozen; schema v1, no longer written to
 └── v2/
@@ -20,12 +22,18 @@ The path segment tracks the schema version, so a client that asks for `/v1/`
 keeps getting something it can parse instead of a payload it will reject. `v1/`
 is left in place for already-installed clients and is no longer refreshed.
 
-## Cloudflare Pages setup (one-time, dashboard)
-1. Create a Pages project connected to this GitHub repo.
-2. Build settings: **no build command**, **output directory `cdn`**, production branch `main`.
-3. After deploy, the bundle is served at:
-   `https://<project>.pages.dev/v1/quizzes.json`
-4. Enable **Bot Fight Mode** (free) under Security.
+## `_headers` is currently inert
+
+This directory still has a `_headers` file written for a Cloudflare Pages
+deployment: custom `Cache-Control` / CORS / `Content-Type`. jsDelivr does not
+read `_headers` — it serves the file with its own default headers, so this
+file has no effect on what the app actually receives. It is left in place
+rather than deleted here because it's unclear whether a Cloudflare Pages
+project is still connected to this repo outside of what's visible in the repo
+itself (Pages' GitHub integration is a dashboard-configured webhook, not a
+committed workflow file, so its absence from `.github/workflows/` doesn't
+prove Pages isn't still deployed somewhere). If no Pages project is actually
+live any more, both `_headers` and this section can be deleted.
 
 ## Updating the bundle
 `cdn/v2/quizzes.json` is updated automatically by the daily
@@ -33,6 +41,7 @@ is left in place for already-installed clients and is no longer refreshed.
 clone upstream `golang/proposal` → fetch golang/go proposal issues → merge the
 committed LLM cache → commit here only when the content changes.
 
-## iOS client
-Set `Configuration.quizDataURL` to the Pages (or jsDelivr) URL. The loader is
-remote → cache → bundle, so the app keeps working if the CDN is unreachable.
+## Client
+`mobile/data.go` hardcodes the jsDelivr URL above as `quizDataURL`. The loader
+is remote → cache → bundle, so the app keeps working if the CDN is
+unreachable, provided a previous fetch already populated the on-device cache.
