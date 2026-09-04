@@ -36,6 +36,7 @@ type screen int
 const (
 	screenList screen = iota
 	screenQuiz
+	screenAbout
 )
 
 // loadState is how far the one network load has got. Without an embedded
@@ -96,8 +97,11 @@ type UI struct {
 	screen   screen
 	selected int // index into bundle.Proposals when screen == screenQuiz
 
-	list listView
-	docV docView
+	list  listView
+	docV  docView
+	about aboutView
+
+	aboutBtn widget.Clickable
 }
 
 // load fetches in the background. Taps on retry while a load is still in flight
@@ -144,6 +148,7 @@ func run(w *app.Window) error {
 
 	ui := &UI{store: newScoreStore(dataDir), win: w}
 	ui.list.init()
+	ui.about.init()
 	ui.load()
 
 	var ops op.Ops
