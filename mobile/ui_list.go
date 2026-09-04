@@ -42,6 +42,8 @@ func (u *UI) layout(gtx layout.Context, th *material.Theme) layout.Dimensions {
 	switch u.screen {
 	case screenQuiz:
 		return u.layoutDoc(gtx, th)
+	case screenAbout:
+		return u.layoutAbout(gtx, th)
 	default:
 		return u.layoutList(gtx, th)
 	}
@@ -67,11 +69,27 @@ func (u *UI) layoutList(gtx layout.Context, th *material.Theme) layout.Dimension
 
 	return layout.Flex{Axis: layout.Vertical}.Layout(gtx,
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+			if u.aboutBtn.Clicked(gtx) {
+				u.screen = screenAbout
+				gtx.Execute(op.InvalidateCmd{})
+			}
 			return layout.Inset{Top: dp(16), Bottom: dp(8), Left: dp(16), Right: dp(16)}.Layout(gtx,
 				func(gtx layout.Context) layout.Dimensions {
-					l := material.H6(th, "Go Proposals")
-					l.Color = colText
-					return l.Layout(gtx)
+					return layout.Flex{Axis: layout.Horizontal, Alignment: layout.Middle}.Layout(gtx,
+						layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+							l := material.H6(th, "Go Proposals")
+							l.Color = colText
+							return l.Layout(gtx)
+						}),
+						layout.Flexed(1, layout.Spacer{}.Layout),
+						layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+							return u.aboutBtn.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+								l := material.Caption(th, "About")
+								l.Color = colAccent
+								return l.Layout(gtx)
+							})
+						}),
+					)
 				})
 		}),
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {

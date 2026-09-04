@@ -152,6 +152,34 @@ func TestRenderChoiceSheet(t *testing.T) {
 	writePNG(t, img, "testdata/screen-sheet.png")
 }
 
+// TestRenderAbout renders the license/attribution screen, exercising the
+// bundle-driven attribution text alongside the static app-license text.
+func TestRenderAbout(t *testing.T) {
+	u := testUI(t)
+	u.about.init()
+	u.screen = screenAbout
+	img := renderUI(t, u, 1080, 2000)
+	writePNG(t, img, "testdata/screen-about.png")
+}
+
+// TestAboutNavigation exercises the two taps that reach and leave the About
+// screen, going through the same Clickable path a real tap takes.
+func TestAboutNavigation(t *testing.T) {
+	u := testUI(t)
+
+	u.aboutBtn.Click()
+	renderUI(t, u, 1080, 2000)
+	if u.screen != screenAbout {
+		t.Fatalf("screen = %v after tapping About, want screenAbout", u.screen)
+	}
+
+	u.about.back.Click()
+	renderUI(t, u, 1080, 2000)
+	if u.screen != screenList {
+		t.Fatalf("screen = %v after tapping Back, want screenList", u.screen)
+	}
+}
+
 // TestChoiceSheetDismissWithoutSelection closes the sheet by tapping the
 // scrim instead of a choice. That used to panic: the dismiss handler reset
 // v.open to -1 without returning, and the rest of the same frame kept
